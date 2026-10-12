@@ -1,0 +1,1256 @@
+/* ==========================================================================
+   duck.design — блоки страницы AI Development (/ai-development/)
+   Макета в новом стиле нет: блоки собраны по шкале системы (DESIGN.md, разделы 2–5),
+   композиция — по переходному макету Figma «вайбкодинг» 2819:13218, тексты — с живой
+   страницы. Подключается только на этой странице, после blocks.css и capabilities.css.
+
+   Блоки: .dd-ai-hero · .dd-ai-flow · .dd-ai-edge · .dd-ai-econ · .dd-ai-p2 · .dd-ai-s3 ·
+   .dd-ai-contact. Общая шапка секции — .dd-ai-head. Движение — assets/js/ai-development.js.
+   ========================================================================== */
+
+/* ---------- Шапка секции: плашка, заголовок, подводка ---------- */
+.dd-ai-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.6rem;
+  margin-bottom: 3rem;
+}
+.dd-ai-head h2 { margin: 0; text-wrap: balance; }
+.dd-ai-head__lead {
+  max-width: 64rem;
+  margin: 0;
+  color: var(--dd-color-text-body);
+  text-wrap: pretty;
+}
+.dd-ai-head--center { align-items: center; text-align: center; }
+/* Строка-ярлык по центру — с чертой с обеих сторон, как «Our Cases» в макете */
+.dd-ai-head--center .dd-ai-kicker::after { content: ""; width: 4rem; height: .1rem; background: var(--dd-orange-100); }
+
+/* Слово на жёлтой плашке: как «Our Creative Services» на главной */
+.dd-ai-mark {
+  display: inline-block;
+  padding: 0 1.4rem;
+  border-radius: 1.2rem;
+  background: var(--dd-yellow-200);
+  transform: rotate(-1deg);
+}
+.dd-ai-mark span {
+  display: inline-block;
+  transform: rotate(1deg);
+  font-family: var(--dd-font-fancy);
+  font-style: italic;
+  font-weight: 400;
+}
+
+@media (min-width: 834px) {
+  .dd-ai-head { gap: 2rem; margin-bottom: 6rem; }
+}
+
+/* Метка: тот же вид, что у тега первого экрана страниц услуг */
+.dd-ai-tag {
+  display: inline-block;
+  padding: .6rem 1rem;
+  border-radius: var(--dd-radius-xs);
+  box-shadow: inset 0 0 0 .1rem var(--dd-color-border);
+  font: 500 1.2rem/1.6rem var(--dd-font-basic);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--dd-color-text-muted);
+  white-space: nowrap;
+}
+.dd-ai-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Моноширинный набор: код и подписи к нему. Файла JetBrains Mono в сайте нет */
+.dd-ai-mono { font-family: var(--dd-font-tech), Consolas, monospace; }
+
+/* ==========================================================================
+   Первый экран — .dd-ai-hero--scene
+   Фото-сцена в духе первого экрана /ai-design/: тёмно-оранжевая студия, текст слева белым.
+   Подтянут под прозрачную шапку (у шапки на этой странице тёмный вид .dd-on-dark).
+   До 834 сцена стоит блоком сверху, текст — под ней на цвете левого края снимка.
+   Высота — весь первый экран (100svh), но не меньше содержимого: текст длиннее — блок растёт.
+   ========================================================================== */
+.dd-ai-hero {
+  --_header: 6.1rem;
+
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin-top: calc(-1 * var(--_header));
+  overflow: hidden;
+  background: var(--dd-neutral-1300); /* цвет панели workflow: первый экран, логотипы и она — одно тёмное полотно */
+  color: var(--dd-neutral-0);
+}
+.dd-ai-hero__bg { position: relative; display: block; flex: 1 1 26rem; min-height: 26rem; }
+.dd-ai-hero__bg[hidden] { display: none; }
+/* Низ сцены растворяется в цвет полотна: ни под текстом на телефоне, ни перед логотипами шва нет */
+.dd-ai-hero__bg::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 40%;
+  background: linear-gradient(rgba(4, 5, 6, 0), var(--dd-neutral-1300));
+  pointer-events: none;
+}
+
+/* Внизу первого экрана — .dd-ai-proof: три цифры и бегущая лента клиентов, состав как на живой
+   странице. Без плашки и делений: строка стоит прямо на сцене, по левому краю с заголовком;
+   цифра жёлтым, единица белым */
+.dd-ai-proof { position: relative; display: flex; flex-direction: column; gap: 2.4rem; padding-block: 2.4rem 3rem; border-top: .1rem dashed rgba(255, 255, 255, .3); } /* линия и знаки ленты — белые с прозрачностью, не серые */
+.dd-ai-proof__stats { display: flex; gap: 2.4rem; margin: 0; padding: 0; list-style: none; }
+.dd-ai-proof__stats li { flex: 1 1 0; min-width: 0; }
+.dd-ai-proof__num {
+  margin: 0;
+  font: 400 1.8rem/2.4rem var(--dd-font-basic);
+  letter-spacing: -.02em;
+  color: var(--dd-neutral-0);
+  white-space: nowrap;
+}
+.dd-ai-proof__num em { font-style: normal; color: var(--dd-yellow-200); }
+.dd-ai-proof__cap { margin: .2rem 0 0; font: 400 1.2rem/1.6rem var(--dd-font-basic); color: var(--dd-beige-200); }
+@media (min-width: 834px) {
+  .dd-ai-proof { gap: 3rem; padding-block: 3rem 4rem; }
+  .dd-ai-proof__stats { gap: 4rem; }
+  .dd-ai-proof__stats li { flex: none; }
+  .dd-ai-proof__num { font-size: 2.2rem; line-height: 3rem; }
+  .dd-ai-proof__cap { font-size: 1.4rem; line-height: 2rem; }
+}
+@media (min-width: 1320px) {
+  .dd-ai-proof { flex-direction: row; align-items: center; gap: 5rem; }
+  .dd-ai-proof__stats { flex: none; }
+}
+
+/* Бегущая лента клиентов. Высота логотипа, шаг, скорость и поведение — как на живой странице:
+   белые полупрозрачные знаки, под указателем лента встаёт и знак светлеет. Две одинаковые
+   дорожки едут на свою ширину — петля без шва. При «уменьшить движение» лента стоит
+   и листается вручную */
+.dd-ai-trust__marq {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.dd-ai-trust__track {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 2.4rem;
+  margin: 0;
+  padding: 0 2.4rem 0 0;
+  list-style: none;
+  animation: dd-ai-marquee 44s linear infinite;
+}
+.dd-ai-trust__marq:hover .dd-ai-trust__track { animation-play-state: paused; }
+.dd-ai-trust__track img {
+  display: block;
+  width: auto;
+  height: 2.8rem;
+  filter: brightness(0) invert(1);
+  opacity: .6;
+  transition: opacity .25s;
+}
+.dd-ai-trust__track img:hover { opacity: .92; }
+@keyframes dd-ai-marquee {
+  to { transform: translateX(-100%); }
+}
+@media (min-width: 834px) {
+  .dd-ai-trust__track { gap: 3.4rem; padding-right: 3.4rem; }
+  .dd-ai-trust__track img { height: 3.7rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-ai-trust__marq { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .dd-ai-trust__track { animation: none; }
+  .dd-ai-trust__track[aria-hidden] { display: none; }
+}
+.dd-ai-hero__bg img,
+.dd-ai-hero__bg video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 82% 30%;
+}
+.dd-ai-hero__inner { position: relative; padding-block: 3rem 4rem; }
+.dd-ai-hero__text { display: flex; flex-direction: column; align-items: flex-start; }
+.dd-ai-hero__title {
+  margin: 1.6rem 0 0;
+  font: 400 3.6rem/4.2rem var(--dd-font-basic);
+  letter-spacing: -.04em;
+  color: var(--dd-neutral-0);
+  text-wrap: balance;
+}
+.dd-ai-hero__title .dd-fancy { font-size: 3.7rem; }
+.dd-ai-hero__lead { max-width: 46rem; margin: 1.6rem 0 0; color: var(--dd-neutral-0); text-wrap: pretty; }
+.dd-ai-hero__lead strong { font-weight: 600; }
+.dd-ai-hero__actions { display: flex; flex-direction: column; gap: 2rem; width: 100%; margin-top: 3rem; }
+
+@media (min-width: 834px) {
+  .dd-ai-hero { --_header: 8.1rem; }
+  .dd-ai-hero__bg { position: absolute; inset: 0; z-index: -1; min-height: 0; }
+  .dd-ai-hero__bg::after { height: 28%; }
+  .dd-ai-hero__bg img, .dd-ai-hero__bg video { object-position: 70% 30%; }
+  .dd-ai-hero__inner {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    padding-block: calc(var(--_header) + 4rem) 4rem;
+  }
+  .dd-ai-hero__text { max-width: 44rem; }
+  .dd-ai-hero__title { margin-top: 2.4rem; font-size: 4.8rem; line-height: 5.6rem; }
+  .dd-ai-hero__title .dd-fancy { font-size: 4.9rem; }
+  .dd-ai-hero__actions { flex-direction: row; align-items: center; gap: 3.6rem; width: auto; margin-top: 4rem; }
+}
+@media (min-width: 1320px) {
+  .dd-ai-hero { --_header: 7.3rem; }
+  .dd-ai-hero__bg img, .dd-ai-hero__bg video { object-position: right 30%; }
+  .dd-ai-hero__text { max-width: 76rem; } /* заголовок в три строки; подводка держит свои 46rem */
+  .dd-ai-hero__title { font-size: 5.6rem; line-height: 6.4rem; }
+  .dd-ai-hero__title .dd-fancy { font-size: 5.7rem; }
+}
+
+/* ==========================================================================
+   Workflow — .dd-ai-flow
+   Продолжает тёмное полотно первого экрана и логотипов; низ скруглён — выход на светлую страницу.
+   ========================================================================== */
+.dd-ai-flow {
+  margin-top: -.1rem; /* нахлёст на первый экран: его высота бывает дробной, и в стыке светится страница */
+  padding: 2rem 0;
+  border-radius: 0 0 var(--dd-radius-section) var(--dd-radius-section);
+  background: var(--dd-neutral-1300);
+}
+.dd-ai-flow__panel {
+  box-sizing: border-box;
+  max-width: calc(var(--dd-frame) - 4rem);
+  margin: 0 auto;
+  padding: 4rem 1.6rem 1.6rem;
+  background: var(--dd-neutral-1300);
+  color: var(--dd-color-text);
+}
+.dd-ai-flow .dd-ai-head { padding: 0 .8rem; }
+.dd-ai-flow h2 { color: var(--dd-neutral-0); }
+.dd-ai-flow__lit { color: var(--dd-orange-100); }
+/* Строка-ярлык с чертой: как «FAQ» в общем блоке и «Designer + AI» на странице AI */
+.dd-ai-kicker {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  margin: 0;
+  font: italic 300 1.6rem/2.4rem var(--dd-font-fancy);
+  letter-spacing: -.03em;
+  color: var(--dd-neutral-0);
+}
+.dd-ai-kicker::before { content: ""; width: 4rem; height: .1rem; background: var(--dd-orange-100); }
+
+
+@media (min-width: 834px) {
+  .dd-ai-flow { padding: 2rem; }
+  .dd-ai-flow__panel { padding: 6rem 3rem 3rem; }
+}
+@media (min-width: 1320px) {
+  .dd-ai-flow__panel { padding: 8rem 5rem 5rem; }
+  .dd-ai-flow .dd-ai-head { padding: 0 3rem; }
+}
+
+/* ==========================================================================
+   Возможности — .dd-ai-edge («сцена», выбрана 12.10.2026)
+   От 834: слева пять строк (ярлык со значком, цифра, заголовок), справа одна карточка с
+   фото выбранной строки и её описанием поверх фото. Строки не раскрываются — высота списка
+   постоянна, при смене строки ничего не прыгает. Строку выбирает указатель, фокус или
+   нажатие (assets/js/ai-development.js); без скрипта выбрана первая.
+   До 834 — столбик карточек: фото, ярлык, заголовок, описание.
+   ========================================================================== */
+.dd-ai-edge { padding: 3rem 0; }
+.dd-ai-edge__grid {
+  display: grid;
+  gap: .8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-ai-tile {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 2rem;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-color-surface);
+}
+.dd-ai-tile__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+  margin-bottom: 1.2rem;
+}
+/* Ярлык со значком — как пункты подвала: спокойный цвет, значок цельный */
+.dd-ai-tile__kind {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin: 0;
+  font: 600 1.4rem/2rem var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dd-color-text-muted);
+  transition: color .3s;
+}
+.dd-ai-tile__kind svg { flex: none; width: 2rem; height: 2rem; color: var(--dd-orange-100); transition: color .3s; }
+.dd-ai-tile__fact {
+  margin: 0;
+  font: italic 500 1.4rem/2.1rem var(--dd-font-fancy);
+  color: var(--dd-color-text);
+  white-space: nowrap;
+}
+.dd-ai-tile h3 { margin: 0 0 .8rem; }
+.dd-ai-tile > p { margin: 0; color: var(--dd-color-text-body); text-wrap: pretty; }
+.dd-ai-tile__art { order: -1; margin: 0 0 2rem; overflow: hidden; border-radius: var(--dd-radius-md); background: var(--dd-beige-100); }
+.dd-ai-tile__art img { display: block; width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+
+@media (min-width: 834px) {
+  .dd-ai-edge { padding: 6rem 0; }
+  .dd-ai-edge__grid { position: relative; display: block; min-height: 56rem; }
+  .dd-ai-tile {
+    width: 42%;
+    padding: 2.4rem 0;
+    border-top: .1rem dashed var(--dd-beige-200);
+    border-radius: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .dd-ai-tile:last-child { border-bottom: .1rem dashed var(--dd-beige-200); }
+  .dd-ai-tile__top { margin-bottom: .8rem; }
+  .dd-ai-tile h3 { margin: 0; }
+  .dd-ai-tile__kind svg { color: var(--dd-beige-300); }
+  .dd-ai-tile.is-active .dd-ai-tile__kind { color: var(--dd-color-text); }
+  .dd-ai-tile.is-active .dd-ai-tile__kind svg { color: var(--dd-orange-100); }
+
+  /* Карточка справа: фото и описание выбранной строки, одна поверх другой для всех строк */
+  .dd-ai-tile__art,
+  .dd-ai-tile > p {
+    position: absolute;
+    right: 0;
+    box-sizing: border-box;
+    width: 52%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .35s, visibility 0s .35s;
+    cursor: default;
+  }
+  .dd-ai-tile__art { top: 0; bottom: 0; margin: 0; border-radius: var(--dd-radius-lg); }
+  .dd-ai-tile__art img { aspect-ratio: auto; }
+  .dd-ai-tile:nth-child(5) .dd-ai-tile__art img { object-position: 50% 100%; } /* книжка лежит у низа кадра: держим её над плашкой */
+  /* Описание — белая плашка в нижнем углу фото: фото остаётся светлым, без затемнения */
+  .dd-ai-tile > p {
+    right: 2rem;
+    bottom: 2rem;
+    z-index: 1;
+    width: calc(52% - 4rem);
+    padding: 2rem 2.4rem;
+    border-radius: var(--dd-radius-md);
+    background: var(--dd-color-surface);
+    font-size: 1.8rem;
+    line-height: 2.7rem;
+    color: var(--dd-color-text);
+    transform: translateY(1.2rem);
+    transition: opacity .25s, transform .25s, visibility 0s .25s;
+  }
+  .dd-ai-tile.is-active .dd-ai-tile__art { opacity: 1; visibility: visible; transition: opacity .6s; }
+  .dd-ai-tile.is-active > p {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity .5s .15s, transform .6s cubic-bezier(.2, .7, .2, 1) .15s;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-ai-edge { padding: 8rem 0; }
+  .dd-ai-edge__grid { min-height: 60rem; }
+  .dd-ai-tile { padding: 2.8rem 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-ai-tile__kind,
+  .dd-ai-tile__kind svg,
+  .dd-ai-tile__art,
+  .dd-ai-tile > p { transition: none; }
+}
+
+/* ==========================================================================
+   Экономика — .dd-ai-econ
+   Таблица сравнения по блоку Pricing «Why hiring when you can simply subscribe?»:
+   светлый лист, подписи строк курсивом, колонка Duck.design — на тёмном градиенте.
+   До 834 строка складывается: подпись, ячейка «как обычно», тёмная ячейка Duck.design.
+   ========================================================================== */
+.dd-ai-econ { padding: 3rem 0; scroll-margin-top: 8rem; }
+.dd-ai-econ__sheet {
+  box-sizing: border-box;
+  max-width: calc(var(--dd-frame) - 14rem);
+  margin: 0 auto;
+  padding: 3rem 1.6rem 1.6rem;
+  background: #fcfbf8;
+}
+.dd-ai-econ .dd-ai-head { gap: 1.2rem; }
+.dd-ai-econ__table { position: relative; display: grid; gap: 2.4rem; }
+.dd-ai-econ__us { display: none; }
+.dd-ai-econ__row { display: grid; gap: .8rem; }
+.dd-ai-econ__row--head,
+.dd-ai-econ__row--foot .dd-ai-econ__label,
+.dd-ai-econ__row--foot .dd-ai-econ__cell:not(.dd-ai-econ__cell--us) { display: none; }
+.dd-ai-econ__label {
+  margin: 0;
+  font: italic 500 1.8rem/2.4rem var(--dd-font-fancy);
+  letter-spacing: -.03em;
+  color: var(--dd-color-text);
+}
+.dd-ai-econ__cell {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.2rem 1.4rem;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-color-bg);
+  color: var(--dd-color-text-body);
+}
+.dd-ai-econ__cell p { margin: 0; color: inherit; text-wrap: pretty; }
+.dd-ai-econ__cell strong { font-weight: 600; color: var(--dd-color-text); }
+.dd-ai-econ__who { font-weight: 600; }
+.dd-ai-econ__mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-top: -.1rem;
+  border-radius: 50%;
+  background: var(--dd-beige-100);
+  color: var(--dd-color-text);
+}
+.dd-ai-econ__mark svg { width: 1.4rem; height: 1.4rem; }
+.dd-ai-econ__cell--us {
+  background: linear-gradient(135deg, #1f1513, #5e2710);
+  color: var(--dd-neutral-0);
+}
+.dd-ai-econ__cell--us strong { color: var(--dd-yellow-200); }
+.dd-ai-econ__cell--us .dd-ai-econ__mark { background: var(--dd-yellow-200); color: var(--dd-neutral-1300); }
+.dd-ai-econ__row--foot .dd-ai-econ__cell--us { padding: 0; background: none; }
+.dd-ai-econ__row--foot .dd-btn { width: 100%; }
+
+@media (min-width: 834px) {
+  .dd-ai-econ { padding: 6rem 3rem; }
+  .dd-ai-econ__sheet { padding: 6rem 4rem 4rem; border-radius: 2.6rem; }
+  .dd-ai-econ__table { gap: 0; }
+  .dd-ai-econ__row,
+  .dd-ai-econ__row--head {
+    position: relative;
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 2.8rem;
+    align-items: start;
+  }
+  .dd-ai-econ__row--foot .dd-ai-econ__label,
+  .dd-ai-econ__row--foot .dd-ai-econ__cell:not(.dd-ai-econ__cell--us) { display: block; }
+  .dd-ai-econ__who { position: absolute; width: .1rem; height: .1rem; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  /* тёмная колонка — один слой под ячейками третьей колонки */
+  .dd-ai-econ__us {
+    display: block;
+    position: absolute;
+    inset: 0 0 0 calc((100% - 11rem - 5.6rem) / 2 + 11rem + 5.6rem);
+    border-radius: var(--dd-radius-lg);
+    background: linear-gradient(160deg, #1f1513 10%, #5e2710);
+  }
+  .dd-ai-econ__label { padding: 2.6rem 0; font-size: 1.6rem; }
+  .dd-ai-econ__cell,
+  .dd-ai-econ__cell--us { padding: 2.6rem 2.8rem 2.6rem 0; border-radius: 0; background: none; }
+  .dd-ai-econ__cell--us { padding-inline: 4rem; }
+  .dd-ai-econ__row--head .dd-ai-econ__cell { display: block; padding-top: 4.4rem; padding-bottom: 2rem; }
+  .dd-ai-econ__row--head h3 { margin: 0 0 .4rem; }
+  .dd-ai-econ__row--head .dd-ai-econ__cell--us h3 { color: var(--dd-neutral-0); }
+  .dd-ai-econ__row--head .dd-ai-econ__cell--us p { color: var(--dd-beige-100); }
+  .dd-ai-econ__row--head p { color: var(--dd-color-text-muted); }
+  /* линии между строками — пунктир, как в «The Unit Economics» макета; у подписей слева линий нет */
+  .dd-ai-econ__row:not(.dd-ai-econ__row--head) > .dd-ai-econ__cell:not(.dd-ai-econ__cell--us) { border-top: .1rem dashed var(--dd-beige-200); }
+  .dd-ai-econ__row:not(.dd-ai-econ__row--head) > .dd-ai-econ__cell--us { background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .28) 0 .4rem, transparent .4rem .8rem) 4rem 0 / calc(100% - 8rem) .1rem no-repeat; }
+  .dd-ai-econ__row--foot > * { border-top: 0 !important; background: none !important; }
+  .dd-ai-econ__row--foot .dd-ai-econ__cell--us { padding: 1.6rem 4rem 4.4rem; }
+  /* строка под указателем: её пунктир сверху и пунктир следующей строки (он же её низ) загораются.
+     В светлой колонке меняется цвет линии; в тёмной линия — фон, поэтому яркая лежит поверх
+     тем же пунктиром и проявляется прозрачностью */
+  .dd-ai-econ__row:not(.dd-ai-econ__row--head, .dd-ai-econ__row--foot) > .dd-ai-econ__cell { transition: border-color .25s ease; }
+  .dd-ai-econ__row:not(.dd-ai-econ__row--head, .dd-ai-econ__row--foot) > .dd-ai-econ__cell--us { position: relative; }
+  .dd-ai-econ__row:not(.dd-ai-econ__row--head, .dd-ai-econ__row--foot) > .dd-ai-econ__cell--us::before {
+    content: "";
+    position: absolute;
+    inset: 0 4rem auto;
+    height: .1rem;
+    background: repeating-linear-gradient(90deg, var(--dd-yellow-200) 0 .4rem, transparent .4rem .8rem);
+    opacity: 0;
+    transition: opacity .25s ease;
+    pointer-events: none;
+  }
+}
+@media (min-width: 834px) and (hover: hover) {
+  .dd-ai-econ__row:hover > .dd-ai-econ__cell:not(.dd-ai-econ__cell--us),
+  .dd-ai-econ__row:hover + .dd-ai-econ__row > .dd-ai-econ__cell:not(.dd-ai-econ__cell--us) { border-top-color: var(--dd-neutral-1300); }
+  .dd-ai-econ__row:hover > .dd-ai-econ__cell--us::before,
+  .dd-ai-econ__row:hover + .dd-ai-econ__row > .dd-ai-econ__cell--us::before { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-ai-econ__cell,
+  .dd-ai-econ__cell--us::before { transition: none !important; }
+}
+@media (min-width: 1320px) {
+  .dd-ai-econ { padding: 8rem 7rem; }
+  .dd-ai-econ__sheet { padding: 6rem 6rem 4.5rem; }
+  .dd-ai-econ__row,
+  .dd-ai-econ__row--head { grid-template-columns: 14rem minmax(0, 1fr) minmax(0, 1fr); }
+  .dd-ai-econ__us { inset: 0 0 0 calc((100% - 14rem - 5.6rem) / 2 + 14rem + 5.6rem); }
+}
+
+/* Строка-ярлык над заголовком секции стека */
+.dd-ai-stack__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin: 0 0 1.2rem;
+  font: 700 1.6rem/2.4rem var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dd-orange-0); /* Orange-50 макета на бежевом — 3,6 : 1 */
+}
+.dd-ai-stack__eyebrow::after { content: ""; width: 7rem; height: .1rem; background: var(--dd-line-soft); }
+
+/* Отзыв без портрета: круг с инициалами на месте фото */
+.dd-ai-initials {
+  display: grid;
+  place-items: center;
+  background: var(--dd-yellow-400);
+  font: italic 500 1.8rem/1 var(--dd-font-fancy);
+  color: var(--dd-yellow-0);
+}
+
+/* Короткие отзывы: карточке не нужна высота макета */
+.dd-testimonials--compact .dd-testimonial { min-height: 32rem; }
+
+/* Тариф: скидка срока — жёлтая плашка, а не бледная подпись. Только на этой странице,
+   общий блок .dd-plan не тронут */
+.dd-plan .dd-plan__term-off,
+.dd-plan .dd-plan__term:has(:checked) .dd-plan__term-off {
+  padding: 0 .8rem;
+  border-radius: var(--dd-radius-pill);
+  background: var(--dd-yellow-200);
+  font: 700 1.1rem/1.8rem var(--dd-font-basic);
+  letter-spacing: .02em;
+  color: var(--dd-neutral-1300);
+}
+
+/* Тариф: строка гарантии под панелью цены */
+.dd-ai-plan-note { margin: 1.2rem 0 0; padding: 0 .6rem; color: var(--dd-neutral-0); opacity: .9; }
+
+/* ==========================================================================
+   Заявка — .dd-ai-contact
+   Жёлтая панель с тёплым свечением (светлее сверху слева, оранжевее у формы): слева заголовок,
+   подводка и три довода строками с номером, справа чёрная панель с формой (на ней .dd-on-dark).
+   ========================================================================== */
+.dd-ai-contact { padding: 0; }
+.dd-ai-contact__card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 3rem;
+  box-sizing: border-box;
+  max-width: calc(var(--dd-frame) - 4rem);
+  margin: 0 auto;
+  padding: 4rem 1.6rem 1.6rem;
+  background:
+    radial-gradient(70% 110% at 0 0, var(--dd-yellow-300), rgba(255, 227, 155, 0) 62%),
+    radial-gradient(60% 110% at 100% 100%, var(--dd-orange-100), rgba(255, 139, 32, 0) 68%),
+    var(--dd-yellow-200);
+  color: var(--dd-neutral-1300);
+}
+.dd-ai-contact__text { padding: 0 .4rem; }
+.dd-ai-contact h2 { margin: 0; color: var(--dd-neutral-1300); text-wrap: balance; }
+.dd-ai-contact__lead { max-width: 52rem; margin: 1.8rem 0 0; color: var(--dd-neutral-1300); text-wrap: pretty; }
+.dd-ai-contact__points { margin: 3rem 0 0; counter-reset: point; }
+.dd-ai-contact__points div {
+  counter-increment: point;
+  display: grid;
+  grid-template-columns: 4.4rem minmax(0, 1fr);
+  padding: 2rem 0;
+  background: repeating-linear-gradient(90deg, rgba(4, 5, 6, .4) 0 .3rem, transparent .3rem .6rem) top / 100% .1rem no-repeat;
+}
+.dd-ai-contact__points div::before { content: counter(point, decimal-leading-zero); grid-row: 1 / span 2; font: 500 1.3rem/3rem var(--dd-font-tech); color: rgba(4, 5, 6, .7); }
+.dd-ai-contact__points dt { margin: 0 0 .2rem; font: italic 400 2.4rem/3rem var(--dd-font-fancy); letter-spacing: -.03em; color: var(--dd-neutral-1300); }
+.dd-ai-contact__points dd { margin: 0; font: 400 1.6rem/2.4rem var(--dd-font-basic); color: var(--dd-neutral-1300); }
+@media (min-width: 1320px) {
+  .dd-ai-contact h2 { font-size: var(--dd-h1); line-height: 7rem; letter-spacing: -.04em; }
+}
+
+.dd-ai-form {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  box-sizing: border-box;
+  padding: 2.4rem 1.6rem 1.6rem;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-neutral-1300);
+}
+.dd-ai-form h3 { margin: 0; color: var(--dd-neutral-0); }
+.dd-ai-form__note { margin: 0 0 .8rem; color: var(--dd-beige-100); }
+.dd-ai-form__row { display: grid; gap: .8rem; }
+.dd-ai-form .dd-btn { margin-top: 2rem; }
+.dd-ai-form__fine { margin: .8rem 0 0; color: var(--dd-beige-200); }
+.dd-ai-form__fine a { color: var(--dd-neutral-0); text-decoration: underline; text-underline-offset: .2em; }
+.dd-ai-form__trap { position: absolute; left: -999rem; width: .1rem; height: .1rem; overflow: hidden; }
+
+@media (min-width: 834px) {
+  .dd-ai-contact { padding: 2rem; }
+  .dd-ai-contact__card { padding: 6rem 3rem 3rem; border-radius: 3.1rem; }
+  .dd-ai-form { padding: 4rem; border-radius: var(--dd-radius-2xl); }
+  .dd-ai-form__row { grid-template-columns: 1fr 1fr; gap: 2rem; }
+}
+@media (min-width: 1320px) {
+  .dd-ai-contact__card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 56rem);
+    align-items: center;
+    gap: 8rem;
+    padding: 8rem 8rem 8rem 10rem;
+  }
+}
+
+/* ==========================================================================
+   Workflow — «слои» (выбран 12.10.2026)
+   Три слоя одной страницы в изометрии. От 834 блок закрепляется на экране (класс
+   .is-pinned ставит assets/js/ai-development.js): прокрутка идёт по дорожке, --p — её доля
+   0…1, шаги справа сменяются на месте. Без скрипта, на телефоне и при «уменьшить
+   движение» — обычная прокрутка: сцена липнет сверху, шаги идут списком.
+   ========================================================================== */
+.dd-ai-layers__pin { display: grid; }
+.dd-ai-layers__stage {
+  position: sticky;
+  top: 6.1rem;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  height: 27rem;
+  background: var(--dd-neutral-1300);
+  perspective: 140rem;
+}
+.dd-ai-iso {
+  --_y: 0rem;
+
+  position: relative;
+  width: 20rem;
+  height: 14rem;
+  translate: 0 var(--_y);
+  transform: rotateX(57deg) rotateZ(-40deg);
+  transform-style: preserve-3d;
+}
+/* Свет на «полу» под стопкой: разгорается к готовой странице */
+.dd-ai-iso::before {
+  content: "";
+  position: absolute;
+  inset: -35%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 139, 32, .4), rgba(255, 139, 32, 0));
+  opacity: .45;
+  transform: translateZ(-6rem);
+  transition: opacity .8s;
+}
+.dd-ai-layers[data-active="3"] .dd-ai-iso::before { opacity: 1; }
+
+/* Слои собираются по шагам: каркас → то, что создал ИИ → готовая страница. Слой, до которого
+   шаг не дошёл, не виден вовсе и ждёт выше своего места; на последнем шаге стопка сходится */
+.dd-ai-layers { --_gap: 5rem; }
+.dd-ai-layers[data-active="3"] { --_gap: 2.5rem; }
+.dd-ai-plate {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border-radius: .8rem;
+  opacity: 0;
+  transform: translateZ(calc(var(--z) * var(--_gap) + var(--_rise, 4rem)));
+  transition: transform .9s cubic-bezier(.2, .7, .2, 1), opacity .6s, box-shadow .6s;
+}
+.dd-ai-plate svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+/* 1. Каркас: пустые места под блоки */
+.dd-ai-plate--wire {
+  --z: 0;
+  --_rise: 0rem;
+
+  display: grid;
+  grid-template: "nav nav nav" 9% "txt txt img" 1fr "c1 c2 c3" 24% / 1fr 1fr 1fr;
+  gap: 5%;
+  padding: 6%;
+  background:
+    linear-gradient(rgba(216, 210, 198, .12) .1rem, transparent .1rem) 0 0 / 100% 12.5%,
+    linear-gradient(90deg, rgba(216, 210, 198, .12) .1rem, transparent .1rem) 0 0 / 8.33% 100%;
+  box-shadow: inset 0 0 0 .1rem rgba(216, 210, 198, .5);
+  opacity: 1;
+}
+.dd-ai-plate--wire i { border-radius: .3rem; box-shadow: inset 0 0 0 .15rem var(--dd-beige-100); }
+.dd-ai-plate--wire i:nth-child(1) { grid-area: nav; }
+.dd-ai-plate--wire i:nth-child(2) { grid-area: txt; }
+.dd-ai-plate--wire i:nth-child(3) { grid-area: img; }
+.dd-ai-layers[data-active="2"] .dd-ai-plate--wire { opacity: .5; }
+.dd-ai-layers[data-active="3"] .dd-ai-plate--wire { opacity: .35; }
+
+/* 2. ИИ создаёт содержимое: текст пишется, иллюстрация и значки рисуются линией */
+.dd-ai-plate--gen { --z: 1; background: var(--dd-neutral-1200); box-shadow: inset 0 0 0 .1rem var(--dd-ink-chip-line); }
+.dd-ai-layers:not([data-active="1"]) .dd-ai-plate--gen { --_rise: 0rem; opacity: 1; }
+.dd-ai-layers[data-active="3"] .dd-ai-plate--gen { opacity: .55; }
+.dd-ai-gen__slot { fill: none; stroke: var(--dd-ink-chip-line); }
+.dd-ai-gen [pathLength] {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset var(--_t, .7s) cubic-bezier(.4, 0, .2, 1);
+}
+.dd-ai-layers:not([data-active="1"]) .dd-ai-gen [pathLength] { stroke-dashoffset: 0; transition-delay: var(--_d, 0s); }
+.dd-ai-gen__head { stroke: var(--dd-neutral-0); stroke-width: 7; }
+.dd-ai-gen__text { stroke: var(--dd-beige-200); stroke-width: 3; }
+.dd-ai-gen__art { stroke: var(--dd-orange-200); stroke-width: 2.6; }
+.dd-ai-gen__icon { stroke: var(--dd-yellow-200); stroke-width: 1.5; }
+/* Пока ИИ работает, по слою идёт полоса света */
+.dd-ai-plate--gen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(100deg, transparent 42%, color-mix(in srgb, var(--dd-yellow-200) 30%, transparent) 50%, transparent 58%) 130% 0 / 260% 100% no-repeat;
+  opacity: 0;
+  transition: opacity .5s;
+}
+.dd-ai-layers[data-active="2"] .dd-ai-plate--gen::after { opacity: 1; animation: dd-ai-scan 2.4s linear infinite; }
+@keyframes dd-ai-scan {
+  to { background-position: -30% 0; }
+}
+
+/* 3. Готовая страница: то же содержимое, уже в стилях. Блоки встают по очереди, когда лист лёг */
+.dd-ai-plate--live { --z: 2; background: var(--dd-beige-50); }
+.dd-ai-layers[data-active="3"] .dd-ai-plate--live { --_rise: 0rem; opacity: 1; }
+.dd-ai-live g[style] {
+  opacity: 0;
+  transform: translateY(.8rem);
+  transition: opacity .3s, transform .3s;
+}
+.dd-ai-layers[data-active="3"] .dd-ai-live g[style] {
+  opacity: 1;
+  transform: none;
+  transition: opacity .5s calc(.3s + var(--_i) * 80ms), transform .6s cubic-bezier(.2, .7, .2, 1) calc(.3s + var(--_i) * 80ms);
+}
+.dd-ai-live .is-ink { fill: var(--dd-neutral-1300); }
+.dd-ai-live .is-white { fill: var(--dd-neutral-0); }
+.dd-ai-live .is-yellow { fill: var(--dd-yellow-200); }
+.dd-ai-live .is-orange { fill: var(--dd-orange-100); }
+.dd-ai-live .is-line { fill: var(--dd-beige-100); }
+
+.dd-ai-layers[data-active="1"] .dd-ai-plate--wire,
+.dd-ai-layers[data-active="2"] .dd-ai-plate--gen,
+.dd-ai-layers[data-active="3"] .dd-ai-plate--live {
+  opacity: 1;
+  box-shadow: 0 0 0 .2rem var(--dd-orange-100), 0 0 7rem rgba(255, 139, 32, .55);
+}
+
+.dd-ai-layers__legend {
+  position: absolute;
+  left: .8rem;
+  bottom: 1.2rem;
+  display: flex;
+  gap: 1.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: italic 400 1.4rem/2rem var(--dd-font-fancy);
+  color: var(--dd-beige-300);
+}
+.dd-ai-layers__legend li { transition: color .4s; }
+.dd-ai-layers[data-active="1"] .dd-ai-layers__legend li:nth-child(1),
+.dd-ai-layers[data-active="2"] .dd-ai-layers__legend li:nth-child(2),
+.dd-ai-layers[data-active="3"] .dd-ai-layers__legend li:nth-child(3) { color: var(--dd-orange-200); }
+
+.dd-ai-layers__steps { margin: 0; padding: 0 .8rem; list-style: none; }
+.dd-ai-lstep {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 0;
+  opacity: .7; /* ниже текст меток не проходит 4,5 : 1 */
+  transition: opacity .5s;
+}
+.dd-ai-lstep.is-active { opacity: 1; }
+.dd-ai-lstep__num {
+  margin: 0 0 1.2rem;
+  font: italic 400 2.8rem/3.2rem var(--dd-font-fancy);
+  letter-spacing: -.04em;
+  color: var(--dd-orange-200);
+}
+.dd-ai-lstep h3 { margin: 0 0 1.2rem; color: var(--dd-neutral-0); }
+.dd-ai-lstep > p:not(.dd-ai-lstep__num) { max-width: 52rem; margin: 0; color: var(--dd-beige-100); text-wrap: pretty; }
+.dd-ai-lstep .dd-ai-tags { margin-top: 2.4rem; }
+.dd-ai-flow .dd-ai-tag { box-shadow: inset 0 0 0 .1rem var(--dd-ink-chip-line); color: var(--dd-beige-200); }
+
+@media (min-width: 834px) {
+  .dd-ai-layers { --_pin-top: 8.1rem; --_gap: 7rem; }
+  .dd-ai-layers[data-active="3"] { --_gap: 3.5rem; }
+  .dd-ai-layers__pin { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4rem; }
+  .dd-ai-layers__stage { top: 12rem; height: 50rem; background: none; }
+  .dd-ai-iso { --_y: 5rem; width: 28rem; height: 19.6rem; }
+  .dd-ai-layers__legend { left: 3rem; bottom: 2rem; flex-direction: column; gap: .6rem; font-size: 1.6rem; line-height: 2.4rem; }
+  .dd-ai-lstep { min-height: 50rem; padding: 0; }
+  .dd-ai-flow--layers .dd-ai-head { margin-bottom: 0; }
+}
+@media (min-width: 1320px) {
+  .dd-ai-layers { --_pin-top: 7.3rem; --_gap: 9.5rem; padding: 0 3rem; }
+  .dd-ai-layers[data-active="3"] { --_gap: 4.6rem; }
+  .dd-ai-layers__pin { gap: 8rem; }
+  .dd-ai-layers__stage { height: 60rem; }
+  .dd-ai-iso { --_y: 8rem; width: 40rem; height: 28rem; }
+  .dd-ai-plate { border-radius: 1.2rem; }
+  .dd-ai-lstep { min-height: 60rem; }
+}
+
+/* ---------- Закреплённый режим ---------- */
+.dd-ai-layers.is-pinned { height: 320vh; }
+.dd-ai-layers.is-pinned .dd-ai-layers__pin {
+  position: sticky;
+  top: var(--_pin-top);
+  height: calc(100vh - var(--_pin-top));
+  height: calc(100svh - var(--_pin-top));
+  grid-template-rows: minmax(0, 1fr);
+  align-items: center;
+}
+.dd-ai-layers.is-pinned .dd-ai-layers__stage { position: relative; top: auto; height: min(60rem, 100%); }
+
+/* Подписи слоёв — шкала прокрутки */
+.dd-ai-layers.is-pinned .dd-ai-layers__legend { left: 0; bottom: -3rem; padding-left: 2rem; }
+.dd-ai-layers.is-pinned .dd-ai-layers__legend::before,
+.dd-ai-layers.is-pinned .dd-ai-layers__legend::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .4rem;
+  bottom: .4rem;
+  width: .2rem;
+  border-radius: var(--dd-radius-pill);
+  background: var(--dd-ink-chip-line);
+}
+.dd-ai-layers.is-pinned .dd-ai-layers__legend::after {
+  background: var(--dd-orange-100);
+  transform: scaleY(var(--p, 0));
+  transform-origin: top;
+}
+
+/* Шаги стоят в одном месте: прошедший уходит вверх и растворяется, следующий проявляется снизу */
+.dd-ai-layers.is-pinned .dd-ai-layers__steps { display: grid; align-items: center; }
+.dd-ai-layers.is-pinned .dd-ai-lstep {
+  grid-area: 1 / 1;
+  min-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+.dd-ai-layers.is-pinned .dd-ai-lstep > * {
+  transform: translateY(2.8rem);
+  filter: blur(.6rem);
+  transition: transform .45s cubic-bezier(.4, 0, .6, 1), filter .3s;
+}
+.dd-ai-layers.is-pinned .dd-ai-lstep.is-past > * { transform: translateY(-2.8rem); }
+.dd-ai-layers.is-pinned .dd-ai-lstep.is-active { opacity: 1; pointer-events: auto; transition: opacity .5s ease .18s; }
+.dd-ai-layers.is-pinned .dd-ai-lstep.is-active > * {
+  transform: none;
+  filter: none;
+  transition: transform .7s cubic-bezier(.2, .7, .2, 1) var(--_d, .18s), filter .6s var(--_d, .18s);
+}
+.dd-ai-layers.is-pinned .dd-ai-lstep.is-active > :nth-child(2) { --_d: .24s; }
+.dd-ai-layers.is-pinned .dd-ai-lstep.is-active > :nth-child(3) { --_d: .3s; }
+.dd-ai-layers.is-pinned .dd-ai-lstep.is-active > :nth-child(4) { --_d: .36s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-ai-plate,
+  .dd-ai-gen [pathLength],
+  .dd-ai-live g[style],
+  .dd-ai-lstep { transition: none; }
+  .dd-ai-plate--gen::after { animation: none; }
+}
+
+/* ==========================================================================
+   Процесс — .dd-ai-p2: четыре карточки шагов с мини-сценами, собранными кодом
+   ========================================================================== */
+.dd-ai-p2 { padding: 3rem 0; }
+.dd-ai-p2__head { display: grid; justify-items: center; gap: 1.6rem; text-align: center; }
+.dd-ai-p2__head h2 { margin: 0; text-wrap: balance; }
+.dd-ai-p2__lead { max-width: 64rem; margin: 0; color: var(--dd-color-text-body); text-wrap: pretty; }
+.dd-ai-p2__grid { display: grid; gap: 1.6rem; margin: 3rem 0 0; padding: 0; list-style: none; }
+.dd-ai-p2__card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem 1.2rem 2.8rem;
+  border-radius: 2.2rem;
+  background: var(--dd-neutral-0);
+  transition: transform .4s cubic-bezier(.2, .7, .2, 1);
+}
+.dd-ai-p2__card--dark { background: var(--dd-neutral-1300); color: var(--dd-neutral-0); }
+.dd-ai-p2__card--dark h3 { color: inherit; }
+.dd-ai-p2__body { display: flex; flex: 1; flex-direction: column; gap: .8rem; padding: 2.4rem 1.6rem 0; }
+.dd-ai-p2__body h3,
+.dd-ai-p2__body p { margin: 0; }
+.dd-ai-p2__num { font: 500 1.3rem/1.6rem var(--dd-font-tech); letter-spacing: .04em; color: var(--dd-beige-400); }
+.dd-ai-p2__body .dd-txt-4 { color: var(--dd-color-text-body); text-wrap: pretty; }
+.dd-ai-p2__card--dark .dd-ai-p2__num { color: var(--dd-beige-200); }
+.dd-ai-p2__card--dark .dd-txt-4 { color: var(--dd-beige-100); }
+.dd-ai-p2__gain {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin-top: auto !important;
+  padding-top: 1.6rem;
+  font: 600 1.4rem/2rem var(--dd-font-basic);
+}
+.dd-ai-p2__gain span,
+.dd-ai-art__list i {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--dd-yellow-200);
+  color: var(--dd-neutral-1300);
+}
+.dd-ai-p2__gain svg,
+.dd-ai-art__list svg { width: 1.2rem; height: 1.2rem; }
+.dd-ai-p2__note { margin: 3rem auto 0; text-align: center; color: var(--dd-color-text-muted); }
+
+.dd-ai-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 20rem;
+  border-radius: 1.4rem;
+  background: var(--dd-beige-50);
+  overflow: hidden;
+}
+.dd-ai-p2__card--dark .dd-ai-art { background: var(--dd-ink-chip); }
+/* 01 — три плашки брифа и курсор заказчика */
+.dd-ai-art__chip {
+  position: absolute;
+  padding: .8rem 1.6rem;
+  border-radius: var(--dd-radius-pill);
+  background: var(--dd-neutral-0);
+  box-shadow: var(--dd-shadow-sm);
+  font: 500 1.5rem/2rem var(--dd-font-basic);
+  transition: transform .5s cubic-bezier(.2, .7, .2, 1);
+}
+.dd-ai-art__chip:nth-child(1) { top: 3.2rem; left: 12%; transform: rotate(-5deg); }
+.dd-ai-art__chip:nth-child(2) { top: 8.2rem; left: 30%; transform: rotate(3deg); background: var(--dd-yellow-200); }
+.dd-ai-art__chip:nth-child(3) { top: 13.4rem; left: 16%; transform: rotate(-2deg); }
+.dd-ai-art__cursor { position: absolute; top: 11rem; left: 62%; display: flex; align-items: flex-start; transition: transform .5s cubic-bezier(.2, .7, .2, 1); }
+.dd-ai-art__cursor svg { width: 1.8rem; height: 1.8rem; fill: var(--dd-neutral-1300); }
+.dd-ai-art__cursor b {
+  margin: 1.4rem 0 0 -.2rem;
+  padding: .2rem .8rem;
+  border-radius: var(--dd-radius-xs);
+  background: var(--dd-neutral-1300);
+  font: 500 1.2rem/1.8rem var(--dd-font-tech);
+  color: var(--dd-neutral-0);
+}
+.dd-ai-p2__card:hover .dd-ai-art__chip:nth-child(1) { transform: rotate(-2deg) translate(.4rem, .3rem); }
+.dd-ai-p2__card:hover .dd-ai-art__chip:nth-child(3) { transform: rotate(0deg) translate(.5rem, -.3rem); }
+.dd-ai-p2__card:hover .dd-ai-art__cursor { transform: translate(-1.6rem, -1.2rem); }
+/* Сцены 02–04 играют один раз: при входе карточки в окно и заново под указателем — класс
+   .is-playing ставит скрипт и снимает, когда сцена доиграла. Без класса сцена стоит в итоговом
+   виде; каждая анимация кончается этим же видом, поэтому снятие класса ничего не сдвигает. */
+.dd-ai-stage { position: relative; display: grid; place-items: center; width: 24rem; height: 16rem; }
+.dd-ai-art__bar { display: flex; align-items: center; gap: .5rem; }
+.dd-ai-art__bar i { width: .7rem; height: .7rem; border-radius: 50%; background: var(--dd-neutral-1000); }
+/* курсор с ярлыком — тот же, что «You» в сцене брифа */
+.dd-ai-cur { position: absolute; z-index: 3; top: 0; left: 0; display: flex; align-items: flex-start; }
+.dd-ai-cur svg { flex: none; width: 1.8rem; height: 1.8rem; fill: var(--_c, var(--dd-neutral-1300)); }
+.dd-ai-cur b {
+  margin: 1.4rem 0 0 -.2rem;
+  padding: .2rem .8rem;
+  border-radius: var(--dd-radius-xs);
+  background: var(--_c, var(--dd-neutral-1300));
+  font: 500 1.2rem/1.8rem var(--dd-font-tech);
+  white-space: nowrap;
+  color: var(--_t, var(--dd-neutral-0));
+}
+.dd-ai-cur--ai { --_c: var(--dd-orange-100); --_t: var(--dd-neutral-1300); }
+/* отметка: пустое кольцо, в него встаёт жёлтая галочка */
+.dd-ai-ok { flex: none; display: block; width: 2rem; height: 2rem; border-radius: 50%; box-shadow: inset 0 0 0 .15rem var(--dd-beige-100); }
+.dd-ai-ok i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--dd-yellow-200);
+  color: var(--dd-neutral-1300);
+}
+.dd-ai-ok svg { width: 1.2rem; height: 1.2rem; }
+.is-playing .dd-ai-ok i { animation: dd-ai-tick .45s cubic-bezier(.3, 1.5, .5, 1) var(--d, 0s) backwards; }
+@keyframes dd-ai-tick { 0% { opacity: 0; transform: scale(.4); } 100% { opacity: 1; transform: none; } }
+
+/* 02 — код печатается построчно, курсор «AI» ведёт строку */
+.dd-ai-code {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1.2rem 1.4rem 1.4rem;
+  border-radius: 1rem;
+  background: var(--dd-neutral-1200);
+}
+.dd-ai-code .dd-ai-art__bar { margin-bottom: 1rem; }
+.dd-ai-code code {
+  display: block;
+  width: calc(var(--n) * 1ch);
+  overflow: hidden;
+  font: 400 1.1rem/2.1rem var(--dd-font-tech);
+  white-space: pre;
+  color: var(--dd-neutral-0);
+}
+.dd-ai-code u { text-decoration: none; color: var(--dd-orange-200); }
+.dd-ai-code em { font-style: normal; color: var(--dd-yellow-200); }
+.dd-ai-code s { text-decoration: none; color: var(--dd-beige-100); }
+.dd-ai-art--build .dd-ai-cur { top: 4.4rem; left: 1.4rem; transform: translate(16rem, 9.4rem); }
+.is-playing .dd-ai-code code { animation: 5s steps(var(--n)) both; }
+.is-playing .dd-ai-code code:nth-of-type(1) { animation-name: dd-ai-type-1; }
+.is-playing .dd-ai-code code:nth-of-type(2) { animation-name: dd-ai-type-2; }
+.is-playing .dd-ai-code code:nth-of-type(3) { animation-name: dd-ai-type-3; }
+.is-playing .dd-ai-code code:nth-of-type(4) { animation-name: dd-ai-type-4; }
+.dd-ai-art--build.is-playing .dd-ai-cur { animation: dd-ai-cur-type 5s linear both; }
+/* первые 5 % — готовый код гаснет, дальше строка набирается с нуля */
+@keyframes dd-ai-type-1 {
+  0% { width: calc(var(--n) * 1ch); opacity: 1; }
+  4% { width: calc(var(--n) * 1ch); opacity: 0; }
+  5% { width: 0; opacity: 1; }
+  22%, 100% { width: calc(var(--n) * 1ch); opacity: 1; }
+}
+@keyframes dd-ai-type-2 {
+  0% { width: calc(var(--n) * 1ch); opacity: 1; }
+  4% { width: calc(var(--n) * 1ch); opacity: 0; }
+  5%, 22% { width: 0; opacity: 1; }
+  42%, 100% { width: calc(var(--n) * 1ch); opacity: 1; }
+}
+@keyframes dd-ai-type-3 {
+  0% { width: calc(var(--n) * 1ch); opacity: 1; }
+  4% { width: calc(var(--n) * 1ch); opacity: 0; }
+  5%, 42% { width: 0; opacity: 1; }
+  64%, 100% { width: calc(var(--n) * 1ch); opacity: 1; }
+}
+@keyframes dd-ai-type-4 {
+  0% { width: calc(var(--n) * 1ch); opacity: 1; }
+  4% { width: calc(var(--n) * 1ch); opacity: 0; }
+  5%, 64% { width: 0; opacity: 1; }
+  72%, 100% { width: calc(var(--n) * 1ch); opacity: 1; }
+}
+@keyframes dd-ai-cur-type {
+  0% { transform: translate(16rem, 9.4rem); }
+  5% { transform: translate(0, 0); }
+  22% { transform: translate(14.4rem, 0); }
+  23% { transform: translate(0, 2.1rem); }
+  42% { transform: translate(17rem, 2.1rem); }
+  43% { transform: translate(0, 4.2rem); }
+  64% { transform: translate(19.6rem, 4.2rem); }
+  65% { transform: translate(0, 6.3rem); }
+  72% { transform: translate(6.6rem, 6.3rem); }
+  86%, 100% { transform: translate(16rem, 9.4rem); }
+}
+
+/* 03 — чек-лист: курсор «Senior» идёт по строкам, в кольца встают отметки */
+.dd-ai-art__list {
+  display: grid;
+  gap: 1rem;
+  box-sizing: border-box;
+  width: 19rem;
+  padding: 1.6rem;
+  border-radius: 1rem;
+  background: var(--dd-neutral-0);
+  box-shadow: var(--dd-shadow-sm);
+}
+.dd-ai-art__list span { display: flex; align-items: center; gap: 1rem; font: 500 1.5rem/2rem var(--dd-font-basic); }
+.dd-ai-art__list span + span { padding-top: 1rem; background: repeating-linear-gradient(90deg, var(--dd-line-dash) 0 .3rem, transparent .3rem .6rem) top / 100% .1rem no-repeat; }
+.dd-ai-art--review .dd-ai-cur { top: 3.4rem; left: 3.6rem; transform: translate(10rem, 9rem); }
+.dd-ai-art--review.is-playing .dd-ai-cur { animation: dd-ai-cur-check 3.4s cubic-bezier(.4, 0, .2, 1) both; }
+@keyframes dd-ai-cur-check {
+  0% { transform: translate(10rem, 9rem); }
+  10%, 18% { transform: translate(0, 0); }
+  34%, 42% { transform: translate(0, 4.1rem); }
+  58%, 66% { transform: translate(0, 8.2rem); }
+  90%, 100% { transform: translate(10rem, 9rem); }
+}
+
+/* 04 — выкладка: полоса доходит до конца, статус меняется на Live */
+.dd-ai-deploy {
+  display: grid;
+  gap: 1.4rem;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1.6rem;
+  border-radius: 1rem;
+  background: var(--dd-neutral-0);
+  color: var(--dd-neutral-1300);
+}
+.dd-ai-deploy__row { display: flex; align-items: center; gap: 1rem; }
+.dd-ai-deploy code { margin-right: auto; font: 500 1.3rem/2rem var(--dd-font-tech); }
+.dd-ai-deploy__state { display: grid; font: 600 1.4rem/2rem var(--dd-font-basic); text-align: right; }
+.dd-ai-deploy__state b,
+.dd-ai-deploy__state u { grid-area: 1 / 1; font-weight: inherit; text-decoration: none; }
+.dd-ai-deploy__state u { opacity: 0; }
+.dd-ai-deploy__bar { height: .8rem; border-radius: var(--dd-radius-pill); background: var(--dd-beige-50); overflow: hidden; }
+.dd-ai-deploy__bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--dd-orange-100), var(--dd-yellow-200)); transform-origin: 0 50%; }
+.is-playing .dd-ai-deploy__state u { animation: dd-ai-before 3.6s linear both; }
+.is-playing .dd-ai-deploy__state b { animation: dd-ai-after 3.6s linear both; }
+.is-playing .dd-ai-deploy__bar i { animation: dd-ai-load 3.6s cubic-bezier(.5, 0, .2, 1) both; }
+@keyframes dd-ai-before { 0% { opacity: 0; } 6%, 72% { opacity: 1; } 76%, 100% { opacity: 0; } }
+@keyframes dd-ai-after { 0% { opacity: 1; } 6%, 72% { opacity: 0; } 76%, 100% { opacity: 1; } }
+@keyframes dd-ai-load {
+  0% { opacity: 1; transform: scaleX(1); }
+  5% { opacity: 0; transform: scaleX(1); }
+  6% { opacity: 1; transform: scaleX(0); }
+  30% { transform: scaleX(.34); }
+  48% { transform: scaleX(.52); }
+  74%, 100% { opacity: 1; transform: scaleX(1); }
+}
+@media (hover: hover) { .dd-ai-p2__card:hover { transform: translateY(-.6rem); } }
+@media (min-width: 834px) {
+  .dd-ai-p2 { padding: 6rem 0; }
+  .dd-ai-p2__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; margin-top: 5rem; }
+}
+@media (min-width: 1320px) {
+  .dd-ai-p2 { padding: 8rem 0; }
+  .dd-ai-p2__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+
+/* ==========================================================================
+   Стек — .dd-ai-s3: белый лист-сетка, знак + название + чьё
+   ========================================================================== */
+.dd-ai-s3 { padding: 3rem 0; }
+.dd-ai-s3__head { display: grid; gap: 1.6rem; }
+.dd-ai-s3__head h2,
+.dd-ai-s3__head p { margin: 0; }
+.dd-ai-s3__head .dd-ai-stack__eyebrow { margin-bottom: 1.2rem; }
+.dd-ai-s3__lead { color: var(--dd-color-text-body); text-wrap: pretty; }
+.dd-ai-s3__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 3rem 0 0;
+  padding: 0;
+  border-radius: 2rem;
+  background: var(--dd-neutral-0);
+  list-style: none;
+  overflow: hidden;
+}
+.dd-ai-s3__grid li {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 3rem;
+  padding: 2.4rem 2rem;
+  box-shadow: .1rem 0 0 var(--dd-line-soft), 0 .1rem 0 var(--dd-line-soft);
+  transition: background .3s;
+}
+.dd-ai-s3__grid svg { width: 4rem; height: 4rem; fill: var(--dd-neutral-1300); transition: transform .4s cubic-bezier(.2, .7, .2, 1); }
+.dd-ai-s3__grid span { display: flex; flex-direction: column; gap: .2rem; }
+.dd-ai-s3__grid b { font: 500 2.2rem/3rem var(--dd-font-basic); letter-spacing: -.03em; }
+.dd-ai-s3__grid i { font: italic 400 1.6rem/2.4rem var(--dd-font-fancy); color: var(--dd-color-text-muted); }
+@media (hover: hover) {
+  .dd-ai-s3__grid li:hover { background: var(--dd-yellow-200); }
+  .dd-ai-s3__grid li:hover i { color: var(--dd-neutral-1300); }
+}
+@media (min-width: 834px) {
+  .dd-ai-s3 { padding: 6rem 0; }
+  .dd-ai-s3__head { grid-template-columns: minmax(0, 1fr) minmax(0, 44rem); align-items: end; gap: 4rem; }
+  .dd-ai-s3__grid { grid-template-columns: repeat(3, 1fr); margin-top: 5rem; border-radius: 2.2rem; }
+  .dd-ai-s3__grid li { min-height: 20rem; padding: 3rem; box-sizing: border-box; }
+  .dd-ai-s3__grid svg { width: 4.8rem; height: 4.8rem; }
+}
+@media (min-width: 1320px) {
+  .dd-ai-s3 { padding: 8rem 0; }
+  .dd-ai-s3__grid { grid-template-columns: repeat(6, 1fr); }
+  .dd-ai-s3__grid li { min-height: 24rem; padding: 3rem 2.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-ai-p2__card,
+  .dd-ai-art__chip,
+  .dd-ai-art__cursor,
+  .dd-ai-s3__grid svg { transition: none; }
+}
+
+/* ==========================================================================
+   Стек: у каждого знака своё движение. Играет один раз за наведение на ячейку — класс
+   .is-playing ставит скрипт и снимает по окончании; пока играет, не перезапускается.
+   ========================================================================== */
+.dd-ai-s3__grid li.is-playing svg { animation: .95s cubic-bezier(.4, 0, .2, 1) both; }
+.dd-ai-s3__grid li:nth-child(1).is-playing svg { animation: dd-ai-m-frames 1.2s steps(1, end) both; }
+.dd-ai-s3__grid li:nth-child(2).is-playing svg { animation: dd-ai-m-notch 1s cubic-bezier(.65, 0, .2, 1) both; }
+.dd-ai-s3__grid li:nth-child(6).is-playing svg { animation-name: dd-ai-m-flip; }
+.dd-ai-s3__grid li:nth-child(3).is-playing svg { animation-name: dd-ai-m-beat; transform-origin: 50% 80%; }
+.dd-ai-s3__grid li:nth-child(4).is-playing svg { animation-name: dd-ai-m-dash; animation-duration: .8s; }
+.dd-ai-s3__grid li:nth-child(5).is-playing svg { animation-name: dd-ai-m-strike; animation-duration: .8s; }
+/* Claude — покадрово, как нарисованная от руки: поза меняется скачком */
+@keyframes dd-ai-m-frames {
+  0%, 100% { transform: none; }
+  12% { transform: rotate(18deg) scale(1.1); }
+  25% { transform: rotate(-12deg) scale(.9); }
+  38% { transform: rotate(32deg) scale(1.18); }
+  51% { transform: rotate(8deg) scale(.94); }
+  64% { transform: rotate(-18deg) scale(1.1); }
+  77% { transform: rotate(10deg) scale(1.02); }
+  90% { transform: rotate(-4deg); }
+}
+/* ChatGPT — узел доворачивается на одно звено: у знака шесть одинаковых звеньев, после 60° он
+   выглядит так же, поэтому возврата в конце не видно */
+@keyframes dd-ai-m-notch { 0% { transform: none; } 100% { transform: rotate(60deg); } }
+/* Cursor — куб переворачивается */
+@keyframes dd-ai-m-flip {
+  0% { transform: perspective(30rem) rotateY(0); }
+  50% { transform: perspective(30rem) rotateY(180deg) scale(1.12); }
+  100% { transform: perspective(30rem) rotateY(360deg); }
+}
+/* Lovable — сердце бьётся дважды */
+@keyframes dd-ai-m-beat { 0%, 40%, 80%, 100% { transform: none; } 20% { transform: scale(1.28); } 60% { transform: scale(1.16); } }
+/* v0 — рывок вперёд и отдача */
+@keyframes dd-ai-m-dash {
+  0%, 100% { transform: none; }
+  35% { transform: translateX(1.4rem) skewX(-16deg); }
+  60% { transform: translateX(-.4rem) skewX(6deg); }
+}
+/* Bolt — молния бьёт вниз и вспыхивает */
+@keyframes dd-ai-m-strike {
+  0%, 100% { fill: var(--dd-neutral-1300); transform: none; }
+  25% { fill: var(--dd-neutral-1300); transform: translateY(-1.2rem) rotate(-8deg); }
+  45% { fill: var(--dd-neutral-0); transform: translateY(.4rem) rotate(5deg) scale(1.1); }
+  60% { fill: var(--dd-neutral-0); transform: rotate(-4deg); }
+  75% { transform: rotate(2deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-ai-s3__grid li.is-playing svg { animation: none !important; }
+}

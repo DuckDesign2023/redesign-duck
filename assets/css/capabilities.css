@@ -1,0 +1,606 @@
+/* ==========================================================================
+   duck.design — страницы услуг (Capabilities): блоки, которые стоят только на них
+   Источник: Figma «duck.design | NEW», страница Capabilities: 1440 branding 5727:3895
+   и 375 branding 5910:15408. Компоненты: тег Capabilities 5727:5618, карточка services 5938:22703.
+   Требует tokens.css и components.css (заголовки, текст, кнопки).
+
+   Блок собран точно по макету: поля, интервалы и радиусы у каждого свои.
+   На 1440 и 375 совпадает с макетом. Между 834 и 1319 стоит настольная раскладка
+   с полем страницы 30 — макета на эту ширину нет. Шире 1440 лист тянется до предела
+   сетки --dd-frame; фоны первого экрана и шкалы процесса идут на всё окно.
+
+   Скрипта у блоков нет: лента тегов бежит на CSS.
+   ========================================================================== */
+
+/* Лист блока: до предела сетки, дальше по центру. Поля у каждого блока свои */
+.dd-cap-hero__inner,
+.dd-cap-goals,
+.dd-cap-services,
+.dd-cap-process__inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+}
+
+/* Шире 1440 колонки растут, строка текста — нет: абзац не шире, чем в макете */
+.dd-cap-goals__lead { max-width: 57.1rem; }
+.dd-cap-goals__note > .dd-txt-3 { max-width: 53.5rem; }
+.dd-cap-step__body { max-width: 48.3rem; }
+
+/* В макете строка, где Inter стоит рядом с курсивом Sentient, выше на 1–2 px: у шрифтов
+   разные метрики. С высотой строки от заголовка браузер даёт ту же высоту, что Figma */
+.dd-cap-hero__title .dd-fancy,
+.dd-cap-goals__title .dd-fancy { line-height: inherit; }
+
+/* ---------- О19. Первый экран с лентой тегов — 5727:5611 · 375: 5910:15410 ---------- */
+/* Фото идёт на всё окно и заходит под шапку: блок подтянут вверх на её высоту. Высота блока
+   вместе с шапкой — 760 на телефоне и 640 от 834, содержимое прижато к низу.
+   До 600 стоит мобильная картинка (фото сверху, плашка снизу), от 600 — настольная */
+.dd-cap-hero {
+  --_header: 6.1rem;
+
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 76rem;
+  margin-top: calc(-1 * var(--_header));
+  padding: calc(var(--_header) + 2rem) 0 2rem;
+  overflow: hidden;
+  background: #f28f42; /* нижняя плашка мобильной картинки */
+}
+.dd-cap-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.dd-cap-hero__bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.dd-cap-hero__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-inline: 1.4rem;
+}
+.dd-cap-hero__text {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-inline: .6rem;
+}
+/* строка-ярлык над крупной строкой — это H1 страницы: её текст равен H1 живого сайта */
+.dd-cap-hero__label {
+  margin: 0;
+  font: 700 1.2rem/1.7rem var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dd-neutral-1300);
+}
+.dd-cap-hero__lead { color: rgba(4, 5, 6, .8); }
+
+/* Кнопка из двух частей — одна ссылка, состояния у частей общие. На телефоне часть одна */
+.dd-cap-hero__go {
+  display: flex;
+  border-radius: var(--dd-radius-pill);
+  text-decoration: none;
+}
+.dd-cap-hero__go:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .3rem;
+}
+.dd-cap-hero__go .dd-btn--yellow { flex: 1; }
+.dd-cap-hero__go .dd-btn--icon { display: none; }
+.dd-cap-hero__go:hover .dd-btn--yellow { --_bg: var(--dd-yellow-100); }
+.dd-cap-hero__go:hover .dd-btn--stroke-white { --_ring: inset 0 0 0 var(--_w-hover) var(--dd-neutral-0); }
+.dd-cap-hero__go:active .dd-btn--yellow {
+  --_bg: var(--dd-yellow-100);
+  --_ring: inset 0 0 0 var(--_w-press) var(--dd-yellow-50);
+}
+.dd-cap-hero__go:active .dd-btn--stroke-white {
+  --_ring: inset 0 0 0 .2rem var(--dd-neutral-100);
+  opacity: .4;
+}
+
+/* Лента тегов: ряд записан три раза подряд и едет влево на свою ширину и шаг — шва нет.
+   В макете ряд (1939) стоит по центру окна и обрезан его краями: первый тег начинается
+   на 969,5 левее центра. С этого места лента и трогается */
+.dd-cap-hero__tags {
+  container-type: inline-size;
+  display: flex;
+  gap: .8rem;
+  margin-top: 2rem;
+}
+.dd-cap-hero__track {
+  --_x: min(0px, calc(50cqw - 96.95rem));
+
+  flex: none;
+  display: flex;
+  gap: .8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translateX(var(--_x));
+  animation: dd-cap-tags 60s linear infinite;
+}
+.dd-cap-hero__track li {
+  padding: .8rem 1.2rem;
+  border-radius: .4rem;
+  background: rgba(255, 255, 255, .1);
+  box-shadow: inset 0 0 0 .1rem rgba(255, 255, 255, .1);
+  -webkit-backdrop-filter: blur(.6rem);
+  backdrop-filter: blur(.6rem);
+  font: 500 1.3rem/1.6rem var(--dd-font-basic);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, .8);
+}
+.dd-cap-hero__tags:hover .dd-cap-hero__track { animation-play-state: paused; }
+@keyframes dd-cap-tags {
+  to { transform: translateX(calc(var(--_x) - 100% - .8rem)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-cap-hero__track { animation: none; }
+}
+
+@media (min-width: 834px) {
+  .dd-cap-hero {
+    --_header: 8.1rem;
+
+    min-height: 64rem;
+    padding: calc(var(--_header) + 6rem) 0 4rem;
+    background: var(--dd-orange-50);
+  }
+  .dd-cap-hero__bg img { object-position: center; }
+  .dd-cap-hero__inner {
+    align-items: flex-start;
+    gap: 4rem;
+    padding-inline: 3rem;
+  }
+  .dd-cap-hero__text {
+    gap: 1.6rem;
+    max-width: 64rem;
+    padding-inline: .6rem 0;
+  }
+  .dd-cap-hero__label { color: var(--dd-yellow-300); }
+  /* от 834 обе части кнопки — размера S */
+  .dd-cap-hero__go { display: inline-flex; }
+  .dd-cap-hero__go .dd-btn {
+    --_h: 4.1rem;
+    --_pad: 1.2rem;
+    --_icon: 1.7rem;
+    --_label-pad: .4rem;
+    --_fs: 1.2rem;
+    --_w-press: .2rem;
+    --_w-hover: .2rem;
+  }
+  .dd-cap-hero__go .dd-btn--icon { display: inline-flex; }
+  .dd-cap-hero__tags {
+    margin-top: 4rem;
+    padding-top: 2rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-cap-hero { --_header: 7.3rem; }
+  .dd-cap-hero__inner { padding-inline: 7rem; }
+}
+
+/* ---------- Цели 01–04 — 5728:8613 · 375: 5910:15498, вставка-цитата 5910:15519 ---------- */
+/* На телефоне большая карточка — во всё окно и без радиуса, под ней цитата без значка.
+   От 834 карточка стоит на листе, цитата — строкой со значком */
+.dd-cap-goals {
+  --_paper: #fcfbf8; /* цвет макета мимо переменных */
+
+  display: flex;
+  flex-direction: column;
+}
+.dd-cap-goals__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2.1rem 1.7rem; /* поле 20 × 16 и обводка 1: в макете она входит в раскладку */
+  background: var(--_paper);
+}
+/* обводка 1 px внутри: белая у верха, к низу сходит на нет */
+.dd-cap-goals__card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: .1rem;
+  border-radius: inherit;
+  background: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+.dd-cap-goals__head {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  padding: 1.2rem .6rem;
+}
+.dd-cap-goals__lead {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.dd-cap-goals__lead p { color: var(--dd-neutral-1200); }
+.dd-cap-goals__list {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-cap-goal {
+  display: flex;
+  flex-direction: column;
+  padding: 1.8rem;
+  border-radius: .8rem;
+  background: var(--dd-beige-50);
+  box-shadow: inset 0 0 0 .1rem rgba(216, 210, 198, .5);
+}
+.dd-cap-goal__num {
+  margin-bottom: 1.9rem;
+  font: 700 1.4rem/2rem var(--dd-font-basic);
+  letter-spacing: .08em;
+  color: var(--dd-orange-0);
+}
+.dd-cap-goal__title { margin-bottom: .8rem; }
+.dd-cap-goal p {
+  text-wrap: pretty;
+  color: var(--dd-neutral-1300);
+}
+.dd-cap-goal--accent {
+  background: var(--dd-orange-50);
+  box-shadow: none;
+}
+.dd-cap-goal--accent .dd-cap-goal__num,
+.dd-cap-goal--accent p { color: var(--dd-beige-50); }
+.dd-cap-goal--accent .dd-cap-goal__title { color: var(--dd-neutral-0); }
+
+.dd-cap-goals__note {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  padding: 2.4rem 2.6rem;
+}
+.dd-cap-goals__icon { display: none; }
+.dd-cap-goals__quote {
+  background: linear-gradient(90deg, var(--dd-neutral-1100), var(--dd-orange-0));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (min-width: 834px) {
+  .dd-cap-goals {
+    gap: 2rem;
+    padding: 4rem 3rem 6rem;
+  }
+  .dd-cap-goals__card {
+    padding: 4.1rem;
+    border-radius: 2.6rem;
+  }
+  .dd-cap-goals__head {
+    flex-direction: row;
+    gap: 2rem;
+    padding: 2rem 4.8rem 2rem 2.8rem;
+  }
+  .dd-cap-goals__head > * {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .dd-cap-goals__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.6rem;
+  }
+  .dd-cap-goal {
+    min-height: 26.5rem;
+    box-sizing: border-box;
+    padding: 2.4rem;
+    border-radius: 1.4rem;
+  }
+  /* заголовок занимает всё свободное место плитки: текст стоит у её низа.
+     Первое слово — своей строкой */
+  .dd-cap-goal__title {
+    flex: 1;
+    margin-bottom: 1.9rem;
+  }
+  .dd-cap-goal__title .dd-fancy {
+    display: block;
+    line-height: inherit;
+  }
+  .dd-cap-goals__note {
+    display: grid;
+    grid-template-columns: 9.1rem minmax(0, 1fr);
+    gap: .8rem 3rem;
+    padding: 3rem 6rem 3rem 4rem;
+  }
+  .dd-cap-goals__icon {
+    grid-row: span 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 9.1rem;
+    height: 9.1rem;
+    border-radius: 1.6rem;
+    background: rgba(252, 251, 248, .8);
+    box-shadow: inset 0 0 0 .1rem var(--dd-neutral-0);
+  }
+  .dd-cap-goals__icon img {
+    display: block;
+    width: 4.3rem;
+    height: 4.3rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-cap-goals { padding-inline: 6rem; }
+  .dd-cap-goals__list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .dd-cap-goals__note {
+    grid-template-columns: 9.1rem repeat(2, minmax(0, 1fr));
+    gap: 3rem;
+  }
+  .dd-cap-goals__icon { grid-row: auto; }
+}
+
+/* ---------- О20. Сетка услуг — 5960:6092 · 375: 5910:15527 · карточка: services 5938:22703 ---------- */
+/* Кнопка в разметке одна и стоит в ряду заголовка. До 834 ряд заголовка — display: contents,
+   и кнопка уходит под сетку во всю ширину */
+.dd-cap-services {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 3rem 1.4rem;
+}
+.dd-cap-services__head { display: contents; }
+/* слова заголовка стоят в ряд и переносятся целиком: на 375 — три строки по центру */
+.dd-cap-services__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem 1.1rem;
+  text-align: center;
+}
+/* плашка под словом наклонена на 1°, само слово стоит ровно. Поле справа больше на 2:
+   браузер ставит трекинг и после последней буквы, слово уже, чем в макете */
+.dd-cap-services__tag {
+  position: relative;
+  isolation: isolate;
+  padding-inline: 1.4rem 1.6rem;
+  color: var(--dd-neutral-0);
+}
+.dd-cap-services__tag::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 1.2rem;
+  background: linear-gradient(271deg, var(--dd-orange-100), var(--dd-orange-50));
+  transform: translateY(-.2rem) rotate(-1deg);
+}
+.dd-cap-services__more { order: 1; }
+/* кнопка ведёт к тизеру работ на этой же странице: закреплённая шапка его не закрывает */
+#portfolio { scroll-margin-top: 8.1rem; }
+.dd-cap-services__list {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: .9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-cap-services__item--wide { grid-column: span 2; }
+
+.dd-cap-service {
+  display: flex;
+  flex-direction: column;
+  border-radius: .8rem;
+  text-decoration: none;
+  color: inherit;
+}
+.dd-cap-service:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+.dd-cap-service__media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 601 / 580;
+  border-radius: .8rem;
+  background: var(--dd-beige-100);
+}
+.dd-cap-services__item--wide .dd-cap-service__media { aspect-ratio: 627 / 290; }
+.dd-cap-service__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* круг со стрелкой — вид hover компонента */
+.dd-cap-service__go {
+  position: absolute;
+  top: 1.8rem;
+  right: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.8rem;
+  height: 3.8rem;
+  border-radius: 50%;
+  background: var(--dd-neutral-50);
+  color: var(--dd-neutral-1300);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.dd-cap-service__go svg {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+.dd-cap-service:focus-visible .dd-cap-service__go,
+.dd-cap-service.is-hover .dd-cap-service__go { opacity: 1; }
+@media (hover: hover) {
+  .dd-cap-service:hover .dd-cap-service__go { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-cap-service__go { transition: none; }
+}
+.dd-cap-service__body {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  padding: .9rem;
+}
+
+@media (min-width: 834px) {
+  .dd-cap-services { padding: 10rem 3rem 5rem; }
+  .dd-cap-services__head {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 0 0 2rem 1.2rem;
+  }
+  /* шаг слов 11 и поправка на тот же трекинг после последней буквы */
+  .dd-cap-services__title {
+    flex: 1;
+    justify-content: flex-start;
+    gap: 0 1.35rem;
+    padding-block: .4rem;
+    text-align: left;
+  }
+  .dd-cap-services__more { order: 0; }
+  .dd-cap-services__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.2rem 2.6rem;
+  }
+  /* окно картинки одной высоты у обычной и у двойной карточки: 290 при колонке 300,5 */
+  .dd-cap-service__media,
+  .dd-cap-services__item--wide .dd-cap-service__media {
+    aspect-ratio: auto;
+    height: calc((100cqw - 7.8rem) / 4 * 580 / 601);
+    border-radius: 1.2rem;
+  }
+  .dd-cap-service { border-radius: 1.2rem; }
+  .dd-cap-service__body { padding: 1.4rem 1.2rem; }
+}
+@media (min-width: 1320px) {
+  .dd-cap-services { padding-inline: 8rem; }
+}
+
+/* ---------- Шкала процесса — 5730:9917 · 375: 5910:15576 ---------- */
+/* Светлое пятно у правого края — заливка секции в макете: эллипс с центром за краем окна */
+.dd-cap-process {
+  background: radial-gradient(28.77% 53.53% at 112.31% 49.04%, rgba(255, 255, 255, 0) 54%, rgba(255, 255, 255, .7) 100%, var(--dd-beige-50) 100%);
+}
+.dd-cap-process__inner {
+  display: grid;
+  gap: 2rem;
+  padding: 2rem 1.6rem;
+}
+.dd-cap-process__intro,
+.dd-cap-process__head {
+  display: flex;
+  flex-direction: column;
+}
+.dd-cap-process__intro { gap: 2rem; }
+.dd-cap-process__head {
+  gap: 1.6rem;
+  padding-inline: 1rem;
+}
+.dd-cap-process__title span { color: var(--dd-yellow-0); }
+.dd-cap-process__lead {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.dd-cap-process__lead p,
+.dd-cap-process__note { color: var(--dd-neutral-1300); }
+.dd-cap-process__note {
+  padding: 1.6rem;
+  border-radius: .6rem;
+  background: var(--dd-yellow-100);
+}
+.dd-cap-process__steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-cap-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5.2rem minmax(0, 1fr);
+  column-gap: 1.6rem;
+}
+/* линия шкалы: от круга до следующего шага */
+.dd-cap-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 5.2rem;
+  bottom: 0;
+  left: 2.5rem;
+  width: .2rem;
+  background: var(--dd-beige-100);
+}
+/* обводка круга в макете идёт по центру края: по 1 px наружу и внутрь */
+.dd-cap-step__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.2rem;
+  height: 5.2rem;
+  border-radius: 50%;
+  box-shadow: 0 0 0 .1rem var(--dd-beige-100), inset 0 0 0 .1rem var(--dd-beige-100);
+  color: var(--dd-neutral-1300);
+}
+.dd-cap-step__icon svg {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+.dd-cap-step__body {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  padding: .8rem 0 2.4rem;
+}
+.dd-cap-step:last-child .dd-cap-step__body { padding-bottom: 0; }
+.dd-cap-step__text {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+}
+
+@media (min-width: 834px) {
+  .dd-cap-process__inner {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 4fr);
+    gap: 3rem;
+    padding: 6rem 3rem;
+  }
+  .dd-cap-process__intro { justify-content: space-between; }
+  .dd-cap-process__head { gap: 3rem; }
+  .dd-cap-process__note {
+    padding: 2.2rem;
+    border-radius: 1.4rem;
+  }
+  .dd-cap-step { column-gap: 2.4rem; }
+  .dd-cap-step__body { padding: .4rem 0 3.6rem; }
+}
+@media (min-width: 1320px) {
+  .dd-cap-process__inner { padding: 8rem 12rem; }
+  .dd-cap-process__intro { padding-right: 6rem; }
+  .dd-cap-process__steps { padding-inline: 5rem 6rem; }
+}

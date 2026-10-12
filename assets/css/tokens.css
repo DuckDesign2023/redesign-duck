@@ -1,0 +1,182 @@
+/* ==========================================================================
+   duck.design — токены дизайн-системы
+   Источник: Figma «duck.design | NEW» (l8JXVwPgb1HTo2P2Q7SbNN) — коллекции
+   переменных Colors и Typography, текстовые стили, стили эффектов.
+   Снято 08.10.2026. Спецификация и правила — DESIGN.md.
+
+   Единицы: rem при html{font-size:.625em} (1rem = 10px), как в теме newduckdesign.
+   Брейкпоинты (в media-запросах переменные не работают, пишем числом), mobile-first
+   через min-width: база 375 · 834 · 1320.
+   1320 — настольная раскладка: с этой ширины полное меню помещается при полях 70.
+   Шапка и подвал идут на всю ширину окна. Сетка контента тянется вместе с окном, пока
+   контент не дойдёт до 1680, и дальше стоит по центру (--dd-frame). 1680 выбрал
+   пользователь 09.10.2026 на странице-показе блоков.
+   Макеты нарисованы на 1440: на этой ширине всё совпадает с Figma.
+   ========================================================================== */
+
+:root {
+  /* ---------- Цвет: примитивы (имена как в переменных Figma) ---------- */
+  --dd-beige-50: #f6f3ed;
+  --dd-beige-100: #d8d2c6;
+  --dd-beige-200: #b7b0a3;
+  --dd-beige-300: #8c8576;
+  --dd-beige-400: #676155;
+
+  --dd-yellow-0: #705307;
+  --dd-yellow-50: #b08003;
+  --dd-yellow-100: #e7b530;
+  --dd-yellow-200: #ffca41;
+  --dd-yellow-300: #ffe39b;
+  --dd-yellow-400: #fef3d8;
+  --dd-yellow-500: #fef9ef;
+
+  --dd-orange-0: #793c04;
+  --dd-orange-50: #c86406;
+  --dd-orange-100: #ff8b20;
+  --dd-orange-200: #fda743;
+  --dd-orange-300: #f9cc95;
+
+  --dd-neutral-0: #ffffff;
+  --dd-neutral-50: #f9fafb;
+  --dd-neutral-100: #f3f6f8;
+  --dd-neutral-200: #ebeff3;
+  --dd-neutral-300: #e0e4e8;
+  --dd-neutral-400: #d5dadf;
+  --dd-neutral-500: #c7ced5;
+  --dd-neutral-600: #abb5c0;
+  --dd-neutral-700: #8f9dab;
+  --dd-neutral-800: #738496;
+  --dd-neutral-900: #5d6b79;
+  --dd-neutral-1000: #47515c;
+  --dd-neutral-1100: #303840;
+  --dd-neutral-1200: #1a1e23;
+  --dd-neutral-1300: #040506;
+
+  --dd-red-300: #f25b50;
+  --dd-error: #cb6c75;
+
+  /* Вне переменных Figma, но стоят в макетах (см. DESIGN.md, «Расхождения») */
+  --dd-ink-chip: #36332d;      /* плашки и пунктир на тёмном */
+  --dd-ink-chip-line: #45403a; /* обводка плашек на тёмном */
+  --dd-ink-link: #9e9b95;      /* ссылки подвала */
+  --dd-ink-icon: #d5d1c7;      /* значки соцсетей на тёмном */
+  --dd-line-dash: #dcd5cc;     /* пунктир на светлом */
+  --dd-line-dash-soft: #e4ddd4; /* пунктир внутри белой карточки отзыва */
+  --dd-line-soft: #efe6df;     /* сплошная линия между вопросами FAQ */
+  --dd-ink-label: #796b5d;     /* подпись «Trusted by» */
+  --dd-fill-hover: #ece6db;    /* наведение на ссылку меню */
+  --dd-fill-check: #cabfb1;    /* круг с галочкой в списках главной */
+  --dd-fill-soft: #e9e4da;     /* светлый край градиента карточки меню */
+
+  /* ---------- Цвет: роли (светлая поверхность по умолчанию) ---------- */
+  --dd-color-bg: var(--dd-beige-50);
+  --dd-color-surface: var(--dd-neutral-0);
+  --dd-color-surface-muted: var(--dd-beige-100);
+  --dd-color-text: var(--dd-neutral-1300);
+  --dd-color-text-body: var(--dd-neutral-1100);
+  --dd-color-text-muted: var(--dd-beige-400);
+  --dd-color-text-subtle: var(--dd-beige-300);
+  --dd-color-text-accent: var(--dd-yellow-0);
+  --dd-color-border: var(--dd-beige-100);
+  --dd-color-border-strong: var(--dd-beige-200);
+  --dd-color-divider: var(--dd-line-dash);
+  --dd-color-accent: var(--dd-yellow-200);
+  --dd-color-accent-2: var(--dd-orange-100);
+  --dd-color-focus: var(--dd-neutral-1300);
+
+  /* ---------- Шрифты ---------- */
+  --dd-font-basic: Inter, sans-serif;
+  --dd-font-fancy: 'Sentient Variable', Sentient, Georgia, serif;
+  --dd-font-tech: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Заголовки: кегль / интерлиньяж. База — стили «Headlines MOB» */
+  --dd-h-hero: 3.6rem;  --dd-h-hero-lh: 4.2rem;  --dd-h-hero-fancy: 3.7rem; /* моб. — допущение, макета нет */
+  --dd-h-huge: 7.6rem;  --dd-h-huge-lh: 10rem;
+  --dd-h1: 6rem;        --dd-h1-lh: 7.8rem;
+  --dd-h2: 4.2rem;      --dd-h2-lh: 5.6rem;
+  --dd-h3: 3.6rem;      --dd-h3-lh: 4.2rem;
+  --dd-h4: 2.2rem;      --dd-h4-lh: 3rem;
+  --dd-h5: 2rem;        --dd-h5-lh: 2.6rem;
+  --dd-h2-light: 4.8rem; --dd-h2-light-lh: 5.6rem; /* special-new-H2: на 375 в макете тот же размер, что на 1440 */
+  --dd-h4-light-lh: 3rem;
+
+  /* ---------- Отступы раскладки (шаг для страниц, которых нет в Figma) ---------- */
+  --dd-space-2: .2rem;
+  --dd-space-4: .4rem;
+  --dd-space-6: .6rem;
+  --dd-space-8: .8rem;
+  --dd-space-12: 1.2rem;
+  --dd-space-16: 1.6rem;
+  --dd-space-20: 2rem;
+  --dd-space-24: 2.4rem;
+  --dd-space-30: 3rem;
+  --dd-space-40: 4rem;
+  --dd-space-50: 5rem;
+  --dd-space-60: 6rem;
+  --dd-space-80: 8rem;
+  --dd-space-100: 10rem;
+  --dd-space-120: 12rem;
+
+  /* ---------- Радиусы ---------- */
+  --dd-radius-xs: .4rem;       /* миниатюры, ярлыки курсоров */
+  --dd-radius-sm: .8rem;       /* вложенные картинки */
+  --dd-radius-md: 1rem;        /* поля ввода, малые медиа */
+  --dd-radius-lg: 1.4rem;      /* карточки */
+  --dd-radius-xl: 1.6rem;      /* крупные медиа, панели подвала */
+  --dd-radius-2xl: 2.2rem;     /* большие панели (FAQ) */
+  --dd-radius-section: 2.8rem; /* скруглённый верх секции */
+  --dd-radius-pill: 99.9rem;
+
+  /* ---------- Тени (стили эффектов Figma; на главной не применены) ---------- */
+  --dd-shadow-card: 0 .3rem 4.6rem -.2rem rgba(122, 85, 28, .2);   /* card-shadow */
+  --dd-shadow-float: 0 5.2rem 16.1rem -.9rem rgba(20, 25, 68, .25); /* «1» */
+  --dd-shadow-sm: -.2rem .4rem 1.3rem rgba(71, 44, 32, .13);       /* «2» */
+  --dd-shadow-soft: 0 2rem 4.7rem rgba(130, 103, 33, .09);         /* «3» */
+
+  /* ---------- Раскладка ---------- */
+  --dd-gutter: 1.6rem;                   /* поле страницы на 375 */
+  --dd-gutter-narrow: var(--dd-gutter);  /* поле текстовых секций; на настольной ширине 120 */
+  --dd-section-y: 4rem;                  /* вертикальный отступ секции на 375 */
+  --dd-frame: 182rem;                    /* предел листа: 1680 контента + поля по 70 */
+}
+
+@media (min-width: 834px) {
+  :root {
+    /* стили «Headlines» */
+    --dd-h-hero: 7rem;  --dd-h-hero-lh: 7.2rem;  --dd-h-hero-fancy: 7.4rem; /* первый экран главной, стиля в Figma нет */
+    --dd-h-huge: 8rem;  --dd-h-huge-lh: 10.4rem;
+    --dd-h1: 6.4rem;    --dd-h1-lh: 8.2rem;
+    --dd-h2: 4.8rem;    --dd-h2-lh: 6.2rem;
+    --dd-h3: 4rem;      --dd-h3-lh: 5rem;
+    --dd-h4: 2.8rem;    --dd-h4-lh: 3.6rem;
+    --dd-h5: 2.4rem;    --dd-h5-lh: 3rem;
+    --dd-h4-light-lh: 3.4rem;
+
+    --dd-gutter: 3rem;
+    --dd-section-y: 6rem;
+  }
+}
+
+@media (min-width: 1320px) {
+  :root {
+    --dd-gutter: 7rem;
+    --dd-gutter-narrow: 12rem;
+    --dd-section-y: 8rem;
+  }
+}
+
+/* Тёмная поверхность: подвал, тёмная панель FAQ, шапка Mode=Dark */
+.dd-on-dark {
+  --dd-color-bg: var(--dd-neutral-1300);
+  --dd-color-surface: var(--dd-ink-chip);
+  --dd-color-surface-muted: var(--dd-ink-chip);
+  --dd-color-text: var(--dd-neutral-0);
+  --dd-color-text-body: var(--dd-beige-100);
+  --dd-color-text-muted: var(--dd-beige-200);
+  --dd-color-text-subtle: var(--dd-ink-link);
+  --dd-color-text-accent: var(--dd-yellow-100);
+  --dd-color-border: var(--dd-ink-chip-line);
+  --dd-color-border-strong: var(--dd-beige-300);
+  --dd-color-divider: var(--dd-ink-chip);
+  --dd-color-focus: var(--dd-yellow-200);
+}

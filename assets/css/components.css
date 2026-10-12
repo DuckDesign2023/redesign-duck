@@ -1,0 +1,432 @@
+/* ==========================================================================
+   duck.design — типографика, раскладка и базовые компоненты
+   Источник: Figma «duck.design | NEW», страницы UI kit и new components
+   (buttons 5207:3897, stacked input 5254:40992, floating input 5280:42814).
+   Требует tokens.css. Числа внутри компонентов — точные из макета;
+   шкала --dd-space-* — для раскладки страниц.
+
+   Классы .is-hover / .is-pressed / .is-active / .is-error повторяют
+   псевдоклассы: для JS и для статичного показа состояний в preview.html.
+   ========================================================================== */
+
+/* ---------- Заголовки ---------- */
+.dd-h-hero,
+.dd-h-huge,
+.dd-h1,
+.dd-h2,
+.dd-h3,
+.dd-h4,
+.dd-h5 {
+  margin: 0;
+  font-family: var(--dd-font-basic);
+  font-weight: 500;
+  color: var(--dd-color-text);
+}
+/* только первый экран главной: в макете 70/72, курсив 74/72 */
+.dd-h-hero { font-size: var(--dd-h-hero); line-height: var(--dd-h-hero-lh); letter-spacing: -.04em; }
+.dd-h-huge { font-size: var(--dd-h-huge); line-height: var(--dd-h-huge-lh); letter-spacing: -.04em; }
+.dd-h1 { font-size: var(--dd-h1); line-height: var(--dd-h1-lh); letter-spacing: -.04em; }
+.dd-h2 { font-size: var(--dd-h2); line-height: var(--dd-h2-lh); letter-spacing: -.03em; }
+.dd-h3 { font-size: var(--dd-h3); line-height: var(--dd-h3-lh); letter-spacing: -.03em; }
+.dd-h4 { font-size: var(--dd-h4); line-height: var(--dd-h4-lh); letter-spacing: -.03em; }
+.dd-h5 { font-size: var(--dd-h5); line-height: var(--dd-h5-lh); letter-spacing: -.03em; }
+
+/* Headlines-special/special-new-H2 и special-new-H4: Regular, плотнее по строке */
+.dd-h2--light { font-weight: 400; font-size: var(--dd-h2-light); line-height: var(--dd-h2-light-lh); letter-spacing: -.04em; }
+.dd-h4--light { font-weight: 400; line-height: var(--dd-h4-light-lh); }
+
+/* Акцентные слова внутри заголовка: *-fancy (Sentient Italic, кегль +1px) и *-tech */
+.dd-fancy {
+  font-family: var(--dd-font-fancy);
+  font-style: italic;
+  font-weight: 400;
+  font-size: calc(1em + .1rem);
+  line-height: 1; /* у Sentient другие метрики: без этого строка заголовка выше на 1 px */
+  letter-spacing: -.04em;
+}
+.dd-h5 .dd-fancy { font-size: 1em; }
+.dd-h-hero .dd-fancy { font-size: var(--dd-h-hero-fancy); }
+.dd-tech {
+  font-family: var(--dd-font-tech);
+  font-weight: 500;
+  letter-spacing: -.07em;
+}
+
+.dd-subh {
+  margin: 0;
+  font: 600 1.8rem/2.4rem var(--dd-font-basic);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--dd-color-text);
+}
+.dd-article-h {
+  margin: 0;
+  font: 500 2.1rem/2.7rem var(--dd-font-basic);
+  letter-spacing: -.02em;
+  color: var(--dd-color-text);
+}
+
+/* ---------- Текст ---------- */
+.dd-txt-1,
+.dd-txt-2,
+.dd-txt-3,
+.dd-txt-4,
+.dd-txt-5 {
+  margin: 0;
+  font-family: var(--dd-font-basic);
+  font-weight: 400;
+  color: var(--dd-color-text-body);
+}
+.dd-txt-1 { font-size: 2rem; line-height: 2.6rem; letter-spacing: -.01em; }
+.dd-txt-2 { font-size: 1.8rem; line-height: 2.6rem; letter-spacing: -.01em; }
+.dd-txt-3 { font-size: 1.6rem; line-height: 2.4rem; }
+.dd-txt-4 { font-size: 1.4rem; line-height: 2.1rem; }
+.dd-txt-5 { font-size: 1.2rem; line-height: 1.8rem; }
+.dd-txt--semi { font-weight: 600; }
+
+/* ---------- Раскладка ---------- */
+/* Тянется вместе с окном до --dd-frame, поля не меньше --dd-gutter. На 1440 контент 1300,
+   у --narrow 1200, как в макете; на 1820 и шире — 1680 и 1580, по центру. */
+.dd-container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+  padding-inline: var(--dd-gutter);
+}
+.dd-container--narrow { padding-inline: var(--dd-gutter-narrow); }
+.dd-section { padding-block: var(--dd-section-y); }
+
+/* Пунктир 3–3, как в макете (у border-style: dashed шаг другой) */
+.dd-divider {
+  height: .1rem;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--dd-color-divider) 0 .3rem, transparent .3rem .6rem);
+}
+
+/* ---------- Кнопка ---------- */
+.dd-btn {
+  --_h: 5.2rem;
+  --_pad: 1.6rem;
+  --_icon: 2rem;
+  --_label-pad: .6rem;
+  --_fs: 1.4rem;
+  --_lh: 1.4;
+  --_w-press: .3rem;
+  --_w-hover: .25rem;
+  --_w-halo: .6rem;
+  --_bg: transparent;
+  --_fg: var(--dd-neutral-1300);
+  --_ring: 0 0 0 0 transparent;
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--_h);
+  margin: 0;
+  padding: 0 var(--_pad);
+  border: 0;
+  border-radius: var(--dd-radius-pill);
+  background: var(--_bg);
+  box-shadow: var(--_ring);
+  color: var(--_fg);
+  font: 700 var(--_fs)/var(--_lh) var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background-color .15s, box-shadow .15s, color .15s;
+}
+.dd-btn__label { padding-inline: var(--_label-pad); }
+.dd-btn__icon { flex: none; width: var(--_icon); height: var(--_icon); }
+
+.dd-btn--l {
+  --_h: 6.4rem;
+  --_pad: 2.2rem;
+  --_icon: 2.4rem;
+  --_label-pad: .8rem;
+  --_fs: 1.6rem;
+  --_lh: 1.5;
+}
+.dd-btn--s {
+  --_h: 4.1rem;
+  --_pad: 1.2rem;
+  --_icon: 1.7rem;
+  --_label-pad: .4rem;
+  --_fs: 1.2rem;
+  --_w-press: .2rem;
+  --_w-hover: .2rem;
+  --_w-halo: .4rem;
+}
+/* только иконка — круг */
+.dd-btn--icon { width: var(--_h); padding: 0; }
+
+.dd-btn--yellow { --_bg: var(--dd-yellow-200); }
+.dd-btn--yellow:hover,
+.dd-btn--yellow.is-hover { --_bg: var(--dd-yellow-100); }
+.dd-btn--yellow:active,
+.dd-btn--yellow.is-pressed {
+  --_bg: var(--dd-yellow-100);
+  --_ring: inset 0 0 0 var(--_w-press) var(--dd-yellow-50);
+}
+
+.dd-btn--orange { --_bg: var(--dd-orange-100); }
+.dd-btn--orange:hover,
+.dd-btn--orange.is-hover { --_bg: linear-gradient(90deg, var(--dd-orange-100), var(--dd-yellow-200)); }
+.dd-btn--orange:active,
+.dd-btn--orange.is-pressed {
+  --_bg: linear-gradient(90deg, var(--dd-orange-100), var(--dd-yellow-200));
+  --_ring: inset 0 0 0 var(--_w-press) rgba(147, 60, 0, .25);
+}
+
+.dd-btn--white { --_bg: var(--dd-neutral-0); }
+.dd-btn--white:hover,
+.dd-btn--white.is-hover { --_ring: 0 0 0 .1rem var(--dd-beige-100); }
+.dd-btn--white:active,
+.dd-btn--white.is-pressed {
+  --_bg: var(--dd-beige-50);
+  --_ring: 0 0 0 .1rem var(--dd-beige-100);
+}
+
+.dd-btn--black {
+  --_bg: var(--dd-neutral-1300);
+  --_fg: var(--dd-neutral-0);
+}
+.dd-btn--black:hover,
+.dd-btn--black.is-hover { --_ring: 0 0 0 var(--_w-halo) rgba(4, 5, 6, .16); }
+.dd-btn--black:active,
+.dd-btn--black.is-pressed {
+  --_fg: var(--dd-neutral-400);
+  --_ring: 0 0 0 0 transparent;
+}
+
+.dd-btn--beige { --_bg: var(--dd-beige-100); }
+.dd-btn--beige:hover,
+.dd-btn--beige.is-hover { --_bg: var(--dd-beige-200); }
+.dd-btn--beige:active,
+.dd-btn--beige.is-pressed {
+  --_bg: var(--dd-beige-100);
+  --_fg: var(--dd-beige-400);
+}
+
+.dd-btn--stroke-heavy { --_ring: inset 0 0 0 .2rem var(--dd-neutral-1100); }
+.dd-btn--stroke-heavy:hover,
+.dd-btn--stroke-heavy.is-hover { --_ring: inset 0 0 0 var(--_w-hover) var(--dd-neutral-1300); }
+.dd-btn--stroke-heavy:active,
+.dd-btn--stroke-heavy.is-pressed { --_ring: inset 0 0 0 .2rem var(--dd-beige-200); }
+
+.dd-btn--stroke-light {
+  --_fg: var(--dd-neutral-1200);
+  --_ring: inset 0 0 0 .2rem var(--dd-beige-200);
+}
+.dd-btn--stroke-light:hover,
+.dd-btn--stroke-light.is-hover {
+  --_fg: var(--dd-neutral-1300);
+  --_ring: inset 0 0 0 var(--_w-hover) var(--dd-beige-300);
+}
+.dd-btn--stroke-light:active,
+.dd-btn--stroke-light.is-pressed {
+  --_fg: var(--dd-neutral-1100);
+  --_ring: inset 0 0 0 .2rem var(--dd-beige-100);
+}
+
+/* только на тёмной поверхности */
+.dd-btn--stroke-white {
+  --_fg: var(--dd-neutral-0);
+  --_ring: inset 0 0 0 .1rem var(--dd-neutral-0);
+}
+.dd-btn--stroke-white:hover,
+.dd-btn--stroke-white.is-hover { --_ring: inset 0 0 0 var(--_w-hover) var(--dd-neutral-0); }
+.dd-btn--stroke-white:active,
+.dd-btn--stroke-white.is-pressed {
+  --_ring: inset 0 0 0 .2rem var(--dd-neutral-100);
+  opacity: .4;
+}
+
+.dd-btn--ghost:hover,
+.dd-btn--ghost.is-hover,
+.dd-btn--ghost:active,
+.dd-btn--ghost.is-pressed { --_fg: var(--dd-yellow-0); }
+
+/* В Figma фокуса и disabled нет — добавлены для клавиатуры и форм */
+.dd-btn:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+.dd-btn:disabled,
+.dd-btn[aria-disabled="true"] {
+  opacity: .4;
+  pointer-events: none;
+}
+
+/* ---------- Поле: stacked input (светлая поверхность) ---------- */
+.dd-input {
+  --_icon: var(--dd-beige-400);
+  --_ph: var(--dd-beige-400);
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  height: 4.8rem;
+  padding: 0 1.4rem;
+  border-radius: var(--dd-radius-md);
+  background: var(--dd-beige-50);
+  box-shadow: inset 0 0 0 .1rem var(--dd-beige-100);
+  color: var(--_icon);
+  cursor: text;
+  transition: box-shadow .15s, color .15s;
+}
+.dd-input__icon { flex: none; width: 2rem; height: 2rem; }
+.dd-input__control {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0 .8rem;
+  border: 0;
+  outline: 0;
+  background: none;
+  font: 500 1.6rem/2rem var(--dd-font-basic);
+  color: var(--dd-neutral-1300);
+}
+.dd-input__control::placeholder { color: var(--_ph); opacity: 1; }
+
+.dd-input:hover,
+.dd-input.is-hover {
+  --_icon: var(--dd-neutral-1100);
+  --_ph: var(--dd-neutral-1100);
+  box-shadow: 0 0 0 .2rem var(--dd-beige-100);
+}
+/* :where — чтобы «заполнено» по специфичности не перебивало фокус и ошибку */
+.dd-input:has(.dd-input__control:where(:not(:placeholder-shown))) {
+  --_icon: var(--dd-neutral-1300);
+  box-shadow: 0 0 0 .15rem var(--dd-beige-200);
+}
+.dd-input:focus-within,
+.dd-input.is-active {
+  --_icon: var(--dd-neutral-1300);
+  --_ph: var(--dd-beige-400);
+  box-shadow: 0 0 0 .2rem var(--dd-beige-300);
+}
+.dd-input.is-error,
+.dd-input:has([aria-invalid="true"]) {
+  --_icon: var(--dd-neutral-1300);
+  box-shadow: 0 0 0 .15rem var(--dd-error);
+}
+.dd-input:has(:disabled) {
+  --_icon: var(--dd-beige-300);
+  --_ph: var(--dd-beige-300);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.dd-input:has(:disabled) .dd-input__control { color: var(--dd-beige-300); }
+
+/* ---------- Поле: floating input (тёмная поверхность, подчёркивание) ---------- */
+.dd-field {
+  --_line: rgba(255, 255, 255, .2);
+  --_label: rgba(255, 255, 255, .6);
+  --_icon-op: .6;
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start; /* в макете иконка прижата к верху, на уровень подписи */
+  height: 5.2rem;
+  padding: 0 .2rem;
+  border-bottom: .1rem solid var(--_line);
+  color: var(--dd-neutral-0);
+  cursor: text;
+  transition: border-color .15s;
+}
+.dd-field__control {
+  box-sizing: border-box;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 2.15rem .4rem .55rem;
+  border: 0;
+  outline: 0;
+  background: none;
+  font: 400 1.6rem/2.4rem var(--dd-font-basic);
+  color: var(--dd-neutral-0);
+}
+.dd-field__label {
+  position: absolute;
+  left: .6rem;
+  top: 1.4rem;
+  font: 400 1.6rem/2.4rem var(--dd-font-basic);
+  color: var(--_label);
+  pointer-events: none;
+  transition: top .15s, font-size .15s, color .15s;
+}
+.dd-field__icon { flex: none; width: 2rem; height: 2rem; opacity: var(--_icon-op); }
+
+/* подпись уезжает вверх: стиль «placeholder» 11/11, +4 %, капс */
+.dd-field:focus-within .dd-field__label,
+.dd-field.is-active .dd-field__label,
+.dd-field:has(.dd-field__control:where(:not(:placeholder-shown))) .dd-field__label {
+  top: .65rem;
+  font-weight: 500;
+  font-size: 1.1rem;
+  line-height: 1.1rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.dd-field:hover,
+.dd-field.is-hover {
+  --_line: rgba(255, 255, 255, .4);
+  --_label: rgba(255, 255, 255, .9);
+  --_icon-op: 1;
+}
+.dd-field:has(.dd-field__control:where(:not(:placeholder-shown))) {
+  --_line: rgba(255, 255, 255, .4);
+  --_label: rgba(255, 255, 255, .6);
+  --_icon-op: 1;
+}
+.dd-field:focus-within,
+.dd-field.is-active {
+  --_line: var(--dd-yellow-200);
+  --_label: var(--dd-yellow-100);
+  --_icon-op: 1;
+}
+.dd-field.is-error,
+.dd-field:has([aria-invalid="true"]) {
+  --_line: var(--dd-red-300);
+  --_label: var(--dd-red-300);
+  --_icon-op: 1;
+}
+.dd-field.is-error .dd-field__icon,
+.dd-field:has([aria-invalid="true"]) .dd-field__icon { color: var(--dd-red-300); }
+.dd-field:has(:disabled) {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+/* ---------- Плашка над заголовком ---------- */
+.dd-eyebrow {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  height: 3.9rem;
+  padding: .8rem 1.5rem .7rem 1rem;
+  border-radius: var(--dd-radius-pill);
+  background: var(--dd-color-surface-muted);
+  color: var(--dd-color-text);
+  font: italic 500 1.6rem/1.5 var(--dd-font-fancy);
+  letter-spacing: -.03em;
+}
+.dd-eyebrow__icon { flex: none; width: 2.4rem; height: 2.4rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-btn,
+  .dd-input,
+  .dd-field,
+  .dd-field__label { transition: none; }
+}

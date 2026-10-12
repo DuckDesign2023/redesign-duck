@@ -1,0 +1,78 @@
+/* ==========================================================================
+   duck.design — основа страницы: шрифты, корень, тело, служебные классы.
+   Требует tokens.css. Шрифты — те же файлы, что в теме newduckdesign
+   (css/fonts/): Inter 400/500/600/700 и Sentient Variable Italic.
+   ========================================================================== */
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/Inter-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/Inter-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/Inter-SemiBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/Inter-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Sentient Variable';
+  font-style: italic;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url('../fonts/Sentient-VariableItalic.woff2') format('woff2');
+}
+
+/* 1rem = 10px, как в теме. Место под полосу прокрутки занято всегда: страница не сдвигается,
+   когда раскрытый бургер запирает прокрутку */
+html {
+  font-size: .625em;
+  scrollbar-gutter: stable;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--dd-color-bg);
+  color: var(--dd-color-text-body);
+  font: 400 1.6rem/2.4rem var(--dd-font-basic);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Текст только для скринридера */
+.dd-visually-hidden {
+  position: absolute;
+  width: .1rem;
+  height: .1rem;
+  margin: -.1rem;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Ссылка обхода шапки: первый фокус страницы, видна только в фокусе. В Figma её нет */
+.dd-skip-link {
+  position: absolute;
+  left: -999rem;
+  top: 1rem;
+  z-index: 100;
+}
+.dd-skip-link:focus {
+  left: 1rem;
+}

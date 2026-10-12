@@ -1,0 +1,1808 @@
+/* ==========================================================================
+   duck.design — общие блоки страниц. Часть 1 — сразу ниже, часть 2 — во второй половине файла
+   Источник: Figma «duck.design | NEW», страница Capabilities: 1440 branding 5727:3895
+   и 375 branding 5910:15408. Компоненты: small testimonial 5576:18559,
+   case preview 5384:55132, article preview 5359:54918.
+   Требует tokens.css и components.css (заголовки, текст, кнопки).
+
+   Блок собран точно по макету: поля, интервалы и радиусы у каждого свои.
+   На 1440 и 375 совпадает с макетом. Между 834 и 1319 стоит настольная раскладка
+   с полем страницы 30 — макета на эту ширину нет. Шире 1440 блок тянется до
+   предела сетки --dd-frame и дальше стоит по центру: растут колонки, карточки
+   и картинки, кегли и поля те же.
+
+   Поведение — site/assets/js/blocks.js: стрелки ленты отзывов.
+   ========================================================================== */
+
+/* Лист блока: до предела сетки, дальше по центру. Поля у каждого блока свои */
+.dd-logos,
+.dd-media,
+.dd-testimonials__top,
+.dd-awards,
+.dd-cases,
+.dd-cta,
+.dd-posts {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+}
+
+/* ---------- О1. Логотипы клиентов — 5746:20063 · 375: 5910:15438 ---------- */
+/* Ширина логотипа записана в разметке: --w на настольной ширине, --w-s на 375.
+   В макете логотипы уменьшены каждый по-своему, общего коэффициента нет */
+.dd-logos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 1.2rem;
+}
+.dd-logos__title {
+  margin: 0;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--dd-ink-label);
+}
+.dd-logos__list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-logos__list img {
+  display: block;
+  width: calc(var(--w-s) * .1rem);
+  height: auto;
+}
+
+@media (min-width: 834px) {
+  /* подпись и логотипы стоят в одном ряду и делят свободное место поровну */
+  .dd-logos {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 3rem;
+    padding: 4rem 3rem;
+  }
+  .dd-logos__list { display: contents; }
+  .dd-logos__list img { width: calc(var(--w) * .1rem); }
+}
+@media (min-width: 1320px) {
+  .dd-logos { padding-inline: 7rem; }
+}
+
+/* ---------- О2. Картинка + текст — 5728:9785 · 375: 5910:15471 ---------- */
+/* Пара — .dd-media__row: в разметке сначала текст, потом картинка. До 834 они так и стоят,
+   картинка на всю ширину окна. От 834 картинка слева; .dd-media__row--reverse — справа.
+   Строка над заголовком и кнопка необязательны */
+.dd-media {
+  display: flex;
+  flex-direction: column;
+}
+.dd-media__row {
+  display: grid;
+  gap: 1.6rem;
+}
+.dd-media__body {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  padding: 3.2rem 1.4rem 1.4rem;
+}
+.dd-media__head {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-inline: .6rem;
+}
+.dd-media__eyebrow {
+  margin: 0;
+  font: 700 1.4rem/2rem var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dd-orange-0);
+}
+.dd-media__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  padding: 0 2.6rem 0 .6rem;
+}
+.dd-media__lead {
+  margin: 0;
+  font: 400 2.2rem/3rem var(--dd-font-basic);
+  letter-spacing: -.03em;
+  color: var(--dd-color-text);
+}
+.dd-media__paras {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  text-wrap: pretty;
+}
+.dd-media__paras p { color: var(--dd-color-text); }
+.dd-media__cta {
+  align-self: flex-start;
+  margin-top: 1.2rem; /* от текста до кнопки 30 */
+}
+.dd-media__figure {
+  margin: 0;
+  overflow: hidden;
+  aspect-ratio: 615 / 440;
+  background: var(--dd-beige-100);
+}
+.dd-media__figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 834px) {
+  .dd-media {
+    gap: 6rem;
+    padding: 5rem 3rem 6rem;
+  }
+  /* две равные колонки: сетка, а не flex — у текста есть поля, и flex делит место не поровну */
+  .dd-media__row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    gap: 3rem;
+  }
+  .dd-media__body {
+    gap: 3rem;
+    padding: 1.8rem;
+  }
+  .dd-media__text { padding-right: 4.6rem; }
+  .dd-media__cta { margin-top: 0; }
+  .dd-media__figure {
+    order: -1;
+    border-radius: 1.6rem;
+  }
+  .dd-media__row--reverse .dd-media__figure { order: 0; }
+}
+@media (min-width: 1320px) {
+  .dd-media {
+    gap: 9rem;
+    padding-inline: 9rem;
+  }
+}
+
+/* ---------- О3. Отзывы и награды — 5737:19551 · 375: 5910:15754 ---------- */
+/* Лента карточек выходит за правый край окна. До 834 её листают пальцем, кнопка «View on
+   Clutch» стоит под лентой во всю ширину. От 834 кнопка и стрелки ленты — в ряду заголовка.
+   Секция идёт на всё окно: по листу стоят заголовок и награды, лента — до края окна */
+.dd-testimonials {
+  container-type: inline-size; /* 100cqw — ширина секции без полосы прокрутки */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding-block: 3rem;
+  overflow: hidden;
+  overflow: clip;
+}
+/* жёлтое пятно за заголовком: эллипс 231 × 157, размытие 229,6, прозрачность 60 % */
+.dd-testimonials__glow {
+  position: absolute;
+  left: 69.25%;
+  top: 13.66rem;
+  width: 23.07rem;
+  height: 15.73rem;
+  border-radius: 50%;
+  background: var(--dd-yellow-100);
+  opacity: .6;
+  filter: blur(11.48rem);
+  pointer-events: none;
+}
+.dd-testimonials__top { display: contents; }
+.dd-testimonials__title {
+  position: relative;
+  order: 1;
+  padding-inline: 2rem;
+}
+.dd-testimonials__ribbon {
+  position: relative;
+  order: 2;
+}
+.dd-testimonials__actions {
+  position: relative;
+  order: 3;
+  padding-inline: 1.4rem;
+}
+.dd-testimonials__clutch { width: 100%; }
+.dd-testimonials__arrows { display: none; }
+.dd-testimonials__scroller {
+  --_edge: 1.4rem;
+
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--_edge);
+  scrollbar-width: none;
+}
+.dd-testimonials__scroller::-webkit-scrollbar { display: none; }
+.dd-testimonials__scroller:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: -.2rem;
+}
+.dd-testimonials__track {
+  box-sizing: border-box;
+  display: flex;
+  gap: 1.2rem;
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
+  padding: 0 var(--_edge);
+  list-style: none;
+}
+
+/* Карточка отзыва — small testimonial, вид Variant2: две белые плитки встык, между ними пунктир */
+.dd-testimonial {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  width: 29.1rem;
+  min-height: 45rem;
+  scroll-snap-align: start;
+}
+.dd-testimonial__main,
+.dd-testimonial__meta {
+  display: flex;
+  flex-direction: column;
+  padding: 1.8rem;
+  border-radius: 1.4rem;
+  background: var(--dd-neutral-0);
+}
+.dd-testimonial__main {
+  flex: 1;
+  gap: 2.4rem;
+}
+.dd-testimonial__meta {
+  position: relative;
+  gap: .6rem;
+}
+.dd-testimonial__meta::before {
+  content: "";
+  position: absolute;
+  inset: -.05rem 1.4rem auto;
+  height: .1rem;
+  background: repeating-linear-gradient(90deg, var(--dd-line-dash-soft) 0 .4rem, transparent .4rem .8rem);
+}
+.dd-testimonial__person {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.dd-testimonial__photo {
+  flex: none;
+  width: 5.1rem;
+  height: 5.1rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.dd-testimonial__name {
+  margin: 0 0 .2rem;
+  font: 600 1.6rem/2.4rem var(--dd-font-basic);
+  color: var(--dd-neutral-1300);
+}
+.dd-testimonial__role {
+  margin: 0;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-neutral-1000);
+}
+.dd-testimonial__rating {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  margin: 0;
+  font: italic 400 1.4rem/1.6rem var(--dd-font-fancy);
+  color: var(--dd-beige-400);
+}
+.dd-testimonial__stars {
+  flex: none;
+  width: 9.8rem;
+  height: 1.8rem;
+  color: var(--dd-yellow-50);
+}
+.dd-testimonial__quote {
+  margin: 0;
+  font: 500 1.8rem/2.4rem var(--dd-font-basic);
+  letter-spacing: -.02em;
+  text-wrap: balance; /* в макете строки цитаты выровнены по длине */
+  color: var(--dd-neutral-1300);
+}
+.dd-testimonial__label {
+  margin: 0;
+  font: 700 1.2rem/1.7rem var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dd-yellow-0);
+}
+.dd-testimonial__service {
+  margin: 0;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-neutral-1300);
+}
+
+/* Награды: значок в жёлтом круге, логотип площадки, подпись */
+.dd-awards {
+  position: relative;
+  order: 4;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+  margin-block: 0;
+  padding: 0 2.4rem;
+  list-style: none;
+}
+.dd-award {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  justify-self: center;
+  width: 100%;
+  max-width: 15rem; /* в макете 375 плитка 150: подпись ложится в четыре строки */
+  padding-inline: 1.4rem;
+  text-align: center;
+}
+.dd-award__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  background: var(--dd-yellow-100);
+}
+.dd-award__icon img {
+  width: 2rem;
+  height: 2rem;
+}
+.dd-award__logo {
+  display: block;
+  height: 2.8rem;
+  width: auto;
+  margin: 0 auto 1rem;
+}
+.dd-award__text {
+  margin: 0;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-neutral-1100);
+}
+
+@media (min-width: 834px) {
+  .dd-testimonials {
+    gap: 6rem;
+    padding-block: 8rem 6rem;
+  }
+  .dd-testimonials__glow { left: 45.65%; }
+  .dd-testimonials__top {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    padding-inline: 3rem;
+  }
+  .dd-testimonials__title {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+  }
+  .dd-testimonials__actions {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+    padding: .6rem 0;
+  }
+  /* кнопка размера S, как в макете 1440 */
+  .dd-testimonials__clutch {
+    --_h: 4.1rem;
+    --_pad: 1.2rem;
+    --_icon: 1.7rem;
+    --_label-pad: .4rem;
+    --_fs: 1.2rem;
+    --_w-hover: .2rem;
+
+    width: auto;
+  }
+  .dd-testimonials__arrows {
+    display: flex;
+    gap: 1rem;
+  }
+  .dd-testimonials__ribbon { padding-bottom: 2rem; }
+  /* правый край ленты уходит в фон страницы: градиент 160 от прозрачного к Beige-50 */
+  .dd-testimonials__ribbon::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 2rem auto;
+    width: 16rem;
+    background: linear-gradient(90deg, rgba(246, 243, 237, 0), var(--dd-beige-50));
+    pointer-events: none;
+    transition: opacity .2s;
+  }
+  .dd-testimonials.is-end .dd-testimonials__ribbon::after { opacity: 0; }
+  .dd-testimonials__scroller { --_edge: 3rem; }
+  .dd-testimonial {
+    width: 34.8rem;
+    min-height: 48rem;
+  }
+  .dd-testimonial__main,
+  .dd-testimonial__meta { padding: 2.8rem; }
+  .dd-awards {
+    display: flex;
+    padding-inline: 3rem;
+  }
+  .dd-award {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-testimonials { padding-top: 12rem; }
+  .dd-testimonials__top { padding-inline: 12rem 11rem; }
+  .dd-testimonials__scroller { --_edge: 8rem; }
+  .dd-awards {
+    gap: 6rem;
+    padding-inline: 10rem;
+  }
+  /* на окне шире листа первая карточка стоит под заголовком, а не у края окна */
+  @supports (width: 1cqw) {
+    .dd-testimonials__scroller { --_edge: max(8rem, calc((100cqw - var(--dd-frame)) / 2 + 8rem)); }
+  }
+}
+/* без скрипта стрелок нет, лента листается как обычная прокрутка */
+@media (scripting: none) {
+  .dd-testimonials__arrows { display: none; }
+  .dd-testimonials__ribbon::after { content: none; }
+}
+
+/* ---------- О4. Три кейса — 5737:19766 · 375: 5910:15833 ---------- */
+/* До 834 карточки столбцом, кнопка под ними во всю ширину. От 834 — три в ряд, кнопка
+   справа от заголовка */
+.dd-cases {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 3rem 1.2rem;
+}
+.dd-cases__top { display: contents; }
+.dd-cases__title {
+  order: 1;
+  padding-inline: 1.2rem;
+  text-wrap: balance; /* на ширинах без макета заголовок не оставляет одно слово в строке */
+}
+.dd-cases__list {
+  order: 2;
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-cases__more { order: 3; }
+
+/* Карточка кейса — case preview: обложка на всю карточку, внизу полоса с размытием фона.
+   Наведение и фокус раскрывают описание и показывают круг со стрелкой */
+.dd-case-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 404 / 558;
+  border-radius: .8rem;
+  background: var(--dd-neutral-1200); /* пока обложка не загрузилась, белое название читается */
+  color: var(--dd-neutral-0);
+  text-decoration: none;
+}
+.dd-case-card:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+.dd-case-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.dd-case-card__go,
+.dd-post-card__go {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--dd-neutral-50);
+  color: var(--dd-neutral-1300);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.dd-case-card__go {
+  width: 4.6rem;
+  height: 4.6rem;
+}
+.dd-case-card__go svg,
+.dd-post-card__go svg {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+.dd-case-card__panel {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  padding: 2.6rem;
+  background: linear-gradient(180deg, rgba(133, 133, 133, .01), rgba(133, 133, 133, .02));
+}
+/* размытие обложки под полосой нарастает сверху вниз — в макете от 0 у верха полосы до 30 у низа.
+   Два слоя с масками: слабое размытие входит с верха полосы, сильное — с её пятой части */
+.dd-case-card__panel::before,
+.dd-case-card__panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.dd-case-card__panel::before {
+  -webkit-backdrop-filter: blur(.5rem);
+  backdrop-filter: blur(.5rem);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 35%);
+  mask-image: linear-gradient(180deg, transparent, #000 35%);
+}
+.dd-case-card__panel::after {
+  -webkit-backdrop-filter: blur(1.4rem);
+  backdrop-filter: blur(1.4rem);
+  -webkit-mask-image: linear-gradient(180deg, transparent 20%, #000 75%);
+  mask-image: linear-gradient(180deg, transparent 20%, #000 75%);
+}
+.dd-case-card__title {
+  position: relative;
+  z-index: 1;
+  color: inherit;
+}
+/* описание: строка сетки 0fr → 1fr, чтобы высота менялась плавно */
+.dd-case-card__more {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .25s;
+}
+.dd-case-card__text {
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+}
+.dd-case-card__text::before {
+  content: "";
+  display: block;
+  height: 1.2rem;
+}
+.dd-case-card:focus-visible .dd-case-card__go,
+.dd-case-card.is-hover .dd-case-card__go { opacity: 1; }
+.dd-case-card:focus-visible .dd-case-card__more,
+.dd-case-card.is-hover .dd-case-card__more { grid-template-rows: 1fr; }
+@media (hover: hover) {
+  .dd-case-card:hover .dd-case-card__go { opacity: 1; }
+  .dd-case-card:hover .dd-case-card__more { grid-template-rows: 1fr; }
+}
+
+@media (min-width: 834px) {
+  .dd-cases {
+    gap: 6rem;
+    padding: 6rem 3rem;
+  }
+  .dd-cases__top {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    padding-inline: 2rem;
+  }
+  .dd-cases__title {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+  }
+  .dd-cases__more { flex: none; }
+  .dd-cases__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.4rem;
+  }
+  .dd-case-card { border-radius: 1.8rem; }
+}
+@media (min-width: 1320px) {
+  .dd-cases { padding: 9rem 10rem; }
+}
+
+/* ---------- О7. Карточка-призыв с утками — 5727:4529 · 375: 5910:15854 ---------- */
+/* До 834 карточка на всё окно, без радиуса и без мазка. От 834 — со скруглением 31
+   и отступом 20 от краёв */
+.dd-cta-card {
+  --dd-color-text: var(--dd-neutral-0);
+  --dd-color-text-body: var(--dd-neutral-0);
+  --dd-color-focus: var(--dd-yellow-200);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  padding: 4rem 2rem;
+  overflow: hidden;
+  /* радиальный градиент макета: центр вверху посередине, радиусы 89,6 % ширины и 100 % высоты */
+  background: radial-gradient(89.6% 100% at 50% 0, var(--dd-orange-100) 0, #871d1d 60%, #380d0d 100%);
+  text-align: center;
+}
+/* три плитки с уткой: группа 368 × 154, плитки стоят по своим центрам */
+.dd-cta-card__ducks {
+  position: relative;
+  flex: none;
+  width: 36.794rem;
+  height: 15.421rem;
+}
+.dd-duck {
+  --_fill: rgba(26, 21, 21, .21);
+  --_line: rgba(37, 29, 29, .15);
+  --_inner: linear-gradient(180deg, rgba(15, 7, 7, .95), rgba(15, 7, 7, .85));
+  --_inner-line: #171111;
+  --dd-duck-wing: #daa51c;
+
+  position: absolute;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12.8em;
+  height: 12.8em;
+  border-radius: 2.8em;
+  background: var(--_fill);
+  box-shadow: inset 0 0 0 .1em var(--_line);
+  -webkit-backdrop-filter: blur(.565em);
+  backdrop-filter: blur(.565em);
+  color: var(--dd-neutral-0);
+}
+.dd-duck::before {
+  content: "";
+  position: absolute;
+  inset: 1.3em;
+  border-radius: 2em;
+  background: var(--_inner);
+  box-shadow: 0 0 0 .1em var(--_inner-line);
+}
+.dd-duck svg {
+  position: relative;
+  width: 6.2785em;
+  height: 6.1343em;
+}
+.dd-duck--right {
+  left: 22.99rem;
+  top: 1.616rem;
+  font-size: .95215rem;
+  transform: rotate(18.4675deg);
+}
+.dd-duck--left {
+  left: 1.627rem;
+  top: 2.06rem;
+  font-size: .88277rem;
+  transform: rotate(-20.616deg);
+}
+.dd-duck--center {
+  --_fill: rgba(255, 255, 255, .21);
+  --_line: rgba(255, 255, 255, .15);
+  --_inner: linear-gradient(180deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .85));
+  --_inner-line: var(--dd-neutral-0);
+  --dd-duck-wing: #f0ba2f;
+
+  left: 11.294rem;
+  top: .401rem;
+  font-size: 1rem;
+  color: #000;
+}
+.dd-cta-card__text {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  width: 100%;
+}
+.dd-cta-card__go {
+  position: relative;
+  display: flex;
+  gap: .4rem;
+  width: 100%;
+  max-width: 62rem;
+  border-radius: var(--dd-radius-pill);
+  text-decoration: none;
+}
+.dd-cta-card__go:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .3rem;
+}
+.dd-cta-card__go .dd-btn--white { flex: 1; }
+/* ссылка одна, кнопок в ней две: состояния у них общие */
+.dd-cta-card__go:hover .dd-btn--white { --_ring: 0 0 0 .1rem var(--dd-beige-100); }
+.dd-cta-card__go:hover .dd-btn--yellow { --_bg: var(--dd-yellow-100); }
+.dd-cta-card__go:active .dd-btn--white { --_bg: var(--dd-beige-50); }
+.dd-cta-card__go:active .dd-btn--yellow { --_ring: inset 0 0 0 var(--_w-press) var(--dd-yellow-50); }
+
+@media (min-width: 834px) {
+  .dd-cta { padding: 2rem; }
+  .dd-cta-card {
+    padding: 8rem 4rem 6rem;
+    border-radius: 3.1rem;
+  }
+  /* мазок: картинка 1400 × 285, в макете лежит от верхнего левого угла карточки 1400.
+     Стоит по центру карточки в своём размере и не тянется: на любой ширине проходит
+     за утками и над заголовком, как в макете. Сверху у карточки здесь 80, а не 100 — мазок выше на 20 */
+  .dd-cta-card::before {
+    content: "";
+    position: absolute;
+    top: -2rem;
+    left: 50%;
+    width: 140rem;
+    height: 28.5rem;
+    background: url('../img/blocks/cta-card/swoosh.webp') 0 0 / 100% 100% no-repeat;
+    pointer-events: none;
+    transform: translateX(-50%);
+  }
+  .dd-cta-card__text { padding-bottom: 2rem; }
+  /* в макете текст в два абзаца, между ними 10 */
+  .dd-cta-card__lead span { display: block; }
+  .dd-cta-card__lead span + span { margin-top: 1rem; }
+  .dd-cta-card__go { gap: .6rem; }
+}
+@media (min-width: 1320px) {
+  .dd-cta-card { padding: 10rem 14rem 8rem; }
+  .dd-cta-card::before { top: 0; }
+}
+
+/* ---------- О8. Три превью блога — 5727:4587 · 375: 5910:15885 ---------- */
+.dd-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 3rem 1.6rem;
+}
+.dd-posts__top { display: contents; }
+.dd-posts__title {
+  order: 1;
+  padding-inline: 1rem;
+}
+.dd-posts__list {
+  order: 2;
+  display: grid;
+  gap: 1.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-posts__more { order: 3; }
+
+/* Превью статьи — article preview. Наведение и фокус: заголовок Yellow-0, на обложке круг со стрелкой */
+.dd-post-card {
+  display: block;
+  border-radius: .8rem;
+  color: var(--dd-neutral-1300);
+  text-decoration: none;
+}
+.dd-post-card:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+.dd-post-card__media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 404 / 236.4;
+  border-radius: .8rem;
+  background: var(--dd-beige-100);
+}
+.dd-post-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.dd-post-card__go {
+  width: 3.4rem;
+  height: 3.4rem;
+}
+.dd-post-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  padding: 1.6rem 1.4rem;
+}
+.dd-post-card__date {
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-beige-400);
+}
+.dd-post-card__title {
+  color: inherit;
+  transition: color .15s;
+}
+.dd-post-card:focus-visible .dd-post-card__go,
+.dd-post-card.is-hover .dd-post-card__go { opacity: 1; }
+.dd-post-card:focus-visible .dd-post-card__title,
+.dd-post-card.is-hover .dd-post-card__title { color: var(--dd-yellow-0); }
+@media (hover: hover) {
+  .dd-post-card:hover .dd-post-card__go { opacity: 1; }
+  .dd-post-card:hover .dd-post-card__title { color: var(--dd-yellow-0); }
+}
+
+@media (min-width: 834px) {
+  .dd-posts {
+    gap: 6rem;
+    padding: 6rem 3rem;
+  }
+  .dd-posts__top {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    padding-inline: 1rem;
+  }
+  .dd-posts__title {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+  }
+  .dd-posts__more { flex: none; }
+  .dd-posts__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1320px) {
+  .dd-posts { padding-inline: 10rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-testimonials__ribbon::after,
+  .dd-case-card__go,
+  .dd-post-card__go,
+  .dd-case-card__more,
+  .dd-post-card__title { transition: none; }
+}
+
+/* ==========================================================================
+   Общие блоки, часть 2
+   Источник: те же макеты Capabilities — 1440 branding 5727:3895 и 375 branding 5910:15408.
+   Тизер с вкладками категорий — Pricing 5568:15143 (макета 375 у него нет).
+   Вопрос FAQ — компонент faqs 2200:3404 со страницы Partner.
+
+   Поведение — site/assets/js/blocks.js: вкладки и лента тизера, раскрытие вопросов.
+   Переключатель срока в тарифе работает без скрипта.
+   ========================================================================== */
+
+.dd-works,
+.dd-plan,
+.dd-pitch,
+.dd-benefits,
+.dd-faq {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+}
+
+/* ---------- О9. Тизер портфолио — 5727:4412 · 375: 5910:15619 · с вкладками: 5568:15143 ---------- */
+/* Три работы в ряд. До 834 ряд — лента на всё окно: по центру одна работа, соседние видны
+   краями, листается пальцем. Вид с вкладками (.dd-works__tabs) — по ряду на категорию */
+.dd-works {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 3rem 1.6rem;
+}
+.dd-works__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+.dd-works__eyebrow {
+  margin: 0;
+  font: 700 1.6rem/2.4rem var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dd-orange-50);
+}
+/* до 834 каждая часть заголовка стоит своей строкой, как в макете 375 */
+.dd-works__title span { display: block; }
+.dd-works__title .dd-fancy { line-height: inherit; }
+.dd-works__sub {
+  margin: 0;
+  font: 400 1.8rem/2.7rem var(--dd-font-basic);
+  color: var(--dd-color-text-body);
+}
+
+/* вкладки категорий: ряд листается, пока не помещается; активная — оранжевая черта 2 */
+.dd-works__tabs {
+  align-self: stretch;
+  display: flex;
+  gap: 2rem;
+  margin-inline: -1.6rem;
+  padding-inline: 1.6rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: linear-gradient(var(--dd-beige-100) 0 0) bottom / 100% .1rem no-repeat;
+}
+.dd-works__tabs::-webkit-scrollbar { display: none; }
+.dd-works__tab {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin: 0;
+  padding: 1rem .6rem;
+  border: 0;
+  background: linear-gradient(var(--_line, transparent) 0 0) bottom / 100% .2rem no-repeat;
+  font: 600 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-neutral-1100);
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+/* ряд стоит по центру, пока помещается; не помещается — начинается с первой вкладки */
+.dd-works__tab:first-child { margin-left: auto; }
+.dd-works__tab:last-child { margin-right: auto; }
+.dd-works__tab img {
+  flex: none;
+  width: 1.8rem;
+  height: 1.8rem;
+}
+.dd-works__tab[aria-selected="true"] { --_line: var(--dd-orange-50); }
+.dd-works__tab:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: -.2rem;
+}
+@media (hover: hover) {
+  .dd-works__tab:not([aria-selected="true"]):hover { --_line: var(--dd-beige-200); }
+}
+.dd-works__panel {
+  align-self: stretch;
+  min-width: 0;
+}
+
+.dd-works__ribbon {
+  container-type: inline-size; /* 50cqw — середина ленты */
+  align-self: stretch;
+  margin-inline: -1.6rem;
+  padding-bottom: 2rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.dd-works__ribbon::-webkit-scrollbar { display: none; }
+.dd-works__ribbon:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: -.2rem;
+}
+.dd-works__list {
+  display: flex;
+  gap: .8rem;
+  width: max-content;
+  margin: 0;
+  padding: 0 4.4rem; /* на 375: работа 287 стоит по центру окна */
+  list-style: none;
+}
+@supports (width: 1cqw) {
+  .dd-works__list { padding-inline: max(1.6rem, calc(50cqw - 14.35rem)); }
+}
+.dd-works__list li {
+  flex: none;
+  width: 28.7rem;
+  scroll-snap-align: center;
+}
+.dd-works__list img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  border-radius: .4rem;
+  background: var(--dd-beige-100);
+  object-fit: cover;
+}
+.dd-works__more { align-self: stretch; }
+
+@media (min-width: 834px) {
+  .dd-works {
+    gap: 5rem;
+    padding: 6rem 3rem;
+  }
+  .dd-works__head {
+    align-self: stretch;
+    padding-inline: 1.5rem;
+  }
+  .dd-works__title span { display: inline; }
+  .dd-works__title .dd-fancy { line-height: 1; }
+  .dd-works__tabs {
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+  .dd-works__ribbon {
+    margin-inline: 0;
+    padding-bottom: 0;
+    overflow: visible;
+  }
+  .dd-works__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.2rem;
+    width: auto;
+    padding: 0;
+  }
+  .dd-works__list li { width: auto; }
+  .dd-works__more {
+    align-self: center;
+    width: 30rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-works { padding: 7rem 12rem 6rem; }
+}
+/* без скрипта вкладок нет: блок показывает первую категорию */
+@media (scripting: none) {
+  .dd-works__tabs { display: none; }
+}
+
+/* ---------- О17. Один тариф — 5730:18732 · 375: 5910:15631 ---------- */
+/* Слева карточка тарифа на картинке: название, заголовок, переключатель срока и белая панель
+   с ценой. Справа белая карточка со списком. До 1320 карточки стоят столбцом.
+   Срок — три радиокнопки; цена своя на каждый срок, показывает её CSS */
+.dd-plan {
+  display: grid;
+  gap: .8rem;
+  padding: 4rem 1.2rem;
+}
+.dd-plan__card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.7rem;
+  min-width: 0;
+  padding: .8rem;
+  border-radius: 1.2rem;
+  /* тёмная подложка: пока картинка не загрузилась, белый текст читается */
+  background: var(--dd-orange-0) url('../img/blocks/plan/bg-1160.jpg') center / cover no-repeat;
+}
+@media (min-resolution: 1.5dppx) {
+  .dd-plan__card { background-image: url('../img/blocks/plan/bg.jpg'); }
+}
+.dd-plan__intro {
+  --dd-color-text: var(--dd-neutral-0);
+  --dd-color-text-body: var(--dd-neutral-0);
+
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  padding: 1.8rem 2rem;
+}
+.dd-plan__headline {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+.dd-plan__name {
+  margin: 0;
+  font: 600 1.8rem/2.6rem var(--dd-font-basic);
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+  color: var(--dd-neutral-0);
+}
+.dd-plan__lead { opacity: .9; }
+.dd-plan__buy {
+  display: flex;
+  flex-direction: column;
+}
+/* вкладки срока: выбранная — белая, со скруглением 14 сверху и галтелями 18 к панели */
+.dd-plan__terms {
+  display: flex;
+  justify-content: center;
+  gap: clamp(.4rem, 9.6vw - 2.4rem, 1.2rem); /* 12 на 375; на 320 ряд сжимается до ширины панели */
+}
+.dd-plan__term {
+  position: relative;
+  flex: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 5.1rem;
+  padding: .6rem clamp(1rem, 7.2vw - .9rem, 1.8rem);
+  border-radius: 1.4rem 1.4rem 0 0;
+  color: var(--dd-neutral-0);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.dd-plan__term-name { font: 600 1.4rem/2.1rem var(--dd-font-basic); }
+.dd-plan__term-off {
+  font: 400 1.2rem/1.8rem var(--dd-font-basic);
+  color: var(--dd-neutral-200);
+}
+.dd-plan__term:has(:checked) {
+  background: var(--dd-neutral-0);
+  color: var(--dd-neutral-1300);
+}
+.dd-plan__term:has(:checked) .dd-plan__term-off { color: var(--dd-beige-400); }
+.dd-plan__term:has(:checked)::before,
+.dd-plan__term:has(:checked)::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 1.8rem;
+  height: 1.8rem;
+}
+.dd-plan__term:has(:checked)::before {
+  right: 100%;
+  background: radial-gradient(circle at 0 0, transparent 1.75rem, var(--dd-neutral-0) 1.8rem);
+}
+.dd-plan__term:has(:checked)::after {
+  left: 100%;
+  background: radial-gradient(circle at 100% 0, transparent 1.75rem, var(--dd-neutral-0) 1.8rem);
+}
+/* у крайней вкладки галтель легла бы на скруглённый угол панели */
+.dd-plan__term:first-child::before,
+.dd-plan__term:last-child::after { content: none; }
+.dd-plan__term:has(:focus-visible) {
+  outline: .2rem solid var(--dd-neutral-0);
+  outline-offset: .2rem;
+}
+@media (hover: hover) {
+  .dd-plan__term:not(:has(:checked)):hover { background: rgba(255, 255, 255, .14); }
+}
+.dd-plan__deal {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  padding: 2.4rem 1.6rem 1.6rem;
+  border-radius: 1.4rem;
+  background: var(--dd-neutral-0);
+}
+.dd-plan__price {
+  display: none;
+  flex-wrap: wrap; /* уже 360 старая цена уходит на вторую строку */
+  align-items: flex-end;
+  gap: 0 .8rem;
+  margin: 0;
+  color: var(--dd-neutral-1300);
+  white-space: nowrap;
+}
+.dd-plan__buy:has(.dd-plan__radio[value="1"]:checked) .dd-plan__price[data-term="1"],
+.dd-plan__buy:has(.dd-plan__radio[value="3"]:checked) .dd-plan__price[data-term="3"],
+.dd-plan__buy:has(.dd-plan__radio[value="6"]:checked) .dd-plan__price[data-term="6"] { display: flex; }
+.dd-plan__sum {
+  font: 500 3.6rem/4.4rem var(--dd-font-basic);
+  letter-spacing: -.04em;
+}
+.dd-plan__per,
+.dd-plan__was {
+  font: 400 2.2rem/3.6rem var(--dd-font-basic);
+  letter-spacing: -.03em;
+}
+.dd-plan__was {
+  color: var(--dd-beige-300);
+  text-decoration: line-through;
+}
+.dd-plan__scope {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  min-width: 0;
+  padding: 1.4rem 1.4rem .8rem;
+  border-radius: 1.2rem;
+  background: var(--dd-neutral-0);
+  box-shadow: inset 0 0 0 .1rem rgba(216, 210, 198, .6); /* Beige-100, 60 % */
+}
+.dd-plan__scope-title { padding: 1.5rem 1.7rem 0; }
+/* строки списка через 40, посередине линия Beige-200 20 % — в раскладке она места не занимает */
+.dd-plan__features {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  margin: 0;
+  padding: 2rem;
+  list-style: none;
+}
+.dd-plan__features li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  font: 500 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-neutral-1300);
+}
+.dd-plan__features li + li::before {
+  content: "";
+  position: absolute;
+  inset: -2rem 0 auto;
+  height: .1rem;
+  background: rgba(183, 176, 163, .2);
+}
+.dd-plan__features span {
+  flex: 1;
+  min-width: 0;
+}
+.dd-plan__features svg {
+  flex: none;
+  width: 1.7rem;
+  height: 1.7rem;
+  color: var(--dd-yellow-0);
+}
+.dd-plan__features .dd-plan__bolt { color: var(--dd-orange-50); }
+
+@media (min-width: 834px) {
+  .dd-plan {
+    gap: 2rem;
+    padding: 4rem 3rem;
+  }
+  .dd-plan__card {
+    gap: 2.2rem;
+    padding: 1.8rem;
+    border-radius: 2rem;
+  }
+  .dd-plan__intro {
+    gap: 3rem;
+    padding: 2.4rem 2.8rem;
+  }
+  /* в макете справа у текста запас 200: на 1440 строка 576 */
+  .dd-plan__intro > * { max-width: 57.6rem; }
+  .dd-plan__headline { gap: 1.6rem; }
+  .dd-plan__terms {
+    justify-content: flex-start;
+    gap: 1.2rem;
+    padding-left: 2.4rem;
+  }
+  .dd-plan__term { padding-inline: 1.8rem; }
+  .dd-plan__term:last-child:has(:checked)::after { content: ""; }
+  .dd-plan__deal {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 3.2rem;
+    padding: 2.6rem;
+  }
+  .dd-plan__prices {
+    flex: 1;
+    min-width: 0;
+  }
+  .dd-plan__scope { border-radius: 2rem; }
+}
+@media (min-width: 1320px) {
+  .dd-plan {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    padding-inline: 8rem;
+  }
+}
+
+/* ---------- О18. Призыв «tech-enabled company» — 5730:18868 · 375: 5910:15701 ---------- */
+/* Крупный текст, строка под ним, кнопка из двух частей. За текстом оранжевое пятно: оно выходит
+   за верх и низ блока, по бокам обрезано. Три утки справа от кнопки — от 834 */
+.dd-pitch {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 2rem 1.8rem;
+  overflow: hidden;
+  overflow: clip visible;
+}
+/* эллипс 257 × 194 (на 375 — 257 × 240) Orange-100, размытие 229,6, прозрачность 60 % */
+.dd-pitch__glow {
+  position: absolute;
+  left: 75.12%;
+  top: 16.23rem;
+  width: 25.7rem;
+  height: 23.97rem;
+  border-radius: 50%;
+  background: var(--dd-orange-100);
+  opacity: .6;
+  filter: blur(11.48rem);
+  pointer-events: none;
+}
+.dd-pitch__text {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2.2rem;
+}
+.dd-pitch__lead {
+  margin: 0;
+  font: 500 2.6rem/3.4rem var(--dd-font-basic);
+  letter-spacing: -.03em;
+  color: var(--dd-neutral-1300);
+}
+.dd-pitch__actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dd-pitch__go {
+  flex: 1;
+  display: flex;
+  border-radius: var(--dd-radius-pill);
+  text-decoration: none;
+}
+.dd-pitch__go:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .3rem;
+}
+.dd-pitch__go .dd-btn--black { flex: 1; }
+/* ссылка одна, кнопок в ней две: состояния у них общие */
+.dd-pitch__go:hover .dd-btn--black { --_ring: 0 0 0 var(--_w-halo) rgba(4, 5, 6, .16); }
+.dd-pitch__go:hover .dd-btn--stroke-heavy { --_ring: inset 0 0 0 var(--_w-hover) var(--dd-neutral-1300); }
+.dd-pitch__go:active .dd-btn--black {
+  --_fg: var(--dd-neutral-400);
+  --_ring: 0 0 0 0 transparent;
+}
+.dd-pitch__go:active .dd-btn--stroke-heavy { --_ring: inset 0 0 0 .2rem var(--dd-beige-200); }
+.dd-pitch__ducks { display: none; }
+/* уже 360 две кнопки не помещаются в ряд: чёрная теряет часть полей */
+@media (max-width: 359px) {
+  .dd-pitch__go .dd-btn--black {
+    --_pad: 1.2rem;
+    --_label-pad: .3rem;
+  }
+}
+
+@media (min-width: 834px) {
+  .dd-pitch {
+    gap: 6rem;
+    padding: 8rem 3rem 6rem;
+  }
+  .dd-pitch__glow {
+    left: 68.12%;
+    height: 19.37rem;
+  }
+  .dd-pitch__lead {
+    font-size: 4rem;
+    line-height: 5rem;
+  }
+  .dd-pitch__go,
+  .dd-pitch__go .dd-btn--black { flex: none; }
+  .dd-pitch__ducks {
+    display: flex;
+    gap: 4rem;
+  }
+  .dd-pitch__ducks img {
+    display: block;
+    width: 2.709rem;
+    height: 2.647rem;
+  }
+  .dd-pitch__ducks img:nth-child(2) { opacity: .6; }
+  .dd-pitch__ducks img:nth-child(3) { opacity: .3; }
+}
+@media (min-width: 1320px) {
+  .dd-pitch {
+    gap: 8rem;
+    padding: 10rem 26rem 7rem 12rem;
+  }
+}
+
+/* ---------- О10. Шесть плиток преимуществ — 5727:4473 · 375: 5910:15723 ---------- */
+.dd-benefits { padding: 3rem 1.6rem; }
+.dd-benefits__list {
+  display: grid;
+  gap: .8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-benefit {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2.6rem;
+  padding: 2rem;
+  border-radius: 1.2rem;
+  background: var(--dd-neutral-0);
+}
+.dd-benefit__icon {
+  flex: none;
+  width: 2.4rem;
+  height: 2.4rem;
+}
+.dd-benefit__body {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+}
+.dd-benefit__text { text-wrap: pretty; }
+
+@media (min-width: 834px) {
+  .dd-benefits { padding: 6rem 3rem; }
+  .dd-benefits__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.4rem;
+  }
+  .dd-benefit { padding: 3.4rem; }
+}
+@media (min-width: 1320px) {
+  .dd-benefits { padding: 7rem 10rem; }
+  .dd-benefits__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ---------- О6. FAQ списком — 5737:19814 · 375: 5910:15841 · вопрос: faqs 2200:3404 ---------- */
+/* До 1320 заголовок над списком. От 1320 — две колонки: заголовок слева, список справа.
+   Вопрос — кнопка: круг с плюсом, при раскрытии круг тёмный, плюс повёрнут в крест */
+.dd-faq {
+  display: grid;
+  gap: 4rem;
+  padding: 4rem 2rem;
+}
+.dd-faq__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+}
+.dd-faq__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  margin: 0;
+  font: italic 300 1.6rem/2.4rem var(--dd-font-fancy);
+  letter-spacing: -.03em;
+  color: var(--dd-color-text);
+}
+.dd-faq__eyebrow::after {
+  content: "";
+  width: 4rem;
+  height: .1rem;
+  background: var(--dd-orange-50);
+}
+/* вопросы через 48 (от 834 — через 80), посередине линия — в раскладке она места не занимает */
+.dd-faq__list {
+  display: flex;
+  flex-direction: column;
+  gap: 4.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-faq__item { position: relative; }
+.dd-faq__item + .dd-faq__item::before {
+  content: "";
+  position: absolute;
+  inset: -2.4rem 0 auto;
+  height: .1rem;
+  background: var(--dd-line-soft);
+}
+.dd-faq__q {
+  margin: 0;
+  font: inherit;
+}
+.dd-faq__toggle {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.4rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: .4rem;
+  background: none;
+  font: 500 2.2rem/3.2rem var(--dd-font-basic);
+  letter-spacing: -.02em;
+  color: var(--dd-neutral-1300);
+  text-align: left;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+/* нажатие ловится с запасом 8 над строкой и под ней: высота области от 48 */
+.dd-faq__toggle::before {
+  content: "";
+  position: absolute;
+  inset: -.8rem 0;
+}
+.dd-faq__toggle:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .4rem;
+}
+.dd-faq__icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  background: var(--dd-beige-100);
+  color: var(--dd-neutral-1300);
+  transition: background-color .3s ease-out, color .3s ease-out;
+}
+.dd-faq__icon svg {
+  width: 1.7rem;
+  height: 1.7rem;
+  transition: transform .3s ease-out;
+}
+.dd-faq__toggle.is-hover .dd-faq__icon { background: var(--dd-yellow-200); }
+@media (hover: hover) {
+  .dd-faq__toggle:hover .dd-faq__icon { background: var(--dd-yellow-200); }
+}
+.dd-faq__item.is-open .dd-faq__icon {
+  background: var(--dd-neutral-1300);
+  color: var(--dd-neutral-0);
+}
+.dd-faq__item.is-open .dd-faq__icon svg { transform: rotate(45deg); }
+/* ответ: строка сетки 0fr → 1fr, высота меняется плавно; свёрнутый ответ скринридеру не виден */
+.dd-faq__a {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows .3s ease-out, visibility 0s .3s;
+}
+.dd-faq__item.is-open .dd-faq__a {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+.dd-faq__a-inner {
+  min-height: 0;
+  padding-left: 4.6rem;
+  overflow: hidden;
+}
+.dd-faq__a-inner > :first-child { margin-top: 2rem; }
+.dd-faq__a-inner > * + * { margin-top: 1rem; }
+
+@media (min-width: 834px) {
+  .dd-faq { padding: 6rem 3rem; }
+  .dd-faq__list { gap: 8rem; }
+  .dd-faq__item + .dd-faq__item::before { top: -4rem; }
+}
+@media (min-width: 1320px) {
+  /* на 1440 заголовок 392,7, список 727,3: колонка заголовка шире трети */
+  .dd-faq {
+    grid-template-columns: minmax(0, 39.267fr) minmax(0, 72.733fr);
+    padding: 4rem 14rem 10rem;
+  }
+  .dd-faq__list { padding-top: 5.4rem; }
+}
+/* без скрипта все ответы раскрыты, значка-переключателя нет */
+@media (scripting: none) {
+  .dd-faq__a {
+    grid-template-rows: 1fr;
+    visibility: visible;
+  }
+  .dd-faq__icon { visibility: hidden; }
+  .dd-faq__toggle { cursor: default; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-faq__icon,
+  .dd-faq__icon svg,
+  .dd-faq__a,
+  .dd-faq__item.is-open .dd-faq__a { transition: none; }
+}
+
+/* ==========================================================================
+   Общие блоки, часть 3
+   Источник: главная, 1440 index 5051:391. Макета 375 у главной нет.
+   ========================================================================== */
+
+/* ---------- О5. FAQ двумя панелями — 5491:1680 · вопрос: faqs main 5494:3327 ---------- */
+/* Тёмная и белая панели рядом; до 1320 — столбцом. Вопрос — кнопка со стрелкой в круге справа:
+   при наведении круг получает заливку, у раскрытого он контрастный, стрелка повёрнута вверх */
+.dd-faqs {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+  padding: 4rem 1.6rem;
+}
+.dd-faqs__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  padding-inline: .4rem;
+}
+.dd-faqs__panels {
+  display: grid;
+  gap: 1.2rem;
+}
+.dd-faqs__panel {
+  --_line: var(--dd-beige-50);
+  --_hover: var(--dd-beige-100);
+  --_answer: var(--dd-neutral-1100);
+  --_ground: var(--dd-neutral-0);
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  min-width: 0;
+  padding: 2.4rem 1.8rem .6rem;
+  border-radius: 2.2rem;
+  background: var(--_ground);
+  color: var(--dd-neutral-1300);
+}
+.dd-faqs__panel--dark {
+  --_line: var(--dd-neutral-1200);
+  --_hover: var(--dd-neutral-1000);
+  --_answer: var(--dd-neutral-600);
+  --_ground: var(--dd-neutral-1300);
+  --dd-color-focus: var(--dd-yellow-200);
+
+  color: var(--dd-neutral-0);
+}
+/* две плашки внахлёст: залитая и с обводкой */
+.dd-faqs__tags {
+  display: flex;
+  margin: 0;
+  font: 600 1.6rem/2.4rem var(--dd-font-basic);
+  text-transform: uppercase;
+}
+.dd-faqs__tags span {
+  padding: .6rem 1.5rem;
+  border-radius: 3.6rem;
+}
+.dd-faqs__tags span:first-child {
+  background: var(--dd-orange-50);
+  color: var(--dd-neutral-0);
+}
+.dd-faqs__tags span + span {
+  margin-left: -.8rem;
+  box-shadow: inset 0 0 0 .15rem var(--dd-beige-100);
+}
+.dd-faqs__panel--dark .dd-faqs__tags span:first-child {
+  background: var(--dd-yellow-100);
+  color: var(--dd-neutral-1300);
+}
+.dd-faqs__panel--dark .dd-faqs__tags span + span { box-shadow: inset 0 0 0 .15rem var(--dd-beige-300); }
+.dd-faqs__list {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin: 0;
+  padding: 0 .6rem;
+  list-style: none;
+}
+/* под вопросом 30 до линии 1,5; у последнего линии нет */
+.dd-qa {
+  padding-bottom: 3rem;
+  background: linear-gradient(var(--_line) 0 0) bottom / 100% .15rem no-repeat;
+}
+.dd-qa:last-child { background: none; }
+.dd-qa__q {
+  margin: 0;
+  font: inherit;
+}
+.dd-qa__toggle {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.8rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: .4rem;
+  background: none;
+  font: 500 2rem/3.2rem var(--dd-font-basic);
+  letter-spacing: -.02em;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.dd-qa__toggle::before {
+  content: "";
+  position: absolute;
+  inset: -.8rem 0;
+}
+.dd-qa__toggle:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .4rem;
+}
+.dd-qa__label {
+  flex: 1;
+  min-width: 0;
+}
+.dd-qa__icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  transition: background-color .3s ease-out, color .3s ease-out;
+}
+.dd-qa__icon svg {
+  width: 2.4rem;
+  height: 2.4rem;
+  transition: transform .3s ease-out;
+}
+.dd-qa__toggle.is-hover .dd-qa__icon { background: var(--_hover); }
+@media (hover: hover) {
+  .dd-qa__toggle:hover .dd-qa__icon { background: var(--_hover); }
+}
+.dd-qa.is-open .dd-qa__icon {
+  background: currentColor;
+}
+.dd-qa.is-open .dd-qa__icon svg {
+  color: var(--_ground);
+  transform: rotate(180deg);
+}
+.dd-qa__a {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows .3s ease-out, visibility 0s .3s;
+}
+.dd-qa.is-open .dd-qa__a {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+.dd-qa__a-inner {
+  min-height: 0;
+  padding-right: 5rem;
+  overflow: hidden;
+  font: 400 1.6rem/2.4rem var(--dd-font-basic);
+  color: var(--_answer);
+}
+.dd-qa__a-inner > * { margin: 0; }
+.dd-qa__a-inner > :first-child { margin-top: 2rem; }
+.dd-qa__a-inner > * + * { margin-top: .8rem; }
+.dd-qa__a-inner ol {
+  padding-left: 2.2rem;
+  columns: 2;
+}
+
+@media (min-width: 834px) {
+  .dd-faqs {
+    gap: 5rem;
+    padding: 6rem 3rem;
+  }
+  .dd-faqs__head { padding-inline: 2rem; }
+  .dd-faqs__panels { gap: 2rem; }
+  .dd-faqs__panel {
+    gap: 5rem;
+    padding: 4.2rem 4.2rem 1.8rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-faqs { padding: 8rem 12rem; }
+  .dd-faqs__panels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* без скрипта все ответы раскрыты, значка-переключателя нет */
+@media (scripting: none) {
+  .dd-qa__a {
+    grid-template-rows: 1fr;
+    visibility: visible;
+  }
+  .dd-qa__icon { visibility: hidden; }
+  .dd-qa__toggle { cursor: default; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-qa__icon,
+  .dd-qa__icon svg,
+  .dd-qa__a,
+  .dd-qa.is-open .dd-qa__a { transition: none; }
+}

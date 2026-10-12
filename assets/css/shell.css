@@ -1,0 +1,1038 @@
+/* ==========================================================================
+   duck.design — каркас страницы: шапка с меню и подвал
+   Источник: Figma «duck.design | NEW», страница new components —
+   header new 5051:1505, header-item 5216:33900, header-link 5216:34594,
+   header-link-large 5307:46184, меню 1440 5213:28911 · 5307:45238 · 5307:45538,
+   бургер 834 5213:28405 и 375 5213:28453, footer new 5168:16837,
+   footer-link 5213:26810. Требует tokens.css и components.css (кнопки, пунктир).
+   Числа — точные из макета. Ширины макета: 375 · 834 · 1440 · 1920.
+   Настольная раскладка включается с 1320: с этой ширины полное меню помещается
+   при полях 70. Шапка и подвал идут на всю ширину окна, как варианты 1920 в макете.
+   ========================================================================== */
+
+/* ---------- Шапка ---------- */
+/* Фона у шапки нет: под ней виден фон страницы или первого экрана.
+   Тёмный вариант (Mode=Dark) — класс .dd-on-dark на <header>.
+   Открытое меню — класс .is-open на <header>, его ставит shell.js: от 1320 это выпадающая
+   панель, до 1320 — раскрытый бургер. Полоса шапки на это время получает фон страницы,
+   тёмная шапка становится светлой. */
+.dd-header {
+  --dd-logo-beak: var(--dd-yellow-200);
+  --_item-hover: var(--dd-beige-400);
+  --_h: 6.1rem; /* высота полосы: под ней начинается раскрытый бургер */
+
+  position: relative;
+  z-index: 10;
+  color: var(--dd-color-text);
+}
+.dd-header.dd-on-dark {
+  --dd-logo-beak: var(--dd-orange-50);
+  --_item-hover: var(--dd-beige-100);
+}
+/* Кнопка языка без обводки (ghost) на тёмной шапке — светлая, как пункты меню; иначе её тёмный
+   текст пропадает на тёмном первом экране (страница AI Development, 12.10.2026) */
+.dd-header.dd-on-dark .dd-header__lang.dd-btn--ghost { --_fg: var(--dd-neutral-0); }
+.dd-header.dd-on-dark .dd-header__lang.dd-btn--ghost:hover { --_fg: var(--dd-beige-100); }
+.dd-header__bar {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.6rem;
+}
+.dd-header__logo {
+  flex: none;
+  display: block;
+  width: 13.18rem;
+  height: 2.65rem;
+  color: inherit;
+}
+.dd-header__logo svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.dd-header__logo:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .4rem;
+}
+.dd-header__nav,
+.dd-header__lang,
+.dd-header__cta { display: none; }
+/* До 1320 пункты стоят столбцом в раскрытом бургере, между ними пунктир 3–3 */
+.dd-header__menu {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  margin: 0;
+  padding: 0 1rem 2rem;
+  list-style: none;
+}
+.dd-header__menu > li + li {
+  margin-top: 2.6rem;
+  padding-top: 2.6rem;
+  background: repeating-linear-gradient(90deg, var(--dd-beige-100) 0 .3rem, transparent .3rem .6rem) top / 100% .1rem no-repeat;
+}
+.dd-header__nav-cta { flex: none; }
+.dd-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+/* в кнопке бургера два значка: три полоски и крест */
+.dd-header__burger[aria-expanded="false"] .dd-btn__icon:last-child,
+.dd-header__burger[aria-expanded="true"] .dd-btn__icon:first-child { display: none; }
+
+/* Пункт меню. До 1320 — строка бургера: крупный текст и кружок 28 справа.
+   От 1320 — пункт полосы: звезда занимает место всегда, видна при наведении и раскрытии —
+   пункт не прыгает */
+.dd-header-item {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: .6rem; /* только для контура фокуса: фона у пункта нет */
+  background: none;
+  color: inherit;
+  font: 600 2rem/3rem var(--dd-font-basic);
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .15s;
+}
+/* в бургере нажимается вся строка до пунктира, а не только текст высотой 30 */
+.dd-header-item::after {
+  content: "";
+  position: absolute;
+  inset: -1.3rem 0;
+}
+.dd-header-item__star {
+  display: none;
+  flex: none;
+  width: .9rem;
+  height: .9rem;
+  margin: .3rem;
+  opacity: 0;
+  transition: opacity .15s;
+}
+.dd-header-item__chevron {
+  display: none;
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+/* кружок строки бургера: у ссылки залит, у пункта с меню — с обводкой снаружи */
+.dd-header-item__mark {
+  flex: none;
+  box-sizing: content-box;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: .7rem;
+  border-radius: 50%;
+  background: var(--dd-beige-100);
+  color: var(--dd-neutral-1200);
+}
+.dd-header-item[aria-expanded] .dd-header-item__mark {
+  background: none;
+  box-shadow: 0 0 0 .1rem var(--dd-beige-400);
+  color: var(--dd-beige-400);
+}
+.dd-header-item:hover,
+.dd-header-item.is-hover { color: var(--_item-hover); }
+.dd-header-item[aria-expanded="true"] { color: inherit; }
+.dd-header-item:hover .dd-header-item__star,
+.dd-header-item.is-hover .dd-header-item__star,
+.dd-header-item[aria-expanded="true"] .dd-header-item__star,
+.dd-header-item[aria-current="page"] .dd-header-item__star { opacity: 1; }
+.dd-header-item[aria-expanded="true"] .dd-header-item__chevron,
+.dd-header-item[aria-expanded="true"] .dd-header-item__mark { transform: rotate(180deg); }
+.dd-header-item:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .4rem;
+}
+
+/* Открытое меню: полоса шапки получает фон страницы; кнопки — как в макетах меню */
+.dd-header.is-open .dd-header__bar { background: var(--dd-beige-50); }
+.dd-header.is-open .dd-header__burger {
+  --_bg: var(--dd-neutral-1300);
+  --_fg: var(--dd-neutral-0);
+}
+
+/* Раскрытый бургер: шапка встаёт поверх страницы, меню занимает экран под полосой и
+   прокручивается само; страница под ним не прокручивается (.dd-lock на <html>).
+   Место под полосу прокрутки страницы при этом остаётся (scrollbar-gutter в base.css), поэтому
+   шапка не прыгает; своей полосы прокрутки у меню нет, и его край совпадает с краем шапки */
+.dd-lock { overflow: hidden; }
+@media not all and (min-width: 1320px) {
+  .dd-header.is-open {
+    position: fixed;
+    inset: 0 0 auto;
+  }
+  .dd-header.is-open .dd-header__nav {
+    position: fixed;
+    inset: var(--_h) 0 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 12rem;
+    padding: 2rem 1.4rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    background: var(--dd-beige-50);
+  }
+  @media (min-width: 834px) {
+    .dd-header.is-open .dd-header__nav {
+      gap: 3rem;
+      padding: 3rem 3rem 4rem;
+    }
+    /* в полосе вместо «Book a Call» — кнопка языка stroke light; «Book a Call» стоит под меню */
+    .dd-header.is-open .dd-header__actions { gap: 1.6rem; }
+    .dd-header.is-open .dd-header__cta { display: none; }
+    .dd-header.is-open .dd-header__lang {
+      --_fg: var(--dd-neutral-1200);
+      --_ring: inset 0 0 0 .2rem var(--dd-beige-200);
+
+      display: inline-flex;
+    }
+    .dd-header.is-open .dd-header__lang:hover {
+      --_fg: var(--dd-neutral-1300);
+      --_ring: inset 0 0 0 var(--_w-hover) var(--dd-beige-300);
+    }
+  }
+}
+
+@media (min-width: 834px) {
+  .dd-header { --_h: 8.1rem; }
+  .dd-header__bar { padding: 2rem 3rem; }
+  .dd-header__logo {
+    width: 16.41rem;
+    height: 3.3rem;
+  }
+  .dd-header__cta { display: inline-flex; }
+  .dd-header__menu { padding: 0 2rem 2rem; }
+  .dd-header__menu > li + li {
+    margin-top: 3rem;
+    padding-top: 3rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-header__bar { padding: 1.6rem 7rem; }
+  .dd-header__nav { display: block; }
+  .dd-header__nav-cta,
+  .dd-header__burger { display: none; }
+  .dd-header__lang { display: inline-flex; }
+  .dd-header__actions { gap: 0; }
+  .dd-header__menu {
+    flex-direction: row;
+    padding: 0;
+  }
+  .dd-header__menu > li + li {
+    margin: 0;
+    padding: 0;
+    background: none;
+  }
+  .dd-header-item {
+    gap: .4rem;
+    width: auto;
+    padding: 1rem .8rem;
+    font-size: 1.3rem;
+    line-height: 1.5rem;
+    letter-spacing: .03em;
+  }
+  .dd-header-item::after { content: none; }
+  .dd-header-item__star,
+  .dd-header-item__chevron { display: block; }
+  .dd-header-item__mark { display: none; }
+  .dd-header-item:focus-visible { outline-offset: -.2rem; }
+
+  /* Открытое меню: страницу закрывает затемнение 30 %, как в макете; тени у панели нет.
+     Кнопка языка — без обводки и «Book a Call» жёлтая на любой странице */
+  .dd-header.is-open::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: rgba(0, 0, 0, .3);
+  }
+  .dd-header.is-open .dd-header__lang {
+    --_fg: var(--dd-neutral-1300);
+    --_ring: 0 0 0 0 transparent;
+  }
+  .dd-header.is-open .dd-header__cta { --_bg: var(--dd-yellow-200); }
+  .dd-header.is-open .dd-header__cta:hover { --_bg: var(--dd-yellow-100); }
+}
+
+/* Закреплённая шапка — решение пользователя 09.10.2026; в макете прокрученной шапки нет.
+   Класс .dd-header--sticky стоит в эталоне и держит шапку у верха окна. После прокрутки shell.js ставит
+   .is-scrolled: полоса получает фон страницы и тень «3» — так устроена шапка живого сайта;
+   тёмная шапка становится светлой, «Book a Call» жёлтая, как при открытом меню.
+   Панель меню от 1320 прокручивается сама, если окно ниже панели */
+.dd-header--sticky {
+  position: sticky;
+  top: 0;
+}
+.dd-header--sticky.is-scrolled .dd-header__bar {
+  background: var(--dd-beige-50);
+  box-shadow: var(--dd-shadow-soft);
+}
+.dd-header--sticky.is-open .dd-header__bar { box-shadow: none; }
+.dd-header--sticky.is-scrolled .dd-header__burger {
+  --_bg: var(--dd-neutral-1300);
+  --_fg: var(--dd-neutral-0);
+}
+.dd-header--sticky.is-scrolled .dd-header__cta { --_bg: var(--dd-yellow-200); }
+.dd-header--sticky.is-scrolled .dd-header__cta:hover { --_bg: var(--dd-yellow-100); }
+@media (min-width: 1320px) {
+  .dd-header--sticky.is-scrolled .dd-header__lang {
+    --_fg: var(--dd-neutral-1300);
+    --_ring: 0 0 0 0 transparent;
+  }
+  .dd-header--sticky .dd-menu {
+    max-height: calc(100vh - 7.2rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+/* ---------- Меню шапки ---------- */
+/* Панель .dd-menu стоит в разметке сразу за своим пунктом-кнопкой и открыта, пока у кнопки
+   aria-expanded="true". До 1320 она раскрывается под строкой бургера, от 1320 — выпадает
+   под полосой на всю ширину шапки. */
+.dd-menu {
+  display: none;
+  margin-top: 2.6rem;
+}
+.dd-header-item[aria-expanded="true"] + .dd-menu { display: block; }
+
+/* Список ссылок. Между ссылками сплошная линия Beige-100 вполсилы; высоты она не занимает */
+.dd-menu__links {
+  display: grid;
+  gap: 2.4rem 5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-menu__links > li {
+  position: relative;
+  min-width: 0;
+}
+.dd-menu__links > li + li::before {
+  content: "";
+  position: absolute;
+  top: -1.25rem;
+  left: 0;
+  right: 0;
+  height: .1rem;
+  background: var(--dd-beige-100);
+  opacity: .5;
+}
+.dd-menu__all {
+  width: 100%;
+  margin-top: 2.6rem;
+}
+.dd-menu-card { display: none; }
+
+/* Ссылка меню — header-link. До 1320 — вариант tablet: без полей, значок справа.
+   --large — header-link-large: до 1320 та же строка со стрелкой 18, от 1320 — карточка с картинкой */
+.dd-header-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  border-radius: .6rem;
+  color: var(--dd-neutral-1100);
+  text-decoration: none;
+}
+/* на 375 строка высотой 42: нажимается с запасом по 6 сверху и снизу */
+.dd-header-link::after {
+  content: "";
+  position: absolute;
+  inset: -.6rem 0;
+}
+.dd-header-link__icon {
+  flex: none;
+  order: 1;
+  width: 2.4rem;
+  height: 2.4rem;
+}
+.dd-header-link__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: .3rem;
+  min-width: 0;
+  padding-right: .4rem;
+}
+.dd-header-link__title { font: 600 1.4rem/2.1rem var(--dd-font-basic); }
+.dd-header-link__text {
+  font: 400 1.2rem/1.8rem var(--dd-font-basic);
+  color: var(--dd-beige-400);
+}
+.dd-header-link__arrow,
+.dd-header-link__media { display: none; }
+.dd-header-link__chevron {
+  flex: none;
+  width: 1.8rem;
+  height: 1.8rem;
+}
+.dd-header-link:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+
+@media (min-width: 834px) {
+  /* 15 ссылок двумя столбцами по 8 строк: 8 и 7 */
+  .dd-menu__links {
+    grid-template-rows: repeat(8, auto);
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    row-gap: 1.6rem;
+  }
+  .dd-menu__links > li + li::before { top: -.85rem; }
+  .dd-menu__links > li:nth-child(8n+1)::before { content: none; }
+  /* две большие ссылки — одним столбцом; от 1320 — в ряд */
+  .dd-menu__links--large {
+    grid-template-rows: none;
+    grid-auto-flow: row;
+  }
+  .dd-header-link { min-height: 5.8rem; }
+  .dd-header-link::after { content: none; }
+}
+
+@media (min-width: 1320px) {
+  /* панель заходит под полосу на 1 px: при дробном масштабе окна между ними не остаётся щели */
+  .dd-menu {
+    /* шаг колонок: 30 на 1440 и шире, к 1320 сходит до 20 — столбцам ссылок хватает ширины */
+    --_gap: clamp(2rem, calc(2rem + (100vw - 132rem) / 12), 3rem);
+
+    position: absolute;
+    top: calc(100% - .1rem);
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    grid-template-columns: minmax(0, 1fr) 25rem;
+    gap: var(--_gap);
+    margin: 0;
+    padding: 3.9rem 7rem 4rem; /* сверху 1 под полосой, 8 — полоска с линией — и 30 */
+    background: var(--dd-beige-50);
+  }
+  .dd-header-item[aria-expanded="true"] + .dd-menu { display: grid; }
+  /* линия под полосой шапки: по ширине контента, Beige-100 вполсилы */
+  .dd-menu::before {
+    content: "";
+    position: absolute;
+    top: .4rem;
+    left: 7rem;
+    right: 7rem;
+    height: .1rem;
+    background: var(--dd-beige-100);
+    opacity: .5;
+  }
+
+  /* 15 ссылок тремя столбцами: 6 · 5 · 4 */
+  .dd-menu__links {
+    grid-template-rows: repeat(6, auto);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--_gap);
+  }
+  .dd-menu__links > li { grid-column: 1; }
+  .dd-menu__links > li:nth-child(n+7) { grid-column: 2; }
+  .dd-menu__links > li:nth-child(n+12) { grid-column: 3; }
+  .dd-menu__links > li + li::before { content: none; }
+  /* две карточки в ряд */
+  .dd-menu__links--large {
+    grid-template-rows: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .dd-menu__links--large > li { grid-column: auto; }
+
+  .dd-menu__aside {
+    display: flex;
+    flex-direction: column;
+    gap: 2.2rem;
+  }
+  /* в бургере кнопка stroke light, в панели — stroke heavy */
+  .dd-menu__all {
+    --_fg: var(--dd-neutral-1300);
+    --_ring: inset 0 0 0 .2rem var(--dd-neutral-1100);
+
+    margin-top: 0;
+  }
+  .dd-menu__all:hover { --_ring: inset 0 0 0 var(--_w-hover) var(--dd-neutral-1300); }
+  .dd-menu__all:active { --_ring: inset 0 0 0 .2rem var(--dd-beige-200); }
+
+  /* Карточка «Contact Us»: бежевая, в меню Capabilities — на градиенте (--accent) */
+  .dd-menu-card {
+    box-sizing: border-box;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2.2rem;
+    padding: 2.2rem;
+    border-radius: 1.2rem;
+    background: linear-gradient(144deg, var(--dd-fill-soft), var(--dd-beige-100));
+    color: var(--dd-neutral-1300);
+  }
+  .dd-menu-card--accent { background: linear-gradient(203deg, var(--dd-yellow-100), var(--dd-orange-100) 45%, var(--dd-orange-50)); }
+  .dd-menu-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: .6rem;
+    padding: .8rem;
+  }
+  .dd-menu-card__icon {
+    width: 2rem;
+    height: 2rem;
+  }
+  .dd-menu-card__title {
+    margin: 0;
+    font: 500 2.8rem/3.6rem var(--dd-font-basic);
+    letter-spacing: -.03em;
+  }
+  .dd-menu-card__text {
+    margin: 0;
+    font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  }
+
+  .dd-header-link {
+    box-sizing: border-box;
+    align-items: flex-start;
+    padding: .8rem;
+    transition: background-color .15s, color .15s;
+  }
+  .dd-header-link__icon { order: 0; }
+  .dd-header-link__text { transition: color .15s; }
+  /* стрелка стоит в правом углу строки заголовка и появляется при наведении; места в строке
+     не занимает — длинный заголовок на 1320 остаётся в одну строку */
+  .dd-header-link__arrow {
+    position: absolute;
+    top: 1.1rem;
+    right: 1.2rem;
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--dd-neutral-1100);
+    opacity: 0;
+    transition: opacity .15s;
+  }
+  .dd-header-link__chevron { display: none; }
+  .dd-header-link:hover,
+  .dd-header-link.is-hover {
+    background: var(--dd-fill-hover);
+    color: var(--dd-neutral-1300);
+  }
+  .dd-header-link:hover .dd-header-link__text,
+  .dd-header-link.is-hover .dd-header-link__text { color: var(--dd-neutral-1100); }
+  .dd-header-link:hover .dd-header-link__arrow,
+  .dd-header-link.is-hover .dd-header-link__arrow { opacity: 1; }
+
+  .dd-header-link--large {
+    display: block;
+    padding: 0;
+    border-radius: 1rem;
+  }
+  .dd-header-link--large:hover,
+  .dd-header-link--large.is-hover { background: none; }
+  .dd-header-link__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 495 / 240;
+    overflow: hidden;
+    border-radius: 1rem;
+  }
+  .dd-header-link__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* круг со стрелкой на картинке появляется при наведении */
+  .dd-header-link__go {
+    position: absolute;
+    top: 2.4rem;
+    right: 2.4rem;
+    box-sizing: content-box;
+    width: 1.4rem;
+    height: 1.4rem;
+    padding: .8rem;
+    border-radius: 50%;
+    background: var(--dd-neutral-0);
+    color: var(--dd-neutral-1300);
+    opacity: 0;
+    transition: opacity .15s;
+  }
+  .dd-header-link--large:hover .dd-header-link__go,
+  .dd-header-link--large.is-hover .dd-header-link__go { opacity: 1; }
+  .dd-header-link--large .dd-header-link__body {
+    gap: .5rem;
+    padding: 1.8rem 1rem .8rem;
+  }
+  .dd-header-link--large .dd-header-link__title {
+    font: 500 var(--dd-h5)/var(--dd-h5-lh) var(--dd-font-basic);
+    letter-spacing: -.03em;
+  }
+  .dd-header-link--large .dd-header-link__text {
+    font-size: 1.4rem;
+    line-height: 2.1rem;
+  }
+  .dd-header-link--large:hover .dd-header-link__text,
+  .dd-header-link--large.is-hover .dd-header-link__text { color: var(--dd-neutral-1300); }
+}
+
+/* Без скрипта (он выключен в браузере) меню остаётся рабочим: от 1320 панель открывается
+   наведением и фокусом, до 1320 меню стоит под полосой раскрытым, бургера нет */
+@media (scripting: none) {
+  .dd-header__burger { display: none; }
+  @media not all and (min-width: 1320px) {
+    .dd-header__bar { flex-wrap: wrap; }
+    .dd-header__nav {
+      display: block;
+      order: 1;
+      flex-basis: 100%;
+      padding-top: 3rem;
+    }
+    .dd-menu { display: block; }
+    .dd-header-item__mark { display: none; }
+  }
+  @media (min-width: 1320px) {
+    .dd-header__menu > li:hover > .dd-menu,
+    .dd-header__menu > li:focus-within > .dd-menu { display: grid; }
+  }
+}
+
+/* ---------- Подвал ---------- */
+/* Две тёмные панели вплотную; между ними пунктир. Вокруг — фон страницы. */
+.dd-footer {
+  box-sizing: border-box;
+  padding: .6rem;
+}
+.dd-footer__top,
+.dd-footer__main {
+  box-sizing: border-box;
+  border-radius: var(--dd-radius-xl);
+  background: var(--dd-color-bg);
+}
+
+/* Верхняя панель: логотип, соцсети, кнопка */
+.dd-footer__top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.4rem;
+  padding: 2.6rem;
+}
+.dd-footer__logo {
+  flex: none;
+  display: block;
+  width: 17.37rem;
+  height: 3.6rem;
+}
+.dd-footer__logo img {
+  display: block;
+  width: 17.28rem;
+  height: 3.52rem;
+  margin-left: .04rem;
+}
+.dd-footer__follow {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  width: 100%;
+  padding: 0 .8rem 1rem;
+}
+.dd-footer__follow-label {
+  margin: 0;
+  font: 700 1.2rem/1.4 var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dd-color-text-muted);
+}
+.dd-footer__social {
+  display: flex;
+  justify-content: space-between;
+  gap: .6rem; /* на 375 кружки разведены по ширине; это нижний предел для узких экранов */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-social {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.8rem;
+  height: 3.8rem;
+  border-radius: var(--dd-radius-pill);
+  background: var(--dd-color-surface);
+  box-shadow: inset 0 0 0 .1rem var(--dd-color-border);
+  color: var(--dd-ink-icon);
+  transition: color .15s;
+}
+.dd-social svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+.dd-social:hover { color: var(--dd-color-text); }
+.dd-footer__cta {
+  --_h: 4.1rem;
+  --_pad: 1.2rem;
+  --_label-pad: .4rem;
+  --_fs: 1.2rem;
+  --_w-press: .2rem;
+
+  width: 100%;
+}
+
+/* Нижняя панель */
+.dd-footer__main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2.6rem;
+  padding: 1.9rem 1.8rem 2rem; /* сверху 18 + 1: линия входит в раскладку */
+}
+.dd-footer__main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--dd-radius-xl);
+  right: var(--dd-radius-xl);
+  height: .1rem;
+  background: repeating-linear-gradient(90deg, var(--dd-color-divider) 0 .3rem, transparent .3rem .6rem);
+}
+
+/* Колонки: до 1320 — аккордеон, одна под другой через пунктир */
+.dd-footer__cols {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 1rem;
+}
+.dd-footer__col {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2.6rem;
+}
+.dd-footer__col + .dd-footer__col { padding-top: 2rem; }
+.dd-footer__col + .dd-footer__col::before {
+  content: "";
+  position: absolute;
+  top: -.05rem;
+  left: 0;
+  right: 0;
+  height: .1rem;
+  background: repeating-linear-gradient(90deg, var(--dd-color-divider) 0 .3rem, transparent .3rem .6rem);
+}
+.dd-footer__head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+  min-height: 2.8rem;
+}
+.dd-footer__title {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  margin: 0;
+  font: 700 1.4rem/1.4 var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dd-color-text-body);
+}
+.dd-footer__title-icon {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  color: var(--dd-beige-300);
+}
+.dd-footer__title-icon--accent { color: var(--dd-yellow-200); }
+.dd-footer__toggle {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--dd-radius-pill);
+  background: var(--dd-color-surface);
+  color: var(--dd-color-text-body);
+  cursor: pointer;
+}
+.dd-footer__toggle[hidden] { display: none; }
+/* нажимается вся строка заголовка, не только кружок */
+.dd-footer__toggle::after {
+  content: "";
+  position: absolute;
+  inset: -.8rem 0;
+}
+.dd-footer__toggle svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  transition: transform .15s;
+}
+.dd-footer__toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+.dd-footer__toggle:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+.dd-footer__col.is-collapsed .dd-footer__panel { display: none; }
+.dd-footer__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2.6rem;
+}
+
+/* Списки ссылок: до 1320 — в две колонки с шагом 16 */
+.dd-footer__lists {
+  display: flex;
+  gap: 1.2rem;
+}
+.dd-footer__lists > * { flex: 1; min-width: 0; }
+.dd-footer__links {
+  margin: 0 0 -1.6rem;
+  padding: 0;
+  list-style: none;
+}
+.dd-footer__links li {
+  display: flex;
+  padding-bottom: 1.6rem;
+  break-inside: avoid;
+}
+.dd-footer__links--split {
+  columns: 2;
+  column-gap: 1.2rem;
+}
+
+/* Ссылка подвала. Стрелка в макете цвета панели — появляется при наведении */
+.dd-footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .2rem;
+  border-radius: .4rem;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-color-text-subtle);
+  text-decoration: none;
+  transition: color .15s;
+}
+.dd-footer-link__icon {
+  flex: none;
+  width: 1.7rem;
+  height: 1.7rem;
+  opacity: 0;
+  transition: opacity .15s;
+}
+.dd-footer-link:hover,
+.dd-footer-link.is-hover { color: var(--dd-color-text); }
+.dd-footer-link:hover .dd-footer-link__icon,
+.dd-footer-link.is-hover .dd-footer-link__icon { opacity: 1; }
+
+/* Контакты */
+.dd-footer__contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+}
+.dd-footer__contacts a {
+  border-radius: .4rem;
+  color: var(--dd-neutral-200);
+  text-decoration: none;
+}
+.dd-footer__contacts a:hover { text-decoration: underline; }
+.dd-footer__address {
+  margin: 0;
+  font: 400 1.2rem/1.5 var(--dd-font-basic);
+  color: var(--dd-color-text-muted);
+}
+.dd-social:focus-visible,
+.dd-footer__logo:focus-visible,
+.dd-footer-link:focus-visible,
+.dd-footer__contacts a:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+
+/* Линия в макете не занимает высоты: шаг между рядами ровно 34 (26 на 375) */
+.dd-footer__main > .dd-divider { margin-block: -.05rem; }
+
+/* Рейтинги и способы оплаты */
+.dd-footer__trust {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+}
+.dd-footer__ratings,
+.dd-footer__payments {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-footer__ratings {
+  flex-wrap: wrap;
+  gap: 2rem 3rem;
+}
+.dd-footer__payments { gap: 2rem; }
+.dd-footer__ratings li,
+.dd-footer__payments li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dd-footer__ratings img,
+.dd-footer__payments img { display: block; }
+/* первые три логотипа стоят в рамках 84,1×22 */
+.dd-footer__ratings li:nth-child(-n+3) {
+  width: 8.41rem;
+  height: 2.2rem;
+}
+
+/* Копирайт и юридические ссылки */
+.dd-footer__legal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-color-text-subtle);
+}
+.dd-footer__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  text-align: center;
+}
+.dd-footer__policies li { display: flex; }
+.dd-footer__policies {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem 1.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 834px) {
+  .dd-footer { padding: 1rem; }
+  .dd-footer__top {
+    flex-direction: row;
+    gap: 3rem;
+    padding: 2.6rem 3.6rem;
+  }
+  .dd-footer__follow {
+    flex: 1;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 2.6rem;
+    width: auto;
+    padding: 0;
+  }
+  .dd-footer__social {
+    justify-content: flex-start;
+    gap: 1.4rem;
+    width: auto;
+  }
+  .dd-social {
+    width: 3.2rem;
+    height: 3.2rem;
+  }
+  .dd-footer__cta {
+    --_h: 5.2rem;
+    --_pad: 1.6rem;
+    --_label-pad: .6rem;
+    --_fs: 1.4rem;
+    --_w-press: .3rem;
+
+    width: auto;
+  }
+  .dd-footer__main {
+    gap: 3.4rem;
+    padding: 2.9rem 2.8rem 2.2rem;
+  }
+  .dd-footer__trust {
+    flex-direction: row;
+    gap: 3rem;
+  }
+  .dd-footer__ratings {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 3rem;
+  }
+  .dd-footer__payments {
+    flex: 1;
+    justify-content: flex-end;
+  }
+  .dd-footer__copy {
+    flex-direction: row;
+    gap: 1.4rem;
+  }
+}
+
+@media (min-width: 1320px) {
+  .dd-footer { padding: 1.2rem; }
+  .dd-footer__main { padding: 3.9rem 3.8rem 2.8rem; }
+
+  /* четыре колонки: в макете сетка .75fr .75fr 2fr .75fr с шагом 40 */
+  .dd-footer__cols {
+    display: grid;
+    grid-template-columns: .75fr .75fr 2fr .75fr;
+    gap: 4rem;
+  }
+  .dd-footer__col + .dd-footer__col { padding-top: 0; }
+  .dd-footer__col + .dd-footer__col::before { content: none; }
+  .dd-footer__head { min-height: 0; }
+  .dd-footer__toggle { display: none; }
+  .dd-footer__col.is-collapsed .dd-footer__panel { display: flex; }
+  .dd-footer__lists { gap: 4rem; }
+  .dd-footer__links { margin-bottom: -1.2rem; }
+  .dd-footer__links li { padding-bottom: 1.2rem; }
+  .dd-footer__links--split { columns: auto; }
+
+  .dd-footer__legal {
+    flex-direction: row;
+    gap: 1.4rem;
+  }
+  .dd-footer__copy { flex: 1; }
+  .dd-footer__policies { flex-wrap: nowrap; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-header-item,
+  .dd-header-item__star,
+  .dd-header-link,
+  .dd-header-link__text,
+  .dd-header-link__arrow,
+  .dd-header-link__go,
+  .dd-social,
+  .dd-footer__toggle svg,
+  .dd-footer-link,
+  .dd-footer-link__icon { transition: none; }
+}

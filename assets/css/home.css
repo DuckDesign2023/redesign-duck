@@ -1,0 +1,888 @@
+/* ==========================================================================
+   duck.design — главная страница: блоки, которые стоят только на ней
+   Источник: Figma «duck.design | NEW», страница landing, 1440 index 5051:391.
+   Требует tokens.css, components.css и blocks.css (общие блоки: логотипы, картинка + текст,
+   отзывы, кейсы, FAQ панелями).
+
+   На 1440 блоки совпадают с макетом. Макета 834 и 375 у главной нет: до 1320 раскладка
+   собрана по тем же правилам, что у общих блоков (поле страницы 30 от 834 и 16 до 834).
+   Шире 1440 лист тянется до предела сетки --dd-frame.
+   ========================================================================== */
+
+/* Градиент финального призыва уходит под подвал: картинка привязана к низу страницы.
+   Высота — призыв и подвал вместе, по ширине картинка тянется */
+.dd-home {
+  background: var(--dd-color-bg) url('../img/home/final-bg-1440.jpg') center bottom / 100% 160rem no-repeat;
+}
+@media (min-width: 834px) {
+  .dd-home { background-size: 100% 145rem; }
+}
+@media (min-width: 1320px) {
+  .dd-home { background-size: 100% 139.8rem; }
+}
+@media (min-resolution: 1.5dppx), (min-width: 1441px) {
+  .dd-home { background-image: url('../img/home/final-bg.jpg'); }
+}
+
+.dd-hero__inner,
+.dd-stats,
+.dd-services,
+.dd-steps__head,
+.dd-duo,
+.dd-final {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+}
+
+/* ---------- Первый экран — 5166:13658 ---------- */
+/* Фон-градиент идёт на всё окно и заходит под шапку: блок подтянут вверх на её высоту.
+   Картинка тянется по обеим осям, чтобы её светлый низ всегда сходился с фоном страницы */
+.dd-hero {
+  --_header: 6.1rem;
+
+  margin-top: calc(-1 * var(--_header));
+  padding-top: var(--_header);
+  background: var(--dd-color-bg) url('../img/home/hero-bg-1440.jpg') center / 100% 100% no-repeat;
+}
+@media (min-resolution: 1.5dppx), (min-width: 1441px) {
+  .dd-hero { background-image: url('../img/home/hero-bg.jpg'); }
+}
+.dd-hero__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 3rem 1.6rem 4rem;
+}
+.dd-hero__top {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+/* «100+ reviews on Clutch ★ 4.9» */
+.dd-hero__proof {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 .6rem;
+  margin: 0;
+  padding-inline: .8rem;
+  font: 400 1.6rem/2.4rem var(--dd-font-basic);
+  color: var(--dd-neutral-1300);
+}
+.dd-hero__proof b { font-weight: 600; }
+.dd-hero__proof img {
+  display: block;
+  width: 5.75rem;
+  height: 2rem;
+}
+.dd-hero__rate {
+  display: flex;
+  align-items: center;
+  gap: .2rem;
+  font-weight: 600;
+}
+.dd-hero__rate svg {
+  width: 2.2rem;
+  height: 2.2rem;
+  color: var(--dd-orange-50);
+}
+.dd-hero__line { display: block; }
+.dd-hero__line + .dd-hero__line { margin-top: .6rem; }
+/* в макете «A team of» и «Design Experts» — два слоя с шагом 22 */
+.dd-hero__line--fancy {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: .22em;
+}
+.dd-hero__line--fancy .dd-fancy { line-height: inherit; }
+/* круглый значок Behance у правого края первой строки — от 834 */
+.dd-hero__badge { display: none; }
+.dd-hero__bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3rem;
+}
+.dd-hero__lead {
+  padding-inline: .6rem;
+  color: var(--dd-neutral-1300);
+}
+.dd-hero__lead span { display: block; }
+
+/* Кнопка из двух частей — одна ссылка: чёрная с подписью и круглая со стрелкой, встык */
+.dd-go {
+  display: inline-flex;
+  max-width: 100%;
+  border-radius: var(--dd-radius-pill);
+  text-decoration: none;
+}
+.dd-go:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .3rem;
+}
+.dd-go:hover .dd-btn--black { --_ring: 0 0 0 var(--_w-halo) rgba(4, 5, 6, .16); }
+.dd-go:hover .dd-btn--stroke-heavy { --_ring: inset 0 0 0 var(--_w-hover) var(--dd-neutral-1300); }
+.dd-go:active .dd-btn--black {
+  --_fg: var(--dd-neutral-400);
+  --_ring: 0 0 0 0 transparent;
+}
+.dd-go:active .dd-btn--stroke-heavy { --_ring: inset 0 0 0 .2rem var(--dd-beige-200); }
+
+@media (min-width: 834px) {
+  .dd-hero { --_header: 8.1rem; }
+  .dd-hero__inner {
+    gap: 5rem;
+    padding: 5rem 3rem;
+  }
+  .dd-hero__line + .dd-hero__line { margin-top: 1.4rem; }
+  .dd-hero__line--fancy {
+    column-gap: 2.2rem;
+    padding-right: 9rem; /* место под значок */
+  }
+  .dd-hero__badge {
+    position: absolute;
+    right: 0;
+    top: 4.25rem; /* по первой строке заголовка: 24 строки над ним и шаг 18 */
+    display: block;
+    width: 7.1rem;
+    height: 7.1rem;
+    border-radius: 50%;
+  }
+  .dd-hero__badge img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .dd-hero__badge:focus-visible {
+    outline: .2rem solid var(--dd-color-focus);
+    outline-offset: .2rem;
+  }
+  .dd-hero__bottom { gap: 4rem; }
+}
+@media (min-width: 1320px) {
+  .dd-hero { --_header: 7.3rem; }
+  .dd-hero__inner { padding: 6rem 7rem 5rem; }
+}
+
+/* ---------- Лента работ — 5216:35278 ---------- */
+/* Шесть работ в ряд по центру окна, крайние уходят за края; у краёв ряд тает в фон страницы.
+   Украшение: работы повторяются, ссылок нет */
+.dd-strip {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-block: 2rem;
+  overflow: hidden;
+}
+.dd-strip::before,
+.dd-strip::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 6rem;
+  pointer-events: none;
+}
+.dd-strip::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--dd-beige-50), rgba(246, 243, 237, 0));
+}
+.dd-strip::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--dd-beige-50), rgba(246, 243, 237, 0));
+}
+.dd-strip__list {
+  flex: none;
+  display: flex;
+  gap: .8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-strip__list img {
+  display: block;
+  width: 24rem;
+  height: 16rem;
+  border-radius: .4rem;
+  background: var(--dd-beige-100);
+  object-fit: cover;
+}
+@media (min-width: 834px) {
+  .dd-strip { padding-block: 3rem; }
+  .dd-strip::before,
+  .dd-strip::after { width: 16rem; }
+  .dd-strip__list { gap: 1.2rem; }
+  .dd-strip__list img {
+    width: 40.5rem;
+    height: 27rem;
+  }
+}
+
+/* ---------- Логотипы и «картинка + текст»: виды главной — 5168:16025, 5168:16209 ---------- */
+@media (min-width: 834px) {
+  .dd-logos--home { padding-block: 6rem 4rem; }
+  .dd-logos--home .dd-logos__title {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+  }
+  .dd-media--home .dd-media__title {
+    font-size: 4.8rem;
+    line-height: 5.4rem;
+    letter-spacing: -.04em;
+  }
+  .dd-media--home .dd-media__body { padding: 1.8rem 0 2.6rem; }
+  .dd-media--home .dd-media__figure { aspect-ratio: 625 / 431; }
+}
+@media (min-width: 1320px) {
+  .dd-media--home { padding: 8rem 7rem 4rem; }
+  .dd-media--home .dd-media__row { gap: 5rem; }
+  .dd-media--home .dd-media__text { padding-right: 12.6rem; }
+}
+
+/* ---------- Четыре цифры — 5216:35537 ---------- */
+.dd-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3rem 2rem;
+  margin-block: 0;
+  padding: 3rem 1.6rem;
+  list-style: none;
+}
+.dd-stat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.dd-stat__num {
+  font: italic 300 4rem/4.8rem var(--dd-font-fancy);
+  letter-spacing: -.03em;
+  color: var(--dd-neutral-1300);
+}
+.dd-stat__text {
+  margin: 0;
+  font: 400 1.3rem/2rem var(--dd-font-basic);
+  color: var(--dd-neutral-1300);
+}
+@media (min-width: 834px) {
+  .dd-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4rem;
+    padding: 5rem 3rem 4rem;
+  }
+  /* пунктир 3–3 посередине шага между цифрами */
+  .dd-stat + .dd-stat::before {
+    content: "";
+    position: absolute;
+    left: -2rem;
+    top: 0;
+    bottom: 0;
+    width: .1rem;
+    background: repeating-linear-gradient(180deg, var(--dd-beige-100) 0 .3rem, transparent .3rem .6rem);
+  }
+}
+@media (min-width: 1320px) {
+  .dd-stats {
+    gap: 8rem;
+    padding-inline: 7rem;
+  }
+  .dd-stat + .dd-stat::before { left: -4rem; }
+}
+
+/* ---------- Заголовок с вставкой: «Our [Creative] Services», «Here’s how to (●) get started:» ---------- */
+.dd-display {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem 1.1rem;
+  margin: 0;
+  font: 500 3.6rem/4.2rem var(--dd-font-basic);
+  letter-spacing: -.04em;
+  text-align: center;
+  color: var(--dd-neutral-1300);
+}
+.dd-display .dd-fancy {
+  font-size: 1em;
+  line-height: inherit;
+}
+/* жёлтая плашка под словом наклонена на 2°, само слово стоит ровно */
+.dd-display__tag {
+  position: relative;
+  isolation: isolate;
+  padding-inline: 1.4rem;
+}
+.dd-display__tag::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 1.2rem;
+  background: var(--dd-yellow-200);
+  transform: translateY(-.42rem) rotate(-2deg);
+}
+@media (min-width: 834px) {
+  .dd-display {
+    font-size: 5.6rem;
+    line-height: 6.2rem;
+  }
+}
+
+/* ---------- Сетка услуг — 5168:16252 ---------- */
+.dd-services {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 5rem 1.6rem 4rem;
+}
+.dd-services__list {
+  display: grid;
+  gap: 1.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-service {
+  display: block;
+  border-radius: 1.2rem;
+  color: var(--dd-neutral-1300);
+  text-decoration: none;
+}
+.dd-service:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+.dd-service__img {
+  display: block;
+  width: 100%;
+  height: 26rem;
+  border-radius: 1.2rem;
+  background: var(--dd-beige-100);
+  object-fit: cover;
+}
+.dd-service__body {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  padding: 1.6rem;
+}
+.dd-service__title {
+  color: inherit;
+  transition: color .15s;
+}
+.dd-service:focus-visible .dd-service__title { color: var(--dd-yellow-0); }
+@media (hover: hover) {
+  .dd-service:hover .dd-service__title { color: var(--dd-yellow-0); }
+}
+/* ряд под сеткой: по три значка услуг по бокам и кнопка на всю середину */
+.dd-services__more {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+.dd-services__more .dd-btn { flex: 1; }
+.dd-services__icons { display: none; }
+
+@media (min-width: 834px) {
+  .dd-services {
+    gap: 4rem;
+    padding: 8rem 3rem 6rem;
+  }
+  .dd-services .dd-display {
+    min-height: 7.78rem;
+    padding-bottom: 2rem;
+  }
+  .dd-services__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2.6rem;
+  }
+  .dd-services__list li { grid-column: span 2; }
+  .dd-service__img { height: 36rem; }
+  .dd-services__icons {
+    display: flex;
+    gap: 1.4rem;
+  }
+  .dd-services__icons span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6.4rem;
+    height: 6.4rem;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 .15rem var(--dd-beige-100);
+  }
+  .dd-services__icons img {
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-services { padding: 10rem 6rem 8rem; }
+  .dd-services__list li { grid-column: span 1; }
+  .dd-services__list .dd-services__wide { grid-column: span 2; }
+}
+
+/* ---------- Шаги — 5230:39579, карточка step 5216:38540 ---------- */
+/* Лента карточек выходит за правый край окна и листается. Секция идёт на всё окно:
+   заголовок стоит по листу, первая карточка — под ним */
+.dd-steps {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding-block: 4rem;
+}
+.dd-steps__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding-inline: 1.6rem;
+  text-align: center;
+}
+.dd-steps__lead {
+  max-width: 64rem;
+  color: var(--dd-neutral-1300);
+  opacity: .9;
+}
+/* переключатель «включено» с уткой — украшение */
+.dd-switch {
+  flex: none;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  width: 1.875em;
+  height: 1.036em;
+  padding: .143em;
+  border-radius: var(--dd-radius-pill);
+  background: linear-gradient(90deg, var(--dd-orange-100), var(--dd-orange-50));
+  box-shadow: inset 0 0 0 .1rem rgba(255, 255, 255, .26);
+}
+.dd-switch__knob {
+  --dd-duck-wing: var(--dd-yellow-200);
+
+  position: relative;
+  width: .75em;
+  height: .75em;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--dd-neutral-0);
+  box-shadow: 0 0 0 .1rem rgba(9, 9, 9, .12);
+  color: #000;
+}
+.dd-switch__knob svg {
+  position: absolute;
+  left: .154em;
+  top: .139em;
+  width: .775em;
+  height: .757em;
+}
+.dd-steps__scroller {
+  --_edge: 1.6rem;
+
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--_edge);
+  scrollbar-width: none;
+}
+.dd-steps__scroller::-webkit-scrollbar { display: none; }
+.dd-steps__track {
+  box-sizing: border-box;
+  display: flex;
+  gap: 1.2rem;
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
+  padding: 0 var(--_edge);
+  list-style: none;
+}
+.dd-step {
+  flex: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 28rem;
+  min-height: 42rem;
+  padding: 2.4rem;
+  border-radius: 1.4rem;
+  background: var(--dd-neutral-0);
+  scroll-snap-align: start;
+}
+.dd-step__num {
+  margin: 0;
+  padding: .4rem .6rem 0;
+  font: italic 400 2.9rem/3.4rem var(--dd-font-fancy);
+  letter-spacing: -.04em;
+  color: var(--dd-beige-200);
+}
+/* номер первого шага оранжевый, остальные приглушены — так в макете */
+.dd-step:first-child .dd-step__num { color: var(--dd-orange-50); }
+.dd-step__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.dd-step__title { min-height: 2lh; }
+.dd-step__text { text-wrap: pretty; }
+.dd-step__text span { display: block; }
+.dd-step__text span + span { margin-top: 1rem; }
+.dd-step__link { align-self: flex-start; }
+/* последняя карточка — на градиенте */
+.dd-step--fancy {
+  --dd-color-text: var(--dd-neutral-0);
+  --dd-color-text-body: var(--dd-neutral-0);
+  --dd-color-focus: var(--dd-yellow-200);
+
+  background: linear-gradient(328.5deg, var(--dd-orange-100), #871d1d 50%, #430e0f);
+}
+.dd-step--fancy .dd-step__num { color: var(--dd-yellow-200); }
+.dd-step--fancy .dd-step__body { padding-inline: .6rem; }
+
+@media (min-width: 834px) {
+  .dd-steps {
+    gap: 6rem;
+    padding-block: 6rem;
+  }
+  .dd-steps__head { padding-inline: 5rem; }
+  .dd-steps__scroller { --_edge: 3rem; }
+  .dd-step {
+    width: 30rem;
+    min-height: 45rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-steps { padding-block: 8rem; }
+  .dd-steps__head { padding-inline: 10rem; }
+  .dd-steps__scroller { --_edge: 8rem; }
+  @supports (width: 1cqw) {
+    .dd-steps__scroller { --_edge: max(8rem, calc((100cqw - var(--dd-frame)) / 2 + 8rem)); }
+  }
+}
+
+/* ---------- Принципы — 5216:38944 ---------- */
+/* Четыре плитки посреди ряда из шести; ряд сверху, ряд снизу и крайние плитки — тающие
+   пустые клетки. Сетка шириной 1440 стоит по центру окна. Ярлыки-курсоры — от 1320 */
+.dd-principles {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 5rem 1.6rem 3rem;
+  overflow: hidden;
+  overflow: clip;
+}
+.dd-principles__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+.dd-principles__title {
+  max-width: 84rem;
+  padding-top: .6rem;
+}
+/* три круга один в другом между словами заголовка */
+.dd-principles__dot {
+  display: inline-block;
+  width: 1.0625em;
+  height: 1.0625em;
+  margin-inline: .2em;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ff9923 0 .177em, #ffc076 .187em .344em, transparent .354em);
+  box-shadow: inset 0 0 0 .1rem #ffcb8f;
+  vertical-align: -.18em;
+}
+.dd-principles__lead {
+  max-width: 64rem;
+  color: var(--dd-neutral-1300);
+  opacity: .9;
+}
+.dd-principles__grid {
+  display: grid;
+  gap: 1.2rem;
+}
+.dd-principles__ghost { display: none; }
+.dd-principle {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .8rem;
+  min-height: 18.3rem;
+  padding: 3rem;
+  border-radius: 1.2rem;
+  background: var(--dd-fill-soft);
+  text-align: center;
+}
+.dd-principle__title {
+  margin: 0;
+  font: 500 2rem/2.4rem var(--dd-font-basic);
+  letter-spacing: -.03em;
+  color: var(--dd-neutral-1300);
+}
+.dd-principle__title .dd-fancy {
+  font-size: 1em;
+  line-height: inherit;
+}
+.dd-principle__text {
+  margin: 0;
+  font: 400 1.4rem/2.2rem var(--dd-font-basic);
+  letter-spacing: -.01em;
+  color: var(--dd-neutral-1200);
+}
+.dd-cursor { display: none; }
+
+@media (min-width: 834px) {
+  .dd-principles {
+    gap: 6rem;
+    padding: 8rem 3rem 3rem;
+  }
+  .dd-principles__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1320px) {
+  .dd-principles { padding: 10rem 0 3rem; }
+  .dd-principles__grid {
+    --_soft: 233, 228, 218; /* --dd-fill-soft */
+
+    grid-template-columns: repeat(6, 23rem);
+    grid-template-rows: 8rem auto 8rem;
+    justify-content: center;
+  }
+  .dd-principles__ghost {
+    display: block;
+    border-radius: 1.2rem;
+  }
+  /* верхний ряд тает вверх, нижний — вниз */
+  .dd-principles__ghost--up {
+    border-radius: 0 0 1.2rem 1.2rem;
+    background: linear-gradient(0deg, var(--dd-fill-soft), rgba(var(--_soft), 0));
+  }
+  .dd-principles__ghost--down {
+    border-radius: 1.2rem 1.2rem 0 0;
+    background: linear-gradient(180deg, var(--dd-fill-soft), rgba(var(--_soft), 0));
+  }
+  /* вторая и пятая колонки тают ещё и вбок */
+  .dd-principles__ghost--left {
+    -webkit-mask-image: linear-gradient(270deg, #000, transparent);
+    mask-image: linear-gradient(270deg, #000, transparent);
+  }
+  .dd-principles__ghost--right {
+    -webkit-mask-image: linear-gradient(90deg, #000, transparent);
+    mask-image: linear-gradient(90deg, #000, transparent);
+  }
+  .dd-principles__ghost--side-left { background: linear-gradient(270deg, rgba(var(--_soft), .3), rgba(var(--_soft), 0)); }
+  .dd-principles__ghost--side-right { background: linear-gradient(90deg, rgba(var(--_soft), .3), rgba(var(--_soft), 0)); }
+  .dd-principle--left { background: linear-gradient(270deg, var(--dd-fill-soft), rgba(var(--_soft), .3)); }
+  .dd-principle--right { background: linear-gradient(90deg, var(--dd-fill-soft), rgba(var(--_soft), .3)); }
+
+  /* Ярлык-курсор: стрелка и подпись одного цвета, под ними цветное свечение */
+  .dd-cursor {
+    --_ink: var(--dd-neutral-1300);
+
+    position: absolute;
+    z-index: 1;
+    display: block;
+    padding: 2.7rem 0 0 1.96rem;
+    color: var(--_c);
+    filter: drop-shadow(0 var(--_dy, .8rem) 4.8rem var(--_glow));
+    pointer-events: none;
+  }
+  .dd-cursor svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2.4rem;
+    height: 2.82rem;
+    filter: drop-shadow(0 .7rem 1rem rgba(141, 120, 45, .2));
+  }
+  .dd-cursor span {
+    display: block;
+    padding: .4rem .74rem;
+    border-radius: .5rem;
+    background: var(--_c);
+    color: var(--_ink);
+    font: 400 1.55rem/2rem var(--dd-font-basic);
+    white-space: nowrap;
+  }
+  .dd-cursor--flip { padding: 2.7rem 1.96rem 0 0; }
+  .dd-cursor--flip svg {
+    left: auto;
+    right: 0;
+    transform: scaleX(-1);
+  }
+  .dd-cursor--manager {
+    --_c: var(--dd-beige-300);
+    --_ink: var(--dd-neutral-0);
+    --_glow: rgba(176, 168, 148, .61);
+
+    left: calc(50% + 17.93rem);
+    top: 2.1rem;
+  }
+  .dd-cursor--ux {
+    --_c: var(--dd-yellow-100);
+    --_glow: rgba(254, 220, 120, .61);
+
+    left: calc(50% - 46.32rem);
+    top: 31.35rem;
+  }
+  .dd-cursor--client {
+    --_c: var(--dd-neutral-1200);
+    --_ink: var(--dd-neutral-50);
+    --_glow: rgba(49, 50, 51, .57);
+    --_dy: 1.2rem;
+
+    right: calc(50% + 49.45rem);
+    top: 36.07rem;
+  }
+  .dd-cursor--art {
+    --_c: var(--dd-orange-100);
+    --_glow: rgba(203, 114, 42, .57);
+    --_dy: 1.2rem;
+
+    right: calc(50% - 55.51rem);
+    top: 29.69rem;
+  }
+}
+
+/* ---------- Две карточки со списками — 5230:40323 ---------- */
+.dd-duo {
+  display: grid;
+  gap: 3rem;
+  padding: 4rem 1.6rem;
+}
+.dd-duo__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 575 / 340;
+  border-radius: 1.6rem;
+  background: var(--dd-beige-100);
+  object-fit: cover;
+}
+.dd-duo__body {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 2.6rem 1.8rem 1.8rem;
+}
+/* пункты через 36, посередине пунктир — в раскладке он места не занимает */
+.dd-duo__list {
+  display: flex;
+  flex-direction: column;
+  gap: 3.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-duo__list li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.dd-duo__list li + li::before {
+  content: "";
+  position: absolute;
+  inset: -1.8rem 0 auto;
+  height: .1rem;
+  background: repeating-linear-gradient(90deg, var(--dd-line-dash) 0 .3rem, transparent .3rem .6rem);
+}
+.dd-duo__item {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+.dd-duo__item b {
+  font: 600 1.6rem/2.4rem var(--dd-font-basic);
+  color: var(--dd-neutral-1300);
+}
+.dd-duo__check {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: var(--dd-fill-check);
+  color: var(--dd-neutral-1300);
+}
+.dd-duo__check svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+@media (min-width: 834px) {
+  .dd-duo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 6rem 3rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-duo {
+    gap: 5rem;
+    padding: 8rem 12rem;
+  }
+}
+
+/* ---------- Финальный призыв — 5280:42732 (верхняя часть, 5230:40579) ---------- */
+/* Градиент под ним и под подвалом — фон страницы, см. .dd-home в начале файла */
+.dd-final {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  padding: 6rem 1.6rem;
+  text-align: center;
+}
+.dd-final__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+.dd-final__title {
+  font-size: clamp(4.2rem, 11vw, 8rem);
+  line-height: 1.3;
+}
+.dd-final__title > span { display: block; }
+.dd-final__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  max-width: 66rem;
+}
+@media (min-width: 834px) {
+  .dd-final {
+    gap: 6rem;
+    padding: 10rem 3rem;
+  }
+  .dd-final__title {
+    font-size: 8rem;
+    line-height: 10.4rem;
+  }
+  .dd-final__actions {
+    flex-direction: row;
+    gap: 1.6rem;
+  }
+  .dd-final__actions .dd-btn { flex: 1; }
+}
+@media (min-width: 1320px) {
+  .dd-final { padding: 12rem 14rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-service__title { transition: none; }
+}
