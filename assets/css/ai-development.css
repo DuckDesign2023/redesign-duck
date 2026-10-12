@@ -275,7 +275,7 @@
    фото выбранной строки и её описанием поверх фото. Строки не раскрываются — высота списка
    постоянна, при смене строки ничего не прыгает. Строку выбирает указатель, фокус или
    нажатие (assets/js/ai-development.js); без скрипта выбрана первая.
-   До 834 — столбик карточек: фото, ярлык, заголовок, описание.
+   До 834 — аккордеон: строка с ярлыком и заголовком, фото и описание раскрываются внутри.
    ========================================================================== */
 .dd-ai-edge { padding: 3rem 0; }
 .dd-ai-edge__grid {
@@ -325,6 +325,50 @@
 .dd-ai-tile > p { margin: 0; color: var(--dd-color-text-body); text-wrap: pretty; }
 .dd-ai-tile__art { order: -1; margin: 0 0 2rem; overflow: hidden; border-radius: var(--dd-radius-md); background: var(--dd-beige-100); }
 .dd-ai-tile__art img { display: block; width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+
+/* До 834 — аккордеон: видны ярлык, цифра и заголовок, фото и описание лежат внутри строки и
+   раскрываются у выбранной (класс .is-active ставит тот же скрипт, что и на широком экране;
+   открыта всегда одна, первая — сразу). Без скрипта правило не действует: все строки раскрыты */
+@media (max-width: 833.98px) and (scripting: enabled) {
+  .dd-ai-tile { padding: 1.8rem 2rem; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .dd-ai-tile h3 { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; margin: 0; }
+  /* плюс в круге — как у вопросов FAQ; у раскрытой строки тёмный круг с минусом */
+  .dd-ai-tile h3::after {
+    content: "";
+    flex: none;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    color: var(--dd-neutral-1300);
+    background:
+      linear-gradient(currentColor, currentColor) center / 1.2rem .15rem no-repeat,
+      linear-gradient(currentColor, currentColor) center / .15rem 1.2rem no-repeat,
+      var(--dd-beige-50);
+    transition: background-color .3s, color .3s, transform .4s cubic-bezier(.2, .7, .2, 1);
+  }
+  .dd-ai-tile.is-active h3::after {
+    color: var(--dd-neutral-0);
+    background:
+      linear-gradient(currentColor, currentColor) center / 1.2rem .15rem no-repeat,
+      linear-gradient(currentColor, currentColor) center / .15rem 0 no-repeat,
+      var(--dd-neutral-1300);
+    transform: rotate(180deg);
+  }
+  .dd-ai-tile__art,
+  .dd-ai-tile > p {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height .45s cubic-bezier(.4, 0, .2, 1), margin .45s cubic-bezier(.4, 0, .2, 1), opacity .3s;
+  }
+  .dd-ai-tile__art { order: 1; margin: 0; }
+  .dd-ai-tile > p { order: 2; }
+  .dd-ai-tile.is-active .dd-ai-tile__art { max-height: 60rem; margin: 1.6rem 0 1.4rem; opacity: 1; }
+  .dd-ai-tile.is-active > p { max-height: 20rem; opacity: 1; }
+}
+@media (min-width: 560px) and (max-width: 833.98px) {
+  .dd-ai-tile__art img { aspect-ratio: 16 / 9; }
+}
 
 @media (min-width: 834px) {
   .dd-ai-edge { padding: 6rem 0; }

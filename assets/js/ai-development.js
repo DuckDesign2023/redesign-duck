@@ -16,6 +16,7 @@
      своё фото и описание */
   (function () {
     var tiles = Array.prototype.slice.call(document.querySelectorAll('.dd-ai-edge .dd-ai-tile'));
+    var narrow = matchMedia('(max-width: 833.98px)');
     function activate(tile) {
       tiles.forEach(function (t) { t.classList.toggle('is-active', t === tile); });
     }
@@ -23,7 +24,16 @@
       tile.tabIndex = 0;
       tile.addEventListener('mouseenter', function () { activate(tile); });
       tile.addEventListener('focus', function () { activate(tile); });
-      tile.addEventListener('click', function () { activate(tile); });
+      tile.addEventListener('click', function () {
+        activate(tile);
+        /* на телефоне строки — аккордеон: строка выше схлопнулась, нажатая уехала вверх —
+           возвращаем её под шапку */
+        if (!narrow.matches) return;
+        setTimeout(function () {
+          var top = tile.getBoundingClientRect().top;
+          if (top < 72) scrollBy({ top: top - 84, behavior: reduce ? 'auto' : 'smooth' });
+        }, 480);
+      });
     });
   })();
 
