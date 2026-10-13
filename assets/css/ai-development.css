@@ -1400,11 +1400,11 @@
   .dd-ai-swipe i { width: .6rem; height: .6rem; border-radius: .3rem; background: rgba(4, 5, 6, .16); transition: width .3s, background-color .3s; }
   .dd-ai-swipe i.is-on { width: 2.2rem; background: var(--dd-neutral-1300); }
 
-  /* Первый экран: сцена выше, стрелка-курсор по центру окна; текст заходит на низ сцены на 200 */
+  /* Первый экран: сцена выше, стрелка-курсор по центру окна; текст заходит на низ сцены на 140 */
   .dd-ai-hero__bg { flex-basis: 38rem; min-height: 38rem; }
   .dd-ai-hero__bg video { object-position: 94% 30%; }
   .dd-ai-hero__bg::after { height: 70%; }
-  .dd-ai-hero__inner { margin-top: -20rem; }
+  .dd-ai-hero__inner { margin-top: -14rem; }
 
   /* Строка-ярлык с одной чертой: текст сверху, под ним жёлтая черта, всё от левого края.
      Ярлык по центру (с чертой с обеих сторон) остаётся как есть */
