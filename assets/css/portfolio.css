@@ -1,0 +1,621 @@
+/* ==========================================================================
+   duck.design — страница Portfolio: блоки, которые стоят только на ней
+   Источник: Figma «duck.design | NEW», страница portfolio, макет 1440 portfolio 5066:426
+   и мобильный 5138:8715 (375). Требует tokens.css и components.css.
+
+   Блок собран точно по макету: поля, интервалы и радиусы у каждого свои. Между 834 и 1319
+   стоит настольная раскладка с полем страницы 30 — макета на эту ширину нет. Шире 1440 лист
+   тянется до --dd-frame.
+
+   Фильтр категорий — радиокнопки и :has(), без скрипта. Стрелки большого отзыва —
+   assets/js/portfolio.js; без скрипта стрелок нет.
+   Три нижние секции в макете перенесены со страницы «промо»: кнопки стоят из новой системы
+   (.dd-btn), цвета макета мимо tokens.css записаны числом рядом с местом, где стоят.
+   Цвет текста #161b26 макета заменён на Neutral-1300, #2c3449 — на Neutral-1100.
+   ========================================================================== */
+
+/* Лист блока: до предела сетки, дальше по центру */
+.dd-folio-hero,
+.dd-folio-works,
+.dd-folio-stats,
+.dd-folio-cta,
+.dd-folio-awards {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+}
+
+/* ---------- Первый экран — 5066:429 · 375: 5138:9769 ---------- */
+/* Заголовок, строка под ним, две кнопки. До 834 «Our» стоит своей строкой, кнопки — столбцом
+   во всю ширину */
+.dd-folio-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  padding: 7rem 1.6rem 4rem;
+  text-align: center;
+}
+.dd-folio-hero__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+.dd-folio-hero__title {
+  display: flex;
+  flex-direction: column;
+  row-gap: .5rem;
+  margin: 0;
+  color: var(--dd-neutral-1300);
+}
+.dd-folio-hero__lead {
+  max-width: 32.9rem; /* ширина заголовка в макете 375 */
+  margin: 0;
+  color: var(--dd-neutral-1300);
+}
+.dd-folio-hero__actions {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+}
+
+/* ---------- Фильтр категорий и сетка работ — 5072:775, 5066:441 · 375: 5138:9779, 5138:9812 ---------- */
+/* Ряд вкладок листается, пока не помещается. На каждую категорию — своя панель с заголовком
+   и сеткой; показана та, чья радиокнопка выбрана */
+.dd-folio-works { padding: 4rem 1.6rem; }
+.dd-folio-filter {
+  margin-inline: -1.6rem;
+  padding-inline: 1.6rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.dd-folio-filter::-webkit-scrollbar { display: none; }
+.dd-folio-filter__row {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  margin-inline: auto;
+  box-shadow: inset 0 -.1rem 0 var(--dd-beige-100);
+}
+.dd-folio-filter__tab {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: 1rem .6rem;
+  box-shadow: inset 0 -.2rem 0 var(--_line, transparent);
+  font: 600 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-neutral-1100);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.dd-folio-filter__tab img {
+  flex: none;
+  width: 1.8rem;
+  height: 1.8rem;
+}
+.dd-folio-filter__tab:has(:checked) { --_line: var(--dd-orange-50); }
+.dd-folio-filter__tab:has(:focus-visible) {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: -.2rem;
+}
+@media (hover: hover) {
+  .dd-folio-filter__tab:not(:has(:checked)):hover { --_line: var(--dd-beige-200); }
+}
+
+.dd-folio-panel { display: none; }
+.dd-folio-works:has([value="branding"]:checked) [data-cat="branding"],
+.dd-folio-works:has([value="infographics"]:checked) [data-cat="infographics"],
+.dd-folio-works:has([value="logo"]:checked) [data-cat="logo"],
+.dd-folio-works:has([value="presentations"]:checked) [data-cat="presentations"],
+.dd-folio-works:has([value="websites"]:checked) [data-cat="websites"],
+.dd-folio-works:has([value="social"]:checked) [data-cat="social"],
+.dd-folio-works:has([value="printing"]:checked) [data-cat="printing"],
+.dd-folio-works:has([value="motion"]:checked) [data-cat="motion"] { display: block; }
+
+/* special-new-H4 макета: 28 / 34 на обеих ширинах */
+.dd-folio-panel__title {
+  margin: 3rem 0 0;
+  font: 400 2.8rem/3.4rem var(--dd-font-basic);
+  letter-spacing: -.03em;
+  color: var(--dd-neutral-1300);
+}
+.dd-folio-grid {
+  display: grid;
+  gap: 2rem;
+  margin: 3rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-folio-grid li {
+  aspect-ratio: 3 / 2;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--dd-beige-100);
+}
+.dd-folio-grid img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Пять цифр — 5078:7260 · 375: 5138:9837 ---------- */
+/* Над цифрой — пилюля-переключатель со значком: украшение макета, не нажимается.
+   Между цифрами пунктир 3–3, места в раскладке он не занимает */
+.dd-folio-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4.8rem;
+  margin-block: 0;
+  padding: 2rem 1.6rem;
+  list-style: none;
+}
+.dd-folio-stat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: var(--dd-neutral-1300);
+}
+.dd-folio-stat + .dd-folio-stat::before {
+  content: "";
+  position: absolute;
+  top: -2.4rem;
+  left: 0;
+  right: 0;
+  height: .1rem;
+  margin-top: -.05rem;
+  background: repeating-linear-gradient(90deg, var(--dd-beige-100) 0 .3rem, transparent .3rem .6rem);
+}
+.dd-folio-stat__toggle {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  width: 6.2rem;
+  height: 3.4rem;
+  margin-bottom: 1.9rem;
+  padding: .4rem;
+  border-radius: 9.9rem;
+  background: var(--_c, var(--dd-yellow-200));
+}
+.dd-folio-stat__toggle img {
+  box-sizing: border-box;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: .4rem;
+  border-radius: 50%;
+  background: var(--dd-neutral-0);
+}
+.dd-folio-stat--orange { --_c: var(--dd-orange-100); }
+.dd-folio-stat--ink { --_c: #434c62; }
+.dd-folio-stat__num {
+  margin: 0 0 .5rem;
+  font: italic 400 3rem/3.8rem var(--dd-font-fancy);
+  letter-spacing: -.04em;
+}
+.dd-folio-stat__text {
+  margin: 0;
+  font: 400 1.3rem/2rem var(--dd-font-basic);
+}
+
+/* ---------- Полоса-призыв «Interested?» — 5078:6980 · 375: 5138:9977 ---------- */
+/* Градиент макета 375: от оранжевого в правом верхнем углу к тёмному в левом нижнем */
+.dd-folio-cta { padding: .8rem; }
+.dd-folio-cta__card {
+  display: flex;
+  flex-direction: column;
+  padding: 2.6rem;
+  border-radius: 2rem;
+  background: #131013 linear-gradient(234deg, #ff8b20 -7.7%, #871d1d 38.9%, #430e0f 72.9%, #131013 98.3%);
+  color: var(--dd-neutral-0);
+  text-align: center;
+}
+.dd-folio-cta__title {
+  margin: 0 0 1.6rem;
+  font: 400 3.6rem/4rem var(--dd-font-basic);
+  letter-spacing: -.04em;
+}
+.dd-folio-cta__text {
+  margin: 0 0 2.2rem;
+  font: 400 1.8rem/2.7rem var(--dd-font-basic);
+}
+
+/* ---------- Награды с большим отзывом — 5078:6989 · 375: 5138:9882 ---------- */
+/* Заголовок с кнопкой, большая карточка отзыва и четыре плитки площадок. До 834 — столбцом:
+   заголовок по центру, карточка, плитки 2 × 2 */
+.dd-folio-awards {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  padding: 8rem 1.6rem;
+}
+.dd-folio-awards__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.9rem;
+  text-align: center;
+}
+.dd-folio-awards__title {
+  margin: 0;
+  font-size: 3.2rem;
+  line-height: 3.8rem;
+  color: var(--dd-neutral-1300);
+}
+.dd-folio-awards__title br { display: none; }
+.dd-folio-awards__title .dd-fancy { /* в макете 375 курсив стоит своей строкой */
+  display: block;
+  line-height: inherit;
+}
+.dd-folio-awards__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+.dd-folio-awards__list { display: contents; }
+
+.dd-folio-review {
+  position: relative;
+  order: -2;
+  grid-column: 1 / -1;
+  box-sizing: border-box;
+  display: flex;
+  min-width: 0;
+  min-height: 66.7rem; /* высота карточки в макете 375 */
+  padding: 2.2rem;
+  border-radius: 1.4rem;
+  background: var(--dd-neutral-0);
+  color: var(--dd-neutral-1300);
+}
+.dd-folio-review__scroller {
+  flex: 1;
+  display: flex;
+  gap: 4.4rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  list-style: none;
+}
+.dd-folio-review__scroller::-webkit-scrollbar { display: none; }
+.dd-folio-review__scroller:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .4rem;
+}
+.dd-folio-review__slide {
+  flex: 0 0 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.2rem;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.dd-folio-review__rating {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  min-height: 4.2rem;
+  margin: 0;
+  padding-right: 10.8rem; /* место под стрелки */
+  font: italic 400 1.6rem/2rem var(--dd-font-fancy);
+}
+.dd-folio-review__stars {
+  display: flex;
+  gap: .2rem;
+  color: var(--dd-yellow-200);
+}
+.dd-folio-review__stars svg {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+.dd-folio-review__quote {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin: 0;
+}
+.dd-folio-review__quote p {
+  margin: 0;
+  font: 500 2.4rem/3rem var(--dd-font-basic);
+  letter-spacing: -.02em;
+}
+.dd-folio-review__author {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+}
+.dd-folio-review__who {
+  flex: 1;
+  min-width: 0;
+}
+.dd-folio-review__who p { margin: 0; }
+.dd-folio-review__who p + p {
+  margin-top: .2rem;
+  color: #585a61;
+}
+.dd-folio-review__logo {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 9rem;
+  height: 4.7rem;
+}
+.dd-folio-review__foot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2.2rem;
+  margin-top: 2.2rem;
+}
+.dd-folio-review__foot::before {
+  content: "";
+  position: absolute;
+  top: -2.2rem;
+  left: 0;
+  right: 0;
+  height: .1rem;
+  margin-top: -.05rem;
+  background: repeating-linear-gradient(90deg, var(--dd-line-dash-soft) 0 .3rem, transparent .3rem .6rem);
+}
+.dd-folio-review__services {
+  flex: 1;
+  min-width: 0;
+}
+.dd-folio-review__services p { margin: 0; }
+.dd-folio-review__services p + p { margin-top: .6rem; }
+
+.dd-folio-review__nav {
+  position: absolute;
+  top: 2.2rem;
+  right: 2.2rem;
+  display: flex;
+  gap: 1.2rem;
+}
+.dd-folio-review__nav button {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.2rem;
+  height: 4.2rem;
+  margin: 0;
+  padding: 0;
+  border: .1rem solid #404246;
+  border-radius: 50%;
+  background: none;
+  color: var(--dd-neutral-1300);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.dd-folio-review__nav svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+.dd-folio-review__nav button:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+.dd-folio-review__nav button[aria-disabled="true"] {
+  opacity: .4;
+  cursor: default;
+}
+@media (hover: hover) {
+  .dd-folio-review__nav button:not([aria-disabled="true"]):hover { background: var(--dd-beige-50); }
+}
+@media (scripting: none) {
+  .dd-folio-review__nav { display: none; }
+  .dd-folio-review__rating { padding-right: 0; }
+}
+
+/* плитка площадки: логотип у верха, подпись у низа. В макете 375 первым рядом стоят
+   Influencer Marketing Hub и Sortlist, на 1440 — Upwork и Clutch */
+.dd-folio-award {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: .6rem;
+  min-height: 20rem;
+  padding: 1.6rem;
+  border-radius: 1.4rem;
+  background: var(--dd-neutral-0);
+}
+.dd-folio-award:nth-child(n + 3) { order: -1; }
+.dd-folio-award img {
+  width: auto;
+  height: 2.4rem;
+}
+.dd-folio-award p {
+  margin: 0;
+  color: var(--dd-neutral-1300);
+}
+
+/* уже 360: звёзды и стрелки отзыва меньше, чтобы оценка не заходила под стрелки */
+@media (max-width: 359px) {
+  .dd-folio-review__rating { padding-right: 8.2rem; }
+  .dd-folio-review__stars svg {
+    width: 2rem;
+    height: 2rem;
+  }
+  .dd-folio-review__nav { gap: .6rem; }
+  .dd-folio-review__nav button {
+    width: 3.6rem;
+    height: 3.6rem;
+  }
+}
+
+@media (min-width: 834px) {
+  .dd-folio-hero { padding-inline: 3rem; }
+  .dd-folio-hero__title { display: block; }
+  .dd-folio-hero__lead { max-width: none; }
+  .dd-folio-hero__actions {
+    align-self: center;
+    flex-direction: row;
+    width: 36rem;
+    max-width: 100%;
+  }
+  .dd-folio-hero__actions .dd-btn { flex: 1 1 0; }
+
+  .dd-folio-works { padding-inline: 3rem; }
+  .dd-folio-filter {
+    margin-inline: -3rem;
+    padding-inline: 3rem;
+  }
+  .dd-folio-panel__title {
+    margin-top: 5rem;
+    text-align: center;
+  }
+  .dd-folio-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dd-folio-grid li { box-shadow: 0 .5rem 4.6rem -.6rem rgba(88, 77, 59, .13); } /* #584d3b 13 % — тень задана на слое */
+
+  .dd-folio-stats {
+    flex-direction: row;
+    gap: 2.4rem;
+    padding: 7rem 3rem 4rem;
+  }
+  .dd-folio-stat { flex: 1 1 0; }
+  .dd-folio-stat + .dd-folio-stat::before {
+    top: 0;
+    bottom: 0;
+    left: -1.2rem;
+    right: auto;
+    width: .1rem;
+    height: auto;
+    margin: 0 0 0 -.05rem;
+    background: repeating-linear-gradient(180deg, var(--dd-beige-100) 0 .3rem, transparent .3rem .6rem);
+  }
+
+  .dd-folio-cta { padding: 5rem 3rem; }
+  .dd-folio-cta__card {
+    flex-direction: row;
+    align-items: center;
+    gap: 6rem;
+    padding: 4rem 5rem;
+    border-radius: 2.4rem;
+    background: #131013 linear-gradient(270deg, #ffca41, #ff8b20 24%, #871d1d 52%, #430e0f 75%, #131013);
+    text-align: left;
+  }
+  .dd-folio-cta__title,
+  .dd-folio-cta__text {
+    flex: 1 1 0;
+    margin: 0;
+  }
+  .dd-folio-cta__title { flex: none; } /* до 1320 заголовок по содержимому, строке — всё остальное */
+  .dd-folio-cta__card .dd-btn { flex: none; }
+
+  .dd-folio-awards {
+    gap: 6rem;
+    padding: 10rem 3rem;
+    overflow: clip;
+  }
+  /* жёлтое пятно за заголовком: Yellow-200 60 %, размытие 229,6 */
+  .dd-folio-awards::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 14rem;
+    left: 42.16%;
+    width: 31.28rem;
+    height: 21.34rem;
+    border-radius: 50%;
+    background: var(--dd-yellow-200);
+    opacity: .6;
+    filter: blur(11.48rem);
+    pointer-events: none;
+  }
+  .dd-folio-awards__head {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0 2rem 0 3rem;
+    text-align: left;
+  }
+  .dd-folio-awards__title {
+    font-size: var(--dd-h2-light);
+    line-height: var(--dd-h2-light-lh);
+  }
+  .dd-folio-awards__title br { display: inline; }
+  .dd-folio-awards__title .dd-fancy {
+    display: inline;
+    line-height: 1;
+  }
+  .dd-folio-awards__head .dd-btn { flex: none; }
+  .dd-folio-awards__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem;
+  }
+  .dd-folio-review {
+    order: 0;
+    min-height: 50rem;
+    padding: 2.8rem 2.8rem 2.8rem 4.4rem;
+    border-radius: 2rem;
+  }
+  .dd-folio-review__slide { gap: 3rem; }
+  .dd-folio-review__quote {
+    gap: 2rem;
+    padding-right: 10rem;
+  }
+  .dd-folio-review__foot {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 3rem;
+  }
+  .dd-folio-review__foot::before { top: -3rem; }
+  .dd-folio-review__nav {
+    top: 2.8rem;
+    right: 2.8rem;
+  }
+  .dd-folio-award {
+    min-height: 24rem;
+    padding: 3.6rem 2.8rem;
+    border-radius: 2rem;
+  }
+  .dd-folio-award:nth-child(n + 3) { order: 0; }
+}
+
+@media (min-width: 1320px) {
+  .dd-folio-hero { padding-inline: 6rem; }
+
+  .dd-folio-works { padding-inline: 9rem; }
+  .dd-folio-filter {
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+
+  .dd-folio-stats {
+    gap: 4.8rem;
+    padding-inline: 7rem;
+  }
+  .dd-folio-stat + .dd-folio-stat::before { left: -2.4rem; }
+
+  .dd-folio-cta { padding-inline: 8rem; }
+  .dd-folio-cta__title { flex: 1 1 0; }
+
+  .dd-folio-awards {
+    gap: 9rem;
+    padding: 12rem 10rem;
+  }
+  /* карточка отзыва 803,5 и две колонки плиток по 198,25 — как в макете 1440 */
+  .dd-folio-awards__grid { grid-template-columns: minmax(0, 803.5fr) minmax(0, 198.25fr) minmax(0, 198.25fr); }
+  .dd-folio-review {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+}
