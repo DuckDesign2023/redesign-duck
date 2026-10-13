@@ -1,0 +1,433 @@
+/* ==========================================================================
+   duck.design — блоки страницы About Us
+   Figma: 1440 branding 5757:21034 (About Us). Макета 375 нет: телефон собран
+   по «Правилам перестройки на 375» (DESIGN.md, раздел 4).
+   Подключается только на странице About, после blocks.css.
+   Свои блоки: первый экран с карточкой «Comprehensive Design Solutions», плитки «The Success
+   Story». Виды общих блоков для этой страницы: .dd-logos--about, .dd-media--about.
+   Эталоны — design-system/blocks/about-*.html.
+   ========================================================================== */
+
+/* ---------- Первый экран — 5761:8502 ---------- */
+/* Градиент идёт на весь блок снизу вверх и уходит под шапку: шапка тёмная (.dd-on-dark).
+   Заголовок набран мимо стилей системы: Sentient Medium Italic 49 / 56 и Inter Semi Bold 48 / 56 */
+.dd-about-hero {
+  --_header: 6.1rem;
+
+  margin-top: calc(-1 * var(--_header));
+  padding-top: var(--_header);
+  background: linear-gradient(to top, var(--dd-beige-50) 0%, var(--dd-yellow-200) 24.5%, var(--dd-orange-100) 48.1%, #932727 76%, #26161c 100%);
+}
+.dd-about-hero__top,
+.dd-about-hero__sheet {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+}
+.dd-about-hero__top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 4rem 1.6rem 3rem;
+  text-align: center;
+  color: var(--dd-neutral-0);
+}
+.dd-about-hero__label {
+  margin: 0;
+  font: 700 1.4rem/2rem var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dd-orange-200);
+}
+.dd-about-hero__title {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin: 0;
+  font: 600 3rem/3.6rem var(--dd-font-basic);
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.dd-about-hero__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem 1.2rem;
+}
+.dd-about-hero__line em {
+  font-family: var(--dd-font-fancy);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.0208em; /* 49 при 48 */
+}
+.dd-about-hero__thumb {
+  display: block;
+  width: 6.4rem;
+  height: auto;
+  aspect-ratio: 103 / 52;
+  border-radius: .5rem;
+  object-fit: cover;
+  background: var(--dd-orange-100);
+}
+.dd-about-hero__lead {
+  max-width: 72rem;
+  margin: 0;
+  color: inherit;
+  text-wrap: balance; /* в макете строки абзаца выровнены по длине */
+}
+.dd-about-hero__top .dd-btn { align-self: stretch; }
+
+.dd-about-hero__sheet { padding: 1rem 0 0; }
+
+/* Карточка «Our expertise» — 5761:8516 */
+.dd-about-expertise {
+  display: grid;
+  gap: 2.4rem;
+  padding: 3rem 1.6rem 1.6rem;
+  background: var(--dd-neutral-0);
+}
+.dd-about-expertise__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+}
+.dd-about-expertise__head {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+/* вторая строка заголовка — целиком курсив: в макете она выше первой, блок 102 при двух строках по 50 */
+.dd-about-expertise__head .dd-fancy { line-height: inherit; }
+.dd-about-expertise__label {
+  margin: 0;
+  font: 700 1.6rem/2.4rem var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dd-orange-0);
+}
+.dd-about-expertise__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-wrap: pretty;
+}
+.dd-about-expertise__text p {
+  margin: 0;
+  color: var(--dd-neutral-1200);
+}
+.dd-about-expertise__body .dd-btn { align-self: stretch; }
+.dd-about-expertise__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-about-expertise__list li {
+  box-sizing: border-box;
+  min-height: 9rem;
+  padding: 1.6rem;
+  border-radius: .8rem;
+  background: var(--dd-beige-50);
+  color: var(--dd-neutral-1300);
+}
+
+@media (min-width: 834px) {
+  .dd-about-hero { --_header: 8.1rem; }
+  .dd-about-hero__top {
+    gap: 3rem;
+    padding: 6rem 3rem 4rem;
+  }
+  .dd-about-hero__title {
+    font-size: 4.8rem;
+    line-height: 5.6rem;
+  }
+  .dd-about-hero__line {
+    flex-wrap: nowrap;
+    gap: 2rem;
+  }
+  .dd-about-hero__thumb { width: 10.3rem; }
+  .dd-about-hero__lead { padding-bottom: 1.2rem; }
+  .dd-about-hero__top .dd-btn { align-self: center; }
+
+  .dd-about-hero__sheet { padding: 4rem 3rem 1rem; }
+  .dd-about-expertise {
+    grid-template-columns: minmax(0, 648fr) minmax(0, 572fr);
+    gap: 2rem;
+    padding: 5rem 4rem;
+    border-radius: 2.7rem;
+  }
+  .dd-about-expertise__body { padding: 2rem 4.8rem 0 2.8rem; }
+  .dd-about-expertise__head {
+    gap: 1.3rem;
+    padding-inline: 1.2rem;
+  }
+  .dd-about-expertise__text { padding: 0 1.2rem 5rem; }
+  .dd-about-expertise__body .dd-btn { align-self: flex-start; }
+  .dd-about-expertise__list {
+    grid-auto-rows: 1fr;
+    gap: 1.6rem;
+  }
+  .dd-about-expertise__list li {
+    min-height: 0;
+    padding: 2.4rem;
+    border-radius: 1.4rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-about-hero { --_header: 7.3rem; }
+  .dd-about-hero__top { padding-inline: 14rem; }
+  .dd-about-hero__sheet { padding-inline: 6rem; }
+}
+
+/* ---------- Логотипы клиентов, вид About — 5760:6859 ---------- */
+/* У общего блока здесь заголовок с абзацем над рядом и семь логотипов цвета Beige-300 */
+.dd-logos--about {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 3rem;
+  padding: 4rem 1.6rem;
+}
+.dd-logos__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 70rem;
+  margin-inline: auto;
+  text-align: center;
+}
+.dd-logos__intro p {
+  margin: 0;
+  color: var(--dd-color-text);
+  text-wrap: pretty;
+}
+.dd-logos--about .dd-logos__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2.4rem 3.2rem;
+}
+
+@media (min-width: 834px) {
+  .dd-logos--about {
+    gap: 7rem;
+    padding: 10rem 3rem;
+  }
+  .dd-logos--about .dd-logos__list {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 2rem;
+    min-height: 3.82rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-logos--about { padding-inline: 7rem; }
+}
+
+/* ---------- Картинка + текст, вид About — 5757:26164 ---------- */
+/* Три пары без лида: абзацы через 10, строка над заголовком крупнее (btn 16), поля блока 70 · 90 · 90 */
+.dd-media--about .dd-media__paras { gap: 1rem; }
+.dd-media--about .dd-media__eyebrow--l {
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+}
+.dd-media--about .dd-media__figure { background: #e2d5cb; }
+/* в заголовках макета стоят неразрывные пробелы; на телефоне строка с ними шире окна */
+.dd-media--about .dd-media__row { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 834px) {
+  .dd-media--about { padding-block: 7rem 9rem; }
+  .dd-media--about .dd-media__row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1320px) {
+  .dd-media__keep { white-space: nowrap; }
+}
+
+/* ---------- «The Success Story» — 5757:21327 ---------- */
+/* Лист со скруглённым верхом: белый сверху, к низу уходит в фон страницы. Плитки — сетка
+   из трёх колонок, широкая плитка занимает две */
+.dd-about-story {
+  border-radius: 2rem 2rem 0 0;
+  background: linear-gradient(to bottom, var(--dd-neutral-0), rgb(255 255 255 / 0));
+}
+.dd-about-story__inner {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+  padding: 4rem 1.6rem 3rem;
+}
+.dd-about-story__title { margin: 0; }
+.dd-about-story__grid {
+  display: grid;
+  gap: .8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-about-tile {
+  position: relative;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: 'num art' 'text text';
+  gap: 1.6rem;
+  min-height: 24rem;
+  padding: 2rem;
+  overflow: hidden;
+  border-radius: .8rem;
+  color: var(--dd-neutral-0);
+}
+.dd-about-tile--ink { background: var(--dd-neutral-1300); }
+.dd-about-tile--ember { background: linear-gradient(52.9deg, #040506 .2%, var(--dd-orange-0) 57.2%, var(--dd-orange-50) 99.8%); }
+.dd-about-tile--amber { background: linear-gradient(122.3deg, var(--dd-orange-0) 2.6%, #c46b18 56.8%, #e4ad1d 97.4%); }
+.dd-about-tile--sand {
+  background: linear-gradient(289.6deg, var(--dd-beige-100) .2%, var(--dd-orange-100) 99.8%);
+  color: var(--dd-neutral-1300);
+}
+.dd-about-tile__num {
+  grid-area: num;
+  margin: 0;
+  font: italic 400 4.9rem/6.2rem var(--dd-font-fancy);
+  letter-spacing: -.04em;
+}
+.dd-about-tile__num span { color: var(--dd-yellow-200); }
+.dd-about-tile--ember .dd-about-tile__num span { color: var(--dd-orange-100); }
+/* заглушка макета: на месте цифры стоит заголовок плитки */
+.dd-about-tile__num--stub {
+  font: 500 2.4rem/3rem var(--dd-font-basic);
+  letter-spacing: -.03em;
+}
+.dd-about-tile__text {
+  grid-area: text;
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+}
+.dd-about-tile__text h3,
+.dd-about-tile__text p { margin: 0; }
+.dd-about-tile__text h3 { color: inherit; }
+.dd-about-tile__text p { color: inherit; }
+.dd-about-tile--ink .dd-about-tile__text p { color: var(--dd-neutral-300); }
+.dd-about-tile__art { grid-area: art; }
+
+/* глобус: квадрат 304 у правого края плитки */
+.dd-about-tile__globe {
+  display: block;
+  width: 14rem;
+  height: 14rem;
+  margin: -2rem -2rem 0 0;
+  object-fit: cover;
+}
+/* три круга клиентов внахлёст */
+.dd-about-tile__faces {
+  display: flex;
+  align-items: center;
+  height: 6.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-about-tile__faces li + li { margin-left: -1.2rem; }
+.dd-about-tile__faces img {
+  display: block;
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+/* две карточки-снимка: тени заданы на слое 5777:4422, в токенах их нет */
+.dd-about-tile__shots {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  scale: .72; /* на телефоне снимки мельче, чтобы не закрывать заголовок плитки */
+  transform-origin: 100% 0;
+}
+.dd-about-tile__shot {
+  position: absolute;
+  box-sizing: border-box;
+  width: 9.13rem;
+  height: 12.26rem;
+  padding: .1rem;
+  border-radius: .15rem;
+  background: var(--dd-neutral-0);
+  box-shadow: 0 .92rem 1.17rem -.31rem rgb(127 120 102 / .12), -.08rem -.08rem .28rem rgb(57 53 42 / .09);
+  translate: 50% -50%;
+}
+.dd-about-tile__shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.dd-about-tile__shot:nth-child(1) {
+  top: 8.5rem;
+  right: 10.91rem;
+  rotate: -15deg;
+}
+.dd-about-tile__shot:nth-child(2) {
+  top: 9.2rem;
+  right: 4.75rem;
+  rotate: -25.8deg;
+}
+/* пустой квадрат макета в плитке «Industry Leaders» */
+.dd-about-tile__blank {
+  box-sizing: border-box;
+  width: 9rem;
+  height: 9rem;
+  margin: -2rem -2rem 0 0;
+  border: 1px solid var(--dd-neutral-0);
+}
+
+@media (min-width: 834px) {
+  .dd-about-story { border-radius: 4.2rem 4.2rem 0 0; }
+  .dd-about-story__inner {
+    gap: 5rem;
+    padding: 8rem 3rem 7rem;
+  }
+  .dd-about-story__title { padding-inline: 1rem; }
+  /* до 1320 колонок две: широкая плитка — во весь ряд, две узкие — рядом */
+  .dd-about-story__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+  }
+  .dd-about-tile {
+    gap: 2rem;
+    min-height: 30.4rem;
+    padding: 2.8rem;
+    border-radius: 1.6rem;
+  }
+  .dd-about-tile--wide {
+    grid-column: span 2;
+    grid-template-columns: minmax(0, 1fr) 30.4rem;
+    grid-template-areas: 'num art' 'text art';
+    column-gap: 0;
+  }
+  /* квадрат стоит вплотную к краям плитки: колонка сдвинута на поле */
+  .dd-about-tile--wide .dd-about-tile__art {
+    margin: -2.8rem -2.8rem -2.8rem 2.8rem;
+  }
+  .dd-about-tile__shots { scale: 1; }
+  .dd-about-tile__globe,
+  .dd-about-tile__blank {
+    width: 30.4rem;
+    height: 100%;
+    margin: 0;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-about-story__inner { padding-inline: 10rem; }
+  .dd-about-story__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
