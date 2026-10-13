@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="../assets/css/shell.css?v=17">
     <link rel="stylesheet" href="../assets/css/blocks.css?v=3">
     <link rel="stylesheet" href="../assets/css/capabilities.css?v=1">
-    <link rel="stylesheet" href="../assets/css/ai-development.css?v=44">
+    <link rel="stylesheet" href="../assets/css/ai-development.css?v=47">
 </head>
 <body>
 <a class="dd-skip-link dd-btn dd-btn--s dd-btn--yellow" href="#main"><span class="dd-btn__label">Skip to content</span></a>
@@ -818,6 +818,8 @@
       <li><span>Ultra-fast delivery: first iterations in 24–48 hours</span><svg class="dd-plan__bolt" aria-hidden="true"><use href="#dd-bolt-17"/></svg><svg aria-hidden="true"><use href="#dd-tick-17"/></svg></li>
       <li><span>Dedicated Slack workspace &amp; personal project manager</span><svg aria-hidden="true"><use href="#dd-tick-17"/></svg></li>
     </ul>
+    <!-- только на телефоне: список свёрнут до трёх строк (assets/js/ai-development.js) -->
+    <button class="dd-ai-plan-more" type="button" aria-expanded="false" hidden><span>Show all 7</span><svg aria-hidden="true"><use href="#dd-chevron-down-17"/></svg></button>
   </div>
 </section>
 <!-- /block:plan -->
@@ -1027,7 +1029,7 @@
 
 <script src="../assets/js/shell.js?v=5" defer></script>
 <script src="../assets/js/blocks.js?v=3" defer></script>
-<script src="../assets/js/ai-development.js?v=23" defer></script>
+<script src="../assets/js/ai-development.js?v=24" defer></script>
 <script>
   // Статическая вёрстка: форма заявки не отправляется
   document.querySelector('form[data-static]').addEventListener('submit', function (e) { e.preventDefault(); });

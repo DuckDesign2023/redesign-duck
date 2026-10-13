@@ -1298,3 +1298,68 @@
 @media (prefers-reduced-motion: reduce) {
   .dd-ai-s3__grid li.is-playing svg { animation: none !important; }
 }
+
+/* ==========================================================================
+   Телефон и узкий планшет (до 834): страница короче и собраннее. 13.10.2026, после отзыва
+   заказчика о мобильной версии. Аккордеон «The engineering edge» — в его блоке выше.
+   ========================================================================== */
+@media (max-width: 833.98px) {
+  /* Workflow: шаги идут списком, приглушать невыбранные незачем — они читаются как выключенные */
+  .dd-ai-lstep { padding: 2rem 0; opacity: 1; }
+  /* изометрическая сцена шире экрана на 25 px: без обрезки вся страница на телефоне ездит вбок */
+  .dd-ai-flow__panel { overflow-x: clip; }
+
+  /* Процесс: карточки лентой, листаются вбок; край следующей виден */
+  .dd-ai-p2__grid {
+    display: flex;
+    gap: 1.2rem;
+    margin-inline: calc(-1 * var(--dd-gutter));
+    padding: 0 var(--dd-gutter) .4rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--dd-gutter);
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .dd-ai-p2__grid::-webkit-scrollbar { display: none; }
+  .dd-ai-p2__card { flex: 0 0 84%; scroll-snap-align: start; }
+  .dd-ai-p2__note { margin-top: 2rem; }
+
+  /* Таблица сравнения: пара «как обычно / Duck.design» — одна карточка, подпись внутри неё */
+  .dd-ai-econ__table { gap: 1.2rem; }
+  .dd-ai-econ__row:not(.dd-ai-econ__row--foot) { gap: 0; border-radius: 1.2rem; overflow: hidden; background: var(--dd-color-bg); }
+  .dd-ai-econ__row:not(.dd-ai-econ__row--foot) .dd-ai-econ__label { padding: 1.2rem 1.4rem 0; }
+  .dd-ai-econ__row:not(.dd-ai-econ__row--foot) .dd-ai-econ__cell { padding: .6rem 1.4rem 1.2rem; border-radius: 0; background: none; }
+  .dd-ai-econ__row:not(.dd-ai-econ__row--foot) .dd-ai-econ__cell--us { padding: 1.2rem 1.4rem; background: linear-gradient(135deg, #1f1513, #5e2710); }
+  .dd-ai-econ__row--foot { margin-top: .4rem; }
+
+  /* Форма: имя и фамилия в одну строку */
+  .dd-ai-form__row:has([name="ff_first"]) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; }
+}
+@media (min-width: 560px) and (max-width: 833.98px) {
+  .dd-ai-p2__card { flex-basis: 46%; }
+}
+/* Тариф: на телефоне список «что входит» свёрнут до трёх строк, остальное — по кнопке.
+   Без скрипта кнопки нет (атрибут hidden снимает скрипт) и список раскрыт целиком */
+.dd-ai-plan-more { display: none; }
+@media (max-width: 833.98px) {
+  .dd-plan__scope.is-short .dd-plan__features li:nth-child(n + 4) { display: none; }
+  .dd-ai-plan-more:not([hidden]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .8rem;
+    width: 100%;
+    margin: 0;
+    padding: 1.4rem 2rem;
+    border: 0;
+    border-top: .1rem solid rgba(183, 176, 163, .2);
+    background: none;
+    font: 600 1.4rem/2.1rem var(--dd-font-basic);
+    color: var(--dd-neutral-1300);
+    cursor: pointer;
+  }
+  .dd-ai-plan-more svg { width: 1.7rem; height: 1.7rem; transition: transform .3s; }
+  .dd-ai-plan-more[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .dd-ai-plan-more:focus-visible { outline: .2rem solid var(--dd-neutral-1300); outline-offset: -.2rem; border-radius: .8rem; }
+}

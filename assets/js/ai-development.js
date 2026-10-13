@@ -133,3 +133,21 @@
     li.querySelector('svg').addEventListener('animationend', function () { li.classList.remove('is-playing'); });
   });
 })();
+
+/* Тариф на телефоне: список «что входит» свёрнут до трёх строк, кнопка раскрывает и сворачивает */
+(function () {
+  'use strict';
+
+  var more = document.querySelector('.dd-ai-plan-more');
+  if (!more) return;
+  var scope = more.closest('.dd-plan__scope');
+  var label = more.querySelector('span');
+  var closed = label.textContent;
+  more.hidden = false;
+  scope.classList.add('is-short');
+  more.addEventListener('click', function () {
+    var open = scope.classList.toggle('is-short') === false;
+    more.setAttribute('aria-expanded', String(open));
+    label.textContent = open ? 'Show less' : closed;
+  });
+})();
