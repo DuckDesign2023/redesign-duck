@@ -50,7 +50,24 @@
   margin-top: calc(-1 * var(--_header));
   padding: calc(var(--_header) + 2rem) 0 2rem;
   overflow: hidden;
-  background: #f28f42; /* нижняя плашка мобильной картинки */
+  background: var(--_plate, #f28f42); /* нижняя плашка мобильной картинки */
+}
+/* Вид под зелёное фото website — 5880:2292 · 375: 5976:9552: ярлык зелёный на обеих ширинах,
+   кнопка чёрная с кругом stroke heavy (классы кнопки в разметке). Цвета макета мимо tokens.css */
+.dd-cap-hero--website {
+  --_label: #196042;
+  --_plate: #b1cd76;
+}
+/* у этого заголовка курсив стоит в двух строках, и в макете строки ровно по 50 (42 на телефоне) */
+.dd-cap-hero--website .dd-cap-hero__title .dd-fancy { line-height: 1; }
+/* Вид под оранжево-жёлтое фото pitch deck — 5976:10556, макета 375 нет: ярлык Orange-0, теги
+   тёмные (чёрный 10 % и текст 80 %), кнопка — та же пара black и stroke heavy. Плашка
+   мобильной картинки — цвет левого края фото, мимо tokens.css */
+.dd-cap-hero--pitch {
+  --_label: var(--dd-orange-0);
+  --_plate: #da963c;
+  --_tag-bg: rgba(0, 0, 0, .1);
+  --_tag-fg: rgba(4, 5, 6, .8);
 }
 .dd-cap-hero__bg {
   position: absolute;
@@ -83,7 +100,7 @@
   font: 700 1.2rem/1.7rem var(--dd-font-basic);
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: var(--dd-neutral-1300);
+  color: var(--_label, var(--dd-neutral-1300));
 }
 .dd-cap-hero__lead { color: rgba(4, 5, 6, .8); }
 
@@ -109,6 +126,15 @@
   --_ring: inset 0 0 0 .2rem var(--dd-neutral-100);
   opacity: .4;
 }
+/* те же состояния для пары black и stroke heavy */
+.dd-cap-hero__go .dd-btn--black { flex: 1; }
+.dd-cap-hero__go:hover .dd-btn--black { --_ring: 0 0 0 var(--_w-halo) rgba(4, 5, 6, .16); }
+.dd-cap-hero__go:hover .dd-btn--stroke-heavy { --_ring: inset 0 0 0 var(--_w-hover) var(--dd-neutral-1300); }
+.dd-cap-hero__go:active .dd-btn--black {
+  --_fg: var(--dd-neutral-400);
+  --_ring: 0 0 0 0 transparent;
+}
+.dd-cap-hero__go:active .dd-btn--stroke-heavy { --_ring: inset 0 0 0 .2rem var(--dd-beige-200); }
 
 /* Лента тегов: ряд записан три раза подряд и едет влево на свою ширину и шаг — шва нет.
    В макете ряд (1939) стоит по центру окна и обрезан его краями: первый тег начинается
@@ -134,15 +160,15 @@
 .dd-cap-hero__track li {
   padding: .8rem 1.2rem;
   border-radius: .4rem;
-  background: rgba(255, 255, 255, .1);
-  box-shadow: inset 0 0 0 .1rem rgba(255, 255, 255, .1);
+  background: var(--_tag-bg, rgba(255, 255, 255, .1));
+  box-shadow: inset 0 0 0 .1rem var(--_tag-bg, rgba(255, 255, 255, .1));
   -webkit-backdrop-filter: blur(.6rem);
   backdrop-filter: blur(.6rem);
   font: 500 1.3rem/1.6rem var(--dd-font-basic);
   letter-spacing: .04em;
   text-transform: uppercase;
   white-space: nowrap;
-  color: rgba(255, 255, 255, .8);
+  color: var(--_tag-fg, rgba(255, 255, 255, .8));
 }
 .dd-cap-hero__tags:hover .dd-cap-hero__track { animation-play-state: paused; }
 @keyframes dd-cap-tags {
@@ -158,7 +184,7 @@
 
     min-height: 64rem;
     padding: calc(var(--_header) + 6rem) 0 4rem;
-    background: var(--dd-orange-50);
+    background: var(--_plate, var(--dd-orange-50));
   }
   .dd-cap-hero__bg img { object-position: center; }
   .dd-cap-hero__inner {
@@ -171,7 +197,7 @@
     max-width: 64rem;
     padding-inline: .6rem 0;
   }
-  .dd-cap-hero__label { color: var(--dd-yellow-300); }
+  .dd-cap-hero__label { color: var(--_label, var(--dd-yellow-300)); }
   /* от 834 обе части кнопки — размера S */
   .dd-cap-hero__go { display: inline-flex; }
   .dd-cap-hero__go .dd-btn {
@@ -405,6 +431,9 @@
   list-style: none;
 }
 .dd-cap-services__item--wide { grid-column: span 2; }
+/* Сетка из шести карточек (website 5939:26565 · 375: 5976:9667): на телефоне двойная карточка
+   второго ряда стоит раньше одиночных — одиночные с этим классом уходят за неё */
+.dd-cap-services__item--late { order: 1; }
 
 .dd-cap-service {
   display: flex;
@@ -469,6 +498,9 @@
 
 @media (min-width: 834px) {
   .dd-cap-services { padding: 10rem 3rem 5rem; }
+  /* блок стоит сразу под логотипами: поле сверху 70 */
+  .dd-cap-services--six { padding-top: 7rem; }
+  .dd-cap-services__item--late { order: 0; }
   .dd-cap-services__head {
     display: flex;
     align-items: center;

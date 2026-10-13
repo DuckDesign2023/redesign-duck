@@ -173,6 +173,12 @@
     padding-inline: 9rem;
   }
 }
+/* Вид одной парой — website 5880:3398: заголовок класса dd-h2, абзацы через 10,
+   поле блока сверху 90. Макета 375 у вида нет */
+.dd-media--single .dd-media__paras { gap: 1rem; }
+@media (min-width: 1320px) {
+  .dd-media--single { padding-top: 9rem; }
+}
 
 /* ---------- О3. Отзывы и награды — 5737:19551 · 375: 5910:15754 ---------- */
 /* Лента карточек выходит за правый край окна. До 834 её листают пальцем, кнопка «View on
@@ -1055,6 +1061,8 @@
 }
 @media (min-width: 1320px) {
   .dd-works { padding: 7rem 12rem 6rem; }
+  /* вид website и pitch deck — 5880:2501: поле сверху 50, блок 619 */
+  .dd-works--snug { padding-top: 5rem; }
 }
 /* без скрипта вкладок нет: блок показывает первую категорию */
 @media (scripting: none) {

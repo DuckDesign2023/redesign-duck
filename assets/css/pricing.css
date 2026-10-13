@@ -1,0 +1,1058 @@
+/* ==========================================================================
+   duck.design — страница Pricing: блоки, которые стоят только на ней
+   Источник: Figma «duck.design | NEW», страница Pricing, макет 1440 pricing 5503:3835.
+   Мобильного макета нет: до 834 блоки собраны по «Правилам перестройки на 375»
+   (DESIGN.md, раздел 4). Требует tokens.css и components.css.
+
+   Блок собран точно по макету: поля, интервалы и радиусы у каждого свои. Между 834 и 1319
+   стоит настольная раскладка с полем страницы 30. Шире 1440 лист тянется до --dd-frame.
+
+   Скрипта у блоков нет: срок, вкладки сравнения и вкладки «для кого» — радиокнопки и :has().
+   Цвета макета мимо tokens.css записаны числом рядом с местом, где стоят.
+   ========================================================================== */
+
+/* Лист блока: до предела сетки, дальше по центру */
+.dd-price-hero,
+.dd-price-plans__list,
+.dd-price-deal__inner,
+.dd-price-compare,
+.dd-price-why,
+.dd-price-who {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+}
+
+/* Плашка над заголовком: «Pricing & plans» и «Included services» */
+.dd-price-pill {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: .8rem 1.5rem .7rem;
+  border-radius: 1.9rem;
+  background: var(--dd-beige-100);
+  font: 600 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-neutral-1300);
+}
+.dd-price-pill--warm {
+  background: linear-gradient(90deg, #fbcb93, #f4d993);
+  font: 400 1.6rem/2.4rem var(--dd-font-basic);
+}
+
+/* ---------- Первый экран — 5503:3838 ---------- */
+/* Значки площадок прижаты к краям окна; до 1320 стоят рядом под кнопкой.
+   Под контентом два размытых светлых круга макета (5569:17357, 5727:1454) */
+.dd-price-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  max-width: none;
+  padding: 3rem 1.6rem 4rem;
+  overflow-x: clip; /* круг под контентом шире окна телефона */
+}
+.dd-price-hero::before,
+.dd-price-hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fcfbf8, var(--dd-beige-50));
+  filter: blur(5rem);
+  pointer-events: none;
+}
+.dd-price-hero::before {
+  top: -30.1rem;
+  left: -24.35rem;
+  width: 69.75rem;
+  height: 69.75rem;
+}
+.dd-price-hero::after { content: none; }
+.dd-price-hero__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.dd-price-hero__title {
+  margin-top: 1.8rem;
+  text-wrap: balance;
+}
+.dd-price-hero__title span { display: block; }
+.dd-price-hero__title span + span { margin-top: .2rem; }
+.dd-price-hero__title .dd-fancy { display: inline; }
+.dd-price-hero__lead {
+  margin-top: 2rem;
+  padding-inline: .6rem;
+  color: var(--dd-neutral-1300);
+}
+.dd-price-hero__lead span { display: block; }
+.dd-price-hero__go {
+  align-self: stretch;
+  margin-top: 3rem;
+}
+.dd-price-hero__badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-price-hero__badges--right { margin-top: -2.2rem; }
+.dd-price-badge {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  height: 3.8rem;
+  box-sizing: border-box;
+  padding: .8rem .8rem .8rem 1.6rem;
+  border-radius: var(--dd-radius-pill);
+  background: var(--dd-neutral-0);
+}
+.dd-price-badge img {
+  display: block;
+  width: auto;
+  height: 2rem;
+}
+.dd-price-badge__num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: var(--dd-beige-100);
+  font: 700 1.2rem/1.4rem var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-indent: .08em;
+  color: #433f37;
+}
+.dd-price-badge__num--top { background: var(--dd-yellow-200); }
+.dd-price-hero__badges--right .dd-price-badge { flex-direction: row-reverse; }
+
+@media (min-width: 834px) {
+  .dd-price-hero { padding: 6rem 3rem; }
+  .dd-price-hero__title { margin-top: 1.8rem; }
+  .dd-price-hero__lead { margin-top: 3rem; }
+  .dd-price-hero__go {
+    align-self: center;
+    margin-top: 4rem;
+  }
+  .dd-price-hero__badges--right { margin-top: -2.2rem; }
+}
+@media (min-width: 1320px) {
+  .dd-price-hero {
+    display: grid;
+    grid-template-columns: 20rem minmax(0, 1fr) 20rem;
+    align-items: start;
+    gap: 2rem;
+    padding: 6rem 0;
+  }
+  .dd-price-hero::after {
+    content: "";
+    top: 19.2rem;
+    right: 8.74rem;
+    width: 34.22rem;
+    height: 34.22rem;
+  }
+  .dd-price-hero__badges {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding-top: 6.4rem;
+  }
+  .dd-price-hero__badges--left { order: -1; }
+  .dd-price-hero__badges--right {
+    align-items: flex-end;
+    margin-top: 0;
+  }
+  .dd-price-badge {
+    padding: .8rem .8rem .8rem 2.4rem;
+    border-radius: 0 9.9rem 9.9rem 0;
+  }
+  .dd-price-hero__badges--right .dd-price-badge { border-radius: 9.9rem 0 0 9.9rem; }
+}
+
+/* ---------- Срок и три тарифа — 5564:2569, 5564:2369 ---------- */
+/* Белый лист со скруглением 44 держит карточки тарифов и «package deal». Переключатель
+   срока стоит на белом язычке над листом; галтели язычка — 44. Срок — радиокнопки:
+   цены в карточках переключает :has() */
+.dd-price-plans {
+  background: linear-gradient(180deg, var(--dd-beige-50), #f1ece2) top / 100% 18.4rem no-repeat;
+}
+.dd-price-terms {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  width: fit-content;
+  max-width: calc(100% - 3.2rem);
+  margin: 0 auto;
+  padding: 1.2rem 1.2rem 0;
+  border: 0;
+  border-radius: 3.2rem 3.2rem 0 0;
+  background: var(--dd-neutral-0);
+}
+.dd-price-terms::before,
+.dd-price-terms::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: var(--_fillet, 0px);
+  height: var(--_fillet, 0px);
+}
+.dd-price-terms::before {
+  right: 100%;
+  background: radial-gradient(circle at 0 0, transparent calc(var(--_fillet) - .5px), var(--dd-neutral-0) var(--_fillet));
+}
+.dd-price-terms::after {
+  left: 100%;
+  background: radial-gradient(circle at 100% 0, transparent calc(var(--_fillet) - .5px), var(--dd-neutral-0) var(--_fillet));
+}
+.dd-price-terms__row {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-height: 5.8rem;
+  padding: .5rem;
+  border-radius: 6rem;
+  background: var(--dd-beige-50);
+  box-shadow: inset 0 0 0 .1rem rgba(69, 57, 45, .12);
+}
+.dd-price-term {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  min-height: 4.8rem;
+  padding: .6rem 1.4rem;
+  border-radius: 5rem;
+  white-space: nowrap;
+  color: #161b26;
+  cursor: pointer;
+}
+.dd-price-term__name {
+  font: 500 1.4rem/1.8rem var(--dd-font-basic);
+  letter-spacing: -.01em;
+}
+.dd-price-term__off {
+  font: 400 1.2rem/1.6rem var(--dd-font-basic);
+  color: #2c3449;
+}
+.dd-price-term:has(:checked) {
+  background: #161b26;
+  color: var(--dd-neutral-0);
+}
+.dd-price-term:has(:checked) .dd-price-term__off { color: #e8ebf1; }
+.dd-price-term:has(:focus-visible) {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+@media (hover: hover) {
+  .dd-price-term:not(:has(:checked)):hover { background: var(--dd-fill-hover, #ece6db); }
+}
+
+.dd-price-sheet {
+  border-radius: 2.4rem;
+  background: var(--dd-neutral-0);
+}
+.dd-price-plans__list {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 3rem 1.2rem;
+  list-style: none;
+}
+
+/* Карточка тарифа: белая панель с ценой, кнопка, список. Вид задаёт фон и цвета списка */
+.dd-price-plan {
+  --_tick: #cabfb1;
+  --_line: #dcd5cc;
+  --_item: #161b26;
+  --_label: #b18003;
+
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: .8rem;
+  overflow: hidden;
+  border-radius: 1.8rem;
+  background: #e8e2da;
+}
+.dd-price-plan::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 .1rem var(--_edge, var(--dd-neutral-0));
+  pointer-events: none;
+}
+.dd-price-plan__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.dd-price-plan--creative {
+  --_tick: var(--dd-neutral-0);
+  --_line: rgba(235, 239, 243, .2);
+  --_item: var(--dd-neutral-0);
+  --_label: #9f5109;
+  --_edge: rgba(255, 255, 255, .85);
+
+  background: var(--dd-orange-50);
+}
+.dd-price-plan--nocode {
+  --_tick: #abd781;
+  --_line: rgba(49, 59, 41, .08);
+  --_label: #2f805b;
+  --_edge: rgba(84, 77, 68, .07);
+
+  background: var(--dd-neutral-0);
+}
+.dd-price-plan__top {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  padding: 1.8rem;
+  border-radius: 1.2rem;
+  background: var(--dd-neutral-0);
+}
+.dd-price-plan__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: .8rem;
+}
+.dd-price-plan__label {
+  margin: 0;
+  font: 600 1.2rem/1.4rem var(--dd-font-basic);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--_label);
+}
+.dd-price-plan__name {
+  grid-column: 1;
+  margin: 0;
+  font: 500 2.6rem/3rem var(--dd-font-basic);
+  letter-spacing: -.04em;
+  color: #404246;
+}
+.dd-price-plan--nocode .dd-price-plan__name { color: #161b26; }
+.dd-price-plan--creative .dd-price-plan__name {
+  width: fit-content;
+  background: linear-gradient(90deg, #161b26, #c25d00);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dd-price-plan__badge {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: start;
+  padding: .7rem 1.1rem .6rem;
+  border-radius: .6rem;
+  background: #2c3449;
+  font: 600 1.2rem/1.4rem var(--dd-font-basic);
+  white-space: nowrap;
+  color: var(--dd-neutral-0);
+}
+.dd-price-plan__text {
+  margin: 0;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: #404246;
+}
+.dd-price-plan__price {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  margin: 0;
+}
+.dd-price-plan__sum {
+  display: flex;
+  align-items: flex-end;
+  gap: .5rem;
+}
+.dd-price-plan__sum b {
+  font: 500 3.4rem/3.8rem var(--dd-font-basic);
+  letter-spacing: -.04em;
+  color: #161b26;
+}
+.dd-price-plan__sum s {
+  font: 500 1.6rem/2.4rem var(--dd-font-basic);
+  color: #c6af9a;
+}
+.dd-price-plan__per {
+  font: 600 1.2rem/1.4rem var(--dd-font-basic);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #434c62;
+}
+/* показана цена выбранного срока; без :has() — цена на три месяца, как в макете */
+.dd-price-plan__sum:not([data-term="3"]) { display: none; }
+.dd-price-plans:has([name="price-term"][value="1"]:checked) .dd-price-plan__sum[data-term="3"],
+.dd-price-plans:has([name="price-term"][value="6"]:checked) .dd-price-plan__sum[data-term="3"] { display: none; }
+.dd-price-plans:has([name="price-term"][value="1"]:checked) .dd-price-plan__sum[data-term="1"],
+.dd-price-plans:has([name="price-term"][value="6"]:checked) .dd-price-plan__sum[data-term="6"] { display: flex; }
+
+.dd-price-plan__list {
+  display: flex;
+  flex-direction: column;
+  gap: 3.6rem;
+  margin: 0;
+  padding: 1.2rem 1.2rem 1.6rem;
+  list-style: none;
+}
+.dd-price-plan__list li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  min-height: 2.4rem;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--_item);
+}
+.dd-price-plan--creative .dd-price-plan__list li { font-weight: 500; }
+/* линия между пунктами в макете нулевой высоты: стоит посередине шага */
+.dd-price-plan__list li + li::before {
+  content: "";
+  position: absolute;
+  inset: -1.85rem 0 auto;
+  height: .1rem;
+  background: var(--_line);
+}
+.dd-price-plan__list li > span:first-child { flex: 1; }
+.dd-price-plan__extra {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0;
+  color: var(--dd-neutral-0);
+}
+.dd-price-plan__tick {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: var(--_tick);
+  color: #161b26;
+}
+.dd-price-plan__tick svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+@media (min-width: 834px) {
+  .dd-price-terms {
+    --_fillet: 4.4rem;
+
+    padding: 1.6rem 1.6rem 0;
+    border-radius: 5.2rem 5.2rem 0 0;
+  }
+  .dd-price-plans { padding-top: 3rem; }
+  .dd-price-terms__row {
+    min-height: 6.8rem;
+    padding: .7rem;
+  }
+  .dd-price-term {
+    width: 14.8rem;
+    min-height: 5.4rem;
+    padding: .8rem 2.4rem;
+  }
+  .dd-price-term__name { font-size: 1.6rem; }
+  .dd-price-term__off { font-size: 1.3rem; }
+  .dd-price-sheet { border-radius: 4.4rem; }
+  .dd-price-plans__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.2rem;
+    padding: 7rem 3rem;
+  }
+  .dd-price-plan {
+    gap: 1.6rem;
+    padding: 1.2rem;
+    border-radius: 2.6rem;
+  }
+  .dd-price-plan__top {
+    padding: 2.2rem;
+    border-radius: 1.8rem;
+  }
+  .dd-price-plan__text { min-height: 8.5rem; }
+  .dd-price-plan__list { padding: 1.6rem 2rem 2rem; }
+}
+@media (min-width: 834px) and (max-width: 1099.98px) {
+  /* на планшете три карточки узки: имя и цена мельче, чтобы не рвались */
+  .dd-price-plan__name { font-size: 2.2rem; }
+  .dd-price-plan__head { min-height: 8rem; }
+  .dd-price-plan__text { min-height: 12.6rem; }
+  .dd-price-plan__list { padding-inline: .8rem; }
+  .dd-price-plan__list li { gap: .8rem; }
+}
+@media (min-width: 1320px) {
+  .dd-price-plans__list {
+    gap: 2.4rem;
+    padding-inline: 7rem;
+  }
+}
+
+/* ---------- «Every plan package deal» — 5529:7452 ---------- */
+/* Низ белого листа: скругление 44 снизу, заливка сходит к #fcfbf8 */
+.dd-price-deal {
+  border-radius: 0 0 2.4rem 2.4rem;
+  background: linear-gradient(180deg, var(--dd-neutral-0), #fcfbf8);
+}
+.dd-price-deal__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 2rem 1.6rem 4rem;
+}
+.dd-price-deal__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.6rem;
+}
+.dd-price-deal__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin: 0;
+  font: 700 1.6rem/2.4rem var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dd-orange-50);
+}
+.dd-price-deal__eyebrow::after {
+  content: "";
+  width: 7.1rem;
+  height: .2rem;
+  background: var(--dd-beige-50);
+}
+.dd-price-deal__row {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-self: stretch;
+}
+.dd-price-deal__lead {
+  max-width: 71.8rem;
+  margin: 0;
+  font: 400 1.8rem/2.7rem var(--dd-font-basic);
+  color: #404246;
+}
+.dd-price-deal__list {
+  position: relative;
+  display: grid;
+  gap: 1.6rem;
+  margin: 0;
+  padding: 3rem 0 0;
+  list-style: none;
+}
+/* пунктир 4–4 над списком: в макете линия нулевой высоты посередине шага 44 + 44 */
+.dd-price-deal__list::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: .1rem;
+  background: repeating-linear-gradient(90deg, var(--dd-beige-100) 0 .4rem, transparent .4rem .8rem);
+}
+.dd-price-deal__list li {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  font: 400 1.8rem/2.6rem var(--dd-font-basic);
+  letter-spacing: -.01em;
+  color: var(--dd-neutral-1300);
+}
+.dd-price-deal__list img {
+  flex: none;
+  width: 3.2rem;
+  height: 3.2rem;
+}
+
+@media (min-width: 834px) {
+  .dd-price-deal { border-radius: 0 0 4.4rem 4.4rem; }
+  .dd-price-deal__inner {
+    gap: 4.4rem;
+    padding: 5rem 3rem 9rem;
+  }
+  .dd-price-deal__head { gap: 2.2rem; }
+  .dd-price-deal__row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 3rem;
+  }
+  .dd-price-deal__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(4, auto);
+    grid-auto-flow: column;
+    gap: 2.2rem 3rem;
+    padding-top: 4.4rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-price-deal__inner { padding-inline: 12rem; }
+}
+
+/* ---------- «Compare our plans» — 5532:9656 · строка: compare 5532:10117 ---------- */
+/* Вкладка тарифа — радиокнопка: строки, которых нет в выбранном тарифе, гасит :has().
+   В разметке строки идут по столбцам; у строки data-from — младший тариф, где она есть */
+.dd-price-compare {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 4rem 1.6rem 3rem;
+}
+.dd-price-compare__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  text-align: center;
+}
+.dd-price-compare__head .dd-h2 { color: #161b26; }
+.dd-price-compare__tabs {
+  box-sizing: border-box;
+  display: flex;
+  min-width: 0;
+  margin: 0;
+  padding: .5rem;
+  border: 0;
+  border-radius: 3rem;
+  background: var(--dd-neutral-0);
+  box-shadow: inset 0 0 0 .1rem rgba(69, 57, 45, .12);
+}
+.dd-price-compare__tab {
+  flex: 1 1 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  min-width: 0;
+  padding: 1rem .6rem;
+  border-radius: 2.6rem;
+  text-align: center;
+  cursor: pointer;
+}
+.dd-price-compare__name {
+  font: 500 1.4rem/1.8rem var(--dd-font-basic);
+  letter-spacing: -.01em;
+  color: var(--dd-neutral-1300);
+}
+.dd-price-compare__sum {
+  font: 400 1.2rem/1.6rem var(--dd-font-basic);
+  color: var(--dd-neutral-1100);
+}
+.dd-price-compare__tab:has(:checked) { background: #e7e3da; }
+.dd-price-compare__tab:has(:focus-visible) {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+@media (hover: hover) {
+  .dd-price-compare__tab:not(:has(:checked)):hover { background: var(--dd-beige-50); }
+}
+.dd-price-compare__list {
+  display: grid;
+  gap: 1.8rem 3rem;
+  margin: 0;
+  padding: 0 .4rem;
+  list-style: none;
+}
+.dd-price-compare__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  padding: 0 .8rem 1.8rem;
+  background: repeating-linear-gradient(90deg, rgba(103, 97, 85, .2) 0 .2rem, transparent .2rem .4rem) bottom / 100% .1rem no-repeat;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-neutral-1300);
+}
+.dd-price-compare__mark {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  background: var(--dd-yellow-50);
+  color: var(--dd-neutral-0);
+}
+.dd-price-compare__mark svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.dd-price-compare__mark .is-no,
+.dd-price-compare__state .is-no { display: none; }
+/* строки вне выбранного тарифа */
+.dd-price-compare:has([value="g"]:checked) li:not([data-from="g"]),
+.dd-price-compare:has([value="c"]:checked) li[data-from="n"] { color: var(--dd-beige-400); }
+.dd-price-compare:has([value="g"]:checked) li:not([data-from="g"]) .dd-price-compare__mark,
+.dd-price-compare:has([value="c"]:checked) li[data-from="n"] .dd-price-compare__mark {
+  background: none;
+  box-shadow: inset 0 0 0 .1rem var(--dd-beige-100);
+  color: var(--dd-beige-400);
+}
+.dd-price-compare:has([value="g"]:checked) li:not([data-from="g"]) .is-yes,
+.dd-price-compare:has([value="c"]:checked) li[data-from="n"] .is-yes { display: none; }
+.dd-price-compare:has([value="g"]:checked) li:not([data-from="g"]) .is-no,
+.dd-price-compare:has([value="c"]:checked) li[data-from="n"] .is-no { display: inline; }
+
+@media (min-width: 834px) {
+  .dd-price-compare {
+    gap: 4rem;
+    padding: 10rem 3rem 6rem;
+  }
+  .dd-price-compare__tabs {
+    padding: .7rem;
+    border-radius: 6rem;
+  }
+  .dd-price-compare__tab {
+    gap: .6rem;
+    min-height: 6.6rem;
+    padding: 1.2rem 2.4rem;
+    border-radius: 5rem;
+  }
+  .dd-price-compare__name { font-size: 1.8rem; line-height: 2rem; }
+  .dd-price-compare__sum { font-size: 1.3rem; }
+  .dd-price-compare__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(12, auto);
+    grid-auto-flow: column;
+    padding: 2rem 2.8rem 0;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-price-compare { padding-inline: 12rem; }
+}
+
+/* ---------- «Why hiring when you can simply subscribe?» — 5569:16409 ---------- */
+/* Таблица: первая колонка — признаки, последняя — тёмная колонка Duck. Фон тёмной колонки —
+   один слой под таблицей: у ячеек градиент начинался бы заново. До 1100 таблица листается вбок */
+.dd-price-why { padding: 3rem 0; }
+.dd-price-why__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2.4rem 0;
+  background: #fcfbf8;
+}
+.dd-price-why__head {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 1.6rem;
+  text-align: center;
+}
+.dd-price-why__head .dd-h3 {
+  text-wrap: balance;
+  color: #161b26;
+}
+.dd-price-why__sub {
+  margin: 0;
+  font: 400 1.8rem/2.7rem var(--dd-font-basic);
+  color: #404246;
+}
+.dd-price-why__scroll {
+  overflow-x: auto;
+  padding-inline: 1.6rem;
+}
+.dd-price-why__scroll:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: -.2rem;
+}
+.dd-price-why__grid {
+  position: relative;
+  isolation: isolate;
+  min-width: 96rem;
+}
+.dd-price-why__grid::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 auto;
+  z-index: -1;
+  width: calc((100% - 14rem) / 4);
+  border-radius: 1.2rem;
+  background: linear-gradient(153deg, #211e1d, #602511);
+}
+.dd-price-why__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  text-align: left;
+}
+.dd-price-why__table col:first-child { width: 14rem; }
+.dd-price-why__table th,
+.dd-price-why__table td {
+  padding: 0 2.4rem 0 1.4rem;
+  vertical-align: top;
+}
+.dd-price-why__table tr > :first-child { padding-inline: 1.6rem; }
+.dd-price-why__table tr > :last-child {
+  --_line: rgba(216, 210, 198, .1);
+
+  padding-inline: 2.8rem;
+  color: var(--dd-neutral-0);
+}
+.dd-price-why__table thead th {
+  height: 4rem;
+  padding-top: 2.8rem;
+  font: 500 2.4rem/3rem var(--dd-font-basic);
+  letter-spacing: -.03em;
+  color: var(--dd-neutral-1300);
+}
+.dd-price-why__table thead th:last-child { color: var(--dd-neutral-0); }
+/* ячейка: шаг 14, содержимое 78,5, шаг 14; линия нулевой высоты — тенью по низу */
+.dd-price-why__cell {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .8rem;
+  min-height: 10.65rem;
+  padding-block: 1.4rem;
+  box-shadow: inset 0 -.1rem 0 var(--_line, var(--dd-beige-50));
+  font: 400 1.2rem/1.8rem var(--dd-font-basic);
+  color: var(--dd-neutral-1100);
+}
+.dd-price-why__table tr > :last-child .dd-price-why__cell { color: var(--dd-neutral-0); }
+.dd-price-why__table tbody tr:last-child .dd-price-why__cell {
+  min-height: 11.25rem;
+  padding-bottom: 2rem;
+  box-shadow: none;
+}
+.dd-price-why__table tbody th .dd-price-why__cell {
+  padding-top: 3.6rem;
+  font: italic 400 1.4rem/1.8rem var(--dd-font-fancy);
+  letter-spacing: -.02em;
+  color: #161b26;
+}
+.dd-price-why__cell img {
+  display: block;
+  height: 1.6rem;
+  width: auto;
+}
+.dd-price-why__cell p { margin: 0; }
+.dd-price-why__dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--dd-beige-100);
+  color: var(--dd-neutral-0);
+}
+.dd-price-why__dot svg {
+  width: 1rem;
+  height: 1rem;
+}
+.dd-price-why__dot--no {
+  background: none;
+  box-shadow: inset 0 0 0 .1rem var(--dd-beige-100);
+  color: var(--dd-beige-400);
+}
+.dd-price-why__dot--yes {
+  background: var(--dd-neutral-0);
+  color: var(--dd-neutral-1300);
+}
+
+@media (min-width: 834px) {
+  .dd-price-why { padding: 8rem 3rem; }
+  .dd-price-why__card {
+    gap: 3rem;
+    padding: 4.1rem 0;
+    border-radius: 2.7rem;
+  }
+  /* обводка 1 px внутри: белая у верха, к низу сходит на нет */
+  .dd-price-why__card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: .1rem;
+    border-radius: inherit;
+    background: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    pointer-events: none;
+  }
+  .dd-price-why__head { padding-inline: 5.6rem; }
+  .dd-price-why__scroll { padding-inline: 4.1rem; }
+}
+@media (min-width: 1320px) {
+  .dd-price-why { padding-inline: 7rem; }
+  .dd-price-why__scroll { overflow: visible; }
+  .dd-price-why__grid { min-width: 0; }
+}
+
+/* ---------- «Для кого» — 5532:11266 · вкладка: tab 2540:423 ---------- */
+/* Вкладки — радиокнопки, панель выбранной показывает :has(). Фото одно на все вкладки */
+.dd-price-who {
+  display: grid;
+  gap: 2rem;
+  padding: 3rem 1.6rem;
+}
+.dd-price-who__tabs {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.dd-price-who__tab {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 6.9rem;
+  padding: 2rem .8rem;
+  box-shadow: inset 0 -.1rem 0 #e9e2d6;
+  font: 500 1.4rem/2.1rem var(--dd-font-basic);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--dd-neutral-1300);
+  cursor: pointer;
+}
+.dd-price-who__tab > span:first-of-type { flex: 1; }
+.dd-price-who__arrow {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 50%;
+  background: var(--dd-neutral-1100);
+  color: var(--dd-neutral-0);
+  opacity: 0;
+}
+.dd-price-who__arrow svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+.dd-price-who__tab:has(:checked) .dd-price-who__arrow { opacity: 1; }
+.dd-price-who__tab:has(:focus-visible) {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: -.2rem;
+}
+@media (hover: hover) {
+  .dd-price-who__tab:not(:has(:checked)):hover .dd-price-who__arrow {
+    opacity: 1;
+    background: var(--dd-beige-100);
+    color: var(--dd-neutral-1300);
+  }
+}
+.dd-price-who__panel {
+  display: none;
+  flex-direction: column;
+  gap: 3rem;
+}
+.dd-price-who:has([value="1"]:checked) [data-who="1"],
+.dd-price-who:has([value="2"]:checked) [data-who="2"],
+.dd-price-who:has([value="3"]:checked) [data-who="3"],
+.dd-price-who:has([value="4"]:checked) [data-who="4"] { display: flex; }
+@supports not selector(:has(a)) {
+  .dd-price-who__panel { display: flex; }
+}
+.dd-price-who__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.9rem;
+}
+.dd-price-who__text p { color: var(--dd-neutral-1300); }
+.dd-price-who__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-price-who__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.3rem;
+  font: 500 1.6rem/2.4rem var(--dd-font-basic);
+  color: var(--dd-neutral-1100);
+}
+.dd-price-who__list li::before {
+  content: "";
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  margin-top: .2rem;
+  border-radius: 50%;
+  background: var(--dd-orange-100) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M6 10.3l2.7 2.7L14 7.5' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
+}
+.dd-price-who__photo {
+  margin: 0;
+  overflow: hidden;
+  border-radius: .8rem;
+  background: linear-gradient(140deg, var(--dd-yellow-200), var(--dd-orange-200));
+  aspect-ratio: 3733 / 4490;
+}
+.dd-price-who__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 834px) {
+  .dd-price-who {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4rem;
+    padding: 6rem 3rem 12rem;
+  }
+  .dd-price-who__tabs { padding-right: 1rem; }
+  .dd-price-who__panel {
+    justify-content: space-between;
+    gap: 4rem;
+    height: 100%;
+    box-sizing: border-box;
+    padding-block: 1.2rem;
+  }
+  .dd-price-who__photo {
+    border-radius: 2rem;
+    aspect-ratio: auto;
+    min-height: 44.9rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-price-who { padding-inline: 12rem; }
+}
+
+/* ---------- Виды общих блоков на Pricing ---------- */
+/* Карточка-призыв 5567:13417: заголовок H-huge, поле сверху 100 и снизу 80 — карточка 626 */
+@media (min-width: 834px) {
+  .dd-cta-card--huge { padding-block: 10rem 8rem; }
+}
+/* FAQ панелями 5698:12257: без плашки над заголовком, поля 80 × 100, панели 610 */
+@media (min-width: 1320px) {
+  .dd-faqs--wide {
+    gap: 5rem;
+    padding: 8rem 10rem;
+  }
+  .dd-faqs--wide .dd-faqs__head { padding-inline: 2rem; }
+}
