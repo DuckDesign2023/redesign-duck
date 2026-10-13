@@ -615,7 +615,7 @@
    Жёлтая панель с тёплым свечением (светлее сверху слева, оранжевее у формы): слева заголовок,
    подводка и три довода строками с номером, справа чёрная панель с формой (на ней .dd-on-dark).
    ========================================================================== */
-.dd-ai-contact { padding: 0; }
+.dd-ai-contact { padding: 0 .6rem; }
 .dd-ai-contact__card {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -624,6 +624,7 @@
   max-width: calc(var(--dd-frame) - 4rem);
   margin: 0 auto;
   padding: 4rem 1.6rem 1.6rem;
+  border-radius: 2.2rem;
   background:
     radial-gradient(70% 110% at 0 0, var(--dd-yellow-300), rgba(255, 227, 155, 0) 62%),
     radial-gradient(60% 110% at 100% 100%, var(--dd-orange-100), rgba(255, 139, 32, 0) 68%),
@@ -654,7 +655,7 @@
   gap: .8rem;
   box-sizing: border-box;
   padding: 2.4rem 1.6rem 1.6rem;
-  border-radius: var(--dd-radius-sm);
+  border-radius: 1.2rem;
   background: var(--dd-neutral-1300);
 }
 .dd-ai-form h3 { margin: 0; color: var(--dd-neutral-0); }
@@ -972,7 +973,9 @@
   padding-top: 1.6rem;
   font: 600 1.4rem/2rem var(--dd-font-basic);
 }
-.dd-ai-p2__gain span,
+.dd-ai-p2__gain span { display: flex; flex: none; width: 2.2rem; height: 2.2rem; color: var(--dd-orange-100); }
+.dd-ai-p2__card--dark .dd-ai-p2__gain span { color: var(--dd-yellow-200); }
+.dd-ai-p2__gain span svg { width: 100%; height: 100%; }
 .dd-ai-art__list i {
   display: flex;
   flex: none;
@@ -984,7 +987,6 @@
   background: var(--dd-yellow-200);
   color: var(--dd-neutral-1300);
 }
-.dd-ai-p2__gain svg,
 .dd-ai-art__list svg { width: 1.2rem; height: 1.2rem; }
 .dd-ai-p2__note { margin: 3rem auto 0; text-align: center; color: var(--dd-color-text-muted); }
 
@@ -1303,42 +1305,167 @@
    Телефон и узкий планшет (до 834): страница короче и собраннее. 13.10.2026, после отзыва
    заказчика о мобильной версии. Аккордеон «The engineering edge» — в его блоке выше.
    ========================================================================== */
+.dd-ai-p2__icon,
+.dd-ai-p2__toggle { display: none; }
 @media (max-width: 833.98px) {
   /* Workflow: шаги идут списком, приглушать невыбранные незачем — они читаются как выключенные */
   .dd-ai-lstep { padding: 2rem 0; opacity: 1; }
   /* изометрическая сцена шире экрана на 25 px: без обрезки вся страница на телефоне ездит вбок */
   .dd-ai-flow__panel { overflow-x: clip; }
 
-  /* Процесс: карточки лентой, листаются вбок; край следующей виден */
-  .dd-ai-p2__grid {
-    display: flex;
-    gap: 1.2rem;
-    margin-inline: calc(-1 * var(--dd-gutter));
-    padding: 0 var(--dd-gutter) .4rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--dd-gutter);
-    scrollbar-width: none;
-    overscroll-behavior-x: contain;
+  /* Процесс: шаги раскрываются по одному, как строки «The engineering edge». В строке — номер,
+     название, справа значок шага и стрелка; сцена и описание внутри. Без скрипта (нет класса
+     is-accordion) все шаги раскрыты */
+  .dd-ai-p2__grid { gap: .8rem; }
+  .dd-ai-p2__card {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    column-gap: 1.2rem;
+    padding: 1.6rem;
+    border-radius: 1.4rem;
   }
-  .dd-ai-p2__grid::-webkit-scrollbar { display: none; }
-  .dd-ai-p2__card { flex: 0 0 84%; scroll-snap-align: start; }
+  .dd-ai-p2__body { display: contents; }
+  .dd-ai-p2__num { grid-area: 1 / 1; }
+  .dd-ai-p2__body h3 { grid-area: 1 / 2; }
+  .dd-ai-p2__icon { grid-area: 1 / 3; display: block; width: 2.4rem; height: 2.4rem; color: var(--dd-orange-100); }
+  .dd-ai-p2__card--dark .dd-ai-p2__icon { color: var(--dd-yellow-200); }
+  .dd-ai-p2__gain span { display: none; }
+  .dd-ai-art { grid-area: 2 / 1 / auto / -1; height: 16rem; margin-top: 1.4rem; }
+  .dd-ai-p2__body .dd-txt-4 { grid-area: 3 / 1 / auto / -1; margin-top: 1.4rem; }
+  .dd-ai-p2__gain { grid-area: 4 / 1 / auto / -1; padding-top: 1rem; }
   .dd-ai-p2__note { margin-top: 2rem; }
+  .is-accordion .dd-ai-p2__card::after {
+    content: "";
+    grid-area: 1 / 4;
+    width: .6rem;
+    height: .6rem;
+    margin: 0 .2rem .3rem;
+    border: solid currentColor;
+    border-width: 0 .15rem .15rem 0;
+    opacity: .6;
+    transform: rotate(45deg);
+    transition: transform .3s;
+  }
+  .is-accordion .dd-ai-p2__card.is-open::after { margin-bottom: -.3rem; transform: rotate(225deg); }
+  .is-accordion .dd-ai-p2__card:not(.is-open) :is(.dd-ai-art, .dd-txt-4, .dd-ai-p2__gain) { display: none; }
+  .is-accordion .dd-ai-p2__toggle {
+    display: block;
+    position: absolute;
+    inset: 0 0 auto;
+    height: 6.2rem;
+    padding: 0;
+    border: 0;
+    border-radius: 1.4rem;
+    background: none;
+    cursor: pointer;
+  }
+  .dd-ai-p2__toggle:focus-visible { outline: .2rem solid var(--dd-color-focus); outline-offset: .2rem; }
+  .dd-ai-p2__card--dark .dd-ai-p2__toggle:focus-visible { outline-color: var(--dd-neutral-1300); }
 
-  /* Таблица сравнения: пара «как обычно / Duck.design» — одна карточка, подпись внутри неё */
-  .dd-ai-econ__table { gap: 1.2rem; }
-  .dd-ai-econ__row:not(.dd-ai-econ__row--foot) { gap: 0; border-radius: 1.2rem; overflow: hidden; background: var(--dd-color-bg); }
-  .dd-ai-econ__row:not(.dd-ai-econ__row--foot) .dd-ai-econ__label { padding: 1.2rem 1.4rem 0; }
-  .dd-ai-econ__row:not(.dd-ai-econ__row--foot) .dd-ai-econ__cell { padding: .6rem 1.4rem 1.2rem; border-radius: 0; background: none; }
-  .dd-ai-econ__row:not(.dd-ai-econ__row--foot) .dd-ai-econ__cell--us { padding: 1.2rem 1.4rem; background: linear-gradient(135deg, #1f1513, #5e2710); }
-  .dd-ai-econ__row--foot { margin-top: .4rem; }
+  /* Таблица сравнения: одна тёмная панель на всю таблицу. Строки разделены пунктиром,
+     «как обычно» — тусклым бежевым, Duck.design — белым с жёлтыми значениями */
+  .dd-ai-econ__table {
+    gap: 0;
+    padding: .4rem 0 1.6rem;
+    border-radius: 1.6rem;
+    background: linear-gradient(160deg, #1f1513 10%, #5e2710);
+  }
+  .dd-ai-econ__row:not(.dd-ai-econ__row--foot) {
+    gap: 0;
+    margin: 0 1.6rem;
+    padding: 1.6rem 0;
+    background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .28) 0 .4rem, transparent .4rem .8rem) 0 100% / 100% .1rem no-repeat;
+  }
+  .dd-ai-econ__row:not(.dd-ai-econ__row--foot) .dd-ai-econ__label { padding: 0 0 .4rem; color: var(--dd-neutral-0); }
+  .dd-ai-econ__row:not(.dd-ai-econ__row--foot) .dd-ai-econ__cell { padding: .6rem 0; border-radius: 0; background: none; }
+  .dd-ai-econ__cell:not(.dd-ai-econ__cell--us) { color: var(--dd-beige-200); }
+  .dd-ai-econ__cell:not(.dd-ai-econ__cell--us) strong { color: inherit; }
+  .dd-ai-econ__cell:not(.dd-ai-econ__cell--us) .dd-ai-econ__mark { background: rgba(255, 255, 255, .12); color: var(--dd-beige-100); }
+  .dd-ai-econ__row--foot { margin: 1.6rem 1.6rem 0; }
 
   /* Форма: имя и фамилия в одну строку */
   .dd-ai-form__row:has([name="ff_first"]) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; }
 }
-@media (min-width: 560px) and (max-width: 833.98px) {
-  .dd-ai-p2__card { flex-basis: 46%; }
+
+/* Указатель ленты отзывов (до 834, где стрелок нет): точки, текущая вытянута.
+   Когда лента помещается целиком, указателя нет */
+.dd-ai-swipe { display: none; }
+@media (max-width: 833.98px) {
+  .dd-ai-swipe:not([hidden]) { position: relative; display: flex; justify-content: center; gap: .6rem; margin-top: 1.6rem; }
+  .dd-ai-swipe i { width: .6rem; height: .6rem; border-radius: .3rem; background: rgba(4, 5, 6, .16); transition: width .3s, background-color .3s; }
+  .dd-ai-swipe i.is-on { width: 2.2rem; background: var(--dd-neutral-1300); }
+  .dd-ai-flow .dd-ai-swipe i { background: rgba(255, 255, 255, .24); }
+  .dd-ai-flow .dd-ai-swipe i.is-on { background: var(--dd-yellow-200); }
+
+  /* Первый экран: сцена выше, стрелка-курсор по центру окна */
+  .dd-ai-hero__bg { flex-basis: 38rem; min-height: 38rem; }
+  .dd-ai-hero__bg video { object-position: 94% 30%; }
+
+  /* Строка-ярлык с одной чертой: текст сверху, под ним жёлтая черта, всё от левого края.
+     Ярлык по центру (с чертой с обеих сторон) остаётся как есть */
+  :not(.dd-ai-head--center) > .dd-ai-kicker,
+  .dd-ai-stack__eyebrow { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  :not(.dd-ai-head--center) > .dd-ai-kicker::before,
+  .dd-ai-stack__eyebrow::after { order: 1; width: 4rem; height: .2rem; background: var(--dd-yellow-200); }
+
+  /* ---------- ВАРИАНТЫ НА ВЫБОРЕ (13.10.2026): workflow на телефоне, data-flow на <html> ---------- */
+  /* swipe: сцена стоит на месте, шаги листаются пальцем — каждый шаг включает свой слой */
+  [data-flow="swipe"] .dd-ai-layers__stage { position: relative; top: auto; }
+  [data-flow="swipe"] .dd-ai-layers__steps {
+    display: flex;
+    gap: 3.2rem;
+    margin: 0 -1.6rem;
+    padding: 0 2.4rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 2.4rem;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  [data-flow="swipe"] .dd-ai-layers__steps::-webkit-scrollbar { display: none; }
+  [data-flow="swipe"] .dd-ai-lstep { flex: 0 0 100%; justify-content: flex-start; padding: 2rem 0 0; scroll-snap-align: start; }
+
+  /* pin: блок закреплён под шапкой, как на настольной ширине; сцена сверху, шаг под ней
+     сменяется на месте. Класс is-pinned ставит скрипт, если окно не ниже 560 */
+  .dd-ai-layers { --_pin-top: 6.1rem; }
+  .dd-ai-layers.is-pinned { height: 280vh; height: 280svh; }
+  .dd-ai-layers.is-pinned .dd-ai-layers__pin { grid-template-rows: auto auto; align-content: center; align-items: start; }
+  .dd-ai-layers.is-pinned .dd-ai-layers__stage { height: clamp(22rem, 100svh - 40rem, 34rem); }
+  .dd-ai-layers.is-pinned .dd-ai-layers__legend { left: .8rem; bottom: 0; padding-left: 0; }
+  .dd-ai-layers.is-pinned .dd-ai-layers__legend::before,
+  .dd-ai-layers.is-pinned .dd-ai-layers__legend::after { content: none; }
+  .dd-ai-layers.is-pinned .dd-ai-layers__steps { align-items: start; }
+  .dd-ai-layers.is-pinned .dd-ai-lstep { padding: 1.6rem 0 0; }
+  .dd-ai-layers.is-pinned .dd-ai-lstep .dd-txt-1 { font-size: 1.6rem; line-height: 2.4rem; }
+  .dd-ai-layers.is-pinned .dd-ai-tags { display: none; }
 }
+
+/* Переключатель вариантов (временный) */
+.dd-ai-pick { display: none; }
+@media (max-width: 833.98px) {
+  .dd-ai-pick {
+    position: fixed;
+    z-index: 90;
+    right: .8rem;
+    bottom: .8rem;
+    left: .8rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .4rem;
+    padding: .4rem;
+    border-radius: 1.2rem;
+    background: rgba(4, 5, 6, .92);
+  }
+  .dd-ai-pick button { min-height: 3.6rem; border: 0; border-radius: .8rem; background: rgba(255, 255, 255, .12); font: 500 1.2rem/1.6rem var(--dd-font-basic); color: var(--dd-neutral-0); cursor: pointer; }
+  .dd-ai-pick button[aria-pressed="true"] { background: var(--dd-yellow-200); color: var(--dd-neutral-1300); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-ai-swipe i,
+  .dd-ai-p2__card::after { transition: none !important; }
+}
+
 /* Тариф: на телефоне список «что входит» свёрнут до трёх строк, остальное — по кнопке.
    Без скрипта кнопки нет (атрибут hidden снимает скрипт) и список раскрыт целиком */
 .dd-ai-plan-more { display: none; }
@@ -1363,3 +1490,27 @@
   .dd-ai-plan-more[aria-expanded="true"] svg { transform: rotate(180deg); }
   .dd-ai-plan-more:focus-visible { outline: .2rem solid var(--dd-neutral-1300); outline-offset: -.2rem; border-radius: .8rem; }
 }
+
+/* ==========================================================================
+   Кегли на телефоне и в альбомной ориентации телефона (13.10.2026). В стилях «Headlines MOB»
+   H2 (48) крупнее заголовка первого экрана (36): иерархия перевёрнута. Здесь шкала идёт вниз
+   ступенями: 36 → 34 / 32 → 26 → 20 → 18. Только эта страница; общие токены не тронуты.
+   Телефон на боку шире 834, поэтому второе условие — по высоте окна.
+   ========================================================================== */
+@media (max-width: 833.98px), (max-height: 520px) and (orientation: landscape) {
+  :root {
+    --dd-h2: 3.2rem;       --dd-h2-lh: 3.8rem;
+    --dd-h2-light: 3.4rem; --dd-h2-light-lh: 4rem;
+    --dd-h3: 2.6rem;       --dd-h3-lh: 3.2rem;
+    --dd-h4: 2rem;         --dd-h4-lh: 2.6rem;
+    --dd-h5: 1.8rem;       --dd-h5-lh: 2.4rem;
+  }
+  .dd-txt-1 { font-size: 1.8rem; line-height: 2.6rem; }
+  .dd-txt-2 { font-size: 1.6rem; line-height: 2.4rem; }
+}
+@media (min-width: 834px) and (max-height: 520px) and (orientation: landscape) {
+  .dd-ai-hero__title { font-size: 3.6rem; line-height: 4.2rem; }
+  .dd-ai-hero__title .dd-fancy { font-size: 3.7rem; }
+  .dd-ai-contact h2 { font-size: 3.4rem; line-height: 4rem; }
+}
+
