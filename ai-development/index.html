@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="../assets/css/shell.css?v=17">
     <link rel="stylesheet" href="../assets/css/blocks.css?v=3">
     <link rel="stylesheet" href="../assets/css/capabilities.css?v=1">
-    <link rel="stylesheet" href="../assets/css/ai-development.css?v=55">
+    <link rel="stylesheet" href="../assets/css/ai-development.css?v=57">
 </head>
 <body>
 <a class="dd-skip-link dd-btn dd-btn--s dd-btn--yellow" href="#main"><span class="dd-btn__label">Skip to content</span></a>
@@ -349,8 +349,8 @@
     </div>
     <div class="dd-ai-layers" data-active="1">
       <div class="dd-ai-layers__pin">
-      <div class="dd-ai-layers__stage" aria-hidden="true">
-        <div class="dd-ai-iso">
+      <div class="dd-ai-layers__stage">
+        <div class="dd-ai-iso" aria-hidden="true">
           <div class="dd-ai-plate dd-ai-plate--wire"><i></i><i></i><i></i><i></i><i></i><i></i></div>
           <!-- слой 2: ИИ создаёт содержимое — текст, уточка линией, три значка; --_d — задержка штриха, --_t — его длительность -->
           <div class="dd-ai-plate dd-ai-plate--gen">
@@ -409,7 +409,7 @@
             </svg>
           </div>
         </div>
-        <ul class="dd-ai-layers__legend"><li>Structure</li><li>Generation</li><li>Live</li></ul>
+        <ul class="dd-ai-layers__legend" aria-label="Workflow steps"><li><button type="button">Structure</button></li><li><button type="button">Generation</button></li><li><button type="button">Live</button></li></ul>
       </div>
       <ol class="dd-ai-layers__steps">
         <li class="dd-ai-lstep" data-step="1">
@@ -1041,7 +1041,7 @@
 
 <script src="../assets/js/shell.js?v=5" defer></script>
 <script src="../assets/js/blocks.js?v=3" defer></script>
-<script src="../assets/js/ai-development.js?v=28" defer></script>
+<script src="../assets/js/ai-development.js?v=29" defer></script>
 <script>
   // Статическая вёрстка: форма заявки не отправляется
   document.querySelector('form[data-static]').addEventListener('submit', function (e) { e.preventDefault(); });

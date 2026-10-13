@@ -37,14 +37,14 @@
     });
   })();
 
-  /* Workflow. От 834 блок закреплён: доля прокрутки дорожки --p сводит слои и выбирает шаг.
-     Уже и при «уменьшить движение» — шаг у середины окна поднимает свой слой */
+  /* Workflow. Блок закреплён: доля прокрутки дорожки --p сводит слои и выбирает шаг. В низком
+     окне и при «уменьшить движение» — шаг у середины окна поднимает свой слой. Подписи слоёв —
+     кнопки: нажатие прокручивает к своему шагу */
   function layers(root) {
     var steps = Array.prototype.slice.call(root.querySelectorAll('.dd-ai-lstep'));
     var pin = root.querySelector('.dd-ai-layers__pin');
     var wide = matchMedia('(min-width: 834px) and (min-height: 600px)');
     var phone = matchMedia('(max-width: 833.98px) and (min-height: 560px)');
-    var list = root.querySelector('.dd-ai-layers__steps');
     var pinned = false;
     var queued = false;
     var current = -1;
@@ -72,13 +72,8 @@
       queued = true;
       requestAnimationFrame(measure);
     }
-    function swiped() { return list.scrollWidth - list.clientWidth > 1; }
-    function swipe() {
-      var max = list.scrollWidth - list.clientWidth;
-      if (max > 1) activate(Math.round(list.scrollLeft / max * (steps.length - 1)));
-    }
     function mode() {
-      pinned = !reduce && (wide.matches || (phone.matches && document.documentElement.dataset.flow === 'pin'));
+      pinned = !reduce && (wide.matches || phone.matches);
       root.classList.toggle('is-pinned', pinned);
       if (!pinned) root.style.removeProperty('--p');
       queue();
@@ -87,15 +82,21 @@
     activate(0);
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (!pinned && !swiped() && entry.isIntersecting) activate(steps.indexOf(entry.target));
+        if (!pinned && entry.isIntersecting) activate(steps.indexOf(entry.target));
       });
     }, { rootMargin: '-48% 0px -48% 0px' });
     steps.forEach(function (s) { io.observe(s); });
 
     wide.addEventListener('change', mode);
     phone.addEventListener('change', mode);
-    document.addEventListener('dd-flow', function () { list.scrollLeft = 0; mode(); activate(0); });
-    list.addEventListener('scroll', swipe, { passive: true });
+    Array.prototype.forEach.call(root.querySelectorAll('.dd-ai-layers__legend button'), function (btn, i) {
+      btn.addEventListener('click', function () {
+        if (!pinned) { steps[i].scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' }); return; }
+        var span = root.offsetHeight - pin.offsetHeight;
+        var top = scrollY + root.getBoundingClientRect().top - parseFloat(getComputedStyle(pin).top);
+        scrollTo({ top: top + span * (i + .5) / steps.length, behavior: 'smooth' });
+      });
+    });
     addEventListener('scroll', queue, { passive: true });
     addEventListener('resize', queue);
     mode();
@@ -195,8 +196,8 @@
   open(cards[0]);
 })();
 
-/* Указатель ленты: точки под лентой, текущая вытянута. Стоит под отзывами и под шагами
-   workflow. Когда лента помещается целиком, указателя нет */
+/* Указатель ленты отзывов: точки под лентой, текущая вытянута. Когда лента помещается
+   целиком, указателя нет */
 (function () {
   'use strict';
 
@@ -218,42 +219,9 @@
 
     scroller.addEventListener('scroll', update, { passive: true });
     if (window.ResizeObserver) new ResizeObserver(update).observe(scroller);
-    document.addEventListener('dd-flow', update);
     update();
   }
 
   dots(document.querySelector('.dd-testimonials__scroller'), document.querySelectorAll('.dd-testimonial').length);
-  dots(document.querySelector('.dd-ai-layers__steps'), document.querySelectorAll('.dd-ai-lstep').length);
-})();
-
-/* ВАРИАНТЫ НА ВЫБОРЕ (13.10.2026, временно): workflow на телефоне — ?flow=swipe (шаги листаются
-   пальцем) или ?flow=pin (блок закреплён, шаги сменяются по прокрутке). После выбора удалить
-   вместе с переключателем .dd-ai-pick и лишним видом в стилях */
-(function () {
-  'use strict';
-
-  var root = document.documentElement;
-  var values = ['swipe', 'pin'];
-  var labels = ['Листать пальцем', 'Закреп по прокрутке'];
-  var pick = document.createElement('div');
-  pick.className = 'dd-ai-pick';
-  pick.setAttribute('role', 'group');
-  pick.setAttribute('aria-label', 'Workflow: варианты');
-  var buttons = values.map(function (value, i) {
-    var b = document.createElement('button');
-    b.type = 'button';
-    b.textContent = labels[i];
-    b.addEventListener('click', function () { choose(value); });
-    pick.append(b);
-    return b;
-  });
-  function choose(value) {
-    if (values.indexOf(value) < 0) value = values[0];
-    root.dataset.flow = value;
-    buttons.forEach(function (b, i) { b.setAttribute('aria-pressed', String(values[i] === value)); });
-    document.dispatchEvent(new Event('dd-flow'));
-  }
-  choose(new URLSearchParams(location.search).get('flow'));
-  document.body.append(pick);
 })();
 

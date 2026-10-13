@@ -831,6 +831,9 @@
   color: var(--dd-beige-300);
 }
 .dd-ai-layers__legend li { transition: color .4s; }
+.dd-ai-layers__legend button { padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; }
+.dd-ai-layers__legend button:focus-visible { outline: .2rem solid var(--dd-color-focus); outline-offset: .3rem; border-radius: .2rem; }
+@media (hover: hover) { .dd-ai-layers__legend button:hover { color: var(--dd-neutral-0); } }
 .dd-ai-layers[data-active="1"] .dd-ai-layers__legend li:nth-child(1),
 .dd-ai-layers[data-active="2"] .dd-ai-layers__legend li:nth-child(2),
 .dd-ai-layers[data-active="3"] .dd-ai-layers__legend li:nth-child(3) { color: var(--dd-orange-200); }
@@ -1396,12 +1399,12 @@
   .dd-ai-swipe:not([hidden]) { position: relative; display: flex; justify-content: center; gap: .6rem; margin-top: 1.6rem; }
   .dd-ai-swipe i { width: .6rem; height: .6rem; border-radius: .3rem; background: rgba(4, 5, 6, .16); transition: width .3s, background-color .3s; }
   .dd-ai-swipe i.is-on { width: 2.2rem; background: var(--dd-neutral-1300); }
-  .dd-ai-flow .dd-ai-swipe i { background: rgba(255, 255, 255, .24); }
-  .dd-ai-flow .dd-ai-swipe i.is-on { background: var(--dd-yellow-200); }
 
-  /* Первый экран: сцена выше, стрелка-курсор по центру окна */
+  /* Первый экран: сцена выше, стрелка-курсор по центру окна; текст заходит на низ сцены на 200 */
   .dd-ai-hero__bg { flex-basis: 38rem; min-height: 38rem; }
   .dd-ai-hero__bg video { object-position: 94% 30%; }
+  .dd-ai-hero__bg::after { height: 70%; }
+  .dd-ai-hero__inner { margin-top: -20rem; }
 
   /* Строка-ярлык с одной чертой: текст сверху, под ним жёлтая черта, всё от левого края.
      Ярлык по центру (с чертой с обеих сторон) остаётся как есть */
@@ -1410,56 +1413,52 @@
   :not(.dd-ai-head--center) > .dd-ai-kicker::before,
   .dd-ai-stack__eyebrow::after { order: 1; width: 4rem; height: .2rem; background: var(--dd-yellow-200); }
 
-  /* ---------- ВАРИАНТЫ НА ВЫБОРЕ (13.10.2026): workflow на телефоне, data-flow на <html> ---------- */
-  /* swipe: сцена стоит на месте, шаги листаются пальцем — каждый шаг включает свой слой */
-  [data-flow="swipe"] .dd-ai-layers__stage { position: relative; top: auto; }
-  [data-flow="swipe"] .dd-ai-layers__steps {
-    display: flex;
-    gap: 3.2rem;
-    margin: 0 -1.6rem;
-    padding: 0 2.4rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: 2.4rem;
-    scrollbar-width: none;
-    overscroll-behavior-x: contain;
-  }
-  [data-flow="swipe"] .dd-ai-layers__steps::-webkit-scrollbar { display: none; }
-  [data-flow="swipe"] .dd-ai-lstep { flex: 0 0 100%; justify-content: flex-start; padding: 2rem 0 0; scroll-snap-align: start; }
-
-  /* pin: блок закреплён под шапкой, как на настольной ширине; сцена сверху, шаг под ней
+  /* Workflow: блок закреплён под шапкой, как на настольной ширине; сцена сверху, шаг под ней
      сменяется на месте. Класс is-pinned ставит скрипт, если окно не ниже 560 */
   .dd-ai-layers { --_pin-top: 6.1rem; }
   .dd-ai-layers.is-pinned { height: 280vh; height: 280svh; }
   .dd-ai-layers.is-pinned .dd-ai-layers__pin { grid-template-rows: auto auto; align-content: center; align-items: start; }
   .dd-ai-layers.is-pinned .dd-ai-layers__stage { height: clamp(22rem, 100svh - 40rem, 34rem); }
-  .dd-ai-layers.is-pinned .dd-ai-layers__legend { left: .8rem; bottom: 0; padding-left: 0; }
   .dd-ai-layers.is-pinned .dd-ai-layers__legend::before,
   .dd-ai-layers.is-pinned .dd-ai-layers__legend::after { content: none; }
   .dd-ai-layers.is-pinned .dd-ai-layers__steps { align-items: start; }
   .dd-ai-layers.is-pinned .dd-ai-lstep { padding: 1.6rem 0 0; }
   .dd-ai-layers.is-pinned .dd-ai-lstep .dd-txt-1 { font-size: 1.6rem; line-height: 2.4rem; }
   .dd-ai-layers.is-pinned .dd-ai-tags { display: none; }
-}
 
-/* Переключатель вариантов (временный) */
-.dd-ai-pick { display: none; }
-@media (max-width: 833.98px) {
-  .dd-ai-pick {
-    position: fixed;
-    z-index: 90;
+  /* Подписи слоёв — три вкладки со шкалой: полоса над подписью заполняется по прокрутке,
+     нажатие ведёт к своему шагу. Без закрепа полосы показывают выбранный шаг */
+  .dd-ai-layers__legend,
+  .dd-ai-layers.is-pinned .dd-ai-layers__legend {
     right: .8rem;
-    bottom: .8rem;
+    bottom: 0;
     left: .8rem;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: .4rem;
-    padding: .4rem;
-    border-radius: 1.2rem;
-    background: rgba(4, 5, 6, .92);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .6rem;
+    padding: 0;
   }
-  .dd-ai-pick button { min-height: 3.6rem; border: 0; border-radius: .8rem; background: rgba(255, 255, 255, .12); font: 500 1.2rem/1.6rem var(--dd-font-basic); color: var(--dd-neutral-0); cursor: pointer; }
-  .dd-ai-pick button[aria-pressed="true"] { background: var(--dd-yellow-200); color: var(--dd-neutral-1300); }
+  .dd-ai-layers__legend li:nth-child(2) { --i: 1; }
+  .dd-ai-layers__legend li:nth-child(3) { --i: 2; }
+  .dd-ai-layers__legend button { position: relative; display: block; width: 100%; min-height: 4.4rem; padding: 1.2rem 0 .8rem; text-align: left; }
+  .dd-ai-layers__legend button::before,
+  .dd-ai-layers__legend button::after { content: ""; position: absolute; inset: 0 0 auto; height: .2rem; border-radius: .1rem; background: var(--dd-ink-chip-line); }
+  .dd-ai-layers__legend button::after {
+    background: var(--dd-orange-100);
+    transform: scaleX(clamp(0, calc(var(--p, 0) * 3 - var(--i, 0)), 1));
+    transform-origin: 0 50%;
+  }
+  .dd-ai-layers:not(.is-pinned)[data-active="1"] { --p: .334; }
+  .dd-ai-layers:not(.is-pinned)[data-active="2"] { --p: .667; }
+  .dd-ai-layers:not(.is-pinned)[data-active="3"] { --p: 1; }
+
+  /* Тариф: вкладки срока — во всю ширину панели. Крайняя выбранная вкладка стоит заподлицо
+     с краем панели, угол панели под ней прямой: острого выступа с зазором нет */
+  .dd-plan__terms { gap: 0; }
+  .dd-plan__term { flex: 1 1 0; padding-inline: .4rem; }
+  .dd-plan__term:has(:checked) { box-shadow: 0 .1rem 0 var(--dd-neutral-0); } /* шов с панелью на дробных пикселях */
+  .dd-plan__buy:has(.dd-plan__term:first-child :checked) .dd-plan__deal { border-top-left-radius: 0; }
+  .dd-plan__buy:has(.dd-plan__term:last-child :checked) .dd-plan__deal { border-top-right-radius: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .dd-ai-swipe i,
