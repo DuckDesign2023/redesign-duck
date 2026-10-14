@@ -1,0 +1,362 @@
+/* ==========================================================================
+   duck.design — блоки промо-страницы (/promo/)
+   Живой страницы нет; макет Figma «1440 index» 2486:7721 нарисован в переходном стиле.
+   Из него взяты состав и порядок секций, тексты и картинки; типографика, кнопки, радиусы
+   и отступы — из системы (DESIGN.md, раздел 9), а не числа переходного макета.
+   Подключается только на этой странице, после blocks.css, pricing.css и portfolio.css:
+   цифры, награды и полоса-призыв — блоки Portfolio, тарифы и «для кого» — блоки Pricing.
+   Свои блоки: .dd-promo-hero · .dd-promo-stories · .dd-promo-roadmap.
+   Виды чужих блоков для этой страницы: .dd-promo-who (Pricing, видимый заголовок «Who is it for?»),
+   .dd-promo-cta (Portfolio, заголовок полосы-призыва переносится).
+   Поведение — js/promo.js (стрелки ленты историй). Эталоны — design-system/blocks/promo-*.html.
+   ========================================================================== */
+
+/* ---------- Общее: секция ---------- */
+.dd-promo-sec { padding-block: 3rem; }
+
+@media (min-width: 834px) {
+  .dd-promo-sec { padding-block: 5rem; }
+}
+@media (min-width: 1320px) {
+  .dd-promo-sec { padding-block: 6rem; }
+}
+
+/* ---------- Первый экран: заголовок по центру, ряд работ за край окна ---------- */
+.dd-promo-hero {
+  overflow: hidden;
+  padding-top: 3rem;
+}
+.dd-promo-hero__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  max-width: 86rem;
+  margin: 0 auto;
+  padding-inline: var(--dd-gutter);
+  text-align: center;
+}
+.dd-promo-hero__head h1,
+.dd-promo-hero__head p { margin: 0; }
+.dd-promo-hero__kicker {
+  font: 700 1.4rem/2.1rem var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dd-orange-0);   /* Orange-50 по Beige-50 — 3,6 : 1, по таблице только от 18 px */
+}
+.dd-promo-hero__head h1 { text-wrap: balance; }
+.dd-promo-hero__lead {
+  max-width: 64rem;
+  color: var(--dd-color-text-body);
+  text-wrap: pretty;
+}
+.dd-promo-hero__head .dd-btn {
+  align-self: stretch;
+  margin-top: .8rem;
+}
+/* ряд стоит по центру окна, края режет окно; движения нет */
+.dd-promo-hero__works {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 3rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-promo-hero__works li { flex: 0 0 auto; }
+.dd-promo-hero__works img {
+  display: block;
+  width: 26rem;
+  height: auto;
+  aspect-ratio: 1094 / 770;
+  object-fit: cover;
+  border-radius: var(--dd-radius-sm);
+}
+
+@media (min-width: 834px) {
+  .dd-promo-hero { padding-top: 5rem; }
+  .dd-promo-hero__head { gap: 2rem; }
+  .dd-promo-hero__head .dd-btn { align-self: center; }
+  .dd-promo-hero__works {
+    gap: 1.2rem;
+    margin-top: 5rem;
+  }
+  .dd-promo-hero__works img {
+    width: 34rem;
+    border-radius: var(--dd-radius-lg);
+  }
+}
+@media (min-width: 1320px) {
+  .dd-promo-hero { padding-top: 6rem; }
+  .dd-promo-hero__works img { width: 42rem; }
+}
+
+/* ---------- Истории клиентов: заголовок с кнопкой, лента восьми карточек отраслей ---------- */
+.dd-promo-stories { overflow: hidden; }
+.dd-promo-stories__top {
+  display: grid;
+  grid-template-areas: "head" "nav";
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.dd-promo-stories__head {
+  grid-area: head;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.dd-promo-stories__head h2,
+.dd-promo-stories__head p { margin: 0; }
+.dd-promo-stories__head p {
+  max-width: 64rem;
+  color: var(--dd-color-text-body);
+}
+.dd-promo-stories__nav {
+  grid-area: nav;
+  display: none;
+}
+.dd-promo-stories__more {
+  display: flex;
+  margin-top: 2rem;
+}
+.dd-promo-stories__more .dd-btn { flex: 1 1 auto; }
+
+.dd-promo-stories__scroller {
+  --_pad: 1.6rem;
+
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  scroll-padding-inline: var(--_pad);
+}
+.dd-promo-stories__scroller::-webkit-scrollbar { display: none; }
+.dd-promo-stories__scroller:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: -.2rem;
+}
+.dd-promo-stories__list {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  margin: 0;
+  padding: .4rem var(--_pad);
+  list-style: none;
+}
+.dd-promo-story {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  box-sizing: border-box;
+  width: 30rem;
+  padding: 1rem 1rem 2rem;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-color-surface);
+  scroll-snap-align: start;
+}
+.dd-promo-story img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1072 / 662;
+  object-fit: cover;
+  border-radius: var(--dd-radius-sm);
+}
+.dd-promo-story__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 2rem;
+  padding-inline: 1rem;
+}
+.dd-promo-story__count {
+  margin: 0 0 .8rem;
+  color: var(--dd-color-text-muted);
+}
+.dd-promo-story h3 { margin: 0; }
+.dd-promo-story__list {
+  display: flex;
+  flex-direction: column;
+  margin: auto 0 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-promo-story__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  padding-block: 1.2rem;
+  color: var(--dd-color-text-body);
+}
+.dd-promo-story__list li + li {
+  background: linear-gradient(90deg, var(--dd-color-divider) 50%, transparent 0) 0 0 / .6rem .1rem repeat-x;
+}
+.dd-promo-story__list svg {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 2rem;
+  height: 2rem;
+  padding: .4rem;
+  border-radius: 50%;
+  background: var(--dd-beige-100);
+  color: var(--dd-neutral-1300);
+}
+
+@media (min-width: 834px) {
+  .dd-promo-stories__top {
+    grid-template-areas: "head nav";
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+  .dd-promo-stories__nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .dd-promo-stories__nav [aria-disabled='true'] { opacity: .4; }
+  .dd-promo-stories__more { display: none; }
+  .dd-promo-stories__nav .dd-promo-stories__go { margin-left: 1rem; }
+  .dd-promo-stories__scroller { --_pad: 3rem; }
+  .dd-promo-stories__list { gap: 1.2rem; }
+  .dd-promo-story {
+    width: 42rem;
+    padding: 1.4rem 1.4rem 3rem;
+    border-radius: var(--dd-radius-lg);
+  }
+  .dd-promo-story img { border-radius: var(--dd-radius-md); }
+  .dd-promo-story__body { padding-inline: 1.6rem; }
+}
+@media (min-width: 1320px) {
+  .dd-promo-stories__scroller { --_pad: max(7rem, calc((100vw - var(--dd-frame)) / 2 + 7rem)); }
+  .dd-promo-story { width: 51rem; }
+}
+/* без скрипта стрелок нет: лента листается сама, кнопка остаётся */
+@media (scripting: none) {
+  .dd-promo-stories__arrow { display: none; }
+}
+
+/* ---------- Полоса-призыв Portfolio: длинный заголовок «Let's work together» ---------- */
+/* В Portfolio заголовок короткий («Interested?») и между 834 и 1319 стоит по содержимому;
+   здесь он длиннее и переносится, чтобы кнопка не выходила за окно */
+@media (min-width: 834px) and (max-width: 1319.98px) {
+  .dd-promo-cta .dd-folio-cta__title { flex: 1 1 0; }
+}
+
+/* ---------- «Who is it for?»: вид блока Pricing с видимым заголовком ---------- */
+.dd-promo-who__head {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  max-width: 70rem;
+}
+.dd-promo-who__head h2,
+.dd-promo-who__head p { margin: 0; }
+.dd-promo-who__head p { color: var(--dd-color-text-body); }
+
+@media (min-width: 834px) {
+  .dd-promo-who__head {
+    grid-column: 1 / -1;
+    margin-bottom: 1.6rem;
+  }
+}
+
+/* ---------- «We don't just do and leave»: три шага на 90 дней ---------- */
+.dd-promo-roadmap__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  max-width: 86rem;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+.dd-promo-roadmap__head h2,
+.dd-promo-roadmap__head p { margin: 0; }
+.dd-promo-roadmap__head .dd-txt-2 {
+  max-width: 64rem;
+  color: var(--dd-color-text-body);
+  text-wrap: pretty;
+}
+.dd-promo-roadmap__head .dd-txt--semi { color: var(--dd-color-text); }
+.dd-promo-roadmap__steps {
+  display: grid;
+  gap: 3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+.dd-promo-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  text-align: center;
+}
+.dd-promo-step h3,
+.dd-promo-step p { margin: 0; }
+/* метка шага: белый круг 54 с цветной точкой; от 834 через ряд идёт пунктир */
+.dd-promo-step__mark {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-self: stretch;
+}
+.dd-promo-step__mark span {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 5.4rem;
+  height: 5.4rem;
+  border-radius: 50%;
+  background: var(--dd-color-surface);
+}
+.dd-promo-step__mark span::before {
+  content: "";
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  background: var(--_dot, var(--dd-beige-100));
+}
+.dd-promo-step__mark svg {
+  position: absolute;
+  width: 1.7rem;
+  height: 1.7rem;
+  color: var(--dd-neutral-1300);
+}
+.dd-promo-step--2 { --_dot: var(--dd-orange-100); }
+.dd-promo-step--3 { --_dot: var(--dd-yellow-200); }
+.dd-promo-step__num {
+  font: italic 400 5.6rem/6rem var(--dd-font-fancy);
+  letter-spacing: -.02em;
+  color: var(--dd-neutral-1300);
+}
+.dd-promo-step .dd-txt-3 {
+  max-width: 36rem;
+  color: var(--dd-color-text-body);
+}
+
+@media (min-width: 834px) {
+  .dd-promo-roadmap__head {
+    gap: 2rem;
+    margin-bottom: 6rem;
+  }
+  .dd-promo-roadmap__steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+  }
+  .dd-promo-step { padding-inline: 1.6rem; }
+  .dd-promo-step__mark::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: .1rem;
+    background: linear-gradient(90deg, var(--dd-color-divider) 50%, transparent 0) 0 0 / .6rem .1rem repeat-x;
+  }
+  .dd-promo-step:first-child .dd-promo-step__mark::before { left: 50%; }
+  .dd-promo-step:last-child .dd-promo-step__mark::before { right: 50%; }
+}
