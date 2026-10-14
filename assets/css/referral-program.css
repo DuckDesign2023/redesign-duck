@@ -1,0 +1,471 @@
+/* ==========================================================================
+   duck.design — блоки страницы Partner (/referral-program/)
+   Макета в новом стиле нет: Figma «1919-1440» 2183:3874 нарисован в переходном стиле. Из него взят
+   состав секций, тексты и порядок — с живой страницы. Типографика, кнопки, радиусы и отступы —
+   из системы (DESIGN.md, раздел 9), а не числа переходного макета.
+   Подключается только на этой странице, после blocks.css. Скрипта у блоков нет.
+   Свои блоки: .dd-ref-hero · .dd-ref-steps · .dd-ref-benefits · .dd-ref-math · .dd-ref-who.
+   Вид общего блока: .dd-ref-cta (карточка-призыв с длинной подписью кнопки).
+   Эталоны — design-system/blocks/ref-*.html.
+   ========================================================================== */
+
+/* ---------- Общее: секция и её заголовок ---------- */
+.dd-ref-sec { padding-block: 3rem; }
+.dd-ref-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  max-width: 86rem;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+.dd-ref-head h2,
+.dd-ref-head p { margin: 0; }
+.dd-ref-head > .dd-txt-2 {
+  max-width: 64rem;
+  color: var(--dd-color-text-body);
+  text-wrap: pretty;
+}
+/* пунктир системы 3–3 над элементом */
+.dd-ref-dash {
+  background: linear-gradient(90deg, var(--dd-color-divider) 50%, transparent 0) 0 0 / .6rem .1rem repeat-x;
+}
+
+@media (min-width: 834px) {
+  .dd-ref-sec { padding-block: 5rem; }
+  .dd-ref-head {
+    gap: 2rem;
+    margin-bottom: 6rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-ref-sec { padding-block: 6rem; }
+}
+
+/* ---------- Первый экран: фото на всё окно под тёмной шапкой, текст по центру ---------- */
+.dd-ref-hero {
+  --_header: 6.1rem;
+
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 4rem;
+  min-height: 76rem;
+  margin-top: calc(-1 * var(--_header));
+  padding: calc(var(--_header) + 4rem) 1.6rem 4rem;
+  overflow: hidden;
+  background: #2b3a3d;
+  color: var(--dd-neutral-0);
+  text-align: center;
+}
+.dd-ref-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.dd-ref-hero__bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+/* затемнение сверху под заголовком и снизу под кнопкой — фото посередине открыто */
+.dd-ref-hero__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(12 20 24 / .72) 0%, rgb(12 20 24 / .35) 34%, rgb(12 20 24 / 0) 50%, rgb(20 14 8 / .45) 70%, rgb(20 14 8 / .85) 100%);
+}
+.dd-ref-hero__top,
+.dd-ref-hero__bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  width: 100%;
+  max-width: 86rem;
+  margin-inline: auto;
+}
+.dd-ref-hero h1,
+.dd-ref-hero p { margin: 0; }
+.dd-ref-hero__kicker {
+  font: italic 400 1.6rem/2.4rem var(--dd-font-fancy);
+  color: var(--dd-yellow-300);
+}
+.dd-ref-hero h1 {
+  color: inherit;
+  text-wrap: balance;
+}
+.dd-ref-hero__lead {
+  max-width: 52rem;
+  color: var(--dd-beige-100);
+  text-wrap: pretty;
+}
+.dd-ref-hero__bottom .dd-btn { align-self: stretch; }
+.dd-ref-hero__note {
+  font: italic 400 1.4rem/2rem var(--dd-font-fancy);
+  color: var(--dd-beige-100);
+}
+
+@media (min-width: 834px) {
+  .dd-ref-hero {
+    --_header: 8.1rem;
+
+    min-height: 72rem;
+    padding: calc(var(--_header) + 5rem) 3rem 5rem;
+  }
+  .dd-ref-hero__top,
+  .dd-ref-hero__bottom { gap: 2rem; }
+  .dd-ref-hero__bottom .dd-btn { align-self: center; }
+}
+@media (min-width: 1320px) {
+  .dd-ref-hero {
+    --_header: 7.3rem;
+
+    min-height: 76rem;
+    padding-bottom: 6rem;
+  }
+}
+
+/* ---------- Шаги: заголовок слева, четыре шага со значками справа ---------- */
+.dd-ref-steps__grid {
+  display: grid;
+  gap: 3rem;
+}
+.dd-ref-steps__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.6rem;
+}
+.dd-ref-steps__head h2,
+.dd-ref-steps__head p { margin: 0; }
+.dd-ref-steps__head > .dd-txt-2 {
+  max-width: 48rem;
+  color: var(--dd-color-text-body);
+}
+.dd-ref-steps__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-ref-step {
+  display: grid;
+  grid-template-columns: 5.6rem minmax(0, 1fr);
+  align-items: start;
+  gap: 1.6rem;
+  padding-block: 2.4rem;
+}
+.dd-ref-step:first-child { padding-top: 0; background: none; }
+.dd-ref-step img {
+  display: block;
+  width: 5.6rem;
+  height: 5.6rem;
+}
+.dd-ref-step__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.dd-ref-step__body p,
+.dd-ref-step__body h3 { margin: 0; }
+.dd-ref-step__num {
+  font: italic 400 1.8rem/2.4rem var(--dd-font-fancy);
+  color: var(--dd-orange-0);
+}
+.dd-ref-step__body .dd-txt-3 {
+  max-width: 52rem;
+  color: var(--dd-color-text-body);
+}
+
+@media (min-width: 834px) {
+  .dd-ref-step {
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: 3rem;
+    padding-block: 3rem;
+  }
+  .dd-ref-step img {
+    width: 7.2rem;
+    height: 7.2rem;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-ref-steps__grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 6rem;
+  }
+  /* заголовок стоит на месте, пока листаются шаги */
+  .dd-ref-steps__head {
+    position: sticky;
+    top: 12rem;
+    align-self: start;
+  }
+}
+
+/* ---------- Выгоды: заголовок с переключателем-украшением, четыре карточки ---------- */
+.dd-ref-benefits__title { text-wrap: balance; }
+/* переключатель — украшение, как пилюли цифр Portfolio: ничего не переключает */
+.dd-ref-switch {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 1.4em;
+  height: .72em;
+  margin-inline: .1em .15em;
+  padding: .08em;
+  border-radius: var(--dd-radius-pill);
+  background: var(--dd-neutral-1100);
+  vertical-align: .02em;
+}
+.dd-ref-switch::before {
+  content: '';
+  display: block;
+  width: .56em;
+  height: .56em;
+  border-radius: 50%;
+  background: var(--dd-neutral-0);
+}
+.dd-ref-benefits__grid {
+  display: grid;
+  gap: .9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-ref-benefit {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  box-sizing: border-box;
+  padding: 1.6rem;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-color-surface);
+}
+.dd-ref-benefit h3,
+.dd-ref-benefit p { margin: 0; }
+.dd-ref-benefit p { color: var(--dd-color-text-body); }
+.dd-ref-benefit__media {
+  display: block;
+  width: 100%;
+  height: 16rem;
+  object-fit: cover;
+  object-position: 50% 30%;
+  border-radius: var(--dd-radius-sm);
+}
+.dd-ref-benefit__icon {
+  display: block;
+  height: 4.8rem;
+  width: auto;
+  margin-bottom: auto;
+  align-self: flex-start;
+}
+.dd-ref-benefit__text {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  margin-top: auto;
+}
+
+@media (min-width: 834px) {
+  .dd-ref-benefits__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+  }
+  .dd-ref-benefit {
+    gap: 2rem;
+    min-height: 34rem;
+    padding: 2.4rem;
+    border-radius: var(--dd-radius-lg);
+  }
+  .dd-ref-benefit__media {
+    height: 18rem;
+    border-radius: var(--dd-radius-md);
+  }
+}
+@media (min-width: 1320px) {
+  .dd-ref-benefits__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .dd-ref-benefit { min-height: 42rem; }
+}
+
+/* ---------- «Your Income Math»: тёмная панель с тремя расчётами ---------- */
+.dd-ref-math__panel {
+  box-sizing: border-box;
+  padding: 4rem 1.6rem 1.6rem;
+  border-radius: var(--dd-radius-lg);
+  background: radial-gradient(70% 60% at 0% 100%, rgb(255 139 32 / .42), rgb(255 139 32 / 0) 70%), var(--dd-neutral-1300);
+}
+.dd-ref-math .dd-ref-head > .dd-txt-2 { color: var(--dd-beige-100); }
+.dd-ref-math__title .dd-fancy { color: var(--dd-yellow-200); }
+.dd-ref-math__grid {
+  display: grid;
+  gap: .9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-ref-calc {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  padding: 2rem;
+  border: .1rem solid rgb(255 255 255 / .12);
+  border-radius: var(--dd-radius-sm);
+  background: rgb(255 255 255 / .06);
+}
+.dd-ref-calc__head {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin: 0;
+  padding-bottom: 1.6rem;
+  border-bottom: .1rem solid rgb(255 255 255 / .12);
+  font: italic 400 2.4rem/3rem var(--dd-font-fancy);
+  color: var(--dd-neutral-0);
+}
+.dd-ref-calc__head img {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+.dd-ref-calc dl {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.2rem 1.6rem;
+  margin: 0;
+}
+.dd-ref-calc dt,
+.dd-ref-calc dd {
+  margin: 0;
+  font: 400 1.4rem/2rem var(--dd-font-basic);
+  color: var(--dd-beige-100);
+}
+.dd-ref-calc dd {
+  font-family: var(--dd-font-fancy);
+  font-style: italic;
+  text-align: right;
+  color: var(--dd-neutral-0);
+}
+/* годовой доход — под пунктиром, цифра жёлтая */
+.dd-ref-calc__total {
+  padding-top: 1.2rem;
+  background: linear-gradient(90deg, rgb(255 255 255 / .24) 50%, transparent 0) 0 0 / .6rem .1rem repeat-x;
+}
+.dd-ref-calc dt.dd-ref-calc__total { color: var(--dd-neutral-0); }
+.dd-ref-calc dd.dd-ref-calc__total { color: var(--dd-yellow-200); }
+.dd-ref-math__note {
+  max-width: 86rem;
+  margin: 1.6rem auto 0;
+  color: var(--dd-color-text-muted);
+  text-align: center;
+}
+
+@media (min-width: 834px) {
+  .dd-ref-math__panel {
+    padding: 6rem 3rem 3rem;
+    border-radius: var(--dd-radius-2xl);
+  }
+  .dd-ref-math__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.2rem;
+  }
+  .dd-ref-calc {
+    padding: 2.4rem;
+    border-radius: var(--dd-radius-lg);
+  }
+}
+@media (min-width: 1320px) {
+  .dd-ref-math__panel { padding: 8rem 6rem 6rem; }
+}
+
+/* ---------- «Who is this program for?»: четыре карточки с фото ---------- */
+.dd-ref-who__top {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+.dd-ref-who__top h2 { margin: 0; }
+.dd-ref-who__top .dd-btn { display: none; }
+.dd-ref-who__more {
+  display: flex;
+  margin-top: 2rem;
+}
+.dd-ref-who__more .dd-btn { flex: 1 1 auto; }
+.dd-ref-who__grid {
+  display: grid;
+  gap: .9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-ref-person {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  padding: 1rem 1rem 2rem;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-color-surface);
+}
+.dd-ref-person img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 25%;
+  border-radius: var(--dd-radius-sm);
+}
+.dd-ref-person__text {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  padding-inline: 1rem;
+}
+.dd-ref-person h3,
+.dd-ref-person p { margin: 0; }
+.dd-ref-person p { color: var(--dd-color-text-body); }
+
+@media (min-width: 834px) {
+  .dd-ref-who__top {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 3rem;
+    margin-bottom: 6rem;
+  }
+  .dd-ref-who__top .dd-btn {
+    display: inline-flex;
+    flex: none;
+  }
+  .dd-ref-who__more { display: none; }
+  .dd-ref-who__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+  }
+  .dd-ref-person {
+    padding: 1.4rem 1.4rem 2.4rem;
+    border-radius: var(--dd-radius-lg);
+  }
+  .dd-ref-person img { border-radius: var(--dd-radius-md); }
+  .dd-ref-person__text { padding-inline: 1.2rem; }
+}
+@media (min-width: 1320px) {
+  .dd-ref-who__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ---------- Карточка-призыв: вид для длинной подписи кнопки ---------- */
+/* «Submit an Application» длиннее «Get started»: на телефоне белая кнопка сжимает поля,
+   чтобы жёлтый круг остался в карточке */
+@media (max-width: 833.98px) {
+  .dd-ref-cta .dd-cta-card__go .dd-btn--white {
+    min-width: 0;
+    padding-inline: 1.2rem;
+  }
+}
+/* на самых узких окнах подпись не помещается рядом с кругом — круг-украшение уходит */
+@media (max-width: 359.98px) {
+  .dd-ref-cta .dd-cta-card__go .dd-btn--yellow { display: none; }
+}
