@@ -1024,6 +1024,60 @@
   .dd-footer__policies { flex-wrap: nowrap; }
 }
 
+/* ---------- Движение каркаса (в Figma его нет) ----------
+   Открытие показывает, откуда пришла панель: выпадающее меню спускается из полосы, бургер
+   проявляется под полосой и его строки догоняют друг друга, колонка подвала раскрывается
+   вниз. Закрытие мгновенное — уходящее не задерживает. Стрелки пунктов поворачиваются,
+   полоса закреплённой шапки набирает фон и тень плавно */
+@keyframes dd-drop {
+  from { opacity: 0; transform: translateY(-1.2rem); }
+}
+.dd-header__bar { transition: background-color var(--dd-dur-base), box-shadow var(--dd-dur-base); }
+.dd-header-item__chevron,
+.dd-header-item__mark { transition: transform var(--dd-dur-base) var(--dd-ease-out); }
+.dd-header-item[aria-expanded="true"] + .dd-menu { animation: dd-drop var(--dd-dur-base) var(--dd-ease-out); }
+.dd-header.is-open .dd-header__burger .dd-btn__icon {
+  animation: dd-burger-icon var(--dd-dur-base) var(--dd-ease-out);
+}
+@keyframes dd-burger-icon {
+  from { opacity: 0; transform: rotate(-90deg) scale(.6); }
+}
+@media (min-width: 1320px) {
+  .dd-header.is-open::after { animation: dd-fade var(--dd-dur-base) ease-out; }
+  /* ссылки панели: значок слегка сдвигается к тексту при наведении */
+  .dd-header-link__icon { transition: transform var(--dd-dur-fast) var(--dd-ease-out); }
+  .dd-header-link:hover .dd-header-link__icon,
+  .dd-header-link:focus-visible .dd-header-link__icon { transform: scale(1.1); }
+}
+@media not all and (min-width: 1320px) {
+  .dd-header.is-open .dd-header__nav { animation: dd-fade var(--dd-dur-base) ease-out; }
+  .dd-header.is-open .dd-header__menu > li,
+  .dd-header.is-open .dd-header__nav-cta { animation: dd-reveal var(--dd-dur-slow) var(--dd-ease-out) backwards; }
+  .dd-header.is-open .dd-header__menu > li:nth-child(2) { animation-delay: .03s; }
+  .dd-header.is-open .dd-header__menu > li:nth-child(3) { animation-delay: .06s; }
+  .dd-header.is-open .dd-header__menu > li:nth-child(4) { animation-delay: .09s; }
+  .dd-header.is-open .dd-header__menu > li:nth-child(5) { animation-delay: .12s; }
+  .dd-header.is-open .dd-header__menu > li:nth-child(6) { animation-delay: .15s; }
+  .dd-header.is-open .dd-header__menu > li:nth-child(n+7) { animation-delay: .18s; }
+  .dd-header.is-open .dd-header__nav-cta { animation-delay: .2s; }
+}
+.dd-footer__col:not(.is-collapsed) .dd-footer__panel { animation: dd-reveal var(--dd-dur-base) var(--dd-ease-out); }
+.dd-footer__toggle svg { transition-duration: var(--dd-dur-base); transition-timing-function: var(--dd-ease-out); }
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-header__bar,
+  .dd-header-item__chevron,
+  .dd-header-item__mark,
+  .dd-header-link__icon { transition: none; }
+  .dd-header-item[aria-expanded="true"] + .dd-menu,
+  .dd-header.is-open .dd-header__burger .dd-btn__icon,
+  .dd-header.is-open::after,
+  .dd-header.is-open .dd-header__nav,
+  .dd-header.is-open .dd-header__menu > li,
+  .dd-header.is-open .dd-header__nav-cta,
+  .dd-footer__col:not(.is-collapsed) .dd-footer__panel { animation: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dd-header-item,
   .dd-header-item__star,

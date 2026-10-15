@@ -55,6 +55,28 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Переход по якорю («See examples», оглавление записи) — плавный; отступ под закреплённую шапку
+   задают сами блоки (scroll-margin-top) */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* Проявление панели, которая только что стала видимой: вкладка, фильтр, срок тарифа.
+   Анимация срабатывает при каждом переходе из display:none, скрипта не нужно */
+@keyframes dd-reveal {
+  from { opacity: 0; transform: translateY(.8rem); }
+}
+@keyframes dd-fade {
+  from { opacity: 0; }
+}
+/* --_line — цвет черты у вкладок и линий блоков; зарегистрирован как цвет, чтобы черта
+   выбранной вкладки проявлялась плавно (transition: --_line). Наследуется, как обычная переменная */
+@property --_line {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
 /* Текст только для скринридера */
 .dd-visually-hidden {
   position: absolute;

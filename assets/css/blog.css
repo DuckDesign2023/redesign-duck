@@ -130,3 +130,9 @@
     padding-inline: 0;
   }
 }
+
+/* ---------- Движение (в Figma его нет): черта рубрики при наведении ---------- */
+.dd-blog-filter__tab { transition: --_line var(--dd-dur-base), color var(--dd-dur-fast); }
+@media (prefers-reduced-motion: reduce) {
+  .dd-blog-filter__tab { transition: none; }
+}

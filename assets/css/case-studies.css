@@ -459,3 +459,11 @@
   .dd-arch-card:hover .dd-arch-card__media img,
   .dd-arch-card:focus-within .dd-arch-card__media img { transform: none; filter: none; }
 }
+
+/* ---------- Движение (в Figma его нет): фильтр отраслей ---------- */
+.dd-arch-filter__tab { transition: --_line var(--dd-dur-base), color var(--dd-dur-fast); }
+.dd-arch-card:not([hidden]) { animation: dd-reveal var(--dd-dur-slow) var(--dd-ease-out); }
+@media (prefers-reduced-motion: reduce) {
+  .dd-arch-filter__tab { transition: none; }
+  .dd-arch-card:not([hidden]) { animation: none; }
+}

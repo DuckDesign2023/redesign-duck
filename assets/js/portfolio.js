@@ -32,3 +32,18 @@
     update();
   });
 })();
+
+/* Цифры: тумблеры включаются, когда ряд впервые поднялся над нижней пятой окна
+   (на телефоне ряд выше окна — порог долей высоты там не сработал бы) */
+(function () {
+  var list = document.querySelector('.dd-folio-stats');
+  if (!list || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  list.classList.add('is-armed');
+  var io = new IntersectionObserver(function (entries) {
+    if (!entries[0].isIntersecting) return;
+    list.classList.add('is-on');
+    io.disconnect();
+  }, { rootMargin: '0px 0px -20% 0px' });
+  io.observe(list);
+})();

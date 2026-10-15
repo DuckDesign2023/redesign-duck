@@ -636,3 +636,21 @@
   .dd-cap-process__intro { padding-right: 6rem; }
   .dd-cap-process__steps { padding-inline: 5rem 6rem; }
 }
+
+/* ---------- Движение (в Figma его нет): карточка сетки услуг ----------
+   Круг-стрелка подрастает до размера, картинка чуть приближается — как у карточек статей */
+.dd-cap-service__go {
+  transform: scale(.7);
+  transition: opacity var(--dd-dur-fast), transform var(--dd-dur-base) var(--dd-ease-out);
+}
+.dd-cap-service:focus-visible .dd-cap-service__go,
+.dd-cap-service.is-hover .dd-cap-service__go { transform: none; }
+.dd-cap-service__media img { transition: transform .6s var(--dd-ease-out); }
+@media (hover: hover) {
+  .dd-cap-service:hover .dd-cap-service__go { transform: none; }
+  .dd-cap-service:hover .dd-cap-service__media img { transform: scale(1.04); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-cap-service__go,
+  .dd-cap-service__media img { transition: none; }
+}

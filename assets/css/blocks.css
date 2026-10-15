@@ -1814,3 +1814,42 @@
   .dd-qa__a,
   .dd-qa.is-open .dd-qa__a { transition: none; }
 }
+
+/* ---------- Движение блоков (в Figma его нет) ----------
+   Смена вкладки тизера и срока тарифа отвечает движением: черта вкладки и фон срока
+   переходят плавно, ряд работ и цена проявляются с коротким подъёмом */
+.dd-works__tab { transition: --_line var(--dd-dur-base), color var(--dd-dur-fast); }
+.dd-works__panel:not([hidden]) { animation: dd-reveal var(--dd-dur-slow) var(--dd-ease-out); }
+.dd-plan__term { transition: background-color var(--dd-dur-fast), color var(--dd-dur-fast); }
+.dd-plan__term:has(:checked)::before,
+.dd-plan__term:has(:checked)::after { animation: dd-fade var(--dd-dur-fast); }
+.dd-plan__price { animation: dd-reveal var(--dd-dur-base) var(--dd-ease-out); }
+.dd-testimonials__ribbon::after { transition-duration: var(--dd-dur-base); }
+/* Карточки-ссылки (кейс, статья): круг-стрелка не только проявляется, но и подрастает
+   до размера; обложка статьи чуть приближается — как у карточек архива кейсов */
+.dd-case-card__go,
+.dd-post-card__go {
+  transform: scale(.7);
+  transition: opacity var(--dd-dur-fast), transform var(--dd-dur-base) var(--dd-ease-out);
+}
+.dd-case-card:focus-visible .dd-case-card__go,
+.dd-case-card.is-hover .dd-case-card__go,
+.dd-post-card:focus-visible .dd-post-card__go,
+.dd-post-card.is-hover .dd-post-card__go { transform: none; }
+.dd-post-card__media img { transition: transform .6s var(--dd-ease-out); }
+@media (hover: hover) {
+  .dd-case-card:hover .dd-case-card__go,
+  .dd-post-card:hover .dd-post-card__go { transform: none; }
+  .dd-post-card:hover .dd-post-card__media img { transform: scale(1.04); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-case-card__go,
+  .dd-post-card__go,
+  .dd-post-card__media img,
+  .dd-works__tab,
+  .dd-plan__term { transition: none; }
+  .dd-works__panel:not([hidden]),
+  .dd-plan__term:has(:checked)::before,
+  .dd-plan__term:has(:checked)::after,
+  .dd-plan__price { animation: none; }
+}

@@ -1056,3 +1056,25 @@
   }
   .dd-faqs--wide .dd-faqs__head { padding-inline: 2rem; }
 }
+
+/* ---------- Движение (в Figma его нет) ----------
+   Срок, вкладки сравнения и «для кого» — радиокнопки без скрипта. Выбор отвечает плавной
+   сменой фона; новая цена, строки сравнения и панель «для кого» проявляются, а не подменяются */
+.dd-price-term,
+.dd-price-compare__tab { transition: background-color var(--dd-dur-fast), color var(--dd-dur-fast); }
+.dd-price-term__off { transition: color var(--dd-dur-fast); }
+.dd-price-plan__sum { animation: dd-reveal var(--dd-dur-base) var(--dd-ease-out); }
+.dd-price-compare__list li { transition: color var(--dd-dur-base); }
+.dd-price-compare__mark { transition: background-color var(--dd-dur-base), box-shadow var(--dd-dur-base), color var(--dd-dur-base); }
+.dd-price-who__arrow { transition: opacity var(--dd-dur-fast), background-color var(--dd-dur-fast), color var(--dd-dur-fast); }
+.dd-price-who__panel { animation: dd-reveal var(--dd-dur-slow) var(--dd-ease-out); }
+@media (prefers-reduced-motion: reduce) {
+  .dd-price-term,
+  .dd-price-compare__tab,
+  .dd-price-term__off,
+  .dd-price-compare__list li,
+  .dd-price-compare__mark,
+  .dd-price-who__arrow { transition: none; }
+  .dd-price-plan__sum,
+  .dd-price-who__panel { animation: none; }
+}

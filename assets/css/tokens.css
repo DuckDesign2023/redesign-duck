@@ -138,6 +138,15 @@
   --dd-gutter-narrow: var(--dd-gutter);  /* поле текстовых секций; на настольной ширине 120 */
   --dd-section-y: 4rem;                  /* вертикальный отступ секции на 375 */
   --dd-frame: 182rem;                    /* предел листа: 1680 контента + поля по 70 */
+
+  /* Движение — в Figma его нет. Отклик на наведение и нажатие — fast; раскрытие панели,
+     смена вкладки — base; крупная панель (меню, бургер) — slow. Вход — out, уход — in */
+  --dd-ease-out: cubic-bezier(.22, 1, .36, 1);
+  --dd-ease-in: cubic-bezier(.4, 0, 1, 1);
+  --dd-ease-move: cubic-bezier(.65, 0, .35, 1);
+  --dd-dur-fast: .16s;
+  --dd-dur-base: .28s;
+  --dd-dur-slow: .42s;
 }
 
 @media (min-width: 834px) {

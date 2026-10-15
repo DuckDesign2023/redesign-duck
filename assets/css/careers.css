@@ -344,3 +344,16 @@
 @media (prefers-reduced-motion: reduce) {
   .dd-car-form__radio input { transition: none; }
 }
+
+/* ---------- Движение (в Figma его нет): фильтр вакансий ---------- */
+.dd-car-filter__tab { transition: --_line var(--dd-dur-base), color var(--dd-dur-fast); }
+.dd-car-job { animation: dd-reveal var(--dd-dur-slow) var(--dd-ease-out); }
+/* подсказка ошибки и итог формы проявляются — видно, что ответ пришёл на нажатие */
+.dd-car-form__tip,
+.dd-car-form__status { animation: dd-reveal var(--dd-dur-base) var(--dd-ease-out); }
+@media (prefers-reduced-motion: reduce) {
+  .dd-car-filter__tab { transition: none; }
+  .dd-car-job,
+  .dd-car-form__tip,
+  .dd-car-form__status { animation: none; }
+}

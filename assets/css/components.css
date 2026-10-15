@@ -140,10 +140,25 @@
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
-  transition: background-color .15s, box-shadow .15s, color .15s;
+  transition: background-color var(--dd-dur-fast), box-shadow var(--dd-dur-fast), color var(--dd-dur-fast),
+    opacity var(--dd-dur-fast), transform var(--dd-dur-fast) var(--dd-ease-out);
 }
 .dd-btn__label { padding-inline: var(--_label-pad); }
-.dd-btn__icon { flex: none; width: var(--_icon); height: var(--_icon); }
+.dd-btn__icon {
+  flex: none;
+  width: var(--_icon);
+  height: var(--_icon);
+  transition: transform var(--dd-dur-base) var(--dd-ease-out);
+}
+/* Нажатие: кнопка чуть вдавливается — отклик заметен и на телефоне, где наведения нет.
+   Стрелка в кнопке при наведении делает шаг туда, куда ведёт */
+.dd-btn:active,
+.dd-btn.is-pressed { transform: scale(.97); }
+@media (hover: hover) {
+  .dd-btn:hover .dd-btn__icon:has(use[href*="right"]) { transform: translateX(.3rem); }
+  .dd-btn:hover .dd-btn__icon:has(use[href*="left"]) { transform: translateX(-.3rem); }
+  .dd-btn:hover .dd-btn__icon:has(use[href*="arrow-out"]) { transform: translate(.2rem, -.2rem); }
+}
 
 .dd-btn--l {
   --_h: 6.4rem;
@@ -426,6 +441,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .dd-btn,
+  .dd-btn__icon,
   .dd-input,
   .dd-field,
   .dd-field__label { transition: none; }
