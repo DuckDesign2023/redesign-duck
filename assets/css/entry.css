@@ -1,0 +1,540 @@
+/* ==========================================================================
+   duck.design — запись блога: шапка записи, тело с боковой карточкой и типографика содержимого
+   Образец — живая https://duck.design/framer-vs-webflow/; макет Figma «1440 case» 994:3963 — старого
+   стиля, из него взят состав. Пересобрано на дизайн-системе (DESIGN.md, раздел 9 и «Типографика
+   записи»). Требует tokens.css, components.css и blocks.css (FAQ, карточка-призыв, превью записей).
+
+   Текст записи (.dd-entry-content) — вывод редактора WordPress как есть: стили ложатся на теги
+   и на классы, которые стоят в самом тексте (article-info-box, articlebottom-cta). Скрипта нет:
+   FAQ раскрывает blocks.js.
+   ========================================================================== */
+
+/* ---------- Раскладка: колонка текста до 760 и боковая карточка 340 от 1320 ---------- */
+.dd-entry-head,
+.dd-entry {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+  padding-inline: var(--dd-gutter);
+}
+.dd-entry-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 76rem);
+  justify-content: center;
+}
+.dd-entry-aside { display: none; }
+
+/* ---------- Шапка записи — 994:3966 ---------- */
+.dd-entry-head { padding-block: 3rem 2rem; }
+.dd-entry-head__main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.dd-entry-head__title {
+  margin: 3rem 0 0;
+  color: var(--dd-neutral-1300);
+}
+.dd-entry-head__by {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 3rem;
+}
+.dd-entry-head__avatar {
+  flex: none;
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.dd-entry-head__author {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font: 600 1.6rem/2.4rem var(--dd-font-basic);
+  color: var(--dd-neutral-1300);
+}
+.dd-entry-head__author a {
+  color: inherit;
+  text-decoration: none;
+}
+.dd-entry-head__author a:hover { text-decoration: underline; }
+.dd-entry-head__author a:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+.dd-entry-head__author span {
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-beige-400);
+}
+
+/* Строка мета: дата · просмотры · оценка · время чтения; делит точка Beige-300 */
+.dd-entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .8rem 1.2rem;
+  margin: 1.6rem 0 0;
+  padding: 0;
+  list-style: none;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-beige-400);
+}
+.dd-entry-meta li {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+.dd-entry-meta li + li::before {
+  content: "";
+  width: .4rem;
+  height: .4rem;
+  margin-right: .6rem;
+  border-radius: 50%;
+  background: var(--dd-beige-300);
+}
+.dd-entry-meta svg {
+  flex: none;
+  width: 1.7rem;
+  height: 1.7rem;
+}
+.dd-entry-meta__stars {
+  display: flex;
+  gap: .2rem;
+  color: var(--dd-yellow-200);
+}
+.dd-entry-meta__stars svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+/* ---------- Тело записи: обложка, оглавление, текст, FAQ, «поделиться», оценка ---------- */
+.dd-entry { padding-bottom: 4rem; }
+.dd-entry__main > * + * { margin-top: 4rem; }
+.dd-entry__cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--dd-radius-sm);
+}
+
+/* Оглавление — белая карточка, вложенные пункты сдвинуты на 20 */
+.dd-entry-toc {
+  padding: 2rem;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-neutral-0);
+}
+.dd-entry-toc h2 { margin: 0 0 1.6rem; }
+.dd-entry-toc ul {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: 400 1.6rem/2.4rem var(--dd-font-basic);
+}
+.dd-entry-toc ul ul {
+  margin-top: .8rem;
+  padding-left: 2rem;
+  font-size: 1.4rem;
+  line-height: 2.1rem;
+}
+.dd-entry-toc a {
+  color: var(--dd-neutral-1100);
+  text-decoration: none;
+}
+.dd-entry-toc a:hover { color: var(--dd-neutral-1300); text-decoration: underline; }
+.dd-entry-toc a:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+
+/* FAQ — пункты общего блока faq в колонке текста: заголовок над списком, без своих полей */
+.dd-entry-faq.dd-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 0;
+}
+.dd-entry-faq .dd-faq__list { padding-top: 0; }
+
+/* «Поделиться» — над рядом пунктир, кнопки S white */
+.dd-entry-share {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+  padding-top: 3rem;
+  background: linear-gradient(90deg, var(--dd-color-divider) 50%, transparent 0) 0 0 / .6rem .1rem repeat-x;
+}
+.dd-entry-share__label {
+  margin: 0;
+  font: 600 1.6rem/2.4rem var(--dd-font-basic);
+  color: var(--dd-neutral-1300);
+}
+.dd-entry-share__list {
+  display: flex;
+  gap: .8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Оценка — белая карточка по центру, звёзды 32 справа налево: подсвечена наведённая и те, что левее */
+.dd-entry-rate {
+  padding: 3rem 2rem;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-neutral-0);
+  text-align: center;
+}
+.dd-entry-rate fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.dd-entry-rate legend {
+  margin: 0 auto;
+  padding: 0;
+}
+.dd-entry-rate__stars {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  gap: .4rem;
+  margin-top: 1.6rem;
+}
+.dd-entry-rate__stars label {
+  display: block;
+  padding: .4rem;
+  border-radius: var(--dd-radius-xs);
+  color: var(--dd-beige-200);
+  cursor: pointer;
+}
+.dd-entry-rate__stars svg {
+  display: block;
+  width: 3.2rem;
+  height: 3.2rem;
+}
+.dd-entry-rate__stars input:checked ~ label,
+.dd-entry-rate__stars label:hover,
+.dd-entry-rate__stars label:hover ~ label { color: var(--dd-yellow-200); }
+.dd-entry-rate__stars input:focus-visible + label {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: 0;
+}
+.dd-entry-rate__result {
+  margin: 1.2rem 0 0;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-beige-400);
+}
+
+/* Боковая карточка — 1048:2984: белая, липкая под шапкой */
+.dd-entry-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.6rem;
+  padding: 3rem;
+  border-radius: var(--dd-radius-lg);
+  background: var(--dd-neutral-0);
+}
+.dd-entry-banner > p { margin: 0; color: var(--dd-neutral-1300); }
+.dd-entry-banner .dd-btn { margin-top: .8rem; }
+.dd-entry-ticks {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-neutral-1100);
+}
+.dd-entry-ticks li {
+  display: flex;
+  gap: 1rem;
+}
+.dd-entry-ticks__mark {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--dd-beige-100);
+  color: var(--dd-neutral-1300);
+}
+.dd-entry-ticks__mark svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+/* Карточка-призыв и похожие записи — общие блоки; длинная строка призыва — до 640 по центру */
+.dd-entry-cta .dd-cta-card__lead {
+  max-width: 64rem;
+  margin-inline: auto;
+}
+/* подпись «Get Started Today» длиннее обычной: до 834 белая кнопка сжимает поля, уже 360 круг-украшение
+   уходит — как у карточки-призыва Partner (.dd-ref-cta) */
+@media (max-width: 833.98px) {
+  .dd-entry-cta .dd-cta-card__go .dd-btn--white {
+    min-width: 0;
+    padding-inline: 1.2rem;
+  }
+}
+@media (max-width: 359.98px) {
+  .dd-entry-cta .dd-cta-card__go .dd-btn--yellow { display: none; }
+}
+
+/* ==========================================================================
+   Типографика записи — .dd-entry-content (DESIGN.md, «Типографика записи»)
+   Из txt-стилей системы: абзац txt 2, h2 — H4, h3 — H5, h4 — txt 1 полужирный, таблица txt 4.
+   Абзацы через 20; заголовок отходит от текста выше на 60 / 40 / 30 и стоит над своим текстом в 20 / 16 / 12.
+   ========================================================================== */
+.dd-entry-content {
+  font: 400 1.8rem/2.6rem var(--dd-font-basic);
+  letter-spacing: -.01em;
+  color: var(--dd-neutral-1100);
+  overflow-wrap: break-word;
+}
+.dd-entry-content > * { margin: 0; }
+.dd-entry-content > * + * { margin-top: 2rem; }
+
+.dd-entry-content h2,
+.dd-entry-content h3,
+.dd-entry-content h4 {
+  font-weight: 500;
+  color: var(--dd-neutral-1300);
+}
+.dd-entry-content h2 {
+  font-size: 2.2rem;
+  line-height: 3rem;
+  letter-spacing: -.03em;
+}
+.dd-entry-content h3 {
+  font-size: 2rem;
+  line-height: 2.6rem;
+  letter-spacing: -.03em;
+}
+.dd-entry-content h4 {
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 2.6rem;
+  letter-spacing: -.01em;
+}
+.dd-entry-content > * + h2 { margin-top: 4rem; }
+.dd-entry-content > * + h3 { margin-top: 3rem; }
+.dd-entry-content > * + h4 { margin-top: 3rem; }
+.dd-entry-content > h2 + * { margin-top: 2rem; }
+.dd-entry-content > h3 + * { margin-top: 1.6rem; }
+.dd-entry-content > h4 + * { margin-top: 1.2rem; }
+/* якоря оглавления не прячутся под закреплённой шапкой */
+.dd-entry-content [id] { scroll-margin-top: 10rem; }
+
+.dd-entry-content b,
+.dd-entry-content strong { font-weight: 600; color: var(--dd-neutral-1300); }
+.dd-entry-content a {
+  color: var(--dd-neutral-1300);
+  text-decoration: underline;
+  text-decoration-color: var(--dd-orange-50);
+  text-decoration-thickness: .1rem;
+  text-underline-offset: .3rem;
+}
+.dd-entry-content a:hover { color: var(--dd-yellow-0); }
+.dd-entry-content a:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+
+/* Списки: точка 6 Orange-100; нумерованный — номер в круге 26 Yellow-200 */
+.dd-entry-content ul,
+.dd-entry-content ol {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+.dd-entry-content li {
+  position: relative;
+  padding-left: 2.8rem;
+}
+.dd-entry-content ul > li::before {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  left: .8rem;
+  width: .6rem;
+  height: .6rem;
+  border-radius: 50%;
+  background: var(--dd-orange-100);
+}
+.dd-entry-content ol { counter-reset: dd-entry-ol; }
+.dd-entry-content ol > li { padding-left: 3.8rem; counter-increment: dd-entry-ol; }
+.dd-entry-content ol > li::before {
+  content: counter(dd-entry-ol);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  background: var(--dd-yellow-200);
+  font: 600 1.4rem/2.6rem var(--dd-font-basic);
+  text-align: center;
+  color: var(--dd-neutral-1300);
+}
+
+/* Картинка — во всю колонку, радиус карточки */
+.dd-entry-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--dd-radius-sm);
+}
+
+/* Таблица — белая карточка во всю колонку; строки делит пунктир; первая строка — заголовки (в тексте
+   они жирные). Не листается: на телефоне txt 5, от 834 — txt 4 */
+.dd-entry-content table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-neutral-0);
+  font: 400 1.2rem/1.8rem var(--dd-font-basic);
+  letter-spacing: 0;
+}
+.dd-entry-content td,
+.dd-entry-content th {
+  padding: 1rem .6rem;
+  hyphens: auto;
+  text-align: left;
+  vertical-align: top;
+}
+.dd-entry-content tr + tr td,
+.dd-entry-content tr + tr th {
+  background: linear-gradient(90deg, var(--dd-color-divider) 50%, transparent 0) 0 0 / .6rem .1rem repeat-x;
+}
+
+/* Цитата и «Read Also» — тонированная панель Beige-100 */
+.dd-entry-content blockquote {
+  padding: 2rem 2.4rem;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-beige-100);
+  color: var(--dd-neutral-1300);
+}
+.dd-entry-content blockquote > * { margin: 0; }
+.dd-entry-content blockquote > * + * { margin-top: 1rem; }
+
+/* «Key Findings» — белая карточка, пункты с галочкой в круге */
+.dd-entry-content .article-info-box {
+  padding: 2rem;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-neutral-0);
+}
+.dd-entry-content .article-info-box > strong {
+  display: block;
+  margin-bottom: 1.6rem;
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: 2.6rem;
+  letter-spacing: -.03em;
+}
+.dd-entry-content .article-info-box > strong br { display: none; }
+.dd-entry-content .article-info-box li { padding-left: 3rem; }
+.dd-entry-content .article-info-box li::before {
+  top: .3rem;
+  left: 0;
+  width: 2rem;
+  height: 2rem;
+  background: var(--dd-beige-100) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23040506' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center / 1.2rem no-repeat;
+}
+
+/* Призыв в тексте — тёмная панель Neutral-1300: заголовок H4 белым, текст txt 2 Beige-100,
+   ссылка — кнопка yellow M */
+.dd-entry-content .articlebottom-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  padding: 3rem 2rem;
+  border-radius: var(--dd-radius-2xl);
+  background: var(--dd-neutral-1300);
+  color: var(--dd-beige-100);
+}
+.dd-entry-content .articlebottom-cta__title {
+  font: 500 2.2rem/3rem var(--dd-font-basic);
+  letter-spacing: -.03em;
+  color: var(--dd-neutral-0);
+}
+.dd-entry-content .articlebottom-cta__txt br { display: none; }
+.dd-entry-content .articlebottom-cta a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 5.2rem;
+  margin-top: 2.4rem;
+  padding: 0 2.4rem;
+  border-radius: var(--dd-radius-pill);
+  background: var(--dd-yellow-200);
+  color: var(--dd-neutral-1300);
+  font: 700 1.4rem/1.4 var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color .15s;
+}
+.dd-entry-content .articlebottom-cta a:hover { background: var(--dd-yellow-100); }
+.dd-entry-content .articlebottom-cta a:focus-visible {
+  outline: .2rem solid var(--dd-yellow-200);
+  outline-offset: .3rem;
+}
+
+@media (min-width: 834px) {
+  .dd-entry-head { padding-block: 4rem 3rem; }
+  .dd-entry-head__title { margin-top: 4rem; }
+  .dd-entry { padding-bottom: 6rem; }
+  .dd-entry__main > * + * { margin-top: 6rem; }
+  .dd-entry__main > .dd-entry-toc { margin-top: 4rem; }
+  .dd-entry__cover,
+  .dd-entry-toc,
+  .dd-entry-rate { border-radius: var(--dd-radius-lg); }
+  .dd-entry-toc { padding: 3rem; }
+
+  .dd-entry-content h2 { font-size: 2.8rem; line-height: 3.6rem; }
+  .dd-entry-content h3 { font-size: 2.4rem; line-height: 3rem; }
+  .dd-entry-content > * + h2 { margin-top: 6rem; }
+  .dd-entry-content > * + h3 { margin-top: 4rem; }
+  .dd-entry-content img,
+  .dd-entry-content table,
+  .dd-entry-content blockquote,
+  .dd-entry-content .article-info-box { border-radius: var(--dd-radius-lg); }
+  .dd-entry-content table { font-size: 1.4rem; line-height: 2.1rem; }
+  .dd-entry-content td,
+  .dd-entry-content th { padding: 1.2rem 1.6rem; }
+  .dd-entry-content .article-info-box { padding: 3rem; }
+  .dd-entry-content .article-info-box > strong { font-size: 2.4rem; line-height: 3rem; }
+  .dd-entry-content .articlebottom-cta { padding: 4rem; }
+  .dd-entry-content .articlebottom-cta__title { font-size: 2.8rem; line-height: 3.6rem; }
+}
+
+@media (min-width: 1320px) {
+  .dd-entry-layout {
+    grid-template-columns: minmax(0, 76rem) 34rem;
+    column-gap: 12rem;
+  }
+  .dd-entry-aside { display: block; }
+  .dd-entry-banner {
+    position: sticky;
+    top: 9.3rem; /* шапка 73 и 20 */
+  }
+  .dd-entry { padding-bottom: 8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-entry-content .articlebottom-cta a { transition: none; }
+}
