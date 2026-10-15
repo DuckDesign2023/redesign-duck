@@ -1,0 +1,58 @@
+/* ==========================================================================
+   duck.design — страница 404 (site/404.html)
+   В Figma страница 404 пустая (896:41546): собрана по разделу 9 DESIGN.md — плашка, заголовок, строка,
+   кнопки на главную и на кейсы. Тексты «Sorry», «Page not found!», «Back to home» и картинка «404» —
+   с живой страницы 404. Подключается только на ней. Свой блок: .dd-nf. Эталон — design-system/blocks/not-found.html.
+   ========================================================================== */
+
+.dd-nf {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+  padding: 4rem 1.6rem 6rem;
+  text-align: center;
+}
+.dd-nf__img {
+  display: block;
+  width: 28rem;
+  height: auto;
+  margin-bottom: 3rem;
+}
+.dd-nf__title {
+  margin: 2rem 0 0;
+  color: var(--dd-neutral-1300);
+}
+.dd-nf__lead {
+  max-width: 32.9rem;
+  margin: 2rem 0 0;
+  color: var(--dd-neutral-1300);
+  text-wrap: pretty;
+}
+.dd-nf__actions {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  margin-top: 4rem;
+}
+
+@media (min-width: 834px) {
+  .dd-nf { padding: 6rem 3rem 10rem; }
+  .dd-nf__img {
+    width: 43.8rem;
+    margin-bottom: 4rem;
+  }
+  .dd-nf__lead { max-width: 64rem; }
+  .dd-nf__actions {
+    align-self: center;
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 1320px) {
+  .dd-nf { padding-inline: 6rem; }
+}
