@@ -1,0 +1,461 @@
+/* ==========================================================================
+   duck.design — архив кейсов (/our-cases/, в вёрстке site/case-studies/)
+   Утверждён пользователем 15.10.2026 в виде прототипа case-shell (12.10.2026): заголовок, фильтр
+   по отраслям, 22 карточки, призыв «Two ways to start». 15.10.2026 переведён на дизайн-систему:
+   сетка и поля — из tokens.css, кнопки — .dd-btn, цвета — роли, типографика — стили системы.
+   Композиция, тексты и картинки прототипа не менялись.
+   Требует tokens.css и components.css. Фильтр — assets/js/case-studies.js; без скрипта ряда
+   фильтра нет, видны все карточки.
+   ========================================================================== */
+
+/* Лист блока: до предела сетки, дальше по центру; поле — как у шапки */
+.dd-arch-hero,
+.dd-arch-works,
+.dd-arch-cta {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+  padding-inline: var(--dd-gutter);
+}
+
+/* ---------- Заголовок — числа первого экрана Portfolio ---------- */
+.dd-arch-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  padding-block: 7rem 4rem;
+  text-align: center;
+}
+.dd-arch-hero__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+.dd-arch-hero__title,
+.dd-arch-hero__lead {
+  margin: 0;
+  color: var(--dd-neutral-1300);
+}
+.dd-arch-hero__lead { max-width: 64rem; }
+.dd-arch-hero__actions {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+}
+
+/* ---------- Фильтр и сетка ---------- */
+.dd-arch-works { padding-bottom: 4rem; }
+
+/* Ряд отраслей — числа фильтра Portfolio; кнопки, выбранная — aria-pressed */
+.dd-arch-filter {
+  margin-inline: calc(-1 * var(--dd-gutter));
+  padding-inline: var(--dd-gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.dd-arch-filter::-webkit-scrollbar { display: none; }
+.dd-arch-filter__row {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  box-shadow: inset 0 -.1rem 0 var(--dd-beige-100);
+}
+.dd-arch-filter__tab {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin: 0;
+  padding: 1rem .6rem;
+  border: 0;
+  background: none;
+  box-shadow: inset 0 -.2rem 0 var(--_line, transparent);
+  font: 600 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-neutral-1100);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.dd-arch-filter__tab svg {
+  flex: none;
+  width: 1.8rem;
+  height: 1.8rem;
+  color: var(--dd-orange-50);
+}
+.dd-arch-filter__tab[aria-pressed="true"] { --_line: var(--dd-orange-50); }
+.dd-arch-filter__tab:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: -.2rem;
+}
+@media (hover: hover) {
+  .dd-arch-filter__tab:not([aria-pressed="true"]):hover { --_line: var(--dd-beige-200); }
+}
+@media (scripting: none) {
+  .dd-arch-filter { display: none; }
+}
+
+.dd-arch-grid {
+  display: grid;
+  gap: 1rem;
+  margin: 3rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-arch-empty {
+  margin: 3rem 0 0;
+  text-align: center;
+  font: 400 1.6rem/2.4rem var(--dd-font-basic);
+  color: var(--dd-beige-400);
+}
+
+/* ---------- Карточка кейса: белая плитка; по наведению — постер с цифрой поверх картинки ---------- */
+.dd-arch-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 1.2rem;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-neutral-0);
+}
+.dd-arch-card[hidden] { display: none; }
+.dd-arch-card__link {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border-radius: var(--dd-radius-sm);
+  color: var(--dd-neutral-1300);
+  text-decoration: none;
+}
+.dd-arch-card__link:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .4rem;
+}
+.dd-arch-card__media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-neutral-1300);
+}
+.dd-arch-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .7s cubic-bezier(.16, .84, .44, 1), filter .6s ease;
+}
+.dd-arch-card__client {
+  padding: 1.4rem .6rem 0;
+  color: var(--dd-neutral-1300);
+}
+/* цифра кейса под картинкой — только на экранах без наведения */
+.dd-arch-card__metric {
+  display: none;
+  align-items: baseline;
+  gap: 1rem;
+  margin: .6rem .6rem 0;
+}
+.dd-arch-metric__value {
+  flex: none;
+  font: italic 400 3rem/3.8rem var(--dd-font-fancy);
+  letter-spacing: -.04em;
+  color: var(--dd-neutral-1300);
+}
+.dd-arch-metric__label {
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-beige-400);
+}
+
+/* Теги: первый — отрасль (по нему фильтр), остальные — услуги */
+.dd-arch-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin: 1rem .6rem .6rem;
+  padding: 0;
+  list-style: none;
+}
+.dd-arch-card__tags li {
+  padding: .3rem 1rem;
+  border-radius: var(--dd-radius-pill);
+  background: var(--dd-beige-50);
+  font: 400 1.2rem/1.8rem var(--dd-font-basic);
+  color: var(--dd-beige-400);
+}
+.dd-arch-card__tags li:first-child {
+  background: var(--dd-yellow-400);
+  font-weight: 600;
+  color: var(--dd-orange-0);
+}
+
+/* Постер: тёмный слой Neutral-1300 74 %, по центру цифра Sentient Italic 56 / 60 и подпись txt 4,
+   внизу заголовок-результат; картинка под ним уходит в глубину */
+.dd-arch-poster {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 2rem 6.8rem;
+  background: rgba(4, 5, 6, .74); /* Neutral-1300 74 % */
+  color: var(--dd-neutral-0);
+  text-align: center;
+  opacity: 0;
+  transition: opacity .32s ease;
+}
+.dd-arch-poster:has(.dd-arch-poster__title--solo) { padding-bottom: 2rem; }
+.dd-arch-poster__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  transform: scale(1.1);
+  transition: opacity .35s ease .05s, transform .55s cubic-bezier(.16, .84, .44, 1) .05s;
+}
+.dd-arch-poster__value {
+  font: italic 400 5.6rem/6rem var(--dd-font-fancy);
+  letter-spacing: -.04em;
+  white-space: nowrap;
+}
+.dd-arch-poster__label,
+.dd-arch-poster__title {
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.dd-arch-poster__label { max-width: 28ch; }
+.dd-arch-poster__title {
+  position: absolute;
+  inset: auto 2rem 2rem;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(.8rem);
+  transition: opacity .3s ease .14s, transform .45s cubic-bezier(.16, .84, .44, 1) .14s;
+}
+.dd-arch-poster__title--solo {
+  position: static;
+  max-width: 24ch;
+  font: 600 1.8rem/2.6rem var(--dd-font-basic);
+  letter-spacing: -.01em;
+  text-align: center;
+  -webkit-line-clamp: 3;
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+@media (hover: hover) {
+  .dd-arch-card:hover .dd-arch-poster,
+  .dd-arch-card:focus-within .dd-arch-poster,
+  .dd-arch-card:hover .dd-arch-poster__center,
+  .dd-arch-card:focus-within .dd-arch-poster__center,
+  .dd-arch-card:hover .dd-arch-poster__title,
+  .dd-arch-card:focus-within .dd-arch-poster__title {
+    opacity: 1;
+    transform: none;
+  }
+  .dd-arch-card:hover .dd-arch-card__media img,
+  .dd-arch-card:focus-within .dd-arch-card__media img {
+    transform: scale(.96);
+    filter: blur(.3rem) saturate(.8);
+  }
+}
+/* без наведения (тач) постера нет — цифра стоит под картинкой */
+@media (hover: none) {
+  .dd-arch-poster { display: none; }
+  .dd-arch-card__metric { display: flex; }
+}
+
+/* ---------- Призыв «Two ways to start» ---------- */
+.dd-arch-cta {
+  position: relative;
+  padding-block: 4rem;
+  scroll-margin-top: 9.3rem; /* якорь #book — под закреплённой шапкой */
+}
+.dd-arch-cta__glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 64rem;
+  max-width: 100%;
+  height: 34rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 202, 65, .42), rgba(255, 202, 65, 0)); /* Yellow-200 */
+  pointer-events: none;
+}
+.dd-arch-cta__head {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  max-width: 86rem;
+  margin: 0 auto;
+  text-align: center;
+}
+.dd-arch-cta__head h2,
+.dd-arch-cta__head p:not(.dd-eyebrow) { margin: 0; color: var(--dd-neutral-1300); }
+.dd-arch-cta__head p:not(.dd-eyebrow) { max-width: 64rem; color: var(--dd-neutral-1100); }
+.dd-arch-cta__grid {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  max-width: 118rem;
+  margin: 3rem auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Дверь: фон-панель дизайнера (картинка) и белая вкладка, как у тарифа */
+.dd-arch-door {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  padding: 1.2rem 1.2rem 2rem;
+  border-radius: var(--dd-radius-lg);
+  background: center / cover no-repeat;
+}
+.dd-arch-door--orange {
+  background-color: var(--dd-orange-100);
+  background-image: url("../cases/archive/img/door-orange.webp");
+}
+.dd-arch-door--green {
+  background-color: #f4faf0; /* зелёная панель дизайнера, в токенах зелёного нет */
+  background-image: url("../cases/archive/img/door-green.webp");
+}
+.dd-arch-door__panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+  padding: 2rem;
+  border-radius: var(--dd-radius-sm);
+  background: var(--dd-neutral-0);
+  color: var(--dd-neutral-1300);
+}
+.dd-arch-door__panel > * { margin: 0; }
+.dd-arch-door__kicker { color: var(--dd-orange-0); }
+.dd-arch-door--green .dd-arch-door__kicker { color: #3e7a22; } /* зелёный дизайнера, затемнён до 5 : 1 на белом */
+.dd-arch-door__text { color: var(--dd-neutral-1100); }
+/* чек-лист: над ним пунктир, пункт — галочка в круге 20 Beige-100 */
+.dd-arch-door__list {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+  margin-top: auto;
+  padding: 1.8rem 0 0;
+  list-style: none;
+  background: linear-gradient(90deg, var(--dd-color-divider) 50%, transparent 0) 0 0 / .6rem .1rem repeat-x;
+  font: 400 1.4rem/2rem var(--dd-font-basic);
+}
+.dd-arch-door__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+.dd-arch-door__list li::before {
+  content: "";
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--dd-beige-100) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23040506' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center / 1.2rem no-repeat;
+}
+.dd-arch-door .dd-btn { margin-inline: .8rem; }
+.dd-arch-door__foot {
+  margin: 0 .8rem;
+  text-align: center;
+  color: var(--dd-neutral-1300);
+}
+.dd-arch-door--green .dd-arch-door__foot { color: var(--dd-beige-400); }
+
+/* Три цифры доверия — как цифры Portfolio: Sentient Italic 30 / 38, подпись 13 / 20, между пунктир */
+.dd-arch-trust {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin: 3rem 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+.dd-arch-trust li {
+  font: 400 1.3rem/2rem var(--dd-font-basic);
+  color: var(--dd-neutral-1100);
+}
+.dd-arch-trust b {
+  display: block;
+  margin-bottom: .5rem;
+  font: italic 400 3rem/3.8rem var(--dd-font-fancy);
+  letter-spacing: -.04em;
+  color: var(--dd-neutral-1300);
+}
+
+@media (min-width: 834px) {
+  .dd-arch-hero__actions {
+    align-self: center;
+    flex-direction: row;
+    width: 36rem;
+    max-width: 100%;
+  }
+  .dd-arch-hero__actions .dd-btn { flex: 1 1 0; }
+
+  .dd-arch-works { padding-bottom: 6rem; }
+  .dd-arch-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    margin-top: 5rem;
+  }
+  .dd-arch-card,
+  .dd-arch-card__link { border-radius: var(--dd-radius-lg); }
+
+  .dd-arch-cta { padding-block: 6rem; }
+  .dd-arch-cta__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    margin-top: 6rem;
+  }
+  .dd-arch-door { border-radius: var(--dd-radius-2xl); }
+  .dd-arch-door__panel {
+    padding: 3rem;
+    border-radius: var(--dd-radius-lg);
+  }
+  .dd-arch-trust {
+    flex-direction: row;
+    justify-content: center;
+    gap: 0;
+    margin-top: 4rem;
+  }
+  .dd-arch-trust li { padding-inline: 2.8rem; }
+  .dd-arch-trust li + li {
+    background: linear-gradient(180deg, var(--dd-color-divider) 50%, transparent 0) 0 0 / .1rem .6rem repeat-y;
+  }
+}
+
+@media (min-width: 1320px) {
+  .dd-arch-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dd-arch-cta { padding-block: 8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-arch-card__media img,
+  .dd-arch-poster,
+  .dd-arch-poster__center,
+  .dd-arch-poster__title { transition: none; }
+  .dd-arch-poster__center { transform: none; }
+  .dd-arch-card:hover .dd-arch-card__media img,
+  .dd-arch-card:focus-within .dd-arch-card__media img { transform: none; filter: none; }
+}
