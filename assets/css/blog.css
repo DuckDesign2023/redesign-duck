@@ -1,0 +1,132 @@
+/* ==========================================================================
+   duck.design — страница Blog: блоки, которые стоят только на ней
+   Живая страница https://duck.design/blog/; макет Figma «1440 cases» 1035:4963 — старого стиля,
+   из него взят состав секций. Пересобрана на дизайн-системе (DESIGN.md, раздел 9).
+   Требует tokens.css, components.css и blocks.css (карточка записи .dd-post-card блока blog-posts).
+
+   Заголовок — числа первого экрана Portfolio (.dd-folio-hero), ряд рубрик — числа фильтра
+   Portfolio (.dd-folio-filter), но вкладки — ссылки на архивы рубрик, а не радиокнопки:
+   записей 168, на странице их не отфильтровать. Скрипта нет.
+   ========================================================================== */
+
+/* Лист блока: до предела сетки, дальше по центру */
+.dd-blog-hero,
+.dd-blog-list {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--dd-frame);
+  margin-inline: auto;
+}
+
+/* ---------- Заголовок — 1035:4965 ---------- */
+.dd-blog-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 7rem 1.6rem 4rem;
+  text-align: center;
+}
+.dd-blog-hero__title,
+.dd-blog-hero__lead { color: var(--dd-neutral-1300); }
+.dd-blog-hero__lead {
+  max-width: 32.9rem;
+  margin: 0;
+}
+
+/* ---------- Список: рубрики, сетка записей, страницы — 1035:4965, 1035:5423 … 5574 ---------- */
+.dd-blog-list { padding: 4rem 1.6rem; }
+
+/* Ряд рубрик листается, пока не помещается */
+.dd-blog-filter {
+  margin-inline: -1.6rem;
+  padding-inline: 1.6rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.dd-blog-filter::-webkit-scrollbar { display: none; }
+.dd-blog-filter__row {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  box-shadow: inset 0 -.1rem 0 var(--dd-beige-100);
+}
+.dd-blog-filter__tab {
+  display: block;
+  padding: 1rem .6rem;
+  box-shadow: inset 0 -.2rem 0 var(--_line, transparent);
+  font: 600 1.4rem/2.1rem var(--dd-font-basic);
+  color: var(--dd-neutral-1100);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.dd-blog-filter__tab[aria-current] { --_line: var(--dd-orange-50); }
+.dd-blog-filter__tab:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: -.2rem;
+}
+@media (hover: hover) {
+  .dd-blog-filter__tab:not([aria-current]):hover { --_line: var(--dd-beige-200); }
+}
+
+/* Сетка записей: столбцом с шагом 14, от 834 три в ряд */
+.dd-blog-grid {
+  display: grid;
+  gap: 1.4rem;
+  margin: 3rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Страницы: кнопки S системы, выбранная — black */
+.dd-blog-pages { margin-top: 4rem; }
+.dd-blog-pages__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: .8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-blog-pages__gap {
+  width: 4.1rem;
+  text-align: center;
+  font: 700 1.2rem/1.4 var(--dd-font-basic);
+  color: var(--dd-neutral-1100);
+}
+/* Уже 360 неактивная стрелка «назад» уходит, чтобы ряд не переносился */
+@media (max-width: 359px) {
+  .dd-blog-pages__prev { display: none; }
+}
+
+@media (min-width: 834px) {
+  .dd-blog-hero { padding-inline: 3rem; }
+  .dd-blog-hero__lead { max-width: 64rem; }
+
+  .dd-blog-list { padding: 4rem 3rem 6rem; }
+  .dd-blog-filter {
+    margin-inline: -3rem;
+    padding-inline: 3rem;
+  }
+  .dd-blog-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 4rem;
+    margin-top: 6rem;
+  }
+  .dd-blog-pages { margin-top: 6rem; }
+}
+
+@media (min-width: 1320px) {
+  .dd-blog-hero { padding-inline: 6rem; }
+
+  .dd-blog-list { padding: 4rem 10rem 8rem; }
+  .dd-blog-filter {
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}
