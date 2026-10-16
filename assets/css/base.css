@@ -77,6 +77,28 @@ body {
   initial-value: transparent;
 }
 
+/* Ряд вкладок с data-flow (shell.js): черта выбранной — один слой ряда, при выборе перетекает.
+   Передний край уходит первым (0,36 с), задний догоняет с отставанием 0,06 с и лёгким перелётом
+   (0,5 с) — как плашка срока Pricing. Своя черта выбранной вкладки гаснет, черта под мышью
+   остаётся. Цвет — --_flow ряда. Без скрипта у вкладок своя черта, как раньше */
+.is-flow { position: relative; }
+.is-flow::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: var(--_fl, 0);
+  right: var(--_fr, 100%);
+  height: .2rem;
+  background: var(--_flow, var(--dd-orange-50));
+  pointer-events: none;
+  transition: left .36s var(--dd-ease-out), right .36s var(--dd-ease-out);
+}
+.is-flow[data-dir="right"]::after { transition: right .36s var(--dd-ease-out), left .5s cubic-bezier(.3, 1.25, .5, 1) .06s; }
+.is-flow[data-dir="left"]::after { transition: left .36s var(--dd-ease-out), right .5s cubic-bezier(.3, 1.25, .5, 1) .06s; }
+.is-flow.is-still::after { transition: none; }
+.is-flow :has(> input:checked),
+.is-flow [aria-pressed="true"] { --_line: transparent !important; }
+
 /* Текст только для скринридера */
 .dd-visually-hidden {
   position: absolute;

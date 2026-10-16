@@ -123,3 +123,69 @@
     paint();
   });
 })();
+
+/* Движение — три общих приёма, снятых с правок пользователя 16.10.2026 (раздел «Язык движения»
+   в DESIGN.md). Включаются атрибутом в разметке, вид и кадры — в стилях блока. При
+   prefers-reduced-motion и без скрипта всё стоит в итоговом виде.
+   data-wake    — блок «просыпается» один раз: is-armed (исходное положение), а когда блок впервые
+                  поднимается над нижней пятой окна — is-on. [data-wake-item] внутри получают
+                  --_n — номер по порядку, для шага каскада.
+   data-replay  — сцена играет раз за наведение: is-playing, пока не доиграли её конечные анимации;
+                  пока играет, не перезапускается. Значение — селектор хозяина наведения
+                  (ближайший предок), пусто — сама сцена.
+   data-flow    — ряд вкладок: черта выбранной перетекает к новой, передний край первым (как плашка
+                  срока на Pricing). Выбранная — с :checked внутри или aria-pressed="true".
+                  Ряду — is-flow, края черты — --_fl / --_fr, сторона — data-dir; стили — base.css */
+(function () {
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll('[data-wake]').forEach(function (block) {
+    block.querySelectorAll('[data-wake-item]').forEach(function (el, i) { el.style.setProperty('--_n', i); });
+    if (calm || !('IntersectionObserver' in window)) return;
+    block.classList.add('is-armed');
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      io.disconnect();
+      requestAnimationFrame(function () { block.classList.add('is-on'); });
+    }, { rootMargin: '0px 0px -20% 0px' });
+    io.observe(block);
+  });
+
+  if (!calm && document.body.getAnimations) {
+    document.querySelectorAll('[data-replay]').forEach(function (scene) {
+      var host = scene.getAttribute('data-replay') ? scene.closest(scene.getAttribute('data-replay')) : scene;
+      (host || scene).addEventListener('mouseenter', function () {
+        if (scene.classList.contains('is-playing')) return;
+        scene.classList.add('is-playing');
+        var done = function () { scene.classList.remove('is-playing'); };
+        var runs = scene.getAnimations({ subtree: true }).filter(function (a) {
+          return a.effect && a.effect.getComputedTiming().iterations !== Infinity;
+        });
+        Promise.all(runs.map(function (a) { return a.finished; })).then(done, done);
+      });
+    });
+  }
+
+  document.querySelectorAll('[data-flow]').forEach(function (row) {
+    var left = null;
+    function tab() {
+      var on = row.querySelector('input:checked, [aria-pressed="true"]');
+      return on && (on.closest('label') || on);
+    }
+    function place(still) {
+      var t = tab();
+      if (!t) return;
+      var l = t.offsetLeft;
+      if (!still && left !== null && l !== left) row.dataset.dir = l > left ? 'right' : 'left';
+      row.classList.toggle('is-still', !!still || calm);
+      row.style.setProperty('--_fl', l + 'px');
+      row.style.setProperty('--_fr', (row.offsetWidth - l - t.offsetWidth) + 'px');
+      left = l;
+    }
+    row.classList.add('is-flow');
+    place(true);
+    row.addEventListener('change', function () { place(); });
+    new MutationObserver(function () { place(); }).observe(row, { subtree: true, attributeFilter: ['aria-pressed'] });
+    if (window.ResizeObserver) new ResizeObserver(function () { place(true); }).observe(row);
+  });
+})();

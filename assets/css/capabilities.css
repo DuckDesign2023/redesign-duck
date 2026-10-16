@@ -654,3 +654,21 @@
   .dd-cap-service__go,
   .dd-cap-service__media img { transition: none; }
 }
+
+/* ---------- Движение (в Figma его нет; 16.10.2026, перенос приёма «пробуждение» с Pricing):
+   шкала процесса. data-wake (shell.js): один раз, когда шаги впервые поднимаются над нижней
+   пятой окна, круги шагов выпрыгивают по очереди (шаг 0,4 с), а линия от круга до следующего
+   прорисовывается сверху вниз и доходит до него к его вспышке. Текст стоит всегда; без скрипта
+   и при reduce — итоговый вид ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .dd-cap-process__steps.is-armed .dd-cap-step__icon { scale: 0; }
+  .dd-cap-process__steps.is-armed .dd-cap-step:not(:last-child)::after { scale: 1 0; transform-origin: top; }
+  .dd-cap-process__steps.is-on .dd-cap-step__icon {
+    scale: 1;
+    transition: scale .45s cubic-bezier(.34, 1.56, .64, 1) calc(var(--_n, 0) * .4s);
+  }
+  .dd-cap-process__steps.is-on .dd-cap-step:not(:last-child)::after {
+    scale: 1;
+    transition: scale .25s linear calc(var(--_n, 0) * .4s + .15s);
+  }
+}

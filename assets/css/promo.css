@@ -360,3 +360,31 @@
   .dd-promo-step:first-child .dd-promo-step__mark::before { left: 50%; }
   .dd-promo-step:last-child .dd-promo-step__mark::before { right: 50%; }
 }
+
+/* ---------- Движение (в Figma его нет; 16.10.2026, перенос приёма «пробуждение» с Pricing) ----------
+   data-wake (shell.js): один раз, когда шаги впервые поднимаются над нижней пятой окна, метки
+   загораются по очереди (шаг 0,5 с): белый круг выпрыгивает с перелётом, следом цветная точка,
+   у третьего — галочка. От 834 пунктир прорисовывается слева направо и доходит до круга ровно
+   к его вспышке. Цифры и текст стоят всегда; без скрипта и при reduce — итоговый вид */
+@media (prefers-reduced-motion: no-preference) {
+  .dd-promo-roadmap__steps.is-armed .dd-promo-step__mark span,
+  .dd-promo-roadmap__steps.is-armed .dd-promo-step__mark span::before,
+  .dd-promo-roadmap__steps.is-armed .dd-promo-step__mark svg { scale: 0; }
+  .dd-promo-roadmap__steps.is-armed .dd-promo-step__mark::before { clip-path: inset(0 100% 0 0); }
+  .dd-promo-roadmap__steps.is-on .dd-promo-step__mark span,
+  .dd-promo-roadmap__steps.is-on .dd-promo-step__mark span::before,
+  .dd-promo-roadmap__steps.is-on .dd-promo-step__mark svg {
+    scale: 1;
+    transition: scale .42s cubic-bezier(.34, 1.56, .64, 1) calc(var(--_n, 0) * .5s + var(--_d, 0s));
+  }
+  .dd-promo-roadmap__steps.is-on .dd-promo-step__mark span::before { --_d: .12s; }
+  .dd-promo-roadmap__steps.is-on .dd-promo-step__mark svg { --_d: .3s; }
+  /* пунктир шага: средний идёт через весь шаг и проходит круг на середине пути; крайние — половины */
+  .dd-promo-roadmap__steps.is-on .dd-promo-step__mark::before {
+    clip-path: inset(0);
+    transition: clip-path .5s linear calc(var(--_n, 0) * .5s - .25s);
+  }
+  .dd-promo-roadmap__steps.is-on .dd-promo-step:first-child .dd-promo-step__mark::before,
+  .dd-promo-roadmap__steps.is-on .dd-promo-step:last-child .dd-promo-step__mark::before { transition-duration: .25s; }
+  .dd-promo-roadmap__steps.is-on .dd-promo-step:first-child .dd-promo-step__mark::before { transition-delay: 0s; }
+}
