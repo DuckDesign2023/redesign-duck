@@ -60,8 +60,8 @@
     <link rel="stylesheet" href="../assets/css/base.css?v=17">
     <link rel="stylesheet" href="../assets/css/components.css?v=17">
     <link rel="stylesheet" href="../assets/css/shell.css?v=17">
-    <link rel="stylesheet" href="../assets/css/blocks.css?v=8">
-    <link rel="stylesheet" href="../assets/css/ai-design.css?v=1">
+    <link rel="stylesheet" href="../assets/css/blocks.css?v=10">
+    <link rel="stylesheet" href="../assets/css/ai-design.css?v=4">
 </head>
 <body>
 <a class="dd-skip-link dd-btn dd-btn--s dd-btn--yellow" href="#main"><span class="dd-btn__label">Skip to content</span></a>
@@ -304,24 +304,31 @@
   в переходном стиле, поэтому страница пересобрана на дизайн-системе, как AI Development:
   тексты и порядок секций — с живой страницы, из макета — состав секций; типографика, кнопки,
   радиусы и отступы — из системы (DESIGN.md, раздел 9).
-  Свои блоки (ai-hero … ai-plan) — стили assets/css/ai-design.css, поведение — assets/js/ai-design.js;
-  FAQ, карточка-призыв и логотипы — общие, assets/css/blocks.css.
+  Свои блоки (ai-hero … ai-plan, ai-cta, ai-leaders) — стили assets/css/ai-design.css, поведение — assets/js/ai-design.js;
+  FAQ — общий, assets/css/blocks.css.
+  Первый экран, панель «Designer + AI», экран-призыв и логотипы с градиентом под подвалом —
+  повторяют живую страницу по замерам (16.10.2026), а не систему; движение не перенесено.
   Видео и картинки — с живой страницы: видео пережаты без звука (assets/video/ai-design-*.mp4).
   Видео в карточках играет по наведению, фокусу или нажатию и не зациклено.
 -->
 
+<!-- Первый экран и панель «We do not replace creativity» — как на живой странице (16.10.2026):
+     общий тёплый фон-обёртка, панель стоит сразу под видео -->
+<div class="dd-aid-top">
 <!-- block:ai-hero -->
 <section class="dd-aid-hero">
   <div class="dd-aid-hero__bg" aria-hidden="true">
     <video src="../assets/video/ai-design-hero.mp4?v=1" poster="../assets/img/ai-design/hero.jpg" width="1920" height="1012" autoplay muted loop playsinline disablepictureinpicture tabindex="-1"></video>
   </div>
   <div class="dd-aid-hero__inner">
-    <p class="dd-aid-hero__kicker">The future of design is already here.</p>
-    <h1 class="dd-h3 dd-aid-hero__title">AI-Driven Web Design Agency for <span class="dd-fancy">High-Converting Websites</span></h1>
-    <p class="dd-txt-3 dd-aid-hero__lead">Duck Design combines the creative thinking of top designers with the computational power of generative models.</p>
+    <div class="dd-aid-hero__top">
+      <p class="dd-aid-pre dd-aid-hero__kicker"><span>The future of design<br> is already here.</span></p>
+      <h1 class="dd-aid-hero__title">AI-Driven Web Design Agency for High-Converting Websites</h1>
+    </div>
+    <p class="dd-aid-hero__lead">Duck Design combines the creative thinking of top designers with the computational power of generative models.</p>
     <div class="dd-aid-hero__actions">
-      <a class="dd-btn dd-btn--white" href="https://duck.design/book-a-call/"><span class="dd-btn__label">Book a demo</span><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-chevron-right"/></svg></a>
-      <p class="dd-aid-hero__note">Create 3x more content while saving weeks of your subscription.</p>
+      <a class="dd-btn dd-btn--white dd-aid-btn" href="https://duck.design/book-a-call/"><span class="dd-btn__label">Book a demo</span></a>
+      <p class="dd-aid-hero__note"><span>Create <b>3x</b> more content</span> <span>while saving weeks of your subscription.</span></p>
     </div>
   </div>
 </section>
@@ -329,22 +336,21 @@
 
 <!-- block:ai-manifest -->
 <section class="dd-aid-manifest">
-  <div class="dd-aid-manifest__panel dd-on-dark">
-    <div class="dd-aid-manifest__head">
-      <p class="dd-aid-manifest__kicker">Designer + AI</p>
-      <h2 class="dd-h2 dd-h2--light dd-aid-manifest__title">We do not replace creativity.</h2>
-      <p class="dd-h2 dd-h2--light dd-aid-manifest__reply"><span class="dd-fancy">We accelerate results.</span></p>
-    </div>
+  <div class="dd-aid-manifest__panel">
+    <p class="dd-aid-pre dd-aid-manifest__kicker">Designer + AI</p>
+    <h2 class="dd-aid-manifest__title">We do not replace creativity.</h2>
+    <p class="dd-aid-manifest__reply">We accelerate results.</p>
     <div class="dd-aid-manifest__body">
       <p class="dd-aid-manifest__claim">Proven designers, supported by AI tools, ensure results every time.</p>
       <div class="dd-aid-manifest__text">
-        <p class="dd-txt-3">Pure AI often makes mistakes in brand details, while fully manual work takes time.</p>
-        <p class="dd-txt-3">At Duck Design, we use a hybrid stack: AI handles the routine, while your personal designer focuses on strategy, composition, and final quality.</p>
+        <p>Pure AI often makes mistakes in brand details, while fully manual work takes time.</p>
+        <p>At Duck Design, we use a hybrid stack: AI handles the routine, while your personal designer focuses on strategy, composition, and final quality.</p>
       </div>
     </div>
   </div>
 </section>
 <!-- /block:ai-manifest -->
+</div>
 
 <!-- block:ai-caps -->
 <section class="dd-aid-caps dd-aid-sec">
@@ -665,39 +671,42 @@
 </section>
 <!-- /block:faq -->
 
-<!-- block:cta-card -->
-<section class="dd-cta">
-  <div class="dd-cta-card">
-    <div class="dd-cta-card__ducks" aria-hidden="true">
-      <span class="dd-duck dd-duck--right"><svg><use href="#dd-duck"/></svg></span>
-      <span class="dd-duck dd-duck--left"><svg><use href="#dd-duck"/></svg></span>
-      <span class="dd-duck dd-duck--center"><svg><use href="#dd-duck"/></svg></span>
-    </div>
-    <div class="dd-cta-card__text">
-      <h2 class="dd-h2">Ready to speed up your&nbsp;design production?</h2>
-      <p class="dd-txt-2 dd-cta-card__lead"><span>Find out how many weeks of subscription you could save by implementing AI workflows into your processes.</span> <span>Book a short call with our expert.</span></p>
-    </div>
-    <a class="dd-cta-card__go" href="https://duck.design/book-a-call/">
-      <span class="dd-btn dd-btn--l dd-btn--white"><span class="dd-btn__label">Book a call</span></span>
-      <span class="dd-btn dd-btn--l dd-btn--yellow" aria-hidden="true"><svg class="dd-btn__icon"><use href="#dd-arrow-out-24"/></svg></span>
-    </a>
-  </div>
+<!-- block:ai-cta — тёмный экран-призыв живой страницы (16.10.2026) -->
+<section class="dd-aid-cta">
+  <p class="dd-aid-pre dd-aid-pre--center dd-aid-cta__kicker">Become a partner</p>
+  <h2 class="dd-aid-cta__title">
+    <span class="dd-aid-cta__head">Ready to <em>speed</em><span class="dd-switch" aria-hidden="true"><span class="dd-switch__knob"><svg><use href="#dd-duck"/></svg></span></span><em>up</em></span>
+    <span class="dd-aid-cta__tail">your design production?</span>
+  </h2>
+  <p class="dd-aid-cta__text">Find out how many weeks of subscription you could save by implementing AI workflows into your processes.</p>
+  <p class="dd-aid-cta__call">Book a short call with our expert.</p>
+  <a class="dd-btn dd-btn--white dd-aid-btn" href="https://duck.design/book-a-call/"><span class="dd-btn__label">Book a call</span></a>
 </section>
-<!-- /block:cta-card -->
+<!-- /block:ai-cta -->
 
-<!-- block:logos -->
-<div class="dd-logos">
-  <p class="dd-logos__title">Market leaders trust us</p>
-  <ul class="dd-logos__list" role="list">
-    <li style="--w: 91.3; --w-s: 48.3"><img src="../assets/img/blocks/logos/ventoo.svg" width="91" height="21" alt="Ventoo"></li>
-    <li style="--w: 110.8; --w-s: 65.8"><img src="../assets/img/blocks/logos/skycop.svg" width="111" height="34" alt="Skycop"></li>
-    <li style="--w: 104.2; --w-s: 69"><img src="../assets/img/blocks/logos/fantom.svg" width="104" height="27" alt="Fantom"></li>
-    <li style="--w: 99; --w-s: 62.2"><img src="../assets/img/blocks/logos/ubs.svg" width="99" height="38" alt="UBS"></li>
+<!-- block:ai-leaders — логотипы на градиенте, который продолжается под подвалом.
+     Ряд стоит на месте: движение ленты пользователь сделает сам -->
+<section class="dd-aid-leaders" aria-labelledby="dd-aid-leaders-title">
+  <p class="dd-aid-pre dd-aid-pre--center" id="dd-aid-leaders-title">Market leaders trust us</p>
+  <ul class="dd-aid-leaders__list" role="list">
+    <li><img src="../assets/img/ai-design/leaders/bq.svg" width="151" height="71" alt="BQ" loading="lazy"></li>
+    <li><img src="../assets/img/ai-design/leaders/samsung.svg" width="151" height="71" alt="Samsung" loading="lazy"></li>
+    <li><img src="../assets/img/ai-design/leaders/bkfx.svg" width="151" height="71" alt="bkfx" loading="lazy"></li>
+    <li><img src="../assets/img/ai-design/leaders/ventoo.svg" width="151" height="71" alt="Ventoo" loading="lazy"></li>
+    <li><img src="../assets/img/ai-design/leaders/skycop.svg" width="151" height="71" alt="Skycop" loading="lazy"></li>
+    <li><img src="../assets/img/ai-design/leaders/fantom.svg" width="151" height="71" alt="Fantom" loading="lazy"></li>
+    <li><img src="../assets/img/ai-design/leaders/media.svg" width="151" height="71" alt="Media" loading="lazy"></li>
+    <li><img src="../assets/img/ai-design/leaders/ubs.svg" width="151" height="71" alt="UBS" loading="lazy"></li>
+    <li><img src="../assets/img/ai-design/leaders/burger-king.svg" width="151" height="71" alt="Burger King" loading="lazy"></li>
+    <li><img src="../assets/img/ai-design/leaders/hsbc.svg" width="151" height="71" alt="HSBC" loading="lazy"></li>
+    <li><img src="../assets/img/ai-design/leaders/pg.svg" width="151" height="71" alt="P&amp;G" loading="lazy"></li>
+    <li><img src="../assets/img/ai-design/leaders/ironfx.svg" width="151" height="71" alt="IronFX" loading="lazy"></li>
   </ul>
-</div>
-<!-- /block:logos -->
+</section>
+<!-- /block:ai-leaders -->
 </main>
 
+<div class="dd-aid-end">
 <!-- part:footer -->
 <footer class="dd-footer dd-on-dark">
   <div class="dd-footer__top">
@@ -828,9 +837,10 @@
   </div>
 </footer>
 <!-- /part:footer -->
+</div>
 
 <script src="../assets/js/shell.js?v=5" defer></script>
-<script src="../assets/js/blocks.js?v=3" defer></script>
-<script src="../assets/js/ai-design.js?v=1" defer></script>
+<script src="../assets/js/blocks.js?v=4" defer></script>
+<script src="../assets/js/ai-design.js?v=3" defer></script>
 </body>
 </html>

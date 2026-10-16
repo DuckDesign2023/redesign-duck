@@ -141,3 +141,23 @@
     io.observe(block);
   });
 })();
+
+/* Переключатель с уткой (.dd-switch) — главная и AI Design. Включается (is-on), когда заголовок
+   поднялся выше середины окна — полоса от 28 % до 42 % высоты; выключается, когда заголовок ушёл
+   из окна, чтобы включиться при следующем проходе. Без наблюдателя и при prefers-reduced-motion — включён. */
+(function () {
+  var calm = !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.dd-switch').forEach(function (sw) {
+    if (calm) {
+      sw.classList.add('is-static', 'is-on');
+      return;
+    }
+    var head = sw.closest('h1, h2, .dd-display') || sw;
+    new IntersectionObserver(function (entries) {
+      if (entries.some(function (e) { return e.isIntersecting; })) sw.classList.add('is-on');
+    }, { rootMargin: '-28% 0px -58% 0px' }).observe(head);
+    new IntersectionObserver(function (entries) {
+      if (entries.every(function (e) { return !e.isIntersecting; })) sw.classList.remove('is-on');
+    }).observe(head);
+  });
+})();

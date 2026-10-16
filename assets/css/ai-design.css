@@ -5,7 +5,8 @@
    из системы (DESIGN.md, раздел 9), а не числа переходного макета.
    Подключается только на этой странице, после blocks.css. Поведение — js/ai-design.js.
    Свои блоки: .dd-aid-hero · .dd-aid-manifest · .dd-aid-caps · .dd-aid-stack ·
-   .dd-aid-formats · .dd-aid-ethics · .dd-aid-stories · .dd-aid-plan.
+   .dd-aid-formats · .dd-aid-ethics · .dd-aid-stories · .dd-aid-plan · .dd-aid-cta · .dd-aid-leaders.
+   Первый экран, панель, призыв и логотипы повторяют живую страницу по замерам (16.10.2026).
    Эталоны — design-system/blocks/ai-*.html.
    ========================================================================== */
 
@@ -64,9 +65,46 @@
   .dd-aid-sec { padding-block: 6rem; }
 }
 
+/* ---------- Подпись с чертой — как pretitle живой страницы ---------- */
+.dd-aid-pre {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  margin: 0;
+  font: italic 300 1.6rem/2.4rem var(--dd-font-fancy);
+  letter-spacing: -.03em;
+  color: var(--dd-neutral-0);
+}
+.dd-aid-pre::before,
+.dd-aid-pre--center::after {
+  content: '';
+  flex: none;
+  width: 4rem;
+  height: .1rem;
+  background: #c96406;
+}
+.dd-aid-pre--center { justify-content: center; }
+
+/* кнопка живой страницы: высота 54 px, текст 16 px, поля 24 px; в первом экране она шире — 191 px */
+.dd-aid-btn {
+  --_h: 5.4rem;
+  --_pad: 1.8rem;
+  --_fs: 1.6rem;
+
+  letter-spacing: .07em;
+}
+.dd-aid-hero__actions .dd-aid-btn { --_pad: 2.6rem; }
+
+/* ---------- Первый экран и панель: общий тёплый фон, как .top-ai_bg живой страницы ---------- */
+.dd-aid-top {
+  background:
+    radial-gradient(41.8% 17.42% at 21.39% 0, rgb(237 93 16 / .6) 0, rgb(191 74 11 / 0) 99.04%),
+    radial-gradient(163.91% 109.45% at 93.16% 15.96%, #ffda7b 0, #ffca41 24.74%, #db7a18 49.33%, #8b290b 70.58%, #131013 99.04%);
+}
+
 /* ---------- Первый экран ---------- */
-/* Видео на всё окно под тёмной шапкой; текст слева на затемнении. На телефоне видео сверху,
-   текст у низа блока */
+/* Видео на всё окно без затемнения. Колонка 606 px: сверху подпись и H1, посередине описание,
+   у низа кнопка — три части разнесены поровну, как на живой странице */
 .dd-aid-hero {
   --_header: 6.1rem;
 
@@ -74,13 +112,10 @@
   isolation: isolate;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: 76rem;
+  min-height: 100svh;
   margin-top: calc(-1 * var(--_header));
-  padding: calc(var(--_header) + 2rem) 0 9rem;
+  padding: calc(var(--_header) + 1rem) 2.4rem 2.4rem;
   overflow: hidden;
-  background: #2a1206;
   color: var(--dd-neutral-0);
 }
 .dd-aid-hero__bg {
@@ -95,156 +130,206 @@
   object-fit: cover;
   object-position: 68% 50%;
 }
-.dd-aid-hero__bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgb(20 9 4 / .92) 0%, rgb(20 9 4 / .7) 38%, rgb(20 9 4 / 0) 66%), linear-gradient(to bottom, rgb(20 9 4 / .5), rgb(20 9 4 / 0) 22%);
-}
 .dd-aid-hero__inner {
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 1.6rem;
+  justify-content: space-between;
   width: 100%;
-  max-width: var(--dd-frame);
-  margin-inline: auto;
-  padding-inline: 1.6rem;
 }
-.dd-aid-hero__kicker {
-  margin: 0;
-  font: italic 400 1.6rem/2.4rem var(--dd-font-fancy);
-  color: var(--dd-yellow-300);
-}
+.dd-aid-hero__kicker::before { display: none; }
+.dd-aid-hero__kicker { display: block; }
 .dd-aid-hero__title {
   margin: 0;
+  padding: 5.7rem .4rem 3rem;
+  font: 500 2.8rem/3.4rem var(--dd-font-basic);
+  letter-spacing: -.04em;
   color: inherit;
-  text-wrap: balance;
 }
 .dd-aid-hero__lead {
-  max-width: 46rem;
   margin: 0;
-  color: var(--dd-beige-100);
-  text-wrap: pretty;
+  font: 400 1.2rem/1.8rem var(--dd-font-basic);
+  text-align: center;
 }
 .dd-aid-hero__actions {
   display: flex;
   flex-direction: column;
-  align-self: stretch;
-  gap: 1.2rem;
-  margin-top: .8rem;
+  gap: 2.5rem;
 }
 .dd-aid-hero__note {
-  max-width: 28rem;
   margin: 0;
-  font: italic 400 1.4rem/2rem var(--dd-font-fancy);
-  color: var(--dd-beige-100);
+  font: italic 300 1.1rem/1.54rem var(--dd-font-fancy);
+  letter-spacing: -.03em;
+  text-align: center;
+}
+.dd-aid-hero__note b {
+  font-weight: 700;
+  background: linear-gradient(94deg, #ffca41 7.46%, #ffda7a 103.56%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 @media (min-width: 834px) {
   .dd-aid-hero {
     --_header: 8.1rem;
 
-    justify-content: center;
-    min-height: 72rem;
-    padding: calc(var(--_header) + 4rem) 0 14rem;
+    padding: calc(var(--_header) + 6rem) 4rem 9rem;
   }
   .dd-aid-hero__bg video { object-position: center; }
-  .dd-aid-hero__bg::after {
-    background: linear-gradient(90deg, rgb(20 9 4 / .78) 0%, rgb(20 9 4 / .5) 34%, rgb(20 9 4 / 0) 62%), linear-gradient(to bottom, rgb(20 9 4 / .45), rgb(20 9 4 / 0) 24%);
+  .dd-aid-hero__inner { width: 60.6rem; }
+  .dd-aid-hero__kicker {
+    display: flex;
+    padding-left: 1.2rem;
   }
-  .dd-aid-hero__inner {
-    gap: 2rem;
-    padding-inline: 3rem;
+  .dd-aid-hero__kicker::before { display: block; }
+  .dd-aid-hero__kicker br { display: none; }
+  .dd-aid-hero__top .dd-aid-hero__kicker { margin-bottom: 2rem; }
+  .dd-aid-hero__title {
+    padding: 0 1.6rem 0 1.2rem;
+    font-size: 4.8rem;
+    line-height: 5.7rem;
   }
-  .dd-aid-hero__title { max-width: 62rem; }
+  .dd-aid-hero__lead {
+    max-width: 42rem;
+    padding: 0 0 3rem 1.2rem;
+    font-size: 1.4rem;
+    line-height: 2.1rem;
+    text-align: left;
+  }
   .dd-aid-hero__actions {
     flex-direction: row;
     align-items: center;
-    align-self: flex-start;
-    gap: 2.4rem;
-    margin-top: 2rem;
+    gap: 3.7rem;
   }
+  .dd-aid-hero__actions .dd-btn { flex: none; }
+  .dd-aid-hero__note {
+    max-width: 37.8rem;
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    text-align: left;
+  }
+  .dd-aid-hero__note span { display: block; }
 }
 @media (min-width: 1320px) {
-  .dd-aid-hero { --_header: 7.3rem; }
-  .dd-aid-hero__inner { padding-inline: 7rem; }
+  .dd-aid-hero {
+    --_header: 7.3rem;
+
+    padding: 15.6rem 10rem 9rem;
+  }
 }
 
-/* ---------- «We do not replace creativity» — тёмная панель поверх низа первого экрана ---------- */
+/* ---------- «We do not replace creativity» — тёмная панель сразу под первым экраном ---------- */
 .dd-aid-manifest {
-  position: relative;
-  z-index: 1;
-  margin-top: -6rem;
   padding-inline: .6rem;
+  background:
+    linear-gradient(#13100f, rgb(19 16 15 / 0)),
+    linear-gradient(rgb(206 92 4 / 0), var(--dd-color-bg));
 }
 .dd-aid-manifest__panel {
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-  max-width: calc(var(--dd-frame) - 2.4rem);
+  max-width: 168rem;
   margin-inline: auto;
-  padding: 4rem 2rem;
-  border-radius: .8rem;
-  background: var(--dd-neutral-1300);
-  color: var(--dd-color-text);
+  padding: 3.2rem;
+  border: .1rem solid rgb(255 203 161 / .16);
+  border-radius: 1.8rem;
+  background: #13100f;
+  color: var(--dd-neutral-0);
 }
-.dd-aid-manifest__head {
+.dd-aid-manifest__kicker { margin-bottom: 1.6rem; }
+.dd-aid-manifest__title,
+.dd-aid-manifest__reply {
+  margin: 0;
+  font: 400 3.8rem/4.2rem var(--dd-font-basic);
+  letter-spacing: -.04em;
+}
+.dd-aid-manifest__title {
+  margin-bottom: 2.5rem;
+  color: #ff8b20;
+}
+.dd-aid-manifest__reply {
+  margin-bottom: 3.6rem;
+  font-family: var(--dd-font-fancy);
+  font-style: italic;
+  text-align: right;
+}
+.dd-aid-manifest__body {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-}
-.dd-aid-manifest__kicker {
-  margin: 0;
-  font: italic 400 1.6rem/2.4rem var(--dd-font-fancy);
-  color: var(--dd-color-text-muted);
-}
-.dd-aid-manifest__title,
-.dd-aid-manifest__reply { margin: 0; }
-.dd-aid-manifest__title { color: var(--dd-orange-100); }
-.dd-aid-manifest__reply { color: var(--dd-neutral-0); }
-.dd-aid-manifest__body {
-  display: grid;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 .dd-aid-manifest__claim {
   margin: 0;
-  font: italic 400 2rem/2.6rem var(--dd-font-fancy);
-  color: var(--dd-neutral-0);
-}
-.dd-aid-manifest__text {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 56rem;
+  font: italic 400 2.4rem/3.4rem var(--dd-font-fancy);
+  letter-spacing: -.03em;
 }
 .dd-aid-manifest__text p {
   margin: 0;
-  color: var(--dd-color-text-body);
+  font: 400 1.6rem/2.4rem var(--dd-font-basic);
+  color: #e8ebf1;
 }
+.dd-aid-manifest__text p + p { margin-top: 2rem; }
 
 @media (min-width: 834px) {
   .dd-aid-manifest {
-    margin-top: -10rem;
-    padding-inline: 1rem;
+    padding-inline: 2rem;
+    background: linear-gradient(rgb(206 92 4 / 0), var(--dd-color-bg));
   }
   .dd-aid-manifest__panel {
-    gap: 6rem;
-    padding: 6rem 5rem;
-    border-radius: var(--dd-radius-2xl);
+    padding: 6rem 6rem 8rem;
+    border-radius: 3rem;
   }
-  .dd-aid-manifest__reply { padding-left: 30%; }
+  .dd-aid-manifest__kicker { margin-bottom: 3.2rem; }
+  .dd-aid-manifest__title,
+  .dd-aid-manifest__reply {
+    font-size: 5.6rem;
+    line-height: 6.2rem;
+  }
+  .dd-aid-manifest__title { margin-bottom: 1.2rem; }
+  .dd-aid-manifest__reply { margin-bottom: 6rem; }
+}
+@media (min-width: 1100px) {
   .dd-aid-manifest__body {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 7fr);
-    gap: 4rem;
-    align-items: start;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 0;
+  }
+  .dd-aid-manifest__claim {
+    flex: 0 1 37.9rem;
+    padding-right: 4rem;
+  }
+  .dd-aid-manifest__text {
+    flex: 0 1 65.9rem;
+    padding: 0 6rem 0 .6rem;
   }
 }
 @media (min-width: 1320px) {
-  .dd-aid-manifest { padding-inline: 1.2rem; }
-  .dd-aid-manifest__panel { padding: 8rem 10rem; }
+  .dd-aid-manifest { padding-inline: 6rem; }
+  .dd-aid-manifest__panel {
+    padding: 8rem 14rem 12rem;
+    border-radius: 3.8rem;
+  }
+  .dd-aid-manifest__kicker { margin-bottom: 4rem; }
+  .dd-aid-manifest__title,
+  .dd-aid-manifest__reply {
+    font-size: 7.2rem;
+    line-height: 7.8rem;
+  }
+  .dd-aid-manifest__reply { margin-bottom: 9rem; }
+  .dd-aid-manifest__text { padding-right: 14rem; }
+}
+
+/* ---------- Стык первого экрана и панели (выбор пользователя 16.10.2026, вариант «a») ----------
+   Низ видео растворяется в тёплом фоне .dd-aid-top, а не обрезан линией — как на живой странице;
+   панель стоит встык под сценой */
+.dd-aid-hero__bg {
+  --_fade: 14rem;
+
+  -webkit-mask-image: linear-gradient(to top, transparent 0, #000 var(--_fade));
+  mask-image: linear-gradient(to top, transparent 0, #000 var(--_fade));
+}
+@media (min-width: 834px) {
+  .dd-aid-hero__bg { --_fade: 20rem; }
 }
 
 /* ---------- Возможности: лента карточек за край окна ---------- */
@@ -675,3 +760,124 @@
   padding-left: 2rem;
 }
 .dd-aid-faq-list li + li { margin-top: .6rem; }
+
+/* ---------- Экран-призыв перед подвалом — как .cta-v2_dark живой страницы ---------- */
+/* Тёмный лист со скруглением сверху; над ним полупрозрачная «закладка» второго листа */
+.dd-aid-cta {
+  position: relative;
+  margin-top: 4.8rem;
+  padding: 10rem 1rem 6rem;
+  border-radius: 2rem 2rem 0 0;
+  background: #131013;
+  color: var(--dd-neutral-0);
+  text-align: center;
+}
+.dd-aid-cta::before {
+  content: '';
+  position: absolute;
+  top: -3rem;
+  left: 1.8rem;
+  right: 1.8rem;
+  height: 3rem;
+  border-radius: 2rem 2rem 0 0;
+  background: rgb(19 16 19 / .3);
+}
+.dd-aid-cta__kicker {
+  margin-bottom: 2rem;
+}
+.dd-aid-cta__kicker::before,
+.dd-aid-cta__kicker::after { background: #585a61; }
+.dd-aid-cta__title {
+  margin: 0 0 2rem;
+  font: 600 3.2rem/3.8rem var(--dd-font-basic);
+  letter-spacing: -.04em;
+}
+.dd-aid-cta__head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.dd-aid-cta__head em {
+  font-family: var(--dd-font-fancy);
+  font-weight: 500;
+}
+/* тумблер с уткой — общий .dd-switch (blocks.css): 105 × 58 px при заголовке 64 px, как на живой */
+.dd-aid-cta__head .dd-switch { font-size: .875em; }
+.dd-aid-cta__tail {
+  display: inline-block;
+  background: linear-gradient(90deg, #fff 50%, rgb(255 255 255 / .7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dd-aid-cta__text {
+  max-width: 60rem;
+  margin: 0 auto 2rem;
+  padding: 0 2rem;
+  box-sizing: border-box;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  opacity: .9;
+}
+.dd-aid-cta__call {
+  margin: 0 0 5rem;
+  font: italic 400 1.6rem/2.4rem var(--dd-font-fancy);
+  letter-spacing: -.03em;
+  color: #ffe39b;
+}
+
+@media (min-width: 834px) {
+  .dd-aid-cta {
+    margin-top: 6rem;
+    padding: 12rem 4rem 6rem;
+    border-radius: 2.8rem 2.8rem 0 0;
+  }
+  .dd-aid-cta::before {
+    left: 3rem;
+    right: 3rem;
+    border-radius: 2.8rem 2.8rem 0 0;
+  }
+  .dd-aid-cta__title {
+    margin-bottom: 3rem;
+    font-size: 6.4rem;
+    line-height: 7.4rem;
+  }
+}
+
+/* ---------- Логотипы и градиент под подвалом — как .footer-v2 живой страницы ---------- */
+/* Градиент живой страницы один на логотипы и подвал; здесь он разрезан по шву
+   .dd-aid-leaders | .dd-aid-end, цвет на шве общий */
+.dd-aid-leaders {
+  overflow: hidden;
+  padding: 5rem 0 1rem;
+  background: linear-gradient(#131013, #430e0f);
+}
+.dd-aid-leaders .dd-aid-pre { margin-bottom: 2rem; }
+.dd-aid-leaders__list {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-aid-leaders__list li {
+  flex: none;
+  width: 11.2rem;
+}
+.dd-aid-leaders__list img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.dd-aid-end {
+  background: linear-gradient(#430e0f 0, #871d1d 19%, #ff8b20 54%, #ffca41 100%);
+}
+
+@media (min-width: 834px) {
+  .dd-aid-leaders { padding: 10rem 0 2rem; }
+  .dd-aid-leaders__list li { width: 15.9rem; }
+}
+@media (min-width: 1320px) {
+  .dd-aid-cta { padding-inline: 8rem; }
+}
