@@ -151,11 +151,18 @@
     height: 7.1rem;
     border-radius: 50%;
   }
+  /* два слоя: кольцо подписи вращается (круг 16 с), логотип в центре стоит; под мышью и в фокусе
+     кольцо замирает, при prefers-reduced-motion не вращается — просьба пользователя 16.10.2026 */
   .dd-hero__badge img {
+    position: absolute;
+    inset: 0;
     display: block;
     width: 100%;
     height: 100%;
   }
+  .dd-hero__badge-ring { animation: dd-badge-spin 16s linear infinite; }
+  .dd-hero__badge:hover .dd-hero__badge-ring,
+  .dd-hero__badge:focus-visible .dd-hero__badge-ring { animation-play-state: paused; }
   .dd-hero__badge:focus-visible {
     outline: .2rem solid var(--dd-color-focus);
     outline-offset: .2rem;
@@ -883,6 +890,11 @@
   .dd-final { padding: 12rem 14rem; }
 }
 
+@keyframes dd-badge-spin {
+  to { transform: rotate(360deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dd-service__title { transition: none; }
+  .dd-hero__badge-ring { animation: none; }
 }
