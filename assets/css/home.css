@@ -1012,41 +1012,48 @@
     right: calc(50% - 55.51rem);
     top: 29.69rem;
   }
-  /* Курсоры живут: каждый плавно блуждает по своему пути вокруг места из макета (до 4,5rem)
-     с лёгким поворотом, у каждого свой круг 10–13 с — как чужие курсоры в общем файле.
-     Просьба пользователя 16.10.2026. При prefers-reduced-motion стоят */
-  .dd-cursor { animation: 12s ease-in-out infinite; }
+  /* Курсоры живут как в интерфейсе: курсор быстро (0,9–1,1 с, с торможением) переезжает к точке,
+     стоит там 2–3 с и едет дальше; за круг 11–14 с три-четыре перебежки вокруг места из макета
+     (до 4,4rem), без покачивания. Просьба пользователя 16.10.2026, первая версия с плавным
+     блужданием и поворотом отвергнута («как пьяные»). При prefers-reduced-motion стоят */
+  .dd-cursor { animation: 12s cubic-bezier(.2, .7, .2, 1) infinite; }
   .dd-cursor--manager { animation-name: dd-cursor-manager; }
-  .dd-cursor--ux { animation-name: dd-cursor-ux; animation-duration: 10s; }
-  .dd-cursor--client { animation-name: dd-cursor-client; animation-duration: 13s; }
-  .dd-cursor--art { animation-name: dd-cursor-art; animation-duration: 11s; }
+  .dd-cursor--ux { animation-name: dd-cursor-ux; animation-duration: 11s; animation-delay: -3s; }
+  .dd-cursor--client { animation-name: dd-cursor-client; animation-duration: 14s; animation-delay: -7s; }
+  .dd-cursor--art { animation-name: dd-cursor-art; animation-duration: 13s; animation-delay: -5s; }
   @media (prefers-reduced-motion: reduce) {
     .dd-cursor { animation: none; }
   }
 }
+/* 12 с: стоит 0–20 %, едет 20–28 %, стоит до 48 %, едет до 56 %, стоит до 74 %, едет до 82 %,
+   стоит до 92 %, возвращается к 100 % */
 @keyframes dd-cursor-manager {
-  0%, 100% { transform: translate(0, 0) rotate(0); }
-  28% { transform: translate(-3rem, 2.4rem) rotate(-4deg); }
-  55% { transform: translate(1.6rem, 4.4rem) rotate(2deg); }
-  78% { transform: translate(3.6rem, 1rem) rotate(5deg); }
+  0%, 20% { transform: translate(0, 0); }
+  28%, 48% { transform: translate(-3rem, 2.6rem); }
+  56%, 74% { transform: translate(2rem, 4.2rem); }
+  82%, 92% { transform: translate(3.4rem, .8rem); }
+  100% { transform: translate(0, 0); }
 }
 @keyframes dd-cursor-ux {
-  0%, 100% { transform: translate(0, 0) rotate(0); }
-  30% { transform: translate(2.8rem, -2rem) rotate(4deg); }
-  58% { transform: translate(-1.4rem, -3.8rem) rotate(-3deg); }
-  80% { transform: translate(-3.2rem, 1.2rem) rotate(-5deg); }
+  0%, 18% { transform: translate(0, 0); }
+  27%, 45% { transform: translate(2.8rem, -2rem); }
+  54%, 70% { transform: translate(-1.4rem, -3.8rem); }
+  79%, 91% { transform: translate(-3.2rem, 1.2rem); }
+  100% { transform: translate(0, 0); }
 }
 @keyframes dd-cursor-client {
-  0%, 100% { transform: translate(0, 0) rotate(0); }
-  26% { transform: translate(-2.2rem, 2.4rem) rotate(3deg); }
-  52% { transform: translate(2rem, 3.8rem) rotate(-2deg); }
-  76% { transform: translate(3.2rem, -1rem) rotate(-5deg); }
+  0%, 24% { transform: translate(0, 0); }
+  31%, 52% { transform: translate(-2.2rem, 2.4rem); }
+  59%, 76% { transform: translate(2rem, 3.8rem); }
+  83%, 93% { transform: translate(3.2rem, -1rem); }
+  100% { transform: translate(0, 0); }
 }
 @keyframes dd-cursor-art {
-  0%, 100% { transform: translate(0, 0) rotate(0); }
-  24% { transform: translate(-3.4rem, 1.6rem) rotate(4deg); }
-  50% { transform: translate(-1.2rem, 4.2rem) rotate(-3deg); }
-  74% { transform: translate(2.2rem, 2rem) rotate(-5deg); }
+  0%, 22% { transform: translate(0, 0); }
+  30%, 50% { transform: translate(-3.4rem, 1.6rem); }
+  58%, 72% { transform: translate(-1.2rem, 4.2rem); }
+  80%, 92% { transform: translate(2.2rem, 2rem); }
+  100% { transform: translate(0, 0); }
 }
 
 /* ---------- Две карточки со списками — 5230:40323 ---------- */
