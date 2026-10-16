@@ -472,14 +472,9 @@
   .dd-service:hover .dd-service__title { color: var(--dd-yellow-0); }
 }
 
-/* Движение сетки услуг — три вида на выбор пользователя (16.10.2026), home.js ставит
-   data-services по ?services=. Картинка в обёртке .dd-service__pic, чтобы приближение резалось
-   по скруглению; круг-стрелка .dd-service__go — как у карточек кейсов и статей.
-   a — обложка приближается до 1,04, в правом верхнем углу подрастает круг-стрелка;
-   b — под заголовком слева направо прочерчивается оранжевая черта, текст подтягивается на 4,
-   обложка чуть темнеет;
-   c — при входе сетки в окно карточки поднимаются по очереди (шаг 0,08 с, один раз);
-   наведение — приближение обложки как в a, без круга */
+/* Движение карточки услуги (выбор пользователя 16.10.2026 из трёх видов): обложка приближается
+   до 1,04, в правом верхнем углу подрастает круг-стрелка — как у карточек кейсов и статей.
+   Картинка в обёртке .dd-service__pic, чтобы приближение резалось по скруглению */
 .dd-service__pic {
   position: relative;
   display: block;
@@ -506,66 +501,19 @@
   width: 1.7rem;
   height: 1.7rem;
 }
-.dd-service__img { transition: transform .6s var(--dd-ease-out), filter var(--dd-dur-base); }
-.dd-service__body { transition: transform var(--dd-dur-base) var(--dd-ease-out); }
-
-/* a */
-.dd-services[data-services="a"] .dd-service:hover .dd-service__img,
-.dd-services[data-services="a"] .dd-service:focus-visible .dd-service__img { transform: scale(1.04); }
-.dd-services[data-services="a"] .dd-service:hover .dd-service__go,
-.dd-services[data-services="a"] .dd-service:focus-visible .dd-service__go {
+.dd-service__img { transition: transform .6s var(--dd-ease-out); }
+.dd-service:hover .dd-service__img,
+.dd-service:focus-visible .dd-service__img { transform: scale(1.04); }
+.dd-service:hover .dd-service__go,
+.dd-service:focus-visible .dd-service__go {
   opacity: 1;
   transform: none;
 }
-
-/* b */
-.dd-services[data-services="b"] .dd-service__title {
-  position: relative;
-  align-self: flex-start;
-  padding-bottom: .4rem;
-}
-.dd-services[data-services="b"] .dd-service__title::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: .2rem;
-  background: var(--dd-orange-50);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--dd-dur-slow) var(--dd-ease-out);
-}
-.dd-services[data-services="b"] .dd-service:hover .dd-service__title::after,
-.dd-services[data-services="b"] .dd-service:focus-visible .dd-service__title::after { transform: none; }
-.dd-services[data-services="b"] .dd-service:hover .dd-service__body,
-.dd-services[data-services="b"] .dd-service:focus-visible .dd-service__body { transform: translateY(-.4rem); }
-.dd-services[data-services="b"] .dd-service:hover .dd-service__img,
-.dd-services[data-services="b"] .dd-service:focus-visible .dd-service__img { filter: brightness(.88); }
-
-/* c */
-.dd-services[data-services="c"]:not(.is-in) .dd-services__list li {
-  opacity: 0;
-  transform: translateY(2.4rem);
-}
-.dd-services[data-services="c"] .dd-services__list li {
-  transition: opacity .6s var(--dd-ease-out), transform .6s var(--dd-ease-out);
-  transition-delay: calc(var(--_i, 0) * .08s);
-}
-.dd-services[data-services="c"] .dd-service:hover .dd-service__img,
-.dd-services[data-services="c"] .dd-service:focus-visible .dd-service__img { transform: scale(1.04); }
-
 @media (prefers-reduced-motion: reduce) {
   .dd-service__img,
-  .dd-service__body,
-  .dd-service__go,
-  .dd-services[data-services="b"] .dd-service__title::after,
-  .dd-services[data-services="c"] .dd-services__list li { transition: none; }
-  .dd-services[data-services="c"]:not(.is-in) .dd-services__list li {
-    opacity: 1;
-    transform: none;
-  }
+  .dd-service__go { transition: none; }
 }
+
 /* ряд под сеткой: по три значка услуг по бокам и кнопка на всю середину */
 .dd-services__more {
   display: flex;
