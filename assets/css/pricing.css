@@ -7,7 +7,8 @@
    Блок собран точно по макету: поля, интервалы и радиусы у каждого свои. Между 834 и 1319
    стоит настольная раскладка с полем страницы 30. Шире 1440 лист тянется до --dd-frame.
 
-   Скрипта у блоков нет: срок, вкладки сравнения и вкладки «для кого» — радиокнопки и :has().
+   Срок, вкладки сравнения и вкладки «для кого» — радиокнопки и :has(), без скрипта; скрипт
+   pricing.js только тянет значки первого экрана к мыши.
    Цвета макета мимо tokens.css записаны числом рядом с местом, где стоят.
    ========================================================================== */
 
@@ -146,8 +147,11 @@
 }
 @media (min-width: 1320px) {
   .dd-price-hero {
+    /* размер значков по краям: макет до 1440, дальше растёт с окном, не больше 1,3 */
+    --_bk: clamp(1rem, 100vw / 144, 1.3rem);
+
     display: grid;
-    grid-template-columns: 20rem minmax(0, 1fr) 20rem;
+    grid-template-columns: calc(var(--_bk) * 20) minmax(0, 1fr) calc(var(--_bk) * 20);
     align-items: start;
     gap: 2rem;
     padding: 6rem 0;
@@ -171,11 +175,56 @@
     align-items: flex-end;
     margin-top: 0;
   }
+  .dd-price-hero__badges { gap: 1.5em; font-size: var(--_bk); }
+  /* у края окна спрятан запас --_tuck: в него значок выдвигается, не отрываясь от края */
   .dd-price-badge {
-    padding: .8rem .8rem .8rem 2.4rem;
+    --_tuck: 1.2em;
+    --_dir: 1;
+
+    gap: .4em;
+    height: 3.8em;
+    margin-left: calc(var(--_tuck) * -1);
+    padding: .8em .8em .8em calc(2.4em + var(--_tuck));
     border-radius: 0 9.9rem 9.9rem 0;
   }
-  .dd-price-hero__badges--right .dd-price-badge { border-radius: 9.9rem 0 0 9.9rem; }
+  .dd-price-hero__badges--right .dd-price-badge {
+    --_dir: -1;
+
+    margin: 0 calc(var(--_tuck) * -1) 0 0;
+    padding: .8em calc(2.4em + var(--_tuck)) .8em .8em;
+    border-radius: 9.9rem 0 0 9.9rem;
+  }
+  .dd-price-badge img { height: 2em; }
+  /* кегль номера 1,2 от значка, поэтому круг 2,2 и строка 1,4 поделены на 1,2 */
+  .dd-price-badge__num {
+    width: calc(2.2em / 1.2);
+    height: calc(2.2em / 1.2);
+    font-size: 1.2em;
+    line-height: calc(1.4 / 1.2);
+  }
+}
+
+/* Движение значков по краям (просьба пользователя 16.10.2026, выбор из трёх видов): при загрузке
+   значки выезжают из-за края окна по очереди, номер выпрыгивает следом; дальше тянутся к мыши —
+   чем ближе, тем дальше выдвигаются на запас --_tuck (--_pull 0…1 считает pricing.js).
+   Выезд — свойство translate, тяга — transform */
+@media (min-width: 1320px) and (prefers-reduced-motion: no-preference) {
+  .dd-price-badge {
+    transform: translateX(calc(var(--_tuck) * var(--_dir) * var(--_pull, 0)));
+    animation: dd-badge-in .7s var(--dd-ease-out) var(--_at, .2s) backwards;
+    transition: transform .5s var(--dd-ease-out);
+  }
+  .dd-price-badge__num { animation: dd-badge-num .42s cubic-bezier(.34, 1.56, .64, 1) calc(var(--_at, .2s) + .45s) backwards; }
+  .dd-price-hero__badges--left .dd-price-badge:nth-child(1) { --_at: .2s; }
+  .dd-price-hero__badges--right .dd-price-badge:nth-child(1) { --_at: .3s; }
+  .dd-price-hero__badges--left .dd-price-badge:nth-child(2) { --_at: .4s; }
+  .dd-price-hero__badges--right .dd-price-badge:nth-child(2) { --_at: .5s; }
+}
+@keyframes dd-badge-in {
+  from { translate: calc(-100% * var(--_dir)) 0; }
+}
+@keyframes dd-badge-num {
+  from { scale: 0; }
 }
 
 /* ---------- Срок и три тарифа — 5564:2569, 5564:2369 ---------- */
@@ -213,17 +262,39 @@
   left: 100%;
   background: radial-gradient(circle at 100% 0, transparent calc(var(--_fillet) - .5px), var(--dd-neutral-0) var(--_fillet));
 }
+/* Три срока — равные колонки по самому широкому (просьба пользователя 16.10.2026: на телефоне
+   «1 month» был уже соседей и поля по краям расходились). Тёмная плашка выбранного срока —
+   отдельный слой ::before под подписями; её края стоят по номеру срока --_i (0, 1, 2) */
 .dd-price-terms__row {
+  --_pad: .5rem;
+  --_w: calc((100% - 2 * var(--_pad)) / 3);
+
+  position: relative;
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
   min-height: 5.8rem;
-  padding: .5rem;
+  padding: var(--_pad);
   border-radius: 6rem;
   background: var(--dd-beige-50);
   box-shadow: inset 0 0 0 .1rem rgba(69, 57, 45, .12);
 }
+.dd-price-terms__row:has([value="1"]:checked) { --_i: 0; }
+.dd-price-terms__row:has([value="3"]:checked) { --_i: 1; }
+.dd-price-terms__row:has([value="6"]:checked) { --_i: 2; }
+.dd-price-terms__row::before {
+  content: "";
+  position: absolute;
+  top: var(--_pad);
+  bottom: var(--_pad);
+  left: calc(var(--_pad) + var(--_i, 1) * var(--_w));
+  right: calc(var(--_pad) + (2 - var(--_i, 1)) * var(--_w));
+  border-radius: 5rem;
+  background: #161b26;
+}
 .dd-price-term {
+  position: relative; /* подпись над плашкой */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -245,17 +316,11 @@
   font: 400 1.2rem/1.6rem var(--dd-font-basic);
   color: #2c3449;
 }
-.dd-price-term:has(:checked) {
-  background: #161b26;
-  color: var(--dd-neutral-0);
-}
+.dd-price-term:has(:checked) { color: var(--dd-neutral-0); }
 .dd-price-term:has(:checked) .dd-price-term__off { color: #e8ebf1; }
 .dd-price-term:has(:focus-visible) {
   outline: .2rem solid var(--dd-color-focus);
   outline-offset: .2rem;
-}
-@media (hover: hover) {
-  .dd-price-term:not(:has(:checked)):hover { background: var(--dd-fill-hover, #ece6db); }
 }
 
 .dd-price-sheet {
@@ -465,8 +530,9 @@
   }
   .dd-price-plans { padding-top: 3rem; }
   .dd-price-terms__row {
+    --_pad: .7rem;
+
     min-height: 6.8rem;
-    padding: .7rem;
   }
   .dd-price-term {
     width: 14.8rem;
@@ -626,18 +692,37 @@
   text-align: center;
 }
 .dd-price-compare__head .dd-h2 { color: #161b26; }
+/* Плашка выбранного тарифа — слой ::before, как у срока (просьба пользователя 16.10.2026) */
 .dd-price-compare__tabs {
+  --_pad: .5rem;
+  --_w: calc((100% - 2 * var(--_pad)) / 3);
+
+  position: relative;
   box-sizing: border-box;
   display: flex;
   min-width: 0;
   margin: 0;
-  padding: .5rem;
+  padding: var(--_pad);
   border: 0;
   border-radius: 3rem;
   background: var(--dd-neutral-0);
   box-shadow: inset 0 0 0 .1rem rgba(69, 57, 45, .12);
 }
+.dd-price-compare__tabs:has([value="g"]:checked) { --_i: 0; }
+.dd-price-compare__tabs:has([value="c"]:checked) { --_i: 1; }
+.dd-price-compare__tabs:has([value="n"]:checked) { --_i: 2; }
+.dd-price-compare__tabs::before {
+  content: "";
+  position: absolute;
+  top: var(--_pad);
+  bottom: var(--_pad);
+  left: calc(var(--_pad) + var(--_i, 0) * var(--_w));
+  right: calc(var(--_pad) + (2 - var(--_i, 0)) * var(--_w));
+  border-radius: 2.6rem;
+  background: #e7e3da;
+}
 .dd-price-compare__tab {
+  position: relative; /* подпись над плашкой */
   flex: 1 1 0;
   box-sizing: border-box;
   display: flex;
@@ -660,13 +745,9 @@
   font: 400 1.2rem/1.6rem var(--dd-font-basic);
   color: var(--dd-neutral-1100);
 }
-.dd-price-compare__tab:has(:checked) { background: #e7e3da; }
 .dd-price-compare__tab:has(:focus-visible) {
   outline: .2rem solid var(--dd-color-focus);
   outline-offset: .2rem;
-}
-@media (hover: hover) {
-  .dd-price-compare__tab:not(:has(:checked)):hover { background: var(--dd-beige-50); }
 }
 .dd-price-compare__list {
   display: grid;
@@ -721,9 +802,11 @@
     padding: 10rem 3rem 6rem;
   }
   .dd-price-compare__tabs {
-    padding: .7rem;
+    --_pad: .7rem;
+
     border-radius: 6rem;
   }
+  .dd-price-compare__tabs::before { border-radius: 5rem; }
   .dd-price-compare__tab {
     gap: .6rem;
     min-height: 6.6rem;
@@ -1063,6 +1146,22 @@
 .dd-price-term,
 .dd-price-compare__tab { transition: background-color var(--dd-dur-fast), color var(--dd-dur-fast); }
 .dd-price-term__off { transition: color var(--dd-dur-fast); }
+/* Плашка срока и тарифа сравнения перетекает (просьба пользователя 16.10.2026): передний край
+   уходит первым, задний догоняет с отставанием и лёгким перелётом. Сторону движения — data-dir
+   на ряду — ставит blocks.js; без скрипта края едут вместе */
+.dd-price-terms__row::before,
+.dd-price-compare__tabs::before { transition: left .38s var(--dd-ease-out), right .38s var(--dd-ease-out); }
+.dd-price-terms__row[data-dir="right"]::before,
+.dd-price-compare__tabs[data-dir="right"]::before {
+  transition: right .36s var(--dd-ease-out), left .5s cubic-bezier(.3, 1.25, .5, 1) .06s;
+}
+.dd-price-terms__row[data-dir="left"]::before,
+.dd-price-compare__tabs[data-dir="left"]::before {
+  transition: left .36s var(--dd-ease-out), right .5s cubic-bezier(.3, 1.25, .5, 1) .06s;
+}
+/* подпись выбранного срока белеет, когда плашка уже под ней, а не на бежевом */
+.dd-price-term:has(:checked),
+.dd-price-term:has(:checked) .dd-price-term__off { transition-delay: .14s; }
 .dd-price-plan__sum { animation: dd-reveal var(--dd-dur-base) var(--dd-ease-out); }
 .dd-price-compare__list li { transition: color var(--dd-dur-base); }
 .dd-price-compare__mark { transition: background-color var(--dd-dur-base), box-shadow var(--dd-dur-base), color var(--dd-dur-base); }
@@ -1070,6 +1169,10 @@
 .dd-price-who__panel { animation: dd-reveal var(--dd-dur-slow) var(--dd-ease-out); }
 @media (prefers-reduced-motion: reduce) {
   .dd-price-term,
+  .dd-price-terms__row::before,
+  .dd-price-terms__row[data-dir]::before,
+  .dd-price-compare__tabs::before,
+  .dd-price-compare__tabs[data-dir]::before,
   .dd-price-compare__tab,
   .dd-price-term__off,
   .dd-price-compare__list li,

@@ -1,6 +1,22 @@
 /* duck.design — блоки страниц.
    Без скрипта блоки рабочие: стрелок ленты отзывов и вкладок тизера нет, ответы FAQ раскрыты.
-   Переключатель срока в тарифе скрипта не требует. */
+   Переключатель срока в тарифе работает без скрипта. */
+
+/* Срок тарифа и вкладки сравнения (Pricing, Promo): ряду ставится data-dir — в какую сторону
+   ушла плашка выбора, по нему pricing.css пускает передний край плашки первым. Без скрипта края
+   едут вместе */
+(function () {
+  document.querySelectorAll('.dd-price-terms__row, .dd-price-compare__tabs').forEach(function (row) {
+    var radios = Array.prototype.slice.call(row.querySelectorAll('input[type="radio"]'));
+    var was = radios.findIndex(function (r) { return r.checked; });
+    row.addEventListener('change', function (e) {
+      var now = radios.indexOf(e.target);
+      if (now < 0 || now === was) return;
+      row.dataset.dir = now > was ? 'right' : 'left';
+      was = now;
+    });
+  });
+})();
 
 /* Лента отзывов: стрелки листают её на одну карточку. Стрелка у края ленты выключена
    (aria-disabled — фокус на ней остаётся). Класс is-end на блоке — «лента докручена до конца»:
