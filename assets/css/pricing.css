@@ -8,7 +8,7 @@
    стоит настольная раскладка с полем страницы 30. Шире 1440 лист тянется до --dd-frame.
 
    Срок, вкладки сравнения и вкладки «для кого» — радиокнопки и :has(), без скрипта; скрипт
-   pricing.js только тянет значки первого экрана к мыши.
+   pricing.js тянет значки первого экрана к мыши и запускает движение таблицы «Why hiring…» и маркер package deal.
    Цвета макета мимо tokens.css записаны числом рядом с местом, где стоят.
    ========================================================================== */
 
@@ -675,6 +675,55 @@
   .dd-price-deal__inner { padding-inline: 12rem; }
 }
 
+/* Движение «Every plan package deal» (просьба пользователя 16.10.2026, выбор из трёх видов:
+   маркер и отклик под мышью). Текст виден всегда. Один раз, когда список впервые поднимается
+   над нижней пятой окна, за пунктами по очереди проходит маркер и гаснет (is-armed / is-on и
+   --_n — номер пункта по порядку чтения — ставит pricing.js). Под мышью иконка пункта делает своё
+   движение: стрелки и бесконечность оборачиваются, монета переворачивается, «отмена» качается,
+   прочие подпрыгивают. Без скрипта маркера нет; при reduce всё стоит */
+@media (prefers-reduced-motion: no-preference) {
+  .dd-price-deal__list li { position: relative; isolation: isolate; justify-self: start; }
+  .dd-price-deal.is-armed .dd-price-deal__list li::before {
+    content: "";
+    position: absolute;
+    inset: -.4rem -1rem -.4rem -.6rem;
+    z-index: -1;
+    border-radius: 1rem;
+    background: rgba(255, 200, 61, .32);
+    scale: 0 1;
+    transform-origin: left;
+    opacity: 0;
+  }
+  .dd-price-deal.is-on .dd-price-deal__list li::before {
+    animation: dd-deal-mark 1.1s var(--dd-ease-out) calc(.2s + var(--_n, 0) * .12s);
+  }
+  @media (hover: hover) {
+    .dd-price-deal__list li:hover img { animation: dd-deal-hop .5s cubic-bezier(.34, 1.56, .64, 1); }
+    .dd-price-deal__list li:hover img[src*="deal-revisions"],
+    .dd-price-deal__list li:hover img[src*="deal-requests"] { animation: dd-deal-turn .7s var(--dd-ease-out); }
+    .dd-price-deal__list li:hover img[src*="deal-moneyback"] { animation: dd-deal-flip .7s var(--dd-ease-out); }
+    .dd-price-deal__list li:hover img[src*="deal-cancel"] { animation: dd-deal-shake .5s var(--dd-ease-move); }
+  }
+}
+@keyframes dd-deal-mark {
+  0% { scale: 0 1; opacity: 1; }
+  45% { scale: 1; opacity: 1; }
+  100% { scale: 1; opacity: 0; }
+}
+@keyframes dd-deal-hop {
+  40% { translate: 0 -.5rem; }
+}
+@keyframes dd-deal-turn {
+  to { rotate: 360deg; }
+}
+@keyframes dd-deal-flip {
+  to { transform: perspective(20rem) rotateY(360deg); }
+}
+@keyframes dd-deal-shake {
+  20%, 60% { rotate: -12deg; }
+  40%, 80% { rotate: 12deg; }
+}
+
 /* ---------- «Compare our plans» — 5532:9656 · строка: compare 5532:10117 ---------- */
 /* Вкладка тарифа — радиокнопка: строки, которых нет в выбранном тарифе, гасит :has().
    В разметке строки идут по столбцам; у строки data-from — младший тариф, где она есть */
@@ -986,6 +1035,49 @@
   .dd-price-why { padding-inline: 7rem; }
   .dd-price-why__scroll { overflow: visible; }
   .dd-price-why__grid { min-width: 0; }
+}
+
+/* Движение таблицы (просьба пользователя 16.10.2026, выбор из трёх видов: подсчёт и блик).
+   Один раз, когда таблица впервые поднимается над нижней пятой окна: значки строка за строкой
+   заполняются слева направо, кружки выпрыгивают; по тёмной колонке сверху вниз проходит
+   тёплый блик — вместе со строками. Текст виден всегда. is-armed / is-on ставит pricing.js;
+   без скрипта и при reduce всё стоит */
+.dd-price-why__table tbody tr:nth-child(1) { --_r: 0; }
+.dd-price-why__table tbody tr:nth-child(2) { --_r: 1; }
+.dd-price-why__table tbody tr:nth-child(3) { --_r: 2; }
+.dd-price-why__table tbody tr:nth-child(4) { --_r: 3; }
+.dd-price-why__table td:nth-child(2) { --_c: 0; }
+.dd-price-why__table td:nth-child(3) { --_c: 1; }
+.dd-price-why__table td:nth-child(4) { --_c: 2; }
+.dd-price-why__table td:nth-child(5) { --_c: 3; }
+@media (prefers-reduced-motion: no-preference) {
+  .dd-price-why.is-armed .dd-price-why__cell img { clip-path: inset(0 100% 0 0); }
+  .dd-price-why.is-armed .dd-price-why__dot { scale: 0; }
+  .dd-price-why.is-on .dd-price-why__cell img {
+    clip-path: inset(0);
+    transition: clip-path .6s var(--dd-ease-out) calc(var(--_r) * .28s + var(--_c) * .1s);
+  }
+  .dd-price-why.is-on .dd-price-why__dot {
+    scale: 1;
+    transition: scale .42s cubic-bezier(.34, 1.56, .64, 1) calc(var(--_r) * .28s + var(--_c) * .1s);
+  }
+  /* блик — слой над фоном тёмной колонки, под текстом */
+  .dd-price-why.is-armed .dd-price-why__grid::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 0 auto;
+    z-index: -1;
+    width: calc((100% - 14rem) / 4);
+    border-radius: 1.2rem;
+    background: linear-gradient(170deg, transparent 42%, rgba(255, 214, 170, .16) 50%, transparent 58%) 0 100% / 100% 300% no-repeat;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .dd-price-why.is-on .dd-price-why__grid::after { animation: dd-why-glare 1.6s var(--dd-ease-move) .3s; }
+}
+@keyframes dd-why-glare {
+  0% { opacity: 1; background-position: 0 100%; }
+  100% { opacity: 1; background-position: 0 0; }
 }
 
 /* ---------- «Для кого» — 5532:11266 · вкладка: tab 2540:423 ---------- */
