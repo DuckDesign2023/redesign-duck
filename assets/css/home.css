@@ -225,17 +225,18 @@
   to { transform: translateX(-100%); }
 }
 
-/* наведение и фокус */
+/* наведение и фокус. Правило наведённой работы весит столько же, сколько правило приглушения,
+   и стоит ниже — иначе приглушение побеждает и наведённая работа тоже бледнеет */
 .dd-strip:hover .dd-strip__work,
 .dd-strip:focus-within .dd-strip__work { opacity: .55; }
-.dd-strip__work:hover,
-.dd-strip__work:focus-visible {
+.dd-strip .dd-strip__work:hover,
+.dd-strip .dd-strip__work:focus-visible {
   opacity: 1;
   transform: translateY(-.8rem);
   box-shadow: 0 1.8rem 3.6rem -1.2rem rgba(4, 5, 6, .35);
 }
-.dd-strip__work:hover img,
-.dd-strip__work:focus-visible img { transform: scale(1.04); }
+.dd-strip .dd-strip__work:hover img,
+.dd-strip .dd-strip__work:focus-visible img { transform: scale(1.04); }
 
 @media (min-width: 834px) {
   .dd-strip {
