@@ -524,30 +524,19 @@
 .dd-services__icons { display: none; }
 
 /* Значки по краям кнопки (выбор пользователя 16.10.2026 из трёх видов): всё время плавно
-   покачиваются вверх-вниз на 6 за 3,6 с со сдвигом фаз — второе движение без действия на главной;
-   круг под мышью замирает, заливается Yellow-200, значок растёт до 1,12 */
-.dd-services__icons span {
-  animation: dd-icon-float 3.6s ease-in-out infinite;
-  transition: background var(--dd-dur-fast), box-shadow var(--dd-dur-fast);
-}
+   покачиваются вверх-вниз на 6 за 3,6 с со сдвигом фаз — движение без действия на главной.
+   Реакции на мышь нет: пользователь попросил убрать наведение («пусть просто парят») */
+.dd-services__icons span { animation: dd-icon-float 3.6s ease-in-out infinite; }
 .dd-services__icons span:nth-child(2) { animation-delay: -1.2s; }
 .dd-services__icons span:nth-child(3) { animation-delay: -2.4s; }
 .dd-services__icons:last-child span { animation-delay: -.6s; }
 .dd-services__icons:last-child span:nth-child(2) { animation-delay: -1.8s; }
 .dd-services__icons:last-child span:nth-child(3) { animation-delay: -3s; }
-.dd-services__icons img { transition: transform .7s var(--dd-ease-out); }
-.dd-services__icons span:hover {
-  animation-play-state: paused;
-  background: var(--dd-yellow-200);
-  box-shadow: inset 0 0 0 .15rem var(--dd-yellow-200);
-}
-.dd-services__icons span:hover img { transform: scale(1.12); }
 @keyframes dd-icon-float {
   50% { transform: translateY(-.6rem); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .dd-services__icons span,
-  .dd-services__icons img { transition: none; animation: none; }
+  .dd-services__icons span { animation: none; }
 }
 
 @media (min-width: 834px) {
