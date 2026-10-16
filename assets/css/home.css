@@ -795,8 +795,9 @@
 .dd-steps__bar {
   position: relative;
   box-sizing: border-box;
+  width: calc((100% - 2 * var(--_edge)) * .8); /* 80 % ширины сетки, по центру — просьба пользователя */
   height: .4rem;
-  margin: calc(2.4rem - 3rem) var(--_edge) 0; /* бегунок в 2,4 под карточками при зазоре секции 3 */
+  margin: calc(2.4rem - 3rem) auto 0; /* бегунок в 2,4 под карточками при зазоре секции 3 */
   border-radius: var(--dd-radius-pill);
   background: var(--dd-beige-100);
   cursor: pointer;

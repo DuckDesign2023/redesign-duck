@@ -45,17 +45,31 @@
   window.addEventListener('resize', update);
   update();
 
+  /* колесо: цель копится по шагам колеса, лента догоняет её по кадрам (каждый кадр — 18 % остатка),
+     поэтому идёт плавно, а не рывками по шагу колеса; при prefers-reduced-motion — сразу */
+  var target = null;
+  var raf = 0;
+  function tick() {
+    var diff = target - scroller.scrollLeft;
+    if (Math.abs(diff) < .5) { scroller.scrollLeft = target; target = null; raf = 0; return; }
+    scroller.scrollLeft += diff * .18;
+    raf = window.requestAnimationFrame(tick);
+  }
   scroller.addEventListener('wheel', function (e) {
     if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
     var m = max();
     if (m <= 1) return;
-    if ((scroller.scrollLeft <= 0 && e.deltaY < 0) || (scroller.scrollLeft >= m - 1 && e.deltaY > 0)) return;
+    var from = target === null ? scroller.scrollLeft : target;
+    if ((from <= 0 && e.deltaY < 0) || (from >= m - 1 && e.deltaY > 0)) return;
     e.preventDefault();
-    scroller.scrollLeft += e.deltaY;
+    target = Math.min(m, Math.max(0, from + e.deltaY));
+    if (calm.matches) { scroller.scrollLeft = target; target = null; return; }
+    if (!raf) raf = window.requestAnimationFrame(tick);
   }, { passive: false });
 
   var drag = null;
   thumb.addEventListener('pointerdown', function (e) {
+    if (raf) { window.cancelAnimationFrame(raf); raf = 0; target = null; }
     drag = { x: e.clientX, left: scroller.scrollLeft };
     thumb.setPointerCapture(e.pointerId);
     bar.classList.add('is-drag');
