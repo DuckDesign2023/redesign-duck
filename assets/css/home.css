@@ -852,10 +852,11 @@
 }
 /* три круга один в другом между словами заголовка */
 /* Оранжевые круги в заголовке: три слоя из макета — кольцо (сам элемент), ореол (::before)
-   и ядро (::after). Пульсация по просьбе пользователя 16.10.2026: ореол дышит (1 → 1,14 за 2,4 с),
-   кольцо в том же ритме густеет и утолщается внутрь; ядро дышит следом (1 → 1,3 и густеет,
-   с отставанием 0,3 с — при 1,12 рост был 2 px и его не видно); за круг ничего не выходит (первая версия с расходящейся волной отвергнута).
-   При prefers-reduced-motion стоят все */
+   и ядро (::after). Пульс по просьбе пользователя 16.10.2026 идёт цепочкой от центра: ядро
+   вспыхивает (1 → 1,3, густеет), через 0,35 с ореол (1 → 1,14), ещё через 0,35 с кольцо густеет
+   и утолщается внутрь; удар короткий (вверх 0,65 с, вниз 0,65 с), потом пауза до конца круга 2,6 с.
+   Одновременный пульс и расходящуюся за круг волну пользователь отверг. За круг ничего
+   не выходит. При prefers-reduced-motion стоят все */
 .dd-principles__dot {
   position: relative;
   display: inline-block;
@@ -865,7 +866,7 @@
   border-radius: 50%;
   box-shadow: inset 0 0 0 .1rem #ffcb8f;
   vertical-align: -.18em;
-  animation: dd-dot-ring 2.4s ease-in-out infinite;
+  animation: dd-dot-ring 2.6s ease-in-out .7s infinite;
 }
 .dd-principles__dot::before,
 .dd-principles__dot::after {
@@ -876,24 +877,25 @@
 .dd-principles__dot::before {
   inset: .187em;
   background: #ffc076;
-  animation: dd-dot-breathe 2.4s ease-in-out infinite;
+  animation: dd-dot-halo 2.6s ease-in-out .35s infinite;
 }
 .dd-principles__dot::after {
   inset: .354em;
   background: #ff9923;
-  animation: dd-dot-core 2.4s ease-in-out .3s infinite;
+  animation: dd-dot-core 2.6s ease-in-out infinite;
 }
-@keyframes dd-dot-breathe {
-  50% { transform: scale(1.14); }
-}
+/* 2,6 с: вверх до 25 %, вниз до 50 %, дальше покой */
 @keyframes dd-dot-core {
-  50% {
-    transform: scale(1.3);
-    background: #ff7f00;
-  }
+  0%, 50%, 100% { transform: scale(1); background: #ff9923; }
+  25% { transform: scale(1.3); background: #ff7f00; }
+}
+@keyframes dd-dot-halo {
+  0%, 50%, 100% { transform: scale(1); }
+  25% { transform: scale(1.14); }
 }
 @keyframes dd-dot-ring {
-  50% { box-shadow: inset 0 0 0 .2rem #ffb259; }
+  0%, 50%, 100% { box-shadow: inset 0 0 0 .1rem #ffcb8f; }
+  25% { box-shadow: inset 0 0 0 .2rem #ffb259; }
 }
 @media (prefers-reduced-motion: reduce) {
   .dd-principles__dot,
