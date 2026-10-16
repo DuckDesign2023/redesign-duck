@@ -1899,3 +1899,15 @@
   .dd-plan__term:has(:checked)::after,
   .dd-plan__price { animation: none; }
 }
+
+/* Шесть плиток преимуществ (просьба пользователя 16.10.2026: ненавязчивое движение, выбор из трёх
+   видов — тихое появление): когда ряд впервые поднимается над нижней пятой окна, иконки плиток
+   по очереди выпрыгивают (is-armed / is-on и --_n — номер плитки — ставит blocks.js). Текст
+   стоит всегда. Без скрипта и при reduce всё стоит */
+@media (prefers-reduced-motion: no-preference) {
+  .dd-benefits.is-armed .dd-benefit__icon { scale: 0; }
+  .dd-benefits.is-on .dd-benefit__icon {
+    scale: 1;
+    transition: scale .45s cubic-bezier(.34, 1.56, .64, 1) calc(var(--_n, 0) * .09s);
+  }
+}

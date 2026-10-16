@@ -123,3 +123,21 @@
     });
   });
 })();
+
+/* Шесть плиток преимуществ (просьба пользователя 16.10.2026): иконки по очереди выпрыгивают,
+   стили — blocks.css. Плиткам ставится --_n — номер; is-armed / is-on — один раз, когда ряд
+   впервые поднимается над нижней пятой окна. При reduce и без IntersectionObserver иконки стоят */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+
+  document.querySelectorAll('.dd-benefits').forEach(function (block) {
+    block.querySelectorAll('.dd-benefit').forEach(function (tile, i) { tile.style.setProperty('--_n', i); });
+    block.classList.add('is-armed');
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      io.disconnect();
+      requestAnimationFrame(function () { block.classList.add('is-on'); });
+    }, { rootMargin: '0px 0px -20% 0px' });
+    io.observe(block);
+  });
+})();
