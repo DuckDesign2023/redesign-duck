@@ -178,10 +178,8 @@
 /* Работы — проекты Behance, каждая — ссылка на проект. Две одинаковые ленты бегут влево:
    когда первая ушла целиком, вторая стоит на её месте — шва нет. У краёв окна ряд тает в фон
    (маска). Под мышью и при фокусе внутри лента стоит.
-   Наведение на работу — три вида на выбор пользователя, home.js ставит data-strip по ?strip=:
-   lift — работа приподнимается с тенью, обложка приближается, соседи приглушаются;
-   caption — снизу выезжает плашка с названием и «View on Behance», обложка приближается;
-   tilt — работа наклоняется за курсором с бликом (углы считает home.js). Без скрипта — lift */
+   Наведение на работу (выбор пользователя 16.10.2026 из трёх видов): работа приподнимается на 8
+   с тенью, обложка приближается до 1,04, остальные работы приглушаются до 55 %; фокус — так же */
 .dd-strip {
   --_fade: 6rem;
 
@@ -227,69 +225,17 @@
   to { transform: translateX(-100%); }
 }
 
-/* lift */
-.dd-strip[data-strip="lift"]:hover .dd-strip__work,
-.dd-strip[data-strip="lift"]:focus-within .dd-strip__work { opacity: .55; }
-.dd-strip[data-strip="lift"] .dd-strip__work:hover,
-.dd-strip[data-strip="lift"] .dd-strip__work:focus-visible {
+/* наведение и фокус */
+.dd-strip:hover .dd-strip__work,
+.dd-strip:focus-within .dd-strip__work { opacity: .55; }
+.dd-strip__work:hover,
+.dd-strip__work:focus-visible {
   opacity: 1;
   transform: translateY(-.8rem);
   box-shadow: 0 1.8rem 3.6rem -1.2rem rgba(4, 5, 6, .35);
 }
-.dd-strip[data-strip="lift"] .dd-strip__work:hover img,
-.dd-strip[data-strip="lift"] .dd-strip__work:focus-visible img { transform: scale(1.04); }
-
-/* caption */
-.dd-strip__cap {
-  position: absolute;
-  inset: auto 0 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1.2rem;
-  padding: 4rem 1.4rem 1.2rem;
-  background: linear-gradient(180deg, rgba(4, 5, 6, 0), rgba(4, 5, 6, .74));
-  color: var(--dd-neutral-0);
-  font: 500 1.3rem/1.8rem var(--dd-font-basic);
-  opacity: 0;
-  transform: translateY(100%);
-  transition: transform .32s var(--dd-ease-out), opacity .32s;
-}
-.dd-strip__cap b {
-  overflow: hidden;
-  font-weight: 600;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.dd-strip__cap span {
-  flex: none;
-  opacity: .8;
-}
-.dd-strip:not([data-strip="caption"]) .dd-strip__cap { display: none; }
-.dd-strip[data-strip="caption"] .dd-strip__work:hover .dd-strip__cap,
-.dd-strip[data-strip="caption"] .dd-strip__work:focus-visible .dd-strip__cap {
-  opacity: 1;
-  transform: none;
-}
-.dd-strip[data-strip="caption"] .dd-strip__work:hover img,
-.dd-strip[data-strip="caption"] .dd-strip__work:focus-visible img { transform: scale(1.05); }
-
-/* tilt: --_rx, --_ry — углы, --_gx, --_gy — место блика; ставит home.js по движению мыши */
-.dd-strip[data-strip="tilt"] .dd-strip__work {
-  transform: perspective(90rem) rotateX(var(--_rx, 0deg)) rotateY(var(--_ry, 0deg));
-  transition: transform .12s linear, box-shadow var(--dd-dur-base) var(--dd-ease-out);
-}
-.dd-strip[data-strip="tilt"] .dd-strip__work::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at var(--_gx, 50%) var(--_gy, 50%), rgba(255, 255, 255, .3), rgba(255, 255, 255, 0) 55%);
-  opacity: 0;
-  transition: opacity var(--dd-dur-base);
-  pointer-events: none;
-}
-.dd-strip[data-strip="tilt"] .dd-strip__work:hover { box-shadow: 0 2rem 4rem -1.4rem rgba(4, 5, 6, .4); }
-.dd-strip[data-strip="tilt"] .dd-strip__work:hover::after { opacity: 1; }
+.dd-strip__work:hover img,
+.dd-strip__work:focus-visible img { transform: scale(1.04); }
 
 @media (min-width: 834px) {
   .dd-strip {
@@ -305,11 +251,6 @@
     width: 40.5rem;
     height: 27rem;
   }
-  .dd-strip__cap {
-    padding: 6rem 2rem 1.8rem;
-    font-size: 1.6rem;
-    line-height: 2.2rem;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .dd-strip {
@@ -320,9 +261,7 @@
   .dd-strip__list { animation: none; }
   .dd-strip__list[aria-hidden] { display: none; }
   .dd-strip__work,
-  .dd-strip__list img,
-  .dd-strip__cap { transition: none; }
-  .dd-strip[data-strip="tilt"] .dd-strip__work { transform: none; }
+  .dd-strip__list img { transition: none; }
 }
 
 /* ---------- Логотипы и «картинка + текст»: виды главной — 5168:16025, 5168:16209 ---------- */
@@ -368,7 +307,7 @@
   gap: 4rem;
   width: auto;
   padding-right: 4rem;
-  animation: dd-logos-run 40s linear infinite;
+  animation: dd-logos-run 70s linear infinite; /* в 1,75 раза медленнее ленты работ по просьбе пользователя 16.10.2026 */
 }
 .dd-logos__marq:hover .dd-logos__list { animation-play-state: paused; }
 .dd-logos--home .dd-logos__list li { flex: none; }
