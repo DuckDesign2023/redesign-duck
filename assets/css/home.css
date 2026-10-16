@@ -654,14 +654,39 @@
   box-shadow: 0 0 0 .1rem rgba(9, 9, 9, .12);
   color: #000;
   transform: translateX(-.839em); /* ширина дорожки без полей и кружка */
-  transition: transform var(--dd-dur-slow) cubic-bezier(.34, 1.56, .64, 1);
+  transition: transform var(--dd-dur-slow) var(--dd-ease-out);
+}
+/* включение: кружок едет вправо с перелётом и качком утки (0,6 с), от дорожки расходится
+   оранжевое кольцо (0,8 с) — просьба пользователя 16.10.2026 «какой-то ещё эффект, но не усложнять» */
+.dd-switch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgba(255, 139, 32, 0);
+  pointer-events: none;
 }
 .dd-switch.is-on::before { opacity: 1; }
-.dd-switch.is-on .dd-switch__knob { transform: none; }
-.dd-switch.is-static .dd-switch__knob { transition: none; }
+.dd-switch.is-on .dd-switch__knob {
+  transform: none;
+  animation: dd-switch-knob .6s cubic-bezier(.34, 1.56, .64, 1) both;
+}
+.dd-switch.is-on::after { animation: dd-switch-pulse .8s var(--dd-ease-out) both; }
+.dd-switch.is-static .dd-switch__knob,
+.dd-switch.is-static::after { animation: none; transition: none; }
+@keyframes dd-switch-knob {
+  from { transform: translateX(-.839em) rotate(0); }
+  55% { transform: translateX(.06em) rotate(16deg) scale(1.08); }
+  to { transform: none; }
+}
+@keyframes dd-switch-pulse {
+  from { box-shadow: 0 0 0 0 rgba(255, 139, 32, .45); }
+  to { box-shadow: 0 0 0 .55em rgba(255, 139, 32, 0); }
+}
 @media (prefers-reduced-motion: reduce) {
   .dd-switch::before,
-  .dd-switch__knob { transition: none; }
+  .dd-switch__knob { transition: none; animation: none; }
+  .dd-switch.is-on::after { animation: none; }
 }
 .dd-switch__knob svg {
   position: absolute;
