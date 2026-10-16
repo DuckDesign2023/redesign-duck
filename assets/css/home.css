@@ -853,8 +853,9 @@
 /* три круга один в другом между словами заголовка */
 /* Оранжевые круги в заголовке: три слоя из макета — кольцо (сам элемент), ореол (::before)
    и ядро (::after). Пульсация по просьбе пользователя 16.10.2026: ореол дышит (1 → 1,14 за 2,4 с),
-   кольцо в том же ритме густеет и утолщается внутрь; ядро стоит; за круг ничего не выходит
-   (первая версия с расходящейся волной отвергнута). При prefers-reduced-motion стоят все */
+   кольцо в том же ритме густеет и утолщается внутрь; ядро дышит следом (1 → 1,12, с отставанием
+   0,3 с); за круг ничего не выходит (первая версия с расходящейся волной отвергнута).
+   При prefers-reduced-motion стоят все */
 .dd-principles__dot {
   position: relative;
   display: inline-block;
@@ -880,16 +881,21 @@
 .dd-principles__dot::after {
   inset: .354em;
   background: #ff9923;
+  animation: dd-dot-core 2.4s ease-in-out .3s infinite;
 }
 @keyframes dd-dot-breathe {
   50% { transform: scale(1.14); }
+}
+@keyframes dd-dot-core {
+  50% { transform: scale(1.12); }
 }
 @keyframes dd-dot-ring {
   50% { box-shadow: inset 0 0 0 .2rem #ffb259; }
 }
 @media (prefers-reduced-motion: reduce) {
   .dd-principles__dot,
-  .dd-principles__dot::before { animation: none; }
+  .dd-principles__dot::before,
+  .dd-principles__dot::after { animation: none; }
 }
 .dd-principles__lead {
   max-width: 64rem;
