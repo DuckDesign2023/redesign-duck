@@ -853,7 +853,8 @@
 /* три круга один в другом между словами заголовка */
 /* Оранжевые круги в заголовке: три слоя из макета — кольцо (сам элемент), ореол (::before)
    и ядро (::after). Пульсация по просьбе пользователя 16.10.2026: ореол дышит (1 → 1,14 за 2,4 с),
-   от кольца расходится и тает волна; ядро стоит. При prefers-reduced-motion стоят все */
+   кольцо в том же ритме густеет и утолщается внутрь; ядро стоит; за круг ничего не выходит
+   (первая версия с расходящейся волной отвергнута). При prefers-reduced-motion стоят все */
 .dd-principles__dot {
   position: relative;
   display: inline-block;
@@ -861,9 +862,9 @@
   height: 1.0625em;
   margin-inline: .2em;
   border-radius: 50%;
-  box-shadow: inset 0 0 0 .1rem #ffcb8f, 0 0 0 0 rgba(255, 153, 35, 0);
+  box-shadow: inset 0 0 0 .1rem #ffcb8f;
   vertical-align: -.18em;
-  animation: dd-dot-wave 2.4s ease-out infinite;
+  animation: dd-dot-ring 2.4s ease-in-out infinite;
 }
 .dd-principles__dot::before,
 .dd-principles__dot::after {
@@ -883,9 +884,8 @@
 @keyframes dd-dot-breathe {
   50% { transform: scale(1.14); }
 }
-@keyframes dd-dot-wave {
-  0% { box-shadow: inset 0 0 0 .1rem #ffcb8f, 0 0 0 0 rgba(255, 153, 35, .35); }
-  70%, 100% { box-shadow: inset 0 0 0 .1rem #ffcb8f, 0 0 0 .45em rgba(255, 153, 35, 0); }
+@keyframes dd-dot-ring {
+  50% { box-shadow: inset 0 0 0 .2rem #ffb259; }
 }
 @media (prefers-reduced-motion: reduce) {
   .dd-principles__dot,
