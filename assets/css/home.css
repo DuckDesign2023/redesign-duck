@@ -612,8 +612,15 @@
   color: var(--dd-neutral-1300);
   opacity: .9;
 }
-/* переключатель «включено» с уткой — украшение */
+/* переключатель с уткой — украшение. Просьба пользователя 16.10.2026: стоит выключенным (серый,
+   кружок слева), а когда заголовок оказывается в середине окна, home.js ставит is-on — дорожка
+   становится оранжевой, кружок переезжает вправо за 0,42 с с перелётом. Ушёл из окна — выключается,
+   чтобы включиться снова. Без скрипта и при prefers-reduced-motion стоит включённым */
 .dd-switch {
+  --_off: linear-gradient(90deg, var(--dd-beige-200), var(--dd-beige-100));
+  --_on: linear-gradient(90deg, var(--dd-orange-100), var(--dd-orange-50));
+
+  position: relative;
   flex: none;
   box-sizing: border-box;
   display: flex;
@@ -622,8 +629,18 @@
   height: 1.036em;
   padding: .143em;
   border-radius: var(--dd-radius-pill);
-  background: linear-gradient(90deg, var(--dd-orange-100), var(--dd-orange-50));
+  background: var(--_off);
   box-shadow: inset 0 0 0 .1rem rgba(255, 255, 255, .26);
+}
+/* оранжевая дорожка лежит сверху и проявляется: градиент плавно не переходит */
+.dd-switch::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--_on);
+  opacity: 0;
+  transition: opacity var(--dd-dur-slow) var(--dd-ease-out);
 }
 .dd-switch__knob {
   --dd-duck-wing: var(--dd-yellow-200);
@@ -636,6 +653,15 @@
   background: var(--dd-neutral-0);
   box-shadow: 0 0 0 .1rem rgba(9, 9, 9, .12);
   color: #000;
+  transform: translateX(-.839em); /* ширина дорожки без полей и кружка */
+  transition: transform var(--dd-dur-slow) cubic-bezier(.34, 1.56, .64, 1);
+}
+.dd-switch.is-on::before { opacity: 1; }
+.dd-switch.is-on .dd-switch__knob { transform: none; }
+.dd-switch.is-static .dd-switch__knob { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .dd-switch::before,
+  .dd-switch__knob { transition: none; }
 }
 .dd-switch__knob svg {
   position: absolute;
