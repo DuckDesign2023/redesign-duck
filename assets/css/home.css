@@ -174,41 +174,48 @@
   .dd-hero__inner { padding: 6rem 7rem 5rem; }
 }
 
-/* ---------- Лента работ — 5216:35278 ---------- */
-/* Шесть работ в ряд по центру окна, крайние уходят за края; у краёв ряд тает в фон страницы.
-   Украшение: работы повторяются, ссылок нет */
+/* ---------- Лента работ — 5216:35278; с 16.10.2026 бегущая ---------- */
+/* Работы — проекты Behance, каждая — ссылка на проект. Две одинаковые ленты бегут влево:
+   когда первая ушла целиком, вторая стоит на её месте — шва нет. У краёв окна ряд тает в фон
+   (маска). Под мышью и при фокусе внутри лента стоит.
+   Раскрытие по прокрутке: --_open 0…1 ставит home.js (0 — только загрузили, 1 — после 320 px
+   прокрутки с момента, когда лента вошла в окно). Вид fan — работы лежат парами одна на другой
+   и разъезжаются по местам; вид flip — стоят ребром и разворачиваются. Без скрипта раскрыто */
 .dd-strip {
-  position: relative;
+  --_open: 1;
+  --_step: 24.8rem; /* работа и промежуток */
+  --_fade: 6rem;
+
   display: flex;
-  justify-content: center;
   padding-block: 2rem;
   overflow: hidden;
-}
-.dd-strip::before,
-.dd-strip::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  width: 6rem;
-  pointer-events: none;
-}
-.dd-strip::before {
-  left: 0;
-  background: linear-gradient(90deg, var(--dd-beige-50), rgba(246, 243, 237, 0));
-}
-.dd-strip::after {
-  right: 0;
-  background: linear-gradient(270deg, var(--dd-beige-50), rgba(246, 243, 237, 0));
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--_fade), #000 calc(100% - var(--_fade)), transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 var(--_fade), #000 calc(100% - var(--_fade)), transparent);
 }
 .dd-strip__list {
   flex: none;
   display: flex;
   gap: .8rem;
   margin: 0;
-  padding: 0;
+  padding: 0 .8rem 0 0;
   list-style: none;
+  animation: dd-strip-run 80s linear infinite;
+}
+.dd-strip:hover .dd-strip__list,
+.dd-strip:focus-within .dd-strip__list { animation-play-state: paused; }
+.dd-strip__list li {
+  --_dx: 0rem;
+  --_tilt: 0deg;
+
+  flex: none;
+}
+.dd-strip__work {
+  display: block;
+  border-radius: .4rem;
+}
+.dd-strip__work:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .3rem;
 }
 .dd-strip__list img {
   display: block;
@@ -218,15 +225,48 @@
   background: var(--dd-beige-100);
   object-fit: cover;
 }
+@keyframes dd-strip-run {
+  to { transform: translateX(-100%); }
+}
+/* fan: работы лежат парами одна на другой с наклоном и разъезжаются по местам; стопка стоит
+   на нижней кромке */
+.dd-strip[data-strip="fan"] li:nth-child(odd) { --_dx: calc(var(--_step) / 2); --_tilt: -6deg; }
+.dd-strip[data-strip="fan"] li:nth-child(even) { --_dx: calc(var(--_step) / -2); --_tilt: 5deg; }
+.dd-strip[data-strip="fan"] li {
+  transform: translateX(calc(var(--_dx) * (1 - var(--_open)))) rotate(calc(var(--_tilt) * (1 - var(--_open))));
+  transform-origin: 50% 120%;
+}
+/* flip: работа стоит ребром к зрителю и разворачивается на него */
+.dd-strip[data-strip="flip"] li {
+  transform: perspective(120rem) rotateY(calc(75deg * (1 - var(--_open))));
+  opacity: calc(.35 + .65 * var(--_open));
+}
 @media (min-width: 834px) {
-  .dd-strip { padding-block: 3rem; }
-  .dd-strip::before,
-  .dd-strip::after { width: 16rem; }
-  .dd-strip__list { gap: 1.2rem; }
+  .dd-strip {
+    --_step: 41.7rem;
+    --_fade: 16rem;
+
+    padding-block: 3rem;
+  }
+  .dd-strip__list {
+    gap: 1.2rem;
+    padding-right: 1.2rem;
+  }
   .dd-strip__list img {
     width: 40.5rem;
     height: 27rem;
   }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-strip {
+    --_open: 1 !important;
+
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .dd-strip__list { animation: none; }
+  .dd-strip__list[aria-hidden] { display: none; }
 }
 
 /* ---------- Логотипы и «картинка + текст»: виды главной — 5168:16025, 5168:16209 ---------- */
@@ -248,6 +288,56 @@
   .dd-media--home { padding: 8rem 7rem 4rem; }
   .dd-media--home .dd-media__row { gap: 5rem; }
   .dd-media--home .dd-media__text { padding-right: 12.6rem; }
+}
+
+/* ---------- Логотипы — вид главной с 16.10.2026: бегущая лента ---------- */
+/* Подпись стоит на месте, логотипы бегут в полосе от неё до края сетки; у краёв полосы
+   проявляются и тают (маска). Двенадцать логотипов ленты AI Development в кадре 151 × 71 —
+   как на живом сайте, цвет Beige логотипов макета. Под мышью лента стоит.
+   Вторая лента повторяет первую ради бесшовного круга */
+.dd-logos--home { gap: 2rem; }
+.dd-logos__marq {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.dd-logos--home .dd-logos__list {
+  flex: none;
+  display: flex;
+  justify-content: flex-start;
+  gap: 4rem;
+  width: auto;
+  padding-right: 4rem;
+  animation: dd-logos-run 40s linear infinite;
+}
+.dd-logos__marq:hover .dd-logos__list { animation-play-state: paused; }
+.dd-logos--home .dd-logos__list li { flex: none; }
+.dd-logos--home .dd-logos__list img {
+  width: 15.1rem;
+  height: 7.1rem;
+}
+@keyframes dd-logos-run {
+  to { transform: translateX(-100%); }
+}
+@media (min-width: 834px) {
+  .dd-logos--home { gap: 3rem; }
+  .dd-logos--home .dd-logos__list {
+    gap: 8rem;
+    padding-right: 8rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-logos__marq {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .dd-logos--home .dd-logos__list { animation: none; }
+  .dd-logos--home .dd-logos__list[aria-hidden] { display: none; }
 }
 
 /* ---------- Четыре цифры — 5216:35537 ---------- */
