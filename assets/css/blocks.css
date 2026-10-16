@@ -1842,28 +1842,41 @@
   .dd-post-card:hover .dd-post-card__go { transform: none; }
   .dd-post-card:hover .dd-post-card__media img { transform: scale(1.04); }
 }
-/* Кнопки из двух частей (первый экран главной и услуг, призыв, карточка-призыв): стрелка
-   в круге спрятана и выпрыгивает при наведении или фокусе — просьба пользователя 16.10.2026.
-   Появление 0,32 с с лёгким перелётом, уход 0,16 с. Где мыши нет, стрелка видна всегда */
+/* Кнопки из двух частей (первый экран главной и услуг, призыв, карточка-призыв) — просьба
+   пользователя 16.10.2026: круг со стрелкой спрятан под основной частью и при наведении или
+   фокусе выезжает из-под неё вправо, на своё место; стрелка в нём проявляется чуть позже.
+   Место круга в ряду занято всегда — соседи не сдвигаются. Выезд 0,36 с с лёгким перелётом,
+   возврат 0,18 с. Где мыши нет (hover: none), круг стоит на месте всегда */
 @media (hover: hover) {
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:first-child {
+    position: relative;
+    z-index: 1;
+  }
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child {
+    transform: translateX(calc(-100% - 1rem));
+  }
   :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child .dd-btn__icon {
     opacity: 0;
-    transform: translateX(-.8rem) scale(.3);
+    transform: scale(.4);
   }
-  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child .dd-btn__icon:has(use[href*="arrow-out"]) {
-    transform: translate(-.6rem, .6rem) scale(.3);
-  }
-  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go):is(:hover, :focus-visible) > .dd-btn:last-child .dd-btn__icon:has(use) {
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go):is(:hover, :focus-visible) > .dd-btn:last-child,
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go):is(:hover, :focus-visible) > .dd-btn:last-child .dd-btn__icon {
     opacity: 1;
     transform: none;
   }
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child .dd-btn__icon {
-    transition: opacity var(--dd-dur-fast) var(--dd-ease-in), transform var(--dd-dur-fast) var(--dd-ease-in);
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child {
+    transition: transform .18s var(--dd-ease-in), box-shadow var(--dd-dur-fast), background-color var(--dd-dur-fast);
   }
-  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go):is(:hover, :focus-visible) > .dd-btn:last-child .dd-btn__icon:has(use) {
-    transition: opacity var(--dd-dur-fast) ease-out, transform .32s cubic-bezier(.34, 1.56, .64, 1);
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child .dd-btn__icon {
+    transition: opacity .1s, transform .1s;
+  }
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go):is(:hover, :focus-visible) > .dd-btn:last-child {
+    transition: transform .36s cubic-bezier(.34, 1.56, .64, 1), box-shadow var(--dd-dur-fast), background-color var(--dd-dur-fast);
+  }
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go):is(:hover, :focus-visible) > .dd-btn:last-child .dd-btn__icon {
+    transition: opacity var(--dd-dur-fast) ease-out .12s, transform .3s cubic-bezier(.34, 1.56, .64, 1) .12s;
   }
 }
 
