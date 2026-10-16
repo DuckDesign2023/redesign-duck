@@ -1842,6 +1842,31 @@
   .dd-post-card:hover .dd-post-card__go { transform: none; }
   .dd-post-card:hover .dd-post-card__media img { transform: scale(1.04); }
 }
+/* Кнопки из двух частей (первый экран главной и услуг, призыв, карточка-призыв): стрелка
+   в круге спрятана и выпрыгивает при наведении или фокусе — просьба пользователя 16.10.2026.
+   Появление 0,32 с с лёгким перелётом, уход 0,16 с. Где мыши нет, стрелка видна всегда */
+@media (hover: hover) {
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child .dd-btn__icon {
+    opacity: 0;
+    transform: translateX(-.8rem) scale(.3);
+  }
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child .dd-btn__icon:has(use[href*="arrow-out"]) {
+    transform: translate(-.6rem, .6rem) scale(.3);
+  }
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go):is(:hover, :focus-visible) > .dd-btn:last-child .dd-btn__icon:has(use) {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child .dd-btn__icon {
+    transition: opacity var(--dd-dur-fast) var(--dd-ease-in), transform var(--dd-dur-fast) var(--dd-ease-in);
+  }
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go):is(:hover, :focus-visible) > .dd-btn:last-child .dd-btn__icon:has(use) {
+    transition: opacity var(--dd-dur-fast) ease-out, transform .32s cubic-bezier(.34, 1.56, .64, 1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dd-case-card__go,
   .dd-post-card__go,
