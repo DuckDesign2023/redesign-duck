@@ -851,15 +851,45 @@
   padding-top: .6rem;
 }
 /* три круга один в другом между словами заголовка */
+/* Оранжевые круги в заголовке: три слоя из макета — кольцо (сам элемент), ореол (::before)
+   и ядро (::after). Пульсация по просьбе пользователя 16.10.2026: ореол дышит (1 → 1,14 за 2,4 с),
+   от кольца расходится и тает волна; ядро стоит. При prefers-reduced-motion стоят все */
 .dd-principles__dot {
+  position: relative;
   display: inline-block;
   width: 1.0625em;
   height: 1.0625em;
   margin-inline: .2em;
   border-radius: 50%;
-  background: radial-gradient(circle, #ff9923 0 .177em, #ffc076 .187em .344em, transparent .354em);
-  box-shadow: inset 0 0 0 .1rem #ffcb8f;
+  box-shadow: inset 0 0 0 .1rem #ffcb8f, 0 0 0 0 rgba(255, 153, 35, 0);
   vertical-align: -.18em;
+  animation: dd-dot-wave 2.4s ease-out infinite;
+}
+.dd-principles__dot::before,
+.dd-principles__dot::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+.dd-principles__dot::before {
+  inset: .187em;
+  background: #ffc076;
+  animation: dd-dot-breathe 2.4s ease-in-out infinite;
+}
+.dd-principles__dot::after {
+  inset: .354em;
+  background: #ff9923;
+}
+@keyframes dd-dot-breathe {
+  50% { transform: scale(1.14); }
+}
+@keyframes dd-dot-wave {
+  0% { box-shadow: inset 0 0 0 .1rem #ffcb8f, 0 0 0 0 rgba(255, 153, 35, .35); }
+  70%, 100% { box-shadow: inset 0 0 0 .1rem #ffcb8f, 0 0 0 .45em rgba(255, 153, 35, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-principles__dot,
+  .dd-principles__dot::before { animation: none; }
 }
 .dd-principles__lead {
   max-width: 64rem;
