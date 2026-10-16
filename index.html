@@ -61,8 +61,8 @@
     <link rel="stylesheet" href="assets/css/base.css?v=17">
     <link rel="stylesheet" href="assets/css/components.css?v=17">
     <link rel="stylesheet" href="assets/css/shell.css?v=17">
-    <link rel="stylesheet" href="assets/css/blocks.css?v=8">
-    <link rel="stylesheet" href="assets/css/home.css?v=23">
+    <link rel="stylesheet" href="assets/css/blocks.css?v=9">
+    <link rel="stylesheet" href="assets/css/home.css?v=25">
 </head>
 <body class="dd-home">
 <a class="dd-skip-link dd-btn dd-btn--s dd-btn--yellow" href="#main"><span class="dd-btn__label">Skip to content</span></a>
@@ -616,7 +616,24 @@
 <!-- Две карточки со списками — 5230:40323 -->
 <section class="dd-duo">
   <div class="dd-duo__card">
-    <img class="dd-duo__img" src="assets/img/home/card-speed.jpg" srcset="assets/img/home/card-speed-half.jpg 748w, assets/img/home/card-speed.jpg 1495w" sizes="(min-width: 834px) 43vw, 100vw" width="1495" height="884" alt="" loading="lazy">
+    <!-- Сцена «команда» — Figma 5254:42045. Полароид: фото — <img>, роль — <figcaption>;
+         без <img> и подписи — пустая рамка. Фото 300 × 352, лежат в assets/img/home/duo/.
+         Места и наклоны — в home.css (.dd-duo-polaroid--1…8) -->
+    <div class="dd-duo__scene dd-duo-team" aria-hidden="true">
+      <div class="dd-duo__stage">
+        <figure class="dd-duo-polaroid dd-duo-polaroid--1"></figure>
+        <figure class="dd-duo-polaroid dd-duo-polaroid--2"><img src="assets/img/home/duo/brand-designer.jpg" width="300" height="352" alt="" loading="lazy"><figcaption>Brand Designer</figcaption></figure>
+        <figure class="dd-duo-polaroid dd-duo-polaroid--3"><img src="assets/img/home/duo/some-designer.jpg" width="300" height="352" alt="" loading="lazy"><figcaption>Some Designer</figcaption></figure>
+        <figure class="dd-duo-polaroid dd-duo-polaroid--4"><img src="assets/img/home/duo/project-manager.jpg" width="300" height="352" alt="" loading="lazy"><figcaption>Project Manager</figcaption></figure>
+        <figure class="dd-duo-polaroid dd-duo-polaroid--5"></figure>
+        <figure class="dd-duo-polaroid dd-duo-polaroid--6"></figure>
+        <figure class="dd-duo-polaroid dd-duo-polaroid--7"><img src="assets/img/home/duo/motion-designer.jpg" width="300" height="352" alt="" loading="lazy"><figcaption>Motion Designer</figcaption></figure>
+        <figure class="dd-duo-polaroid dd-duo-polaroid--8"><img src="assets/img/home/duo/art-director.jpg" width="300" height="352" alt="" loading="lazy"><figcaption>Art director</figcaption>
+          <svg class="dd-duo-polaroid__clip" viewBox="0 0 10.1 21.42" fill="none"><path d="M0.5 9.1698C0.499947 6.85222 0.91593 2.16159 1.89873 1.56348C3.82455 0.391466 8.34493 -0.299366 9.16536 2.16191C9.98578 4.62318 9.75138 17.2812 7.4073 19.6252C5.06323 21.9693 1.89874 20.9145 1.89874 18.1016C1.89874 14.993 2.17687 6.4235 3.1145 5.36658C4.47509 3.83289 7.03637 3.88103 7.03637 6.85214C7.03637 11.0117 6.26388 16.4786 6.26388 16.4786" stroke="currentColor"/></svg>
+        </figure>
+        <span class="dd-duo-team__fade"></span>
+      </div>
+    </div>
     <div class="dd-duo__body">
       <h3 class="dd-h4 dd-h4--light">Speed and <span class="dd-fancy">Professionalism</span></h3>
       <ul class="dd-duo__list">
@@ -627,7 +644,42 @@
     </div>
   </div>
   <div class="dd-duo__card">
-    <img class="dd-duo__img" src="assets/img/home/card-control.jpg" srcset="assets/img/home/card-control-half.jpg 748w, assets/img/home/card-control.jpg 1495w" sizes="(min-width: 834px) 43vw, 100vw" width="1495" height="884" alt="" loading="lazy">
+    <!-- Сцена «задачи» — Figma 5254:42046. Карточка задачи: метка (--done / --progress / --ready),
+         заголовок, описание или дата, аватары — <img> или пустой кружок с цветом в style.
+         Trello и папка — картинки из assets/img/home/duo/, курсор — #dd-cursor из спрайта -->
+    <div class="dd-duo__scene dd-duo-org" aria-hidden="true">
+      <div class="dd-duo__stage">
+        <img class="dd-duo-org__strokes" src="assets/img/home/duo/strokes.svg" width="778" height="398" alt="">
+        <span class="dd-duo-org__folder-back"></span>
+        <div class="dd-duo-task dd-duo-task--1">
+          <div class="dd-duo-task__head">
+            <span class="dd-duo-tag dd-duo-tag--done">Completed task</span>
+            <span class="dd-duo-task__avatars"><img src="assets/img/home/duo/avatar-brand-designer.jpg" width="66" height="66" alt="" loading="lazy"><span style="background:#8c8576"></span><span style="background:#ffca41"></span></span>
+          </div>
+          <div class="dd-duo-task__text">
+            <p class="dd-duo-task__title">Logo Redesign for BrightWave Media</p>
+            <p class="dd-duo-task__desc">Refresh and modernize the current logo while maintaining brand recodnition.</p>
+          </div>
+        </div>
+        <div class="dd-duo-task dd-duo-task--2">
+          <div class="dd-duo-task__head">
+            <span class="dd-duo-tag dd-duo-tag--progress dd-duo-tag--swap"><span>In progress</span><span>Completed</span></span>
+            <span class="dd-duo-task__date">13 aug, tuesday at 4:30 PM</span>
+          </div>
+          <p class="dd-duo-task__title">Social Media Creatives</p>
+        </div>
+        <div class="dd-duo-task dd-duo-task--3">
+          <div class="dd-duo-task__head">
+            <span class="dd-duo-tag dd-duo-tag--ready">Ready to design</span>
+            <span class="dd-duo-task__avatars"><img src="assets/img/home/duo/avatar-motion-designer.jpg" width="66" height="66" alt="" loading="lazy"></span>
+          </div>
+          <p class="dd-duo-task__title">Landing Page Design</p>
+        </div>
+        <img class="dd-duo-org__trello" src="assets/img/home/duo/trello.svg" width="51" height="54" alt="">
+        <img class="dd-duo-org__folder" src="assets/img/home/duo/folder.svg" width="91" height="64" alt="">
+        <span class="dd-duo-cursor"><svg><use href="#dd-cursor"/></svg><span>Web Designer</span></span>
+      </div>
+    </div>
     <div class="dd-duo__body">
       <h3 class="dd-h4 dd-h4--light">Organization and&nbsp;<span class="dd-fancy">Full&nbsp;Control</span></h3>
       <ul class="dd-duo__list">
@@ -645,7 +697,7 @@
   <div class="dd-testimonials__top">
     <h2 class="dd-h2 dd-h2--light dd-testimonials__title"><span class="dd-fancy">Award-Winning</span> Design Agency<br>with 4.9 average rating on&nbsp;Clutch</h2>
     <div class="dd-testimonials__actions">
-      <a class="dd-btn dd-btn--stroke-heavy dd-testimonials__clutch" href="https://clutch.co/" target="_blank" rel="noopener"><span class="dd-btn__label">View on Clutch</span><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-chevron-right"/></svg></a>
+      <a class="dd-btn dd-btn--stroke-heavy dd-testimonials__clutch" href="https://clutch.co/profile/duckdesign#reviews" target="_blank" rel="noopener"><span class="dd-btn__label">View on Clutch</span><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-chevron-right"/></svg></a>
       <div class="dd-testimonials__arrows">
         <button class="dd-btn dd-btn--s dd-btn--icon dd-btn--stroke-light dd-testimonials__prev" type="button" aria-label="Previous reviews"><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-arrow-left"/></svg></button>
         <button class="dd-btn dd-btn--s dd-btn--icon dd-btn--stroke-light dd-testimonials__next" type="button" aria-label="Next reviews"><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-arrow-right"/></svg></button>
@@ -665,20 +717,20 @@
               </div>
             </div>
             <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
-            <blockquote class="dd-testimonial__quote">We're impressed with how quickly they come up to speed on our design and design principles and apply them.</blockquote>
+            <blockquote class="dd-testimonial__quote">Their ability to blend aesthetics with usability was remarkable.</blockquote>
           </div>
           <div class="dd-testimonial__meta">
             <p class="dd-testimonial__label">Services:</p>
-            <p class="dd-testimonial__service">UI/UX Design for Software &amp; Computer Peripheral Manufacturer</p>
+            <p class="dd-testimonial__service">UX/UI Design, Branding &amp; E-Commerce Dev for Premier Tech Co</p>
           </div>
         </li>
         <li class="dd-testimonial">
           <div class="dd-testimonial__main">
             <div class="dd-testimonial__person">
-              <img class="dd-testimonial__photo" src="assets/img/blocks/testimonials/aleksander-baranowski.jpg" width="51" height="51" alt="" loading="lazy">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">L</span>
               <div>
-                <p class="dd-testimonial__name">Aleksander Baranowski</p>
-                <p class="dd-testimonial__role">CTO, Lambda Factor</p>
+                <p class="dd-testimonial__name">Head of SmartHabits</p>
+                <p class="dd-testimonial__role">Logitech</p>
               </div>
             </div>
             <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
@@ -692,35 +744,273 @@
         <li class="dd-testimonial">
           <div class="dd-testimonial__main">
             <div class="dd-testimonial__person">
-              <img class="dd-testimonial__photo" src="assets/img/blocks/testimonials/aleksander-baranowski.jpg" width="51" height="51" alt="" loading="lazy">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">MO</span>
               <div>
-                <p class="dd-testimonial__name">Aleksander Baranowski</p>
-                <p class="dd-testimonial__role">CTO, Lambda Factor</p>
+                <p class="dd-testimonial__name">Michael Ostroumov</p>
+                <p class="dd-testimonial__role">Director, Value Chain Lab</p>
               </div>
             </div>
             <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
-            <blockquote class="dd-testimonial__quote">We're impressed with how quickly they come up to speed on our design and design principles and apply them.</blockquote>
+            <blockquote class="dd-testimonial__quote">They brought genuine UX thinking to the table rather than just making things look good.</blockquote>
           </div>
           <div class="dd-testimonial__meta">
             <p class="dd-testimonial__label">Services:</p>
-            <p class="dd-testimonial__service">UI/UX Design for Software &amp; Computer Peripheral Manufacturer</p>
+            <p class="dd-testimonial__service">UI/UX Design for Logistics Company</p>
           </div>
         </li>
         <li class="dd-testimonial">
           <div class="dd-testimonial__main">
             <div class="dd-testimonial__person">
-              <img class="dd-testimonial__photo" src="assets/img/blocks/testimonials/aleksander-baranowski.jpg" width="51" height="51" alt="" loading="lazy">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">RA</span>
               <div>
-                <p class="dd-testimonial__name">Aleksander Baranowski</p>
-                <p class="dd-testimonial__role">CTO, Lambda Factor</p>
+                <p class="dd-testimonial__name">Founder &amp; CEO</p>
+                <p class="dd-testimonial__role">Rocket Alumni Solutions</p>
               </div>
             </div>
             <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
-            <blockquote class="dd-testimonial__quote">We're impressed with how quickly they come up to speed on our design and design principles and apply them.</blockquote>
+            <blockquote class="dd-testimonial__quote">They produce high-quality work and are incredibly responsive.</blockquote>
           </div>
           <div class="dd-testimonial__meta">
             <p class="dd-testimonial__label">Services:</p>
-            <p class="dd-testimonial__service">UI/UX Design for Software &amp; Computer Peripheral Manufacturer</p>
+            <p class="dd-testimonial__service">UI/UX Design for SaaS Company</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">IR</span>
+              <div>
+                <p class="dd-testimonial__name">Ian Resler</p>
+                <p class="dd-testimonial__role">Founder's Associate, bont sos.</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">They iterate daily, respond quickly and get a lot right the first time.</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">Design Services for Software Company</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">T</span>
+              <div>
+                <p class="dd-testimonial__name">COO</p>
+                <p class="dd-testimonial__role">TUIO</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">Duck.Design's professional designers deliver high-quality work with same-day deliveries, ensuring efficient service.</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">Website Design, Mktg &amp; Branding for Software Solution Co</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">DR</span>
+              <div>
+                <p class="dd-testimonial__name">Diana Radkevich</p>
+                <p class="dd-testimonial__role">Business Development Manager, 3Alica</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">They combine strong design thinking with an efficient delivery process.</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">UX/UI Design for Data Analytics &amp; AI Co</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">AT</span>
+              <div>
+                <p class="dd-testimonial__name">Anthony Treyman</p>
+                <p class="dd-testimonial__role">Marketing Coordinator, Kids in the Game</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">Their design work is being used in several successful campaigns.</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">Mobile App Dev for Youth Development Organization</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">LR</span>
+              <div>
+                <p class="dd-testimonial__name">Lubov Razumova</p>
+                <p class="dd-testimonial__role">Account Manager, Aterise</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">They created visually compelling assets that aligned perfectly with our brand and drove real business results.</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">Content Design for Logistics &amp; Fintech Solutions Company</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">AY</span>
+              <div>
+                <p class="dd-testimonial__name">Director</p>
+                <p class="dd-testimonial__role">Animate Your Science</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">The access to a wide range of talent was impressive.</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">Animation &amp; Graphic Design for Science Animation Co</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">AS</span>
+              <div>
+                <p class="dd-testimonial__name">Andrey Strigalev</p>
+                <p class="dd-testimonial__role">Co-Founder, SagTech</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">We highly recommend Duck.Design as a reliable partner for world-class UX/UI design!</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">Product &amp; UX/UI Design for IT Company</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">I</span>
+              <div>
+                <p class="dd-testimonial__name">Partnership Manager</p>
+                <p class="dd-testimonial__role">Interexy LLC</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">Duck.Design impressed us with their creativity and ability to blend innovative technology with user-centric design.</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">Branding &amp; UI/UX Design for IT Consulting Company</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">MD</span>
+              <div>
+                <p class="dd-testimonial__name">Marcela Donatello</p>
+                <p class="dd-testimonial__role">Co-Founder &amp; COO, Fundraising Bootcamp</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">I love the way they work because it's super streamlined and efficient.</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">Graphic Design &amp; Video Production for Capital Funding Co</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">NZ</span>
+              <div>
+                <p class="dd-testimonial__name">Director</p>
+                <p class="dd-testimonial__role">Net Zero Insights</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">They're on time and provide good communication!</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">Graphic &amp; UI/UX Design for Market Intelligence Company</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">AL</span>
+              <div>
+                <p class="dd-testimonial__name">Andzej Lankut</p>
+                <p class="dd-testimonial__role">CEO, Sonder Digital</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">They delivered everything on schedule and were very organized in their communication.</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">UX/UI Design for IT Solutions Company</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">RD</span>
+              <div>
+                <p class="dd-testimonial__name">Director</p>
+                <p class="dd-testimonial__role">Rise Digital Media Ltd</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">They were easy to work with and provided high-quality work and excellent value for money.</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">Branding, UI/UX &amp; Graphic Design for Web &amp; App Design Co</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">ZE</span>
+              <div>
+                <p class="dd-testimonial__name">Zena Erhabor</p>
+                <p class="dd-testimonial__role">Owner, Beverage Company</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">We're impressed by their attention to detail and ability to take my small examples and turn them into an amazing design.</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">Branding &amp; Web Design for Beverage Company</p>
+          </div>
+        </li>
+        <li class="dd-testimonial">
+          <div class="dd-testimonial__main">
+            <div class="dd-testimonial__person">
+              <span class="dd-testimonial__photo dd-testimonial__photo--initials" aria-hidden="true">B</span>
+              <div>
+                <p class="dd-testimonial__name">Marketing Project Manager</p>
+                <p class="dd-testimonial__role">BIURO</p>
+              </div>
+            </div>
+            <p class="dd-testimonial__rating"><svg class="dd-testimonial__stars" viewBox="0 0 98 18" aria-hidden="true"><use href="#dd-star-fill" width="18" height="18"/><use href="#dd-star-fill" x="20" width="18" height="18"/><use href="#dd-star-fill" x="40" width="18" height="18"/><use href="#dd-star-fill" x="60" width="18" height="18"/><use href="#dd-star-fill" x="80" width="18" height="18"/></svg><span class="dd-visually-hidden">Rating:</span> 5.0</p>
+            <blockquote class="dd-testimonial__quote">Most impressive about Duck.Design was their innovative work model.</blockquote>
+          </div>
+          <div class="dd-testimonial__meta">
+            <p class="dd-testimonial__label">Services:</p>
+            <p class="dd-testimonial__service">Graphic Design Services for Employment Agency</p>
           </div>
         </li>
       </ul>
@@ -1036,6 +1326,6 @@
 
 <script src="assets/js/shell.js?v=5" defer></script>
 <script src="assets/js/blocks.js?v=3" defer></script>
-<script src="assets/js/home.js?v=8" defer></script>
+<script src="assets/js/home.js?v=9" defer></script>
 </body>
 </html>

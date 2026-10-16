@@ -91,3 +91,24 @@
     scroller.scrollTo({ left: ratio * max(), behavior: calm.matches ? 'auto' : 'smooth' });
   });
 })();
+
+/* Сцены двух карточек (.dd-duo): вариант движения из ?duo=1|2|3 (по умолчанию 1) — в data-duo
+   секции, пока пользователь выбирает. Сцене — is-armed, если движение разрешено, и is-in, пока
+   она видна на треть; ушла из окна целиком — is-in снимается, вход играет заново. */
+(function () {
+  var duo = document.querySelector('.dd-duo');
+  if (!duo) return;
+  var v = new URLSearchParams(location.search).get('duo');
+  duo.setAttribute('data-duo', /^[123]$/.test(v) ? v : '1');
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.intersectionRatio >= .33) e.target.classList.add('is-in');
+      else if (!e.isIntersecting) e.target.classList.remove('is-in');
+    });
+  }, { threshold: [0, .33] });
+  duo.querySelectorAll('.dd-duo__scene').forEach(function (s) {
+    s.classList.add('is-armed');
+    io.observe(s);
+  });
+})();

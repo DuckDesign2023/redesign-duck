@@ -1092,14 +1092,371 @@
   gap: 3rem;
   padding: 4rem 1.6rem;
 }
-.dd-duo__img {
-  display: block;
-  width: 100%;
-  height: auto;
+/* Верх карточки — сцена вёрсткой вместо картинки (16.10.2026). Внутри сцены 1em = 10 px макета
+   при любой ширине: числа в em — это px из Figma / 10, сцена масштабируется целиком */
+.dd-duo__scene {
+  position: relative;
+  container-type: inline-size;
   aspect-ratio: 575 / 340;
   border-radius: 1.6rem;
-  background: var(--dd-beige-100);
+  overflow: hidden;
+  isolation: isolate;
+}
+.dd-duo__stage {
+  position: absolute;
+  inset: 0;
+  font-size: calc(100cqw / 57.5);
+}
+.dd-duo__stage img { max-width: none; }
+
+/* Подписи полароидов в макете — Lumios Marker (платный, лицензии на сайт нет); пока Caveat, OFL */
+@font-face {
+  font-family: Caveat;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/Caveat-Medium.woff2') format('woff2');
+}
+
+/* Левая — команда, 5254:42045 */
+.dd-duo-team { background: #d8d2c6; }
+.dd-duo-polaroid {
+  position: absolute;
+  left: calc(var(--x) * .1em);
+  top: calc(var(--y) * .1em);
+  box-sizing: border-box;
+  width: 11.09em;
+  height: 14.88em;
+  margin: 0;
+  padding: .56em;
+  border-radius: .19em;
+  background: #fff;
+  box-shadow: 0 1.118em 1.426em -.373em rgba(127, 120, 102, .12), -.093em -.093em .345em rgba(57, 53, 42, .09);
+  rotate: var(--r);
+}
+.dd-duo-polaroid img,
+.dd-duo-polaroid:empty::before {
+  display: block;
+  width: 9.97em;
+  height: 11.69em;
+  border-radius: .09em;
+  background: #b7b0a3;
   object-fit: cover;
+}
+/* рамка без фото — пустая, цвета стола */
+.dd-duo-polaroid:empty::before {
+  content: "";
+  background: #d7d2c6;
+}
+.dd-duo-polaroid figcaption {
+  margin-top: .285em;
+  padding-left: .5em;
+  font: 500 1.3em/1.29 Caveat, cursive;
+  letter-spacing: .03em;
+  color: #676155;
+  white-space: nowrap;
+}
+.dd-duo-polaroid__clip {
+  position: absolute;
+  left: 9.175em;
+  top: -.921em;
+  width: 1.01em;
+  height: 2.142em;
+  overflow: visible;
+  color: #000;
+}
+/* --x / --y — левый верхний угол рамки до поворота вокруг центра, px макета */
+.dd-duo-polaroid--1 { --x: 446.8; --y: 244.3; --r: -15deg; }
+.dd-duo-polaroid--2 { --x: 413.6; --y: 108.8; --r: 29.8deg; }
+.dd-duo-polaroid--3 { --x: -30.8; --y: 185.2; --r: 32.9deg; }
+.dd-duo-polaroid--4 { --x: 76.3; --y: 127.6; --r: -22.6deg; }
+.dd-duo-polaroid--5 { --x: 258.8; --y: 31.2; --r: 33.6deg; }
+.dd-duo-polaroid--6 { --x: -8.4; --y: -68.4; --r: 146.4deg; }
+.dd-duo-polaroid--7 { --x: 177.5; --y: 75.8; --r: 9.2deg; }
+.dd-duo-polaroid--8 { --x: 291.7; --y: 127.8; --r: -6.3deg; }
+/* края стола тают: сверху, справа (двойной слой), снизу, слева */
+.dd-duo-team__fade {
+  --_c: rgba(215, 210, 198, .8);
+  --_0: rgba(215, 210, 198, 0);
+
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(0deg, var(--_0), var(--_c)) top / 100% 6.365em no-repeat,
+    linear-gradient(90deg, var(--_0), var(--_c)) right top / 5.389em 100% no-repeat,
+    linear-gradient(90deg, var(--_0), var(--_c)) right bottom / 5.389em calc(100% - 2.191em) no-repeat,
+    linear-gradient(180deg, var(--_0), var(--_c)) bottom / 100% 5.389em no-repeat,
+    linear-gradient(270deg, var(--_0), var(--_c)) left / 9.286em 100% no-repeat;
+}
+
+/* Правая — задачи, 5254:42046 */
+.dd-duo-org { background: linear-gradient(117deg, #d8d2c6 0%, #e7cb85 76.4%, #e7b185 100%); }
+/* зеленоватое пятно из левого верхнего угла — повёрнутый эллипс, как радиальный градиент макета */
+.dd-duo-org .dd-duo__stage::before {
+  content: "";
+  position: absolute;
+  left: -45.2em;
+  top: -100.3em;
+  width: 90.4em;
+  height: 200.6em;
+  rotate: 39.2deg;
+  background: radial-gradient(closest-side, #bed0c6, rgba(190, 208, 198, 0));
+}
+.dd-duo-org__strokes {
+  position: absolute;
+  left: -8.895em;
+  top: 2.59em;
+  width: 77.85em;
+  height: 39.82em;
+  opacity: .3;
+  mix-blend-mode: luminosity;
+}
+.dd-duo-org__folder-back,
+.dd-duo-org__folder,
+.dd-duo-org__trello { position: absolute; }
+.dd-duo-org__folder-back {
+  left: 7.17em;
+  top: 19.27em;
+  width: 8.28em;
+  height: 7.18em;
+  border-radius: .65em;
+  background: radial-gradient(3.1em 3.6em at 100% 6%, #d4b1b1, rgba(212, 177, 177, 0)), #323184;
+  rotate: 11.9deg;
+}
+.dd-duo-org__folder {
+  left: 6.643em;
+  top: 20.043em;
+  width: 9.143em;
+  height: 6.395em;
+  rotate: 11.9deg;
+}
+.dd-duo-org__trello {
+  left: 42.977em;
+  top: 3.744em;
+  width: 5.117em;
+  height: 5.362em;
+  rotate: 6.3deg;
+}
+.dd-duo-task {
+  position: absolute;
+  left: calc(var(--x) * .1em);
+  top: calc(var(--y) * .1em);
+  display: flex;
+  flex-direction: column;
+  gap: 1.1em;
+  box-sizing: border-box;
+  width: var(--w);
+  padding: 1.174em;
+  border-radius: 1.25em;
+  background: linear-gradient(77deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, .9));
+  box-shadow: inset 0 0 0 .073em #fff, inset 0 0 3.08em .733em #fff;
+  -webkit-backdrop-filter: blur(.415em);
+  backdrop-filter: blur(.415em);
+  transform-origin: 0 0;
+  rotate: var(--r);
+}
+.dd-duo-task--1 { --x: 47.8; --y: 41.2; --w: 32.27em; --r: 0deg; }
+.dd-duo-task--2 { --x: 136.6; --y: 155.5; --w: 32.27em; --r: -4.3deg; }
+.dd-duo-task--3 { --x: 236.7; --y: 229.2; --w: 27.87em; --r: -11.7deg; }
+.dd-duo-task__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .513em;
+  height: 2.47em;
+}
+.dd-duo-tag,
+.dd-duo-task__date {
+  font: 500 .9535em/1.363 var(--dd-font-basic);
+  letter-spacing: -.01em;
+  white-space: nowrap;
+}
+.dd-duo-tag {
+  padding: .615em 1.077em;
+  border-radius: 2.7em;
+}
+.dd-duo-tag--done { background: #c7e3a8; color: #3b4d30; }
+.dd-duo-tag--progress { background: #ebdd80; color: #4d4430; }
+.dd-duo-tag--ready { background: #b6e0d3; color: #304b4d; }
+.dd-duo-task__date { color: #3b4d30; }
+.dd-duo-task__text {
+  display: flex;
+  flex-direction: column;
+  gap: .367em;
+}
+.dd-duo-task__title,
+.dd-duo-task__desc { margin: 0; }
+.dd-duo-task__title {
+  font: 600 1.247em/1.364 var(--dd-font-basic);
+  letter-spacing: -.02em;
+  color: #1a1e23;
+}
+.dd-duo-task__desc {
+  font: 500 1.027em/1.363 var(--dd-font-basic);
+  letter-spacing: -.01em;
+  color: #676155;
+}
+/* аватары внахлёст, первый сверху */
+.dd-duo-task__avatars { display: flex; }
+.dd-duo-task__avatars > * {
+  position: relative;
+  width: 2.2em;
+  height: 2.2em;
+  border-radius: 50%;
+  box-shadow: 0 0 0 .147em #fff;
+  object-fit: cover;
+}
+.dd-duo-task__avatars > * + * { margin-left: -.88em; }
+.dd-duo-task__avatars > :nth-child(1) { z-index: 3; }
+.dd-duo-task__avatars > :nth-child(2) { z-index: 2; }
+/* курсор с ярлыком, 5359:54517 */
+.dd-duo-cursor {
+  position: absolute;
+  left: 41.67em;
+  top: 25.64em;
+  padding: 2.07em 0 0 1.45em;
+  filter: drop-shadow(0 .93em 3.74em rgba(122, 109, 99, .57));
+  pointer-events: none;
+}
+.dd-duo-cursor svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.87em;
+  height: 2.19em;
+  color: #423b2f;
+  filter: drop-shadow(0 .544em .886em rgba(134, 101, 67, .2));
+}
+.dd-duo-cursor span {
+  display: block;
+  padding: .53em;
+  border-radius: .29em;
+  background: #423b2f;
+  color: #fff;
+  font: 500 1.32em/.758 var(--dd-font-basic);
+  letter-spacing: -.04em; /* в макете Inter Tight */
+  white-space: nowrap;
+}
+/* метка, которая меняет статус: оба слова в одной клетке, видно первое */
+.dd-duo-tag--swap { display: inline-grid; }
+.dd-duo-tag--swap > span { grid-area: 1 / 1; }
+.dd-duo-tag--swap > span + span { opacity: 0; }
+
+/* Движение сцен — варианты на выбор (16.10.2026), номер из ?duo=1|2|3 ставит home.js в data-duo
+   секции. Скрипт же ставит сцене is-armed (движение разрешено) и is-in, пока она в окне: вне окна
+   всё стоит, при следующем входе выкладка и въезд играют заново. Без скрипта и при reduce сцена
+   стоит в итоговом виде.
+   Левая: 1 — полароиды по очереди ложатся на стол при входе; 2 — под мышью полароид приподнимается
+   и выпрямляется; 3 — стопка покачивается, фазы сдвинуты.
+   Правая: 1 — карточки задач въезжают снизу одна за другой, за ними папка, Trello, курсор;
+   2 — метка «In progress» сама меняется на «Completed» и обратно; 3 — курсор перебежками
+   (~1 с, пауза 2–3 с) идёт к метке, кликает — метка меняется, потом к Trello и домой */
+.dd-duo-polaroid--2 { --i: 1; }
+.dd-duo-polaroid--3 { --i: 2; }
+.dd-duo-polaroid--4 { --i: 3; }
+.dd-duo-polaroid--5 { --i: 4; }
+.dd-duo-polaroid--6 { --i: 5; }
+.dd-duo-polaroid--7 { --i: 6; }
+.dd-duo-polaroid--8 { --i: 7; }
+.dd-duo-task--2 { --i: 1; }
+.dd-duo-task--3 { --i: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  .dd-duo__scene.is-armed:not(.is-in) * { animation-play-state: paused; }
+
+  [data-duo="1"] .is-armed .dd-duo-polaroid { opacity: 0; }
+  [data-duo="1"] .is-in .dd-duo-polaroid { animation: dd-duo-drop .6s var(--dd-ease-out) calc(var(--i, 0) * .13s) both; }
+
+  [data-duo="2"] .dd-duo-polaroid {
+    transition: rotate .4s var(--dd-ease-out), scale .4s var(--dd-ease-out), box-shadow .4s var(--dd-ease-out), z-index 0s .4s;
+  }
+  @media (hover: hover) {
+    [data-duo="2"] .dd-duo-polaroid:not(:empty):hover {
+      z-index: 2;
+      rotate: 0deg;
+      scale: 1.12;
+      box-shadow: 0 2.4em 3.2em -.6em rgba(127, 120, 102, .3), -.093em -.093em .345em rgba(57, 53, 42, .09);
+      transition-delay: 0s;
+    }
+  }
+
+  [data-duo="3"] .dd-duo-polaroid { animation: dd-duo-sway 5.2s ease-in-out calc(var(--i, 0) * -.65s) infinite; }
+
+  [data-duo="1"] .is-armed :is(.dd-duo-task, .dd-duo-org__folder, .dd-duo-org__folder-back, .dd-duo-org__trello, .dd-duo-cursor) { opacity: 0; }
+  [data-duo="1"] .is-in .dd-duo-task { animation: dd-duo-rise .7s var(--dd-ease-out) calc(var(--i, 0) * .16s) both; }
+  [data-duo="1"] .is-in :is(.dd-duo-org__folder, .dd-duo-org__folder-back) { animation: dd-duo-pop .5s var(--dd-ease-out) .5s both; }
+  [data-duo="1"] .is-in .dd-duo-org__trello { animation: dd-duo-pop .5s var(--dd-ease-out) .62s both; }
+  [data-duo="1"] .is-in .dd-duo-cursor { animation: dd-duo-arrive .9s var(--dd-ease-out) .85s both; }
+
+  [data-duo="2"] .dd-duo-tag--swap { animation: dd-duo-tag 7s infinite; }
+  [data-duo="2"] .dd-duo-tag--swap > span { animation: dd-duo-word-a 7s infinite; }
+  [data-duo="2"] .dd-duo-tag--swap > span + span { animation-name: dd-duo-word-b; }
+
+  [data-duo="3"] .dd-duo-cursor {
+    transform-origin: 0 0;
+    animation: dd-duo-run 12s cubic-bezier(.2, .7, .2, 1) infinite;
+  }
+  [data-duo="3"] .dd-duo-tag--swap { animation: dd-duo-tag-click 12s infinite; }
+  [data-duo="3"] .dd-duo-tag--swap > span { animation: dd-duo-word-a-click 12s infinite; }
+  [data-duo="3"] .dd-duo-tag--swap > span + span { animation-name: dd-duo-word-b-click; }
+}
+@keyframes dd-duo-drop {
+  from { opacity: 0; translate: 0 -1.6em; scale: 1.2; rotate: calc(var(--r) + 9deg); }
+  45% { opacity: 1; }
+  to { opacity: 1; translate: 0 0; scale: 1; rotate: var(--r); }
+}
+@keyframes dd-duo-sway {
+  0%, 100% { translate: 0 0; rotate: var(--r); }
+  50% { translate: 0 -.3em; rotate: calc(var(--r) + 1.6deg); }
+}
+@keyframes dd-duo-rise {
+  from { opacity: 0; translate: 0 6em; }
+  to { opacity: 1; translate: 0 0; }
+}
+@keyframes dd-duo-pop {
+  from { opacity: 0; scale: .6; }
+  to { opacity: 1; scale: 1; }
+}
+@keyframes dd-duo-arrive {
+  from { opacity: 0; translate: 3em 2em; }
+  to { opacity: 1; translate: 0 0; }
+}
+/* метка сама: 7 с — «In progress» до 42 %, «Completed» с 48 % до 90 % */
+@keyframes dd-duo-tag {
+  0%, 42%, 96%, 100% { background: #ebdd80; color: #4d4430; scale: 1; }
+  45% { scale: 1.08; }
+  48%, 90% { background: #c7e3a8; color: #3b4d30; scale: 1; }
+}
+@keyframes dd-duo-word-a {
+  0%, 42%, 96%, 100% { opacity: 1; }
+  48%, 90% { opacity: 0; }
+}
+@keyframes dd-duo-word-b {
+  0%, 42%, 96%, 100% { opacity: 0; }
+  48%, 90% { opacity: 1; }
+}
+/* курсор, 12 с: дома до 15 %, к метке 15–24 %, клик 24–27 %, стоит до 45 %, к Trello 45–54 %,
+   стоит до 72 %, домой 72–81 %, стоит; метка возвращается, пока курсор дома (92–96 %) */
+@keyframes dd-duo-run {
+  0%, 15% { translate: 0 0; }
+  24%, 45% { translate: -22.2em -7.6em; }
+  54%, 72% { translate: .4em -18.6em; }
+  81%, 100% { translate: 0 0; }
+  0%, 24%, 27%, 100% { scale: 1; }
+  25.5% { scale: .86; }
+}
+@keyframes dd-duo-tag-click {
+  0%, 25.5%, 96%, 100% { background: #ebdd80; color: #4d4430; scale: 1; }
+  26.5% { scale: 1.08; }
+  28%, 92% { background: #c7e3a8; color: #3b4d30; scale: 1; }
+}
+@keyframes dd-duo-word-a-click {
+  0%, 25.5%, 96%, 100% { opacity: 1; }
+  28%, 92% { opacity: 0; }
+}
+@keyframes dd-duo-word-b-click {
+  0%, 25.5%, 96%, 100% { opacity: 0; }
+  28%, 92% { opacity: 1; }
 }
 .dd-duo__body {
   display: flex;

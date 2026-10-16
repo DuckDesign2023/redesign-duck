@@ -293,6 +293,14 @@
   border-radius: 50%;
   object-fit: cover;
 }
+/* Отзыв без портрета: круг с инициалами автора или компании — как на AI Development */
+.dd-testimonial__photo--initials {
+  display: grid;
+  place-items: center;
+  background: var(--dd-yellow-400);
+  font: italic 500 1.8rem/1 var(--dd-font-fancy);
+  color: var(--dd-yellow-0);
+}
 .dd-testimonial__name {
   margin: 0 0 .2rem;
   font: 600 1.6rem/2.4rem var(--dd-font-basic);
