@@ -523,58 +523,31 @@
 .dd-services__more .dd-btn { flex: 1; }
 .dd-services__icons { display: none; }
 
-/* Значки по краям кнопки — три вида движения на выбор пользователя (16.10.2026), home.js ставит
-   data-icons по ?icons=. Значок под мышью везде: круг заливается Yellow-200, значок чуть растёт.
-   a — под мышью на кнопке значки подпрыгивают волной от кнопки наружу (шаг 0,08 с) и круги
-   заливаются; b — под мышью на кнопке значки делают оборот по очереди, под мышью на круге — оборот;
-   c — значки всё время плавно покачиваются вверх-вниз со сдвигом фаз, под мышью круг замирает */
+/* Значки по краям кнопки (выбор пользователя 16.10.2026 из трёх видов): всё время плавно
+   покачиваются вверх-вниз на 6 за 3,6 с со сдвигом фаз — второе движение без действия на главной;
+   круг под мышью замирает, заливается Yellow-200, значок растёт до 1,12 */
 .dd-services__icons span {
-  transition: background var(--dd-dur-fast), box-shadow var(--dd-dur-fast), transform .36s cubic-bezier(.34, 1.56, .64, 1);
+  animation: dd-icon-float 3.6s ease-in-out infinite;
+  transition: background var(--dd-dur-fast), box-shadow var(--dd-dur-fast);
 }
+.dd-services__icons span:nth-child(2) { animation-delay: -1.2s; }
+.dd-services__icons span:nth-child(3) { animation-delay: -2.4s; }
+.dd-services__icons:last-child span { animation-delay: -.6s; }
+.dd-services__icons:last-child span:nth-child(2) { animation-delay: -1.8s; }
+.dd-services__icons:last-child span:nth-child(3) { animation-delay: -3s; }
 .dd-services__icons img { transition: transform .7s var(--dd-ease-out); }
 .dd-services__icons span:hover {
+  animation-play-state: paused;
   background: var(--dd-yellow-200);
   box-shadow: inset 0 0 0 .15rem var(--dd-yellow-200);
 }
 .dd-services__icons span:hover img { transform: scale(1.12); }
-
-/* a: порядок волны — от кнопки наружу */
-.dd-services__more[data-icons="a"]:has(.dd-btn:hover) .dd-services__icons span {
-  background: var(--dd-yellow-200);
-  box-shadow: inset 0 0 0 .15rem var(--dd-yellow-200);
-  transform: translateY(-.6rem);
-}
-.dd-services__more[data-icons="a"]:has(.dd-btn:hover) .dd-services__icons:first-child span:nth-child(2),
-.dd-services__more[data-icons="a"]:has(.dd-btn:hover) .dd-services__icons:last-child span:nth-child(2) { transition-delay: .08s; }
-.dd-services__more[data-icons="a"]:has(.dd-btn:hover) .dd-services__icons:first-child span:nth-child(1),
-.dd-services__more[data-icons="a"]:has(.dd-btn:hover) .dd-services__icons:last-child span:nth-child(3) { transition-delay: .16s; }
-
-/* b */
-.dd-services__more[data-icons="b"] .dd-services__icons span:hover img { transform: rotate(360deg) scale(1.12); }
-.dd-services__more[data-icons="b"]:has(.dd-btn:hover) .dd-services__icons img { animation: dd-icon-spin .7s var(--dd-ease-out) both; }
-.dd-services__more[data-icons="b"]:has(.dd-btn:hover) .dd-services__icons:first-child span:nth-child(2) img,
-.dd-services__more[data-icons="b"]:has(.dd-btn:hover) .dd-services__icons:last-child span:nth-child(2) img { animation-delay: .08s; }
-.dd-services__more[data-icons="b"]:has(.dd-btn:hover) .dd-services__icons:first-child span:nth-child(1) img,
-.dd-services__more[data-icons="b"]:has(.dd-btn:hover) .dd-services__icons:last-child span:nth-child(3) img { animation-delay: .16s; }
-@keyframes dd-icon-spin {
-  to { transform: rotate(360deg); }
-}
-
-/* c */
-.dd-services__more[data-icons="c"] .dd-services__icons span { animation: dd-icon-float 3.6s ease-in-out infinite; }
-.dd-services__more[data-icons="c"] .dd-services__icons span:nth-child(2) { animation-delay: -1.2s; }
-.dd-services__more[data-icons="c"] .dd-services__icons span:nth-child(3) { animation-delay: -2.4s; }
-.dd-services__more[data-icons="c"] .dd-services__icons:last-child span { animation-delay: -.6s; }
-.dd-services__more[data-icons="c"] .dd-services__icons:last-child span:nth-child(2) { animation-delay: -1.8s; }
-.dd-services__more[data-icons="c"] .dd-services__icons:last-child span:nth-child(3) { animation-delay: -3s; }
-.dd-services__more[data-icons="c"] .dd-services__icons span:hover { animation-play-state: paused; }
 @keyframes dd-icon-float {
   50% { transform: translateY(-.6rem); }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .dd-services__icons span,
-  .dd-services__icons img { transition: none; animation: none !important; }
+  .dd-services__icons img { transition: none; animation: none; }
 }
 
 @media (min-width: 834px) {
