@@ -62,7 +62,7 @@
     <link rel="stylesheet" href="assets/css/components.css?v=17">
     <link rel="stylesheet" href="assets/css/shell.css?v=17">
     <link rel="stylesheet" href="assets/css/blocks.css?v=8">
-    <link rel="stylesheet" href="assets/css/home.css?v=13">
+    <link rel="stylesheet" href="assets/css/home.css?v=14">
 </head>
 <body class="dd-home">
 <a class="dd-skip-link dd-btn dd-btn--s dd-btn--yellow" href="#main"><span class="dd-btn__label">Skip to content</span></a>
@@ -501,7 +501,7 @@
     <h2 class="dd-display">Here’s how to <span class="dd-switch" aria-hidden="true"><span class="dd-switch__knob"><svg><use href="#dd-duck"/></svg></span></span> <span class="dd-fancy">get started:</span></h2>
     <p class="dd-txt-2 dd-steps__lead">We leverage the potential of AI not only&nbsp;to accelerate production but&nbsp;to&nbsp;drive a&nbsp;quantum leap in&nbsp;the&nbsp;quality of&nbsp;visual solutions. Experience world-class design delivered with&nbsp;the&nbsp;velocity of neural networks and&nbsp;the&nbsp;flawless precision of a human.</p>
   </div>
-  <div class="dd-steps__scroller" role="group" aria-label="Eight steps to get started">
+  <div class="dd-steps__scroller" role="group" aria-label="Eight steps to get started" tabindex="0">
     <ol class="dd-steps__track">
       <li class="dd-step">
         <p class="dd-step__num">01</p>
@@ -564,6 +564,8 @@
       </li>
     </ol>
   </div>
+  <!-- бегунок ленты: ширина и положение — home.js; без скрипта скрыт -->
+  <div class="dd-steps__bar" aria-hidden="true" hidden><span class="dd-steps__thumb"></span></div>
 </section>
 
 <!-- Принципы — 5216:38944 -->
@@ -1034,6 +1036,6 @@
 
 <script src="assets/js/shell.js?v=5" defer></script>
 <script src="assets/js/blocks.js?v=3" defer></script>
-<script src="assets/js/home.js?v=6" defer></script>
+<script src="assets/js/home.js?v=7" defer></script>
 </body>
 </html>

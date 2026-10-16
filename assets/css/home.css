@@ -695,9 +695,8 @@
   width: .775em;
   height: .757em;
 }
+.dd-steps { --_edge: 1.6rem; }
 .dd-steps__scroller {
-  --_edge: 1.6rem;
-
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
@@ -765,7 +764,7 @@
     padding-block: 6rem;
   }
   .dd-steps__head { padding-inline: 5rem; }
-  .dd-steps__scroller { --_edge: 3rem; }
+  .dd-steps { --_edge: 3rem; }
   .dd-step {
     width: 30rem;
     min-height: 45rem;
@@ -774,10 +773,57 @@
 @media (min-width: 1320px) {
   .dd-steps { padding-block: 8rem; }
   .dd-steps__head { padding-inline: 10rem; }
-  .dd-steps__scroller { --_edge: 8rem; }
+  .dd-steps { --_edge: 8rem; }
   @supports (width: 1cqw) {
-    .dd-steps__scroller { --_edge: max(8rem, calc((100cqw - var(--dd-frame)) / 2 + 8rem)); }
+    .dd-steps { --_edge: max(8rem, calc((100cqw - var(--dd-frame)) / 2 + 8rem)); }
   }
+}
+
+/* Прокрутка ленты шагов (просьба пользователя 16.10.2026): на мыши колесо над лентой листает её
+   вбок, пока есть куда, у края — страница; под лентой бегунок-индикатор: ширина — доля видимого,
+   положение — доля прокрутки, его можно тянуть, нажатие по дорожке — прыжок. На тач лента
+   листается свайпом как раньше, бегунок тоже тянется. Всё считает home.js; без скрипта бегунка нет.
+   Привязка к карточкам (scroll-snap) остаётся только там, где мыши нет: с колесом и бегунком
+   она дёргает ленту */
+@media (hover: hover) {
+  .dd-steps__scroller { scroll-snap-type: none; }
+}
+.dd-steps__scroller:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: -.2rem;
+}
+.dd-steps__bar {
+  position: relative;
+  box-sizing: border-box;
+  height: .4rem;
+  margin: calc(2.4rem - 3rem) var(--_edge) 0; /* бегунок в 2,4 под карточками при зазоре секции 3 */
+  border-radius: var(--dd-radius-pill);
+  background: var(--dd-beige-100);
+  cursor: pointer;
+  touch-action: none;
+}
+.dd-steps__bar[hidden] { display: none; }
+.dd-steps__bar::before {
+  content: "";
+  position: absolute;
+  inset: -1.2rem 0;
+}
+.dd-steps__thumb {
+  display: block;
+  width: 20%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--dd-neutral-1300);
+  cursor: grab;
+  transition: background var(--dd-dur-fast);
+}
+.dd-steps__bar:hover .dd-steps__thumb { background: var(--dd-orange-50); }
+.dd-steps__bar.is-drag .dd-steps__thumb {
+  background: var(--dd-orange-50);
+  cursor: grabbing;
+}
+@media (min-width: 834px) {
+  .dd-steps__bar { margin-top: calc(2.4rem - 6rem); } /* зазор секции от 834 — 6 */
 }
 
 /* ---------- Принципы — 5216:38944 ---------- */
