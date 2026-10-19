@@ -5,7 +5,9 @@
    из системы (DESIGN.md, раздел 9), а не числа переходного макета.
    Подключается только на этой странице, после blocks.css. Поведение — js/ai-design.js.
    Свои блоки: .dd-aid-hero · .dd-aid-manifest · .dd-aid-caps · .dd-aid-stack ·
-   .dd-aid-formats · .dd-aid-ethics · .dd-aid-stories · .dd-aid-plan · .dd-aid-cta · .dd-aid-leaders.
+   .dd-aid-formats · .dd-aid-ethics · .dd-aid-stories · .dd-aid-plan. Призыв .dd-aid-cta, лента
+   .dd-aid-leaders, градиент .dd-aid-end, подпись .dd-aid-pre и кнопка .dd-aid-btn — общие, в blocks.css
+   (с 19.10.2026 они стоят и на AI Development).
    Первый экран, панель, призыв и логотипы повторяют живую страницу по замерам (16.10.2026).
    Эталоны — design-system/blocks/ai-*.html.
    ========================================================================== */
@@ -65,34 +67,6 @@
   .dd-aid-sec { padding-block: 6rem; }
 }
 
-/* ---------- Подпись с чертой — как pretitle живой страницы ---------- */
-.dd-aid-pre {
-  display: flex;
-  align-items: center;
-  gap: 1.6rem;
-  margin: 0;
-  font: italic 300 1.6rem/2.4rem var(--dd-font-fancy);
-  letter-spacing: -.03em;
-  color: var(--dd-neutral-0);
-}
-.dd-aid-pre::before,
-.dd-aid-pre--center::after {
-  content: '';
-  flex: none;
-  width: 4rem;
-  height: .1rem;
-  background: #c96406;
-}
-.dd-aid-pre--center { justify-content: center; }
-
-/* кнопка живой страницы: высота 54 px, текст 16 px, поля 24 px; в первом экране она шире — 191 px */
-.dd-aid-btn {
-  --_h: 5.4rem;
-  --_pad: 1.8rem;
-  --_fs: 1.6rem;
-
-  letter-spacing: .07em;
-}
 .dd-aid-hero__actions .dd-aid-btn { --_pad: 2.6rem; }
 
 /* ---------- Первый экран и панель: общий тёплый фон, как .top-ai_bg живой страницы ---------- */
@@ -760,124 +734,3 @@
   padding-left: 2rem;
 }
 .dd-aid-faq-list li + li { margin-top: .6rem; }
-
-/* ---------- Экран-призыв перед подвалом — как .cta-v2_dark живой страницы ---------- */
-/* Тёмный лист со скруглением сверху; над ним полупрозрачная «закладка» второго листа */
-.dd-aid-cta {
-  position: relative;
-  margin-top: 4.8rem;
-  padding: 10rem 1rem 6rem;
-  border-radius: 2rem 2rem 0 0;
-  background: #131013;
-  color: var(--dd-neutral-0);
-  text-align: center;
-}
-.dd-aid-cta::before {
-  content: '';
-  position: absolute;
-  top: -3rem;
-  left: 1.8rem;
-  right: 1.8rem;
-  height: 3rem;
-  border-radius: 2rem 2rem 0 0;
-  background: rgb(19 16 19 / .3);
-}
-.dd-aid-cta__kicker {
-  margin-bottom: 2rem;
-}
-.dd-aid-cta__kicker::before,
-.dd-aid-cta__kicker::after { background: #585a61; }
-.dd-aid-cta__title {
-  margin: 0 0 2rem;
-  font: 600 3.2rem/3.8rem var(--dd-font-basic);
-  letter-spacing: -.04em;
-}
-.dd-aid-cta__head {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
-.dd-aid-cta__head em {
-  font-family: var(--dd-font-fancy);
-  font-weight: 500;
-}
-/* тумблер с уткой — общий .dd-switch (blocks.css): 105 × 58 px при заголовке 64 px, как на живой */
-.dd-aid-cta__head .dd-switch { font-size: .875em; }
-.dd-aid-cta__tail {
-  display: inline-block;
-  background: linear-gradient(90deg, #fff 50%, rgb(255 255 255 / .7) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.dd-aid-cta__text {
-  max-width: 60rem;
-  margin: 0 auto 2rem;
-  padding: 0 2rem;
-  box-sizing: border-box;
-  font: 400 1.4rem/2.1rem var(--dd-font-basic);
-  opacity: .9;
-}
-.dd-aid-cta__call {
-  margin: 0 0 5rem;
-  font: italic 400 1.6rem/2.4rem var(--dd-font-fancy);
-  letter-spacing: -.03em;
-  color: #ffe39b;
-}
-
-@media (min-width: 834px) {
-  .dd-aid-cta {
-    margin-top: 6rem;
-    padding: 12rem 4rem 6rem;
-    border-radius: 2.8rem 2.8rem 0 0;
-  }
-  .dd-aid-cta::before {
-    left: 3rem;
-    right: 3rem;
-    border-radius: 2.8rem 2.8rem 0 0;
-  }
-  .dd-aid-cta__title {
-    margin-bottom: 3rem;
-    font-size: 6.4rem;
-    line-height: 7.4rem;
-  }
-}
-
-/* ---------- Логотипы и градиент под подвалом — как .footer-v2 живой страницы ---------- */
-/* Градиент живой страницы один на логотипы и подвал; здесь он разрезан по шву
-   .dd-aid-leaders | .dd-aid-end, цвет на шве общий */
-.dd-aid-leaders {
-  overflow: hidden;
-  padding: 5rem 0 1rem;
-  background: linear-gradient(#131013, #430e0f);
-}
-.dd-aid-leaders .dd-aid-pre { margin-bottom: 2rem; }
-.dd-aid-leaders__list {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.dd-aid-leaders__list li {
-  flex: none;
-  width: 11.2rem;
-}
-.dd-aid-leaders__list img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.dd-aid-end {
-  background: linear-gradient(#430e0f 0, #871d1d 19%, #ff8b20 54%, #ffca41 100%);
-}
-
-@media (min-width: 834px) {
-  .dd-aid-leaders { padding: 10rem 0 2rem; }
-  .dd-aid-leaders__list li { width: 15.9rem; }
-}
-@media (min-width: 1320px) {
-  .dd-aid-cta { padding-inline: 8rem; }
-}

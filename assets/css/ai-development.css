@@ -5,7 +5,7 @@
    страницы. Подключается только на этой странице, после blocks.css и capabilities.css.
 
    Блоки: .dd-ai-hero · .dd-ai-flow · .dd-ai-edge · .dd-ai-econ · .dd-ai-p2 · .dd-ai-s3 ·
-   .dd-ai-contact. Общая шапка секции — .dd-ai-head. Движение — assets/js/ai-development.js.
+   призыв — общий .dd-aid-cta (blocks.css, с 19.10.2026). Общая шапка секции — .dd-ai-head. Движение — assets/js/ai-development.js.
    ========================================================================== */
 
 /* ---------- Шапка секции: плашка, заголовок, подводка ---------- */
@@ -24,8 +24,7 @@
   text-wrap: pretty;
 }
 .dd-ai-head--center { align-items: center; text-align: center; }
-/* Строка-ярлык по центру — с чертой с обеих сторон, как «Our Cases» в макете */
-.dd-ai-head--center .dd-ai-kicker::after { content: ""; width: 4rem; height: .1rem; background: var(--dd-orange-100); }
+/* Над заголовком по центру — плашка .dd-eyebrow со значком, как на AI Design (19.10.2026) */
 
 /* Слово на жёлтой плашке: как «Our Creative Services» на главной */
 .dd-ai-mark {
@@ -222,8 +221,8 @@
   .dd-ai-hero { --_header: 7.3rem; }
   .dd-ai-hero__bg img, .dd-ai-hero__bg video { object-position: right 30%; }
   .dd-ai-hero__text { max-width: 76rem; } /* заголовок в три строки; подводка держит свои 46rem */
-  .dd-ai-hero__title { font-size: 5.6rem; line-height: 6.4rem; }
-  .dd-ai-hero__title .dd-fancy { font-size: 5.7rem; }
+  /* заголовок остаётся 48 / 56, как на первых экранах других страниц (было 56 / 64 — крупнее
+     остальных, замечание пользователя 19.10.2026) */
 }
 
 /* ==========================================================================
@@ -570,18 +569,12 @@
   .dd-ai-econ__us { inset: 0 0 0 calc((100% - 14rem - 5.6rem) / 2 + 14rem + 5.6rem); }
 }
 
-/* Строка-ярлык над заголовком секции стека */
-.dd-ai-stack__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  margin: 0 0 1.2rem;
-  font: 700 1.6rem/2.4rem var(--dd-font-basic);
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--dd-orange-0); /* Orange-50 макета на бежевом — 3,6 : 1 */
+/* Отзывы: заголовок по центру, как шапки AI Design (19.10.2026); кнопки — под ним по центру */
+.dd-testimonials--center .dd-testimonials__title { text-align: center; }
+@media (min-width: 834px) {
+  .dd-testimonials--center .dd-testimonials__top { flex-direction: column; align-items: center; gap: 3rem; }
+  .dd-testimonials--center .dd-testimonials__title { flex: none; }
 }
-.dd-ai-stack__eyebrow::after { content: ""; width: 7rem; height: .1rem; background: var(--dd-line-soft); }
 
 /* Отзыв без портрета: круг с инициалами на месте фото */
 .dd-ai-initials {
@@ -606,77 +599,6 @@
 
 /* Тариф: строка гарантии под панелью цены */
 .dd-ai-plan-note { margin: 1.2rem 0 0; padding: 0 .6rem; color: var(--dd-neutral-0); opacity: .9; }
-
-/* ==========================================================================
-   Заявка — .dd-ai-contact
-   Жёлтая панель с тёплым свечением (светлее сверху слева, оранжевее у формы): слева заголовок,
-   подводка и три довода строками с номером, справа чёрная панель с формой (на ней .dd-on-dark).
-   ========================================================================== */
-.dd-ai-contact { padding: 0 .6rem; }
-.dd-ai-contact__card {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 3rem;
-  box-sizing: border-box;
-  max-width: calc(var(--dd-frame) - 4rem);
-  margin: 0 auto;
-  padding: 4rem 1.6rem 1.6rem;
-  border-radius: 2.2rem;
-  background:
-    radial-gradient(70% 110% at 0 0, var(--dd-yellow-300), rgba(255, 227, 155, 0) 62%),
-    radial-gradient(60% 110% at 100% 100%, var(--dd-orange-100), rgba(255, 139, 32, 0) 68%),
-    var(--dd-yellow-200);
-  color: var(--dd-neutral-1300);
-}
-.dd-ai-contact__text { padding: 0 .4rem; }
-.dd-ai-contact h2 { margin: 0; color: var(--dd-neutral-1300); text-wrap: balance; }
-.dd-ai-contact__lead { max-width: 52rem; margin: 1.8rem 0 0; color: var(--dd-neutral-1300); text-wrap: pretty; }
-.dd-ai-contact__points { margin: 3rem 0 0; counter-reset: point; }
-.dd-ai-contact__points div {
-  counter-increment: point;
-  display: grid;
-  grid-template-columns: 4.4rem minmax(0, 1fr);
-  padding: 2rem 0;
-  background: repeating-linear-gradient(90deg, rgba(4, 5, 6, .4) 0 .3rem, transparent .3rem .6rem) top / 100% .1rem no-repeat;
-}
-.dd-ai-contact__points div::before { content: counter(point, decimal-leading-zero); grid-row: 1 / span 2; font: 500 1.3rem/3rem var(--dd-font-tech); color: rgba(4, 5, 6, .7); }
-.dd-ai-contact__points dt { margin: 0 0 .2rem; font: italic 400 2.4rem/3rem var(--dd-font-fancy); letter-spacing: -.03em; color: var(--dd-neutral-1300); }
-.dd-ai-contact__points dd { margin: 0; font: 400 1.6rem/2.4rem var(--dd-font-basic); color: var(--dd-neutral-1300); }
-@media (min-width: 1320px) {
-  .dd-ai-contact h2 { font-size: var(--dd-h1); line-height: 7rem; letter-spacing: -.04em; }
-}
-
-.dd-ai-form {
-  display: flex;
-  flex-direction: column;
-  gap: .8rem;
-  box-sizing: border-box;
-  padding: 2.4rem 1.6rem 1.6rem;
-  border-radius: 1.2rem;
-  background: var(--dd-neutral-1300);
-}
-.dd-ai-form h3 { margin: 0; color: var(--dd-neutral-0); }
-.dd-ai-form__note { margin: 0 0 .8rem; color: var(--dd-beige-100); }
-.dd-ai-form__row { display: grid; gap: .8rem; }
-.dd-ai-form .dd-btn { margin-top: 2rem; }
-.dd-ai-form__fine { margin: .8rem 0 0; color: var(--dd-beige-200); }
-.dd-ai-form__fine a { color: var(--dd-neutral-0); text-decoration: underline; text-underline-offset: .2em; }
-.dd-ai-form__trap { position: absolute; left: -999rem; width: .1rem; height: .1rem; overflow: hidden; }
-
-@media (min-width: 834px) {
-  .dd-ai-contact { padding: 2rem; }
-  .dd-ai-contact__card { padding: 6rem 3rem 3rem; border-radius: 3.1rem; }
-  .dd-ai-form { padding: 4rem; border-radius: var(--dd-radius-2xl); }
-  .dd-ai-form__row { grid-template-columns: 1fr 1fr; gap: 2rem; }
-}
-@media (min-width: 1320px) {
-  .dd-ai-contact__card {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 56rem);
-    align-items: center;
-    gap: 8rem;
-    padding: 8rem 8rem 8rem 10rem;
-  }
-}
 
 /* ==========================================================================
    Workflow — «слои» (выбран 12.10.2026)
@@ -1198,15 +1120,10 @@
    Стек — .dd-ai-s3: белый лист-сетка, знак + название + чьё
    ========================================================================== */
 .dd-ai-s3 { padding: 3rem 0; }
-.dd-ai-s3__head { display: grid; gap: 1.6rem; }
-.dd-ai-s3__head h2,
-.dd-ai-s3__head p { margin: 0; }
-.dd-ai-s3__head .dd-ai-stack__eyebrow { margin-bottom: 1.2rem; }
-.dd-ai-s3__lead { color: var(--dd-color-text-body); text-wrap: pretty; }
 .dd-ai-s3__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  margin: 3rem 0 0;
+  margin: 0;
   padding: 0;
   border-radius: 2rem;
   background: var(--dd-neutral-0);
@@ -1232,8 +1149,7 @@
 }
 @media (min-width: 834px) {
   .dd-ai-s3 { padding: 6rem 0; }
-  .dd-ai-s3__head { grid-template-columns: minmax(0, 1fr) minmax(0, 44rem); align-items: end; gap: 4rem; }
-  .dd-ai-s3__grid { grid-template-columns: repeat(3, 1fr); margin-top: 5rem; border-radius: 2.2rem; }
+  .dd-ai-s3__grid { grid-template-columns: repeat(3, 1fr); border-radius: 2.2rem; }
   .dd-ai-s3__grid li { min-height: 20rem; padding: 3rem; box-sizing: border-box; }
   .dd-ai-s3__grid svg { width: 4.8rem; height: 4.8rem; }
 }
@@ -1384,9 +1300,6 @@
   .dd-ai-econ__cell:not(.dd-ai-econ__cell--us) strong { color: inherit; }
   .dd-ai-econ__cell:not(.dd-ai-econ__cell--us) .dd-ai-econ__mark { background: rgba(255, 255, 255, .12); color: var(--dd-beige-100); }
   .dd-ai-econ__row--foot { margin: 1.6rem 1.6rem 0; }
-
-  /* Форма: имя и фамилия в одну строку */
-  .dd-ai-form__row:has([name="ff_first"]) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; }
 }
 
 @media (max-width: 833.98px) {
@@ -1398,10 +1311,8 @@
 
   /* Строка-ярлык с одной чертой: текст сверху, под ним жёлтая черта, всё от левого края.
      Ярлык по центру (с чертой с обеих сторон) остаётся как есть */
-  :not(.dd-ai-head--center) > .dd-ai-kicker,
-  .dd-ai-stack__eyebrow { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  :not(.dd-ai-head--center) > .dd-ai-kicker::before,
-  .dd-ai-stack__eyebrow::after { order: 1; width: 4rem; height: .2rem; background: var(--dd-yellow-200); }
+  :not(.dd-ai-head--center) > .dd-ai-kicker { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  :not(.dd-ai-head--center) > .dd-ai-kicker::before { order: 1; width: 4rem; height: .2rem; background: var(--dd-yellow-200); }
 
   /* Workflow: блок закреплён под шапкой, как на настольной ширине; сцена сверху, шаг под ней
      сменяется на месте. Класс is-pinned ставит скрипт, если окно не ниже 560 */
@@ -1499,6 +1410,5 @@
 @media (min-width: 834px) and (max-height: 520px) and (orientation: landscape) {
   .dd-ai-hero__title { font-size: 3.6rem; line-height: 4.2rem; }
   .dd-ai-hero__title .dd-fancy { font-size: 3.7rem; }
-  .dd-ai-contact h2 { font-size: 3.4rem; line-height: 4rem; }
 }
 

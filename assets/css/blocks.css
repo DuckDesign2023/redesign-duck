@@ -60,7 +60,7 @@
   width: calc(var(--w-s) * .1rem);
   height: auto;
 }
-/* Бегущая лента логотипов (главная, About): ряд в .dd-logos__marq повторён, повторы aria-hidden,
+/* Бегущая лента логотипов (главная, About, лента под призывом AI-страниц): ряд в .dd-logos__marq повторён, повторы aria-hidden,
    вид блока двигает каждый ряд на его ширину (dd-logos-run) — круг без шва. У краёв полосы
    логотипы проявляются и тают, под мышью лента стоит. Шаг, размер и скорость — у вида блока */
 .dd-logos__marq {
@@ -72,7 +72,7 @@
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
-.dd-logos__marq:hover .dd-logos__list { animation-play-state: paused; }
+.dd-logos__marq:hover > ul { animation-play-state: paused; }
 @keyframes dd-logos-run {
   to { transform: translateX(-100%); }
 }
@@ -82,8 +82,8 @@
     -webkit-mask-image: none;
     mask-image: none;
   }
-  .dd-logos__marq .dd-logos__list { animation: none; }
-  .dd-logos__marq .dd-logos__list[aria-hidden] { display: none; }
+  .dd-logos__marq > ul { animation: none; }
+  .dd-logos__marq > ul[aria-hidden] { display: none; }
 }
 
 @media (min-width: 834px) {
@@ -2113,4 +2113,162 @@
   top: .139em;
   width: .775em;
   height: .757em;
+}
+
+/* ==========================================================================
+   Призыв AI-страниц — тёмный экран, лента логотипов и градиент под подвалом
+   (AI Design, с 19.10.2026 и AI Development — просьба пользователя). Перенесено из ai-design.css,
+   имена .dd-aid-* сохранены. Лента логотипов бежит (общая .dd-logos__marq выше)
+   ========================================================================== */
+/* ---------- Подпись с чертой — как pretitle живой страницы ---------- */
+.dd-aid-pre {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  margin: 0;
+  font: italic 300 1.6rem/2.4rem var(--dd-font-fancy);
+  letter-spacing: -.03em;
+  color: var(--dd-neutral-0);
+}
+.dd-aid-pre::before,
+.dd-aid-pre--center::after {
+  content: '';
+  flex: none;
+  width: 4rem;
+  height: .1rem;
+  background: #c96406;
+}
+.dd-aid-pre--center { justify-content: center; }
+
+/* кнопка живой страницы: высота 54 px, текст 16 px, поля 24 px; в первом экране она шире — 191 px */
+.dd-aid-btn {
+  --_h: 5.4rem;
+  --_pad: 1.8rem;
+  --_fs: 1.6rem;
+
+  letter-spacing: .07em;
+}
+
+/* ---------- Экран-призыв перед подвалом — как .cta-v2_dark живой страницы ---------- */
+/* Тёмный лист со скруглением сверху; над ним полупрозрачная «закладка» второго листа */
+.dd-aid-cta {
+  position: relative;
+  margin-top: 4.8rem;
+  padding: 10rem 1rem 6rem;
+  border-radius: 2rem 2rem 0 0;
+  background: #131013;
+  color: var(--dd-neutral-0);
+  text-align: center;
+}
+.dd-aid-cta::before {
+  content: '';
+  position: absolute;
+  top: -3rem;
+  left: 1.8rem;
+  right: 1.8rem;
+  height: 3rem;
+  border-radius: 2rem 2rem 0 0;
+  background: rgb(19 16 19 / .3);
+}
+.dd-aid-cta__kicker {
+  margin-bottom: 2rem;
+}
+.dd-aid-cta__kicker::before,
+.dd-aid-cta__kicker::after { background: #585a61; }
+.dd-aid-cta__title {
+  margin: 0 0 2rem;
+  font: 600 3.2rem/3.8rem var(--dd-font-basic);
+  letter-spacing: -.04em;
+}
+.dd-aid-cta__head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.dd-aid-cta__head em {
+  font-family: var(--dd-font-fancy);
+  font-weight: 500;
+}
+/* тумблер с уткой — общий .dd-switch (blocks.css): 105 × 58 px при заголовке 64 px, как на живой */
+.dd-aid-cta__head .dd-switch { font-size: .875em; }
+.dd-aid-cta__tail {
+  display: inline-block;
+  background: linear-gradient(90deg, #fff 50%, rgb(255 255 255 / .7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dd-aid-cta__text {
+  max-width: 60rem;
+  margin: 0 auto 2rem;
+  padding: 0 2rem;
+  box-sizing: border-box;
+  font: 400 1.4rem/2.1rem var(--dd-font-basic);
+  opacity: .9;
+}
+.dd-aid-cta__call {
+  margin: 0 0 5rem;
+  font: italic 400 1.6rem/2.4rem var(--dd-font-fancy);
+  letter-spacing: -.03em;
+  color: #ffe39b;
+}
+
+@media (min-width: 834px) {
+  .dd-aid-cta {
+    margin-top: 6rem;
+    padding: 12rem 4rem 6rem;
+    border-radius: 2.8rem 2.8rem 0 0;
+  }
+  .dd-aid-cta::before {
+    left: 3rem;
+    right: 3rem;
+    border-radius: 2.8rem 2.8rem 0 0;
+  }
+  .dd-aid-cta__title {
+    margin-bottom: 3rem;
+    font-size: 6.4rem;
+    line-height: 7.4rem;
+  }
+}
+
+/* ---------- Логотипы и градиент под подвалом — как .footer-v2 живой страницы ---------- */
+/* Градиент живой страницы один на логотипы и подвал; здесь он разрезан по шву
+   .dd-aid-leaders | .dd-aid-end, цвет на шве общий */
+.dd-aid-leaders {
+  overflow: hidden;
+  padding: 5rem 0 1rem;
+  background: linear-gradient(#131013, #430e0f);
+}
+.dd-aid-leaders .dd-aid-pre { margin-bottom: 2rem; }
+/* ряд в .dd-logos__marq повторён дважды — круг без шва; ~33 px/с до 834, ~40 px/с от 834 */
+.dd-aid-leaders__list {
+  flex: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0 2rem 0 0;
+  list-style: none;
+  animation: dd-logos-run 48s linear infinite;
+}
+.dd-aid-leaders__list li {
+  flex: none;
+  width: 11.2rem;
+}
+.dd-aid-leaders__list img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.dd-aid-end {
+  background: linear-gradient(#430e0f 0, #871d1d 19%, #ff8b20 54%, #ffca41 100%);
+}
+
+@media (min-width: 834px) {
+  .dd-aid-leaders { padding: 10rem 0 2rem; }
+  .dd-aid-leaders__list li { width: 15.9rem; }
+  .dd-aid-leaders__list { animation-duration: 54s; }
+}
+@media (min-width: 1320px) {
+  .dd-aid-cta { padding-inline: 8rem; }
 }
