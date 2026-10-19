@@ -151,12 +151,13 @@
   transition: transform var(--dd-dur-base) var(--dd-ease-out);
 }
 /* Нажатие: кнопка чуть вдавливается — отклик заметен и на телефоне, где наведения нет.
-   Стрелка в кнопке при наведении делает шаг туда, куда ведёт */
+   Стрелка в кнопке при наведении делает шаг туда, куда ведёт; в круглых кнопках
+   (стрелки слайдеров) стоит на месте */
 .dd-btn:active,
 .dd-btn.is-pressed { transform: scale(.97); }
 @media (hover: hover) {
-  .dd-btn:hover .dd-btn__icon:has(use[href*="right"]) { transform: translateX(.3rem); }
-  .dd-btn:hover .dd-btn__icon:has(use[href*="left"]) { transform: translateX(-.3rem); }
+  .dd-btn:not(.dd-btn--icon):hover .dd-btn__icon:has(use[href*="right"]) { transform: translateX(.3rem); }
+  .dd-btn:not(.dd-btn--icon):hover .dd-btn__icon:has(use[href*="left"]) { transform: translateX(-.3rem); }
   .dd-btn:hover .dd-btn__icon:has(use[href*="arrow-out"]) { transform: translate(.2rem, -.2rem); }
 }
 

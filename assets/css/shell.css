@@ -18,7 +18,7 @@
    тёмная шапка становится светлой. */
 .dd-header {
   --dd-logo-beak: var(--dd-yellow-200);
-  --_item-hover: var(--dd-beige-400);
+  --_item-hover: .6; /* прозрачность пункта при наведении: на цветном фоне серый цвет выглядит грязно */
   --_h: 6.1rem; /* высота полосы: под ней начинается раскрытый бургер */
 
   position: relative;
@@ -27,7 +27,7 @@
 }
 .dd-header.dd-on-dark {
   --dd-logo-beak: var(--dd-orange-50);
-  --_item-hover: var(--dd-beige-100);
+  --_item-hover: .8;
 }
 /* Кнопка языка без обводки (ghost) на тёмной шапке — светлая, как пункты меню; иначе её тёмный
    текст пропадает на тёмном первом экране (страница AI Development, 12.10.2026) */
@@ -105,7 +105,7 @@
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: color .15s;
+  transition: opacity .15s;
 }
 /* в бургере нажимается вся строка до пунктира, а не только текст высотой 30 */
 .dd-header-item::after {
@@ -145,8 +145,8 @@
   color: var(--dd-beige-400);
 }
 .dd-header-item:hover,
-.dd-header-item.is-hover { color: var(--_item-hover); }
-.dd-header-item[aria-expanded="true"] { color: inherit; }
+.dd-header-item.is-hover { opacity: var(--_item-hover); }
+.dd-header-item[aria-expanded="true"] { opacity: 1; }
 .dd-header-item:hover .dd-header-item__star,
 .dd-header-item.is-hover .dd-header-item__star,
 .dd-header-item[aria-expanded="true"] .dd-header-item__star,
@@ -267,7 +267,7 @@
     --_ring: 0 0 0 0 transparent;
   }
   .dd-header.is-open .dd-header__cta { --_bg: var(--dd-yellow-200); }
-  .dd-header.is-open .dd-header__cta:hover { --_bg: var(--dd-yellow-100); }
+  .dd-header.is-open .dd-header__cta:hover { --_ring: 0 0 0 var(--_w-halo) rgba(255, 202, 65, .4); }
 }
 
 /* Закреплённая шапка — решение пользователя 09.10.2026; в макете прокрученной шапки нет.
@@ -289,7 +289,8 @@
   --_fg: var(--dd-neutral-0);
 }
 .dd-header--sticky.is-scrolled .dd-header__cta { --_bg: var(--dd-yellow-200); }
-.dd-header--sticky.is-scrolled .dd-header__cta:hover { --_bg: var(--dd-yellow-100); }
+/* наведение — ореол, как у чёрной кнопки, но в жёлтом: темнее фон и серая обводка смотрелись грязно */
+.dd-header--sticky.is-scrolled .dd-header__cta:hover { --_ring: 0 0 0 var(--_w-halo) rgba(255, 202, 65, .4); }
 @media (min-width: 1320px) {
   .dd-header--sticky.is-scrolled .dd-header__lang {
     --_fg: var(--dd-neutral-1300);
@@ -357,6 +358,12 @@
   position: absolute;
   inset: -.6rem 0;
 }
+/* Значок — символ спрайта dd-menu-*: четыре его тона берутся из --_mi1…--_mi4. Зарегистрированы
+   как цвета, чтобы при наведении перетекали плавно (transition на значке) */
+@property --_mi1 { syntax: '<color>'; inherits: true; initial-value: #676155; }
+@property --_mi2 { syntax: '<color>'; inherits: true; initial-value: #8c8576; }
+@property --_mi3 { syntax: '<color>'; inherits: true; initial-value: #b7b0a3; }
+@property --_mi4 { syntax: '<color>'; inherits: true; initial-value: #ddd8cf; }
 .dd-header-link__icon {
   flex: none;
   order: 1;
@@ -534,6 +541,15 @@
   .dd-header-link.is-hover .dd-header-link__text { color: var(--dd-neutral-1100); }
   .dd-header-link:hover .dd-header-link__arrow,
   .dd-header-link.is-hover .dd-header-link__arrow { opacity: 1; }
+  /* значок при наведении перекрашивается из бежевых тонов в оранжевые, тёмный к тёмному */
+  .dd-header-link:hover .dd-header-link__icon,
+  .dd-header-link.is-hover .dd-header-link__icon,
+  .dd-header-link:focus-visible .dd-header-link__icon {
+    --_mi1: var(--dd-orange-50);
+    --_mi2: var(--dd-orange-100);
+    --_mi3: var(--dd-orange-200);
+    --_mi4: var(--dd-orange-300);
+  }
 
   .dd-header-link--large {
     display: block;
@@ -1044,8 +1060,11 @@
 }
 @media (min-width: 1320px) {
   .dd-header.is-open::after { animation: dd-fade var(--dd-dur-base) ease-out; }
-  /* ссылки панели: значок слегка сдвигается к тексту при наведении */
-  .dd-header-link__icon { transition: transform var(--dd-dur-fast) var(--dd-ease-out); }
+  /* ссылки панели: значок слегка сдвигается к тексту и перекрашивается при наведении */
+  .dd-header-link__icon {
+    transition: transform var(--dd-dur-fast) var(--dd-ease-out),
+      --_mi1 var(--dd-dur-fast), --_mi2 var(--dd-dur-fast), --_mi3 var(--dd-dur-fast), --_mi4 var(--dd-dur-fast);
+  }
   .dd-header-link:hover .dd-header-link__icon,
   .dd-header-link:focus-visible .dd-header-link__icon { transform: scale(1.1); }
 }

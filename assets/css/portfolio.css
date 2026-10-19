@@ -630,17 +630,11 @@
   .dd-folio-panel { animation: none; }
 }
 
-/* Стрелки большого отзыва: плавная смена фона, вдавливание при нажатии, стрелка шагает
-   в свою сторону */
+/* Стрелки большого отзыва: плавная смена фона, вдавливание при нажатии */
 .dd-folio-review__nav button {
   transition: background-color var(--dd-dur-fast), opacity var(--dd-dur-fast), transform var(--dd-dur-fast) var(--dd-ease-out);
 }
-.dd-folio-review__nav svg { transition: transform var(--dd-dur-base) var(--dd-ease-out); }
 .dd-folio-review__nav button:not([aria-disabled="true"]):active { transform: scale(.94); }
-@media (hover: hover) {
-  .dd-folio-review__prev:not([aria-disabled="true"]):hover svg { transform: translateX(-.2rem); }
-  .dd-folio-review__next:not([aria-disabled="true"]):hover svg { transform: translateX(.2rem); }
-}
 
 /* Цифры: тумблеры «включаются» по очереди, когда ряд впервые попадает на экран.
    is-armed ставит portfolio.js (есть IntersectionObserver и движение не выключено), is-on —
