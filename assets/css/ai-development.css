@@ -578,13 +578,6 @@
   .dd-ai-econ__us { inset: 0 0 0 calc((100% - 14rem - 5.6rem) / 2 + 14rem + 5.6rem); }
 }
 
-/* Отзывы: заголовок по центру, как шапки AI Design (19.10.2026); кнопки — под ним по центру */
-.dd-testimonials--center .dd-testimonials__title { text-align: center; }
-@media (min-width: 834px) {
-  .dd-testimonials--center .dd-testimonials__top { flex-direction: column; align-items: center; gap: 3rem; }
-  .dd-testimonials--center .dd-testimonials__title { flex: none; }
-}
-
 /* Отзыв без портрета: круг с инициалами на месте фото */
 .dd-ai-initials {
   display: grid;
