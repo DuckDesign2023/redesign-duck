@@ -33,6 +33,9 @@
    текст пропадает на тёмном первом экране (страница AI Development, 12.10.2026) */
 .dd-header.dd-on-dark .dd-header__lang.dd-btn--ghost { --_fg: var(--dd-neutral-0); }
 .dd-header.dd-on-dark .dd-header__lang.dd-btn--ghost:hover { --_fg: var(--dd-beige-100); }
+/* Белая «Book a Call»: при наведении белый ореол, как у жёлтой, вместо серой обводки кнопки white;
+   правила жёлтой (открытое меню, прокрутка) сильнее и перекрывают это */
+.dd-header .dd-header__cta:hover { --_ring: 0 0 0 var(--_w-halo) rgba(255, 255, 255, .4); }
 .dd-header__bar {
   box-sizing: border-box;
   display: flex;
