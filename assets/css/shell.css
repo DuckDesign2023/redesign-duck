@@ -131,18 +131,22 @@
   width: 1.5rem;
   height: 1.5rem;
 }
-/* кружок строки бургера: у ссылки залит, у пункта с меню — с обводкой снаружи */
+/* кружок строки бургера: у ссылки залит, у пункта с меню — с обводкой снаружи.
+   Стрелка стоит на 1 px ближе к острию: по геометрии она в центре, но на глаз «›» уходит влево,
+   а «⌄» вверх. Сдвиг — неравными полями, кружок не двигается; у раскрытого пункта поворот
+   на 180° переворачивает и сдвиг */
 .dd-header-item__mark {
   flex: none;
   box-sizing: content-box;
   width: 1.4rem;
   height: 1.4rem;
-  padding: .7rem;
+  padding: .7rem .6rem .7rem .8rem;
   border-radius: 50%;
   background: var(--dd-beige-100);
   color: var(--dd-neutral-1200);
 }
 .dd-header-item[aria-expanded] .dd-header-item__mark {
+  padding: .8rem .7rem .6rem;
   background: none;
   box-shadow: 0 0 0 .1rem var(--dd-beige-400);
   color: var(--dd-beige-400);
