@@ -188,7 +188,9 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 12rem;
+    /* список растягивается и прижимает «Book a Call» к низу экрана; до последней ссылки не меньше
+       40 (20 поля списка + 20): прежние 120 уводили кнопку за край на телефоне (19.10.2026) */
+    gap: 2rem;
     padding: 2rem 1.4rem;
     overflow-y: auto;
     overscroll-behavior: contain;
