@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="../assets/css/shell.css?v=29">
     <link rel="stylesheet" href="../assets/css/blocks.css?v=23">
     <link rel="stylesheet" href="../assets/css/capabilities.css?v=13">
-    <link rel="stylesheet" href="../assets/css/ai-development.css?v=64">
+    <link rel="stylesheet" href="../assets/css/ai-development.css?v=65">
 </head>
 <body>
 <a class="dd-skip-link dd-btn dd-btn--s dd-btn--yellow" href="#main"><span class="dd-btn__label">Skip to content</span></a>
@@ -467,7 +467,19 @@
         <div class="dd-ai-tile__top"><p class="dd-ai-tile__kind">Code quality<svg aria-hidden="true"><use href="#dd-edge-code"/></svg></p><p class="dd-ai-tile__fact">Lighthouse 100/100</p></div>
         <h3 class="dd-h4">Production-ready code</h3>
         <p class="dd-txt-3">Semantic, lightweight code that follows modern global web standards — out of the box, no hand-tuning.</p>
-        <figure class="dd-ai-tile__art"><img src="../assets/img/ai-development/edge/edge-1-code.jpg?v=7" width="1200" height="1200" alt="" loading="lazy"></figure>
+        <figure class="dd-ai-tile__art"><img src="../assets/img/ai-development/edge/edge-1-code.jpg?v=7" width="1200" height="1200" alt="" loading="lazy">
+          <!-- Сцена «Lighthouse»: оценки, подписи и статус правятся здесь. Цифра в кольце — итог,
+               до неё считает ai-development.js; вид и движение — ai-development.css (.dd-ai-lh) -->
+          <div class="dd-ai-lh" data-scene="lighthouse" aria-hidden="true">
+            <p class="dd-ai-lh__head"><b>Lighthouse</b><span class="dd-ai-lh__status"><span>Auditing…</span><span><svg><use href="#dd-tick-17"/></svg>Production-ready</span></span></p>
+            <ul class="dd-ai-lh__rows" role="list">
+            <li class="dd-ai-lh__row"><span class="dd-ai-lh__ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" pathLength="100"/><circle cx="18" cy="18" r="16" pathLength="100"/></svg><b>100</b></span>Performance</li>
+            <li class="dd-ai-lh__row"><span class="dd-ai-lh__ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" pathLength="100"/><circle cx="18" cy="18" r="16" pathLength="100"/></svg><b>100</b></span>Accessibility</li>
+            <li class="dd-ai-lh__row"><span class="dd-ai-lh__ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" pathLength="100"/><circle cx="18" cy="18" r="16" pathLength="100"/></svg><b>100</b></span>Best Practices</li>
+            <li class="dd-ai-lh__row"><span class="dd-ai-lh__ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" pathLength="100"/><circle cx="18" cy="18" r="16" pathLength="100"/></svg><b>100</b></span>SEO</li>
+            </ul>
+          </div>
+        </figure>
       </li>
       <li class="dd-ai-tile">
         <div class="dd-ai-tile__top"><p class="dd-ai-tile__kind">Iteration speed<svg aria-hidden="true"><use href="#dd-edge-speed"/></svg></p><p class="dd-ai-tile__fact">~3s / render</p></div>
@@ -1072,6 +1084,6 @@
 
 <script src="../assets/js/shell.js?v=7" defer></script>
 <script src="../assets/js/blocks.js?v=10" defer></script>
-<script src="../assets/js/ai-development.js?v=30" defer></script>
+<script src="../assets/js/ai-development.js?v=31" defer></script>
 </body>
 </html>
