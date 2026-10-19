@@ -20,7 +20,8 @@
 
 /* Лента отзывов: стрелки листают её на одну карточку. Стрелка у края ленты выключена
    (aria-disabled — фокус на ней остаётся). Класс is-end на блоке — «лента докручена до конца»:
-   по нему blocks.css убирает градиент у правого края. */
+   по нему blocks.css убирает градиент у правого края. Под лентой — точки-указатель (видны до 834),
+   текущая — по доле прокрутки; лента помещается целиком — точек нет. */
 (function () {
   var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -30,6 +31,12 @@
     var prev = block.querySelector('.dd-testimonials__prev');
     var next = block.querySelector('.dd-testimonials__next');
     if (!scroller || !track || !prev || !next) return;
+    var n = track.children.length;
+    var dots = document.createElement('div');
+    dots.className = 'dd-testimonials__dots';
+    dots.setAttribute('aria-hidden', 'true');
+    dots.innerHTML = new Array(n + 1).join('<i></i>');
+    scroller.after(dots);
 
     function step() {
       var card = track.firstElementChild;
@@ -43,6 +50,10 @@
       prev.setAttribute('aria-disabled', atStart);
       next.setAttribute('aria-disabled', atEnd);
       block.classList.toggle('is-end', atEnd);
+      dots.hidden = max <= 1;
+      if (dots.hidden) return;
+      var at = Math.round(Math.min(1, Math.max(0, scroller.scrollLeft / max)) * (n - 1));
+      Array.prototype.forEach.call(dots.children, function (d, i) { d.classList.toggle('is-on', i === at); });
     }
     function go(btn, dir) {
       btn.addEventListener('click', function () {
@@ -55,6 +66,7 @@
     go(next, 1);
     scroller.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
+    if (window.ResizeObserver) new ResizeObserver(update).observe(scroller);
     update();
   });
 })();

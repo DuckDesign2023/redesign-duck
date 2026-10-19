@@ -196,32 +196,3 @@
   open(cards[0]);
 })();
 
-/* Указатель ленты отзывов: точки под лентой, текущая вытянута. Когда лента помещается
-   целиком, указателя нет */
-(function () {
-  'use strict';
-
-  function dots(scroller, n) {
-    if (!scroller) return;
-    var box = document.createElement('div');
-    box.className = 'dd-ai-swipe';
-    box.setAttribute('aria-hidden', 'true');
-    box.innerHTML = new Array(n + 1).join('<i></i>');
-    scroller.after(box);
-
-    function update() {
-      var max = scroller.scrollWidth - scroller.clientWidth;
-      box.hidden = max <= 1;
-      if (box.hidden) return;
-      var at = Math.round(Math.min(1, Math.max(0, scroller.scrollLeft / max)) * (n - 1));
-      Array.prototype.forEach.call(box.children, function (d, i) { d.classList.toggle('is-on', i === at); });
-    }
-
-    scroller.addEventListener('scroll', update, { passive: true });
-    if (window.ResizeObserver) new ResizeObserver(update).observe(scroller);
-    update();
-  }
-
-  dots(document.querySelector('.dd-testimonials__scroller'), document.querySelectorAll('.dd-testimonial').length);
-})();
-

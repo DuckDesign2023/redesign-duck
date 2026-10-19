@@ -592,9 +592,6 @@
   color: var(--dd-yellow-0);
 }
 
-/* Короткие отзывы: карточке не нужна высота макета */
-.dd-testimonials--compact .dd-testimonial { min-height: 32rem; }
-
 /* Тариф: скидка срока — жёлтая плашка, а не бледная подпись. Только на этой странице,
    общий блок .dd-plan не тронут */
 .dd-plan .dd-plan__term-off,
@@ -1392,14 +1389,7 @@
   .dd-ai-form__row:has([name="ff_first"]) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; }
 }
 
-/* Указатель ленты отзывов (до 834, где стрелок нет): точки, текущая вытянута.
-   Когда лента помещается целиком, указателя нет */
-.dd-ai-swipe { display: none; }
 @media (max-width: 833.98px) {
-  .dd-ai-swipe:not([hidden]) { position: relative; display: flex; justify-content: center; gap: .6rem; margin-top: 1.6rem; }
-  .dd-ai-swipe i { width: .6rem; height: .6rem; border-radius: .3rem; background: rgba(4, 5, 6, .16); transition: width .3s, background-color .3s; }
-  .dd-ai-swipe i.is-on { width: 2.2rem; background: var(--dd-neutral-1300); }
-
   /* Первый экран: сцена выше, стрелка-курсор по центру окна; текст заходит на низ сцены на 140 */
   .dd-ai-hero__bg { flex-basis: 38rem; min-height: 38rem; }
   .dd-ai-hero__bg video { object-position: 94% 30%; }
@@ -1461,7 +1451,6 @@
   .dd-plan__buy:has(.dd-plan__term:last-child :checked) .dd-plan__deal { border-top-right-radius: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .dd-ai-swipe i,
   .dd-ai-p2__card::after { transition: none !important; }
 }
 

@@ -234,6 +234,17 @@
   scrollbar-width: none;
 }
 .dd-testimonials__scroller::-webkit-scrollbar { display: none; }
+/* Указатель ленты (до 834, где стрелок нет): точки под лентой, текущая вытянута. Точки ставит
+   blocks.js; когда лента помещается целиком, указатель скрыт (hidden) */
+.dd-testimonials__dots { display: none; }
+@media (max-width: 833.98px) {
+  .dd-testimonials__dots:not([hidden]) { position: relative; display: flex; justify-content: center; gap: .6rem; margin-top: 1.6rem; }
+  .dd-testimonials__dots i { width: .6rem; height: .6rem; border-radius: .3rem; background: rgba(4, 5, 6, .16); transition: width .3s, background-color .3s; }
+  .dd-testimonials__dots i.is-on { width: 2.2rem; background: var(--dd-neutral-1300); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-testimonials__dots i { transition: none; }
+}
 .dd-testimonials__scroller:focus-visible {
   outline: .2rem solid var(--dd-color-focus);
   outline-offset: -.2rem;
@@ -249,13 +260,15 @@
   list-style: none;
 }
 
-/* Карточка отзыва — small testimonial, вид Variant2: две белые плитки встык, между ними пунктир */
+/* Карточка отзыва — small testimonial, вид Variant2: две белые плитки встык, между ними пунктир.
+   Высота 320 на всех ширинах (в макете 450 и 480): отзывы короткие, под текстом было пусто —
+   решение пользователя 19.10.2026, так было на AI Development */
 .dd-testimonial {
   flex: none;
   display: flex;
   flex-direction: column;
   width: 29.1rem;
-  min-height: 45rem;
+  min-height: 32rem;
   scroll-snap-align: start;
 }
 .dd-testimonial__main,
@@ -446,10 +459,7 @@
   }
   .dd-testimonials.is-end .dd-testimonials__ribbon::after { opacity: 0; }
   .dd-testimonials__scroller { --_edge: 3rem; }
-  .dd-testimonial {
-    width: 34.8rem;
-    min-height: 48rem;
-  }
+  .dd-testimonial { width: 34.8rem; }
   .dd-testimonial__main,
   .dd-testimonial__meta { padding: 2.8rem; }
   .dd-awards {
