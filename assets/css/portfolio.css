@@ -636,6 +636,30 @@
 }
 .dd-folio-review__nav button:not([aria-disabled="true"]):active { transform: scale(.94); }
 
+/* Смена отзывов — растворением, а не прокруткой (просьба пользователя 19.10.2026). is-fade ставит
+   portfolio.js: слайды лежат в одной клетке, виден is-current; прежний гаснет, следующий
+   проявляется с небольшим отставанием. Без скрипта остаётся лента с прокруткой */
+.dd-folio-review.is-fade .dd-folio-review__scroller {
+  display: grid;
+  overflow: visible;
+  scroll-snap-type: none;
+}
+.dd-folio-review.is-fade .dd-folio-review__slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s var(--dd-ease-out), visibility 0s .3s;
+}
+.dd-folio-review.is-fade .dd-folio-review__slide.is-current {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .45s var(--dd-ease-out) .2s, visibility 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-folio-review.is-fade .dd-folio-review__slide,
+  .dd-folio-review.is-fade .dd-folio-review__slide.is-current { transition: none; }
+}
+
 /* Цифры: тумблеры «включаются» по очереди, когда ряд впервые попадает на экран.
    is-armed ставит portfolio.js (есть IntersectionObserver и движение не выключено), is-on —
    при появлении. Без скрипта тумблеры сразу включены, как в макете */

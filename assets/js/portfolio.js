@@ -1,41 +1,50 @@
 /* duck.design — страница Portfolio.
-   Большой отзыв: стрелки листают карточку на один отзыв. Стрелка у края выключена
-   (aria-disabled — фокус на ней остаётся); пока отзыв один, выключены обе.
+   Большой отзыв: стрелки меняют отзыв растворением (просьба пользователя 19.10.2026) — класс
+   is-fade кладёт слайды в одну клетку, виден is-current. Стрелка у края выключена (aria-disabled —
+   фокус на ней остаётся); пока отзыв один, выключены обе. На тач-экране отзыв меняется смахиванием.
    Без скрипта стрелок нет, отзывы листаются прокруткой. */
 (function () {
-  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
-
   document.querySelectorAll('.dd-folio-review').forEach(function (card) {
     var scroller = card.querySelector('.dd-folio-review__scroller');
     var prev = card.querySelector('.dd-folio-review__prev');
     var next = card.querySelector('.dd-folio-review__next');
     if (!scroller || !prev || !next) return;
+    var slides = Array.prototype.slice.call(scroller.children);
+    var at = 0;
 
-    function update() {
-      var max = scroller.scrollWidth - scroller.clientWidth;
-      prev.setAttribute('aria-disabled', scroller.scrollLeft <= 1);
-      next.setAttribute('aria-disabled', scroller.scrollLeft >= max - 1);
-      if (max > 1) scroller.tabIndex = 0;
-      else scroller.removeAttribute('tabindex');
-    }
-    /* шаг — слайд и зазор между слайдами, а не ширина ленты */
-    function step() {
-      var slide = scroller.firstElementChild;
-      if (!slide) return scroller.clientWidth;
-      return slide.getBoundingClientRect().width + (parseFloat(getComputedStyle(scroller).columnGap) || 0);
+    function show(i) {
+      at = Math.max(0, Math.min(slides.length - 1, i));
+      slides.forEach(function (s, j) { s.classList.toggle('is-current', j === at); });
+      prev.setAttribute('aria-disabled', at === 0);
+      next.setAttribute('aria-disabled', at === slides.length - 1);
     }
     function go(btn, dir) {
       btn.addEventListener('click', function () {
         if (btn.getAttribute('aria-disabled') === 'true') return;
-        scroller.scrollBy({ left: dir * step(), behavior: calm.matches ? 'auto' : 'smooth' });
+        show(at + dir);
       });
     }
 
+    card.classList.add('is-fade');
+    scroller.setAttribute('aria-live', 'polite');
     go(prev, -1);
     go(next, 1);
-    scroller.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
+
+    /* смахивание: сдвиг пальца вбок больше 40 и больше, чем по вертикали */
+    var x0 = null, y0 = 0;
+    scroller.addEventListener('touchstart', function (e) {
+      x0 = e.touches[0].clientX;
+      y0 = e.touches[0].clientY;
+    }, { passive: true });
+    scroller.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      var dy = e.changedTouches[0].clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(at + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+
+    show(0);
   });
 })();
 
