@@ -187,7 +187,10 @@
 }
 
 /* ---------- Логотипы клиентов, вид About — 5760:6859 ---------- */
-/* У общего блока здесь заголовок с абзацем над рядом и семь логотипов цвета Beige-300 */
+/* У общего блока здесь заголовок с абзацем над рядом и семь логотипов цвета Beige-300.
+   С 19.10.2026 ряд — бегущая лента, как на главной (просьба пользователя): ряд стоит трижды —
+   семь логотипов короче полосы на широком экране. Скорость та же, что у ленты главной:
+   ~33 px/с до 834, ~40 px/с от 834 */
 .dd-logos--about {
   flex-direction: column;
   align-items: stretch;
@@ -209,11 +212,15 @@
   text-wrap: pretty;
 }
 .dd-logos--about .dd-logos__list {
+  flex: none;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2.4rem 3.2rem;
+  justify-content: flex-start;
+  gap: 4rem;
+  width: auto;
+  padding-right: 4rem;
+  animation: dd-logos-run 21s linear infinite;
 }
+.dd-logos--about .dd-logos__list li { flex: none; }
 
 @media (min-width: 834px) {
   .dd-logos--about {
@@ -221,10 +228,10 @@
     padding: 10rem 3rem;
   }
   .dd-logos--about .dd-logos__list {
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    gap: 2rem;
+    gap: 10rem;
     min-height: 3.82rem;
+    padding-right: 10rem;
+    animation-duration: 35s;
   }
 }
 @media (min-width: 1320px) {
