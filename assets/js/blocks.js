@@ -173,3 +173,17 @@
     }).observe(head);
   });
 })();
+
+/* Переключатель в заголовке первого экрана About (.dd-about-hero__toggle) — включается один раз,
+   через 2 с после загрузки страницы (просьба пользователя 19.10.2026). Вид — about.css.
+   При prefers-reduced-motion не трогаем: стоит включённым, как в разметке. */
+(function () {
+  var sw = document.querySelector('.dd-about-hero__toggle');
+  if (!sw || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  sw.classList.add('is-armed');
+  function start() {
+    setTimeout(function () { sw.classList.add('is-on'); }, 2000);
+  }
+  if (document.readyState === 'complete') start();
+  else window.addEventListener('load', start);
+})();

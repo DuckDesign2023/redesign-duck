@@ -21,7 +21,10 @@
    Пункт с меню — кнопка с aria-expanded, панель .dd-menu стоит в разметке сразу за ней;
    показывает и прячет панель shell.css по значению aria-expanded.
    От 1320: открыто одно меню; его закрывают повторное нажатие, нажатие мимо, Esc, уход фокуса
-   с клавиатуры и прокрутка, которая увела панель с экрана.
+   с клавиатуры и прокрутка, которая увела панель с экрана. С мышью (просьба пользователя
+   19.10.2026) меню открывается наведением на пункт, пункт без меню закрывает его, уход указателя
+   из шапки или на затемнение страницы закрывает через 0,2 с; нажатие мышью открытое наведением
+   меню не закрывает.
    До 1320: бургер раскрывает меню на весь экран, пункты с меню внутри него — аккордеон,
    открытых может быть несколько; Esc закрывает бургер, Tab ходит по кругу внутри шапки.
    Класс is-open на шапке — «меню открыто»: по нему полоса получает фон, а тёмная шапка
@@ -29,6 +32,7 @@
    Без скрипта меню открывается средствами CSS — конец раздела «Меню шапки» в shell.css. */
 (function () {
   var desktop = window.matchMedia('(min-width: 1320px)');
+  var mouse = window.matchMedia('(hover: hover) and (pointer: fine)');
 
   document.querySelectorAll('.dd-header').forEach(function (header) {
     var burger = header.querySelector('.dd-header__burger');
@@ -74,13 +78,39 @@
     }
 
     toggles.forEach(function (btn) {
-      btn.addEventListener('click', function () {
+      btn.addEventListener('click', function (e) {
+        if (desktop.matches && mouse.matches && e.detail && isOpen(btn)) return;
         var open = !isOpen(btn);
         if (desktop.matches) closeMenus(btn);
         btn.setAttribute('aria-expanded', open);
         update();
       });
     });
+    var leave;
+    function byMouse(e) {
+      return desktop.matches && mouse.matches && e.pointerType === 'mouse';
+    }
+    header.querySelectorAll('.dd-header__menu > li').forEach(function (item) {
+      var btn = item.querySelector('.dd-header-item[aria-expanded]');
+      item.addEventListener('pointerenter', function (e) {
+        if (!byMouse(e)) return;
+        closeMenus(btn);
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+        update();
+      });
+    });
+    /* затемнение страницы под открытым меню — ::after самой шапки, поэтому указатель на нём
+       считается ушедшим из шапки, как и ушедший из окна */
+    function away(e) {
+      if (!byMouse(e) || !openToggle()) return;
+      clearTimeout(leave);
+      leave = setTimeout(closeAll, 200);
+    }
+    header.addEventListener('pointerover', function (e) {
+      if (e.target === header) away(e);
+      else clearTimeout(leave);
+    });
+    header.addEventListener('pointerleave', away);
     burger.addEventListener('click', function () {
       if (isOpen(burger)) return closeAll();
       burger.setAttribute('aria-expanded', 'true');

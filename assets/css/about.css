@@ -87,6 +87,43 @@
   height: 4.4em;
   margin: -.1em;
 }
+/* Включение, как у общего .dd-switch (blocks.css), но не по прокрутке: это первый экран — blocks.js
+   ставит is-armed (выключен: дорожка Beige, кружок слева), через 2 с после загрузки страницы — is-on:
+   дорожка проявляется оранжевой, кружок переезжает вправо с перелётом и качком утки, расходится кольцо.
+   Просьба пользователя 19.10.2026. Без скрипта и при prefers-reduced-motion стоит включённым */
+.dd-about-hero__toggle.is-armed { position: relative; }
+.dd-about-hero__toggle.is-armed::before,
+.dd-about-hero__toggle.is-armed::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.dd-about-hero__toggle.is-armed::before {
+  background: linear-gradient(90deg, var(--dd-beige-200), var(--dd-beige-100));
+  box-shadow: inherit;
+  transition: opacity var(--dd-dur-slow) var(--dd-ease-out);
+}
+.dd-about-hero__toggle.is-armed img {
+  position: relative;
+  transform: translateX(-4.7em); /* ширина дорожки без полей и кружка */
+}
+.dd-about-hero__toggle.is-on::before { opacity: 0; }
+.dd-about-hero__toggle.is-on img {
+  transform: none;
+  animation: dd-about-knob .6s cubic-bezier(.34, 1.56, .64, 1) both;
+}
+.dd-about-hero__toggle.is-on::after { animation: dd-about-pulse .8s var(--dd-ease-out) both; }
+@keyframes dd-about-knob {
+  from { transform: translateX(-4.7em) rotate(0); }
+  55% { transform: translateX(.35em) rotate(16deg) scale(1.08); }
+  to { transform: none; }
+}
+@keyframes dd-about-pulse {
+  from { box-shadow: 0 0 0 0 rgba(255, 139, 32, .45); }
+  to { box-shadow: 0 0 0 3.5em rgba(255, 139, 32, 0); }
+}
 .dd-about-hero__lead {
   max-width: 72rem;
   margin: 0;
@@ -147,6 +184,8 @@
   padding: 0;
   list-style: none;
 }
+/* плитка — ссылка на страницу направления (просьба пользователя 19.10.2026); пункт списка её не обрамляет */
+.dd-about-skills > li { display: grid; }
 .dd-about-skill {
   position: relative;
   isolation: isolate;
@@ -165,6 +204,11 @@
   text-align: center;
   text-transform: uppercase;
   color: var(--dd-neutral-1300);
+  text-decoration: none;
+}
+.dd-about-skill:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
 }
 .dd-about-skill::before {
   content: "";
