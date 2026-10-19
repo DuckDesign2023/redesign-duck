@@ -182,29 +182,30 @@
 /* только иконка — круг */
 .dd-btn--icon { width: var(--_h); padding: 0; }
 
-/* Наведение у залитых white и yellow — ореол в цвет кнопки, фон не меняется, как у black.
-   В Figma у yellow темнее фон, у white серая обводка 1 — на цветном фоне смотрелось грязно (19.10.2026) */
-.dd-btn--yellow { --_bg: var(--dd-yellow-200); }
-.dd-btn--yellow:hover,
-.dd-btn--yellow.is-hover { --_ring: 0 0 0 var(--_w-halo) rgba(255, 202, 65, .4); }
+/* Наведение залитых кнопок — одно правило на все стили: ореол цвета кнопки шириной --_w-halo
+   (6, у S — 4), прозрачность 24 %, фон не меняется. Цвет ореола — --_halo у стиля; блоки, где
+   наведение ссылки красит кнопку целиком, берут тот же --_halo. В Figma у каждого стиля своё
+   наведение (темнее фон, серая обводка, градиент) — единое правило выбрал пользователь 19.10.2026.
+   Стоит до стилей: их нажатие идёт позже и перекрывает ореол */
+:is(.dd-btn--yellow, .dd-btn--orange, .dd-btn--white, .dd-btn--black, .dd-btn--beige):is(:hover, .is-hover) {
+  --_ring: 0 0 0 var(--_w-halo) var(--_halo);
+}
+
+.dd-btn--yellow { --_bg: var(--dd-yellow-200); --_halo: rgba(255, 202, 65, .24); }
 .dd-btn--yellow:active,
 .dd-btn--yellow.is-pressed {
   --_bg: var(--dd-yellow-100);
   --_ring: inset 0 0 0 var(--_w-press) var(--dd-yellow-50);
 }
 
-.dd-btn--orange { --_bg: var(--dd-orange-100); }
-.dd-btn--orange:hover,
-.dd-btn--orange.is-hover { --_bg: linear-gradient(90deg, var(--dd-orange-100), var(--dd-yellow-200)); }
+.dd-btn--orange { --_bg: var(--dd-orange-100); --_halo: rgba(255, 139, 32, .24); }
 .dd-btn--orange:active,
 .dd-btn--orange.is-pressed {
   --_bg: linear-gradient(90deg, var(--dd-orange-100), var(--dd-yellow-200));
   --_ring: inset 0 0 0 var(--_w-press) rgba(147, 60, 0, .25);
 }
 
-.dd-btn--white { --_bg: var(--dd-neutral-0); }
-.dd-btn--white:hover,
-.dd-btn--white.is-hover { --_ring: 0 0 0 var(--_w-halo) rgba(255, 255, 255, .4); }
+.dd-btn--white { --_bg: var(--dd-neutral-0); --_halo: rgba(255, 255, 255, .24); }
 .dd-btn--white:active,
 .dd-btn--white.is-pressed {
   --_bg: var(--dd-beige-50);
@@ -214,18 +215,15 @@
 .dd-btn--black {
   --_bg: var(--dd-neutral-1300);
   --_fg: var(--dd-neutral-0);
+  --_halo: rgba(4, 5, 6, .24);
 }
-.dd-btn--black:hover,
-.dd-btn--black.is-hover { --_ring: 0 0 0 var(--_w-halo) rgba(4, 5, 6, .16); }
 .dd-btn--black:active,
 .dd-btn--black.is-pressed {
   --_fg: var(--dd-neutral-400);
   --_ring: 0 0 0 0 transparent;
 }
 
-.dd-btn--beige { --_bg: var(--dd-beige-100); }
-.dd-btn--beige:hover,
-.dd-btn--beige.is-hover { --_bg: var(--dd-beige-200); }
+.dd-btn--beige { --_bg: var(--dd-beige-100); --_halo: rgba(216, 210, 198, .24); }
 .dd-btn--beige:active,
 .dd-btn--beige.is-pressed {
   --_bg: var(--dd-beige-100);

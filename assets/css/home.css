@@ -132,7 +132,7 @@
   outline: .2rem solid var(--dd-color-focus);
   outline-offset: .3rem;
 }
-.dd-go:hover .dd-btn--black { --_ring: 0 0 0 var(--_w-halo) rgba(4, 5, 6, .16); }
+.dd-go:hover .dd-btn--black { --_ring: 0 0 0 var(--_w-halo) var(--_halo); }
 .dd-go:hover .dd-btn--stroke-heavy { --_ring: inset 0 0 0 var(--_w-hover) var(--dd-neutral-1300); }
 .dd-go:active .dd-btn--black {
   --_fg: var(--dd-neutral-400);

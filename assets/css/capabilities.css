@@ -116,7 +116,7 @@
 }
 .dd-cap-hero__go .dd-btn--yellow { flex: 1; }
 .dd-cap-hero__go .dd-btn--icon { display: none; }
-.dd-cap-hero__go:hover .dd-btn--yellow { --_ring: 0 0 0 var(--_w-halo) rgba(255, 202, 65, .4); }
+.dd-cap-hero__go:hover .dd-btn--yellow { --_ring: 0 0 0 var(--_w-halo) var(--_halo); }
 .dd-cap-hero__go:hover .dd-btn--stroke-white { --_ring: inset 0 0 0 var(--_w-hover) var(--dd-neutral-0); }
 .dd-cap-hero__go:active .dd-btn--yellow {
   --_bg: var(--dd-yellow-100);
@@ -128,7 +128,7 @@
 }
 /* те же состояния для пары black и stroke heavy */
 .dd-cap-hero__go .dd-btn--black { flex: 1; }
-.dd-cap-hero__go:hover .dd-btn--black { --_ring: 0 0 0 var(--_w-halo) rgba(4, 5, 6, .16); }
+.dd-cap-hero__go:hover .dd-btn--black { --_ring: 0 0 0 var(--_w-halo) var(--_halo); }
 .dd-cap-hero__go:hover .dd-btn--stroke-heavy { --_ring: inset 0 0 0 var(--_w-hover) var(--dd-neutral-1300); }
 .dd-cap-hero__go:active .dd-btn--black {
   --_fg: var(--dd-neutral-400);
