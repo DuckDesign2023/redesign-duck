@@ -1107,6 +1107,30 @@
   0% { opacity: 1; background-position: 0 100%; }
   100% { opacity: 1; background-position: 0 0; }
 }
+/* На телефоне колонка Duck.design стоит сразу за признаками, первой из четырёх (просьба
+   пользователя 19.10.2026). У ячеек таблицы порядок не меняется, поэтому строки — flex с теми же
+   ширинами колонок; тёмный фон и блик переезжают влево, значки Duck заполняются первыми */
+@media (max-width: 833.98px) {
+  .dd-price-why__table,
+  .dd-price-why__table thead,
+  .dd-price-why__table tbody { display: block; }
+  .dd-price-why__table colgroup { display: none; }
+  .dd-price-why__table tr { display: flex; }
+  .dd-price-why__table tr > * {
+    flex: 0 0 calc((100% - 14rem) / 4);
+    box-sizing: border-box;
+    order: 2;
+  }
+  .dd-price-why__table thead tr > * { height: 6.8rem; } /* как в таблице: 40 + поле 28 */
+  .dd-price-why__table tr > :first-child { flex-basis: 14rem; order: 0; }
+  .dd-price-why__table tr > :last-child { order: 1; }
+  .dd-price-why__grid::before,
+  .dd-price-why.is-armed .dd-price-why__grid::after { inset: 0 auto 0 14rem; }
+  .dd-price-why__table td:nth-child(2) { --_c: 1; }
+  .dd-price-why__table td:nth-child(3) { --_c: 2; }
+  .dd-price-why__table td:nth-child(4) { --_c: 3; }
+  .dd-price-why__table td:nth-child(5) { --_c: 0; }
+}
 
 /* ---------- «Для кого» — 5532:11266 · вкладка: tab 2540:423 ---------- */
 /* Вкладки — радиокнопки, панель выбранной показывает :has(). Фото одно на все вкладки */
