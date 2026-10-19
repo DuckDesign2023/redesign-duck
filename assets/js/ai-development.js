@@ -13,81 +13,12 @@
   if (heroVideo && reduce) { heroVideo.removeAttribute('autoplay'); heroVideo.pause(); }
 
   /* «The engineering edge»: строка под указателем, в фокусе или нажатая показывает справа
-     своё фото и описание. Сцена на фото ([data-scene], вид — ai-development.css) играет, когда
-     её вкладка становится выбранной, и при первом появлении выбранной вкладки в окне; пока
-     играет, не перезапускается. При «уменьшить движение» сцены стоят в итоговом виде */
+     своё фото и описание */
   (function () {
     var tiles = Array.prototype.slice.call(document.querySelectorAll('.dd-ai-edge .dd-ai-tile'));
     var narrow = matchMedia('(max-width: 833.98px)');
-    var scenes = { lighthouse: lighthouse };
-
-    /* Lighthouse: кольца по очереди считают от 0 до цифры из разметки, цвет — по порогам */
-    function lighthouse(scene, done) {
-      var rows = Array.prototype.slice.call(scene.querySelectorAll('.dd-ai-lh__row'));
-      var ENTER = 450, STEP = 320, RUN = 1250;
-      rows.forEach(function (row) {
-        var b = row.querySelector('b');
-        if (!row.dataset.goal) row.dataset.goal = parseInt(b.textContent, 10) || 0;
-      });
-      scene.classList.remove('is-done', 'is-playing');
-      void scene.offsetWidth;
-      scene.classList.add('is-playing');
-      var t0 = performance.now();
-      function frame(now) {
-        var all = true;
-        rows.forEach(function (row, i) {
-          var k = Math.min(Math.max((now - t0 - ENTER - i * STEP) / RUN, 0), 1);
-          var v = Math.round(row.dataset.goal * (1 - Math.pow(1 - k, 3)));
-          if (k < 1) all = false;
-          row.style.setProperty('--p', v);
-          row.querySelector('b').textContent = v;
-          row.dataset.tone = v < 50 ? 'low' : v < 90 ? 'mid' : 'high';
-        });
-        if (!all) return requestAnimationFrame(frame);
-        scene.classList.add('is-done');
-        setTimeout(done, 500);
-      }
-      requestAnimationFrame(frame);
-    }
-
-    function play(tile) {
-      var scene = tile.querySelector('[data-scene]');
-      if (!scene || reduce || scene.dataset.playing) return;
-      var run = scenes[scene.dataset.scene];
-      if (!run) return;
-      scene.dataset.playing = '1';
-      run(scene, function () { delete scene.dataset.playing; });
-    }
-    if (!reduce && 'IntersectionObserver' in window) {
-      tiles.forEach(function (tile) {
-        var scene = tile.querySelector('[data-scene]');
-        if (!scene) return;
-        scene.classList.add('is-armed');
-        var seen = new IntersectionObserver(function (entries) {
-          if (!entries[0].isIntersecting || !tile.classList.contains('is-active')) return;
-          seen.disconnect();
-          play(tile);
-        }, { threshold: .5 });
-        seen.observe(scene);
-      });
-    }
-
-    /* от 834 до 1320 сцена стоит полосой над плашкой описания: высота плашки — в --_plate */
-    if ('ResizeObserver' in window) {
-      var plates = new ResizeObserver(function (entries) {
-        entries.forEach(function (e) { e.target.parentNode.style.setProperty('--_plate', e.target.offsetHeight + 'px'); });
-      });
-      tiles.forEach(function (tile) {
-        var p = tile.querySelector('[data-scene]') && tile.querySelector(':scope > p');
-        if (p) plates.observe(p);
-      });
-    }
-
     function activate(tile) {
-      tiles.forEach(function (t) {
-        if (t === tile && !t.classList.contains('is-active')) play(t);
-        t.classList.toggle('is-active', t === tile);
-      });
+      tiles.forEach(function (t) { t.classList.toggle('is-active', t === tile); });
     }
     tiles.forEach(function (tile) {
       tile.tabIndex = 0;

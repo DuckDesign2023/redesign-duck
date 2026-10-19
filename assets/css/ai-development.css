@@ -331,7 +331,7 @@
 }
 .dd-ai-tile h3 { margin: 0 0 .8rem; }
 .dd-ai-tile > p { margin: 0; color: var(--dd-color-text-body); text-wrap: pretty; }
-.dd-ai-tile__art { position: relative; order: -1; margin: 0 0 2rem; overflow: hidden; border-radius: var(--dd-radius-md); background: var(--dd-beige-100); container-type: inline-size; }
+.dd-ai-tile__art { order: -1; margin: 0 0 2rem; overflow: hidden; border-radius: var(--dd-radius-md); background: var(--dd-beige-100); }
 .dd-ai-tile__art img { display: block; width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 
 /* До 834 — аккордеон: видны ярлык, цифра и заголовок, фото и описание лежат внутри строки и
@@ -448,119 +448,6 @@
   .dd-ai-tile__art,
   .dd-ai-tile > p { transition: none; }
 }
-
-/* Сцены вкладок «The engineering edge» — вёрстка поверх фото, тексты правятся в разметке
-   (просьба пользователя 19.10.2026: «как на главной в Speed and Professionalism»). Размеры — в em:
-   от 1320 1em = 10 px при ширине фото 669 (1440); уже — по ширине фото, не больше 10 px.
-   Играют, когда вкладка становится выбранной, и при первом появлении в окне (ai-development.js);
-   пока играет — не перезапускается. Без скрипта и при «уменьшить движение» стоят в итоговом виде */
-[data-scene] { font-size: min(calc(100cqw / 30), 1rem); }
-@media (min-width: 1320px) {
-  [data-scene] { font-size: calc(100cqw / 66.9); }
-}
-
-/* 1. Code quality — отчёт Lighthouse на мониторе: карточка всплывает, четыре кольца по очереди
-   считают от 0 до итога и меняют цвет по порогам Lighthouse (до 50 красный, до 90 оранжевый,
-   дальше зелёный); статус «Auditing…» сменяется на «Production-ready» */
-.dd-ai-lh {
-  position: absolute;
-  top: 2em;
-  left: 2em;
-  box-sizing: border-box;
-  width: 26em;
-  padding: 1.6em 1.8em 1.1em;
-  border-radius: 1.4em;
-  background: rgba(255, 255, 255, .94);
-  box-shadow: 0 1.2em 3.2em rgba(4, 5, 6, .2);
-  color: var(--dd-neutral-1300);
-  text-align: left;
-}
-.dd-ai-lh__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1em;
-  margin: 0 0 1em;
-  font: 600 1.5em/1.4 var(--dd-font-basic);
-}
-.dd-ai-lh__status { display: grid; font-size: .72em; font-weight: 600; }
-.dd-ai-lh__status > span {
-  grid-area: 1 / 1;
-  justify-self: end;
-  display: inline-flex;
-  align-items: center;
-  gap: .4em;
-  padding: .3em .8em;
-  border-radius: var(--dd-radius-pill);
-  white-space: nowrap;
-}
-.dd-ai-lh__status > span:first-child { visibility: hidden; color: var(--dd-color-text-muted); }
-.dd-ai-lh__status > span:last-child { background: #e3f8eb; color: #0b7a3e; }
-.dd-ai-lh__status svg { width: 1.1em; height: 1.1em; }
-.dd-ai-lh__rows { display: grid; margin: 0; padding: 0; list-style: none; }
-.dd-ai-lh__row {
-  --_c: #0cce6b;
-  --_ink: #0b7a3e;
-
-  display: flex;
-  align-items: center;
-  gap: 1.2em;
-  padding: .5em 0;
-  border-top: .1em dashed var(--dd-beige-100);
-  font: 500 1.35em/1.3 var(--dd-font-basic);
-}
-.dd-ai-lh__row[data-tone="mid"] { --_c: #ffa400; --_ink: #b25d00; }
-.dd-ai-lh__row[data-tone="low"] { --_c: #ff4e42; --_ink: #c4261b; }
-.dd-ai-lh__ring {
-  position: relative;
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 3.2em;
-  height: 3.2em;
-}
-.dd-ai-lh__ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
-.dd-ai-lh__ring circle { fill: none; stroke-width: 2.6; }
-.dd-ai-lh__ring circle:first-child { fill: color-mix(in srgb, var(--_c) 12%, transparent); stroke: color-mix(in srgb, var(--_c) 22%, transparent); }
-.dd-ai-lh__ring circle:last-child { stroke: var(--_c); stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--p, 100)); }
-.dd-ai-lh__ring b {
-  position: relative;
-  font: 700 .88em/1 var(--dd-font-basic);
-  font-variant-numeric: tabular-nums;
-  color: var(--_ink);
-}
-/* со скриптом: до первого показа карточки нет; играет — статус «Auditing…» с мерцающей точкой */
-.dd-ai-lh.is-armed { opacity: 0; }
-.dd-ai-lh.is-playing { opacity: 1; animation: dd-ai-lh-in .5s cubic-bezier(.2, .7, .2, 1) both; }
-.dd-ai-lh.is-armed .dd-ai-lh__status > span:first-child { visibility: visible; }
-.dd-ai-lh.is-armed .dd-ai-lh__status > span:last-child { visibility: hidden; }
-.dd-ai-lh.is-armed .dd-ai-lh__status > span:first-child::before {
-  content: "";
-  width: .5em;
-  height: .5em;
-  border-radius: 50%;
-  background: var(--dd-orange-100);
-  animation: dd-ai-lh-blink 1s ease-in-out infinite alternate;
-}
-.dd-ai-lh.is-done .dd-ai-lh__status > span:first-child { visibility: hidden; }
-.dd-ai-lh.is-done .dd-ai-lh__status > span:last-child {
-  visibility: visible;
-  animation: dd-ai-tick .45s cubic-bezier(.3, 1.5, .5, 1) both;
-}
-/* до 1320 фото низкое (телефон) или узкое (планшет): карточка — полоса, кольца в ряд, подписи под
-   ними. На телефоне полоса внизу фото, от 834 — над плашкой описания (её высоту даёт скрипт в --_plate) */
-@media (max-width: 1319.98px) {
-  .dd-ai-lh { top: auto; right: 1.2em; bottom: 1.2em; left: 1.2em; width: auto; padding: 1.1em 1em 1.2em; }
-  .dd-ai-lh__head { margin-bottom: .2em; font-size: 1.3em; }
-  .dd-ai-lh__rows { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .6em; }
-  .dd-ai-lh__row { flex-direction: column; gap: .5em; padding: .8em 0 0; font-size: .95em; text-align: center; }
-  .dd-ai-lh__ring { font-size: 1.15em; }
-}
-@media (min-width: 834px) and (max-width: 1319.98px) {
-  .dd-ai-lh { right: 2rem; bottom: calc(var(--_plate, 12rem) + 3.2rem); left: 2rem; }
-}
-@keyframes dd-ai-lh-in { from { opacity: 0; transform: translateY(1.6em) scale(.96); } }
-@keyframes dd-ai-lh-blink { to { opacity: .25; } }
 
 /* ==========================================================================
    Экономика — .dd-ai-econ
