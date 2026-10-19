@@ -757,7 +757,7 @@
 .dd-cta-card__go .dd-btn--white { flex: 1; }
 /* ссылка одна, кнопок в ней две: состояния у них общие */
 .dd-cta-card__go:hover .dd-btn--white { --_ring: 0 0 0 var(--_w-halo) rgba(255, 255, 255, .4); }
-.dd-cta-card__go:hover .dd-btn--yellow { --_ring: 0 0 0 var(--_w-halo) var(--dd-yellow-300); }
+.dd-cta-card__go:hover .dd-btn--yellow { --_ring: 0 0 0 var(--_w-halo) rgba(255, 202, 65, .4); }
 .dd-cta-card__go:active .dd-btn--white { --_bg: var(--dd-beige-50); }
 .dd-cta-card__go:active .dd-btn--yellow { --_ring: inset 0 0 0 var(--_w-press) var(--dd-yellow-50); }
 

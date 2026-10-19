@@ -273,7 +273,7 @@
     --_ring: 0 0 0 0 transparent;
   }
   .dd-header.is-open .dd-header__cta { --_bg: var(--dd-yellow-200); }
-  .dd-header.is-open .dd-header__cta:hover { --_ring: 0 0 0 var(--_w-halo) var(--dd-yellow-300); }
+  .dd-header.is-open .dd-header__cta:hover { --_ring: 0 0 0 var(--_w-halo) rgba(255, 202, 65, .4); }
 }
 
 /* Закреплённая шапка — решение пользователя 09.10.2026; в макете прокрученной шапки нет.
@@ -296,7 +296,7 @@
 }
 .dd-header--sticky.is-scrolled .dd-header__cta { --_bg: var(--dd-yellow-200); }
 /* наведение — ореол, как у чёрной кнопки, но в жёлтом: темнее фон и серая обводка смотрелись грязно */
-.dd-header--sticky.is-scrolled .dd-header__cta:hover { --_ring: 0 0 0 var(--_w-halo) var(--dd-yellow-300); }
+.dd-header--sticky.is-scrolled .dd-header__cta:hover { --_ring: 0 0 0 var(--_w-halo) rgba(255, 202, 65, .4); }
 @media (min-width: 1320px) {
   .dd-header--sticky.is-scrolled .dd-header__lang {
     --_fg: var(--dd-neutral-1300);
