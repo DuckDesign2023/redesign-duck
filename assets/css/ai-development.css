@@ -204,18 +204,27 @@
   .dd-ai-hero__bg { position: absolute; inset: 0; z-index: -1; min-height: 0; }
   .dd-ai-hero__bg::after { height: 28%; }
   .dd-ai-hero__bg img, .dd-ai-hero__bg video { object-position: 70% 30%; }
+  /* колонка на всю высоту экрана: сверху ярлык и H1, посередине подводка, у низа кнопка — разнесены,
+     как на первом экране AI Design (просьба пользователя 19.10.2026) */
   .dd-ai-hero__inner {
     display: flex;
     flex: 1;
-    align-items: center;
+    align-items: stretch;
     box-sizing: border-box;
     width: 100%;
-    padding-block: calc(var(--_header) + 4rem) 4rem;
+    padding-block: calc(var(--_header) + 8rem) 6rem;
   }
-  .dd-ai-hero__text { max-width: 44rem; }
+  .dd-ai-hero__text { justify-content: space-between; max-width: 44rem; }
+  .dd-ai-hero__lead { margin-top: 0; }
   .dd-ai-hero__title { margin-top: 2.4rem; font-size: 4.8rem; line-height: 5.6rem; }
   .dd-ai-hero__title .dd-fancy { font-size: 4.9rem; }
-  .dd-ai-hero__actions { flex-direction: row; align-items: center; gap: 3.6rem; width: auto; margin-top: 4rem; }
+  .dd-ai-hero__actions { flex-direction: row; align-items: center; gap: 3.6rem; width: auto; margin-top: 0; }
+}
+/* невысокое окно: прежние поля, чтобы первый экран со строкой цифр помещался в окно */
+@media (min-width: 834px) and (max-height: 860px) {
+  .dd-ai-hero__inner { padding-block: calc(var(--_header) + 4rem) 4rem; }
+  .dd-ai-hero__lead { margin-top: 1.6rem; }
+  .dd-ai-hero__actions { margin-top: 3.2rem; }
 }
 @media (min-width: 1320px) {
   .dd-ai-hero { --_header: 7.3rem; }
