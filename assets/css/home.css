@@ -98,6 +98,15 @@
   column-gap: .22em;
 }
 .dd-hero__line--fancy .dd-fancy { line-height: inherit; }
+/* На телефоне заголовок — три строки: «for a flat monthly fee.» шириной 9,28 кегля занимает
+   не больше 95 % колонки, иначе «fee.» уходит на четвёртую (так было на 360). С 390 — прежние 36 */
+@media (max-width: 833px) {
+  .dd-hero .dd-h-hero {
+    --dd-h-hero: min(3.6rem, calc((100vw - 3.2rem) / 9.8));
+    --dd-h-hero-lh: calc(var(--dd-h-hero) * 7 / 6);
+    --dd-h-hero-fancy: calc(var(--dd-h-hero) + .1rem);
+  }
+}
 /* круглый значок Behance у правого края первой строки — от 834 */
 .dd-hero__badge { display: none; }
 .dd-hero__bottom {
