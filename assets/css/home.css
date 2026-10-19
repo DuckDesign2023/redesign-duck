@@ -4,9 +4,9 @@
    Требует tokens.css, components.css и blocks.css (общие блоки: логотипы, картинка + текст,
    отзывы, кейсы, FAQ панелями).
 
-   На 1440 блоки совпадают с макетом. Макета 834 и 375 у главной нет: до 1320 раскладка
-   собрана по тем же правилам, что у общих блоков (поле страницы 30 от 834 и 16 до 834).
-   Шире 1440 лист тянется до предела сетки --dd-frame.
+   На 1440 блоки совпадают с макетом. Макета 834 у главной нет: от 834 до 1320 раскладка
+   собрана по тем же правилам, что у общих блоков (поле страницы 30). Вид 375 — по макету
+   `375 index` 6144:13561 из Figma v2 (с 16.10.2026). Шире 1440 лист тянется до предела сетки --dd-frame.
    ========================================================================== */
 
 /* Градиент финального призыва уходит под подвал: картинка привязана к низу страницы.
@@ -49,23 +49,27 @@
 @media (min-resolution: 1.5dppx), (min-width: 1441px) {
   .dd-hero { background-image: url('../img/home/hero-bg.jpg'); }
 }
+/* на 375 (6144:13562) всё по центру, заголовок 44 / 52 идёт сплошным текстом,
+   кнопка во всю ширину рядом с кругом-стрелкой */
 .dd-hero__inner {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  padding: 3rem 1.6rem 4rem;
+  gap: 4rem;
+  padding: 3rem 1.6rem 1.6rem;
 }
 .dd-hero__top {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1.8rem;
+  gap: 1.6rem;
+  text-align: center;
 }
 /* «100+ reviews on Clutch ★ 4.9» */
 .dd-hero__proof {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 0 .6rem;
   margin: 0;
   padding-inline: .8rem;
@@ -89,37 +93,24 @@
   height: 2.2rem;
   color: var(--dd-orange-50);
 }
-.dd-hero__line { display: block; }
-.dd-hero__line + .dd-hero__line { margin-top: .6rem; }
-/* в макете «A team of» и «Design Experts» — два слоя с шагом 22 */
-.dd-hero__line--fancy {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: .22em;
-}
+.dd-hero__line { display: inline; }
 .dd-hero__line--fancy .dd-fancy { line-height: inherit; }
-/* На телефоне заголовок — три строки: «for a flat monthly fee.» шириной 9,28 кегля занимает
-   не больше 95 % колонки, иначе «fee.» уходит на четвёртую (так было на 360). С 390 — прежние 36 */
-@media (max-width: 833px) {
-  .dd-hero .dd-h-hero {
-    --dd-h-hero: min(3.6rem, calc((100vw - 3.2rem) / 9.8));
-    --dd-h-hero-lh: calc(var(--dd-h-hero) * 7 / 6);
-    --dd-h-hero-fancy: calc(var(--dd-h-hero) + .1rem);
-  }
-}
 /* круглый значок Behance у правого края первой строки — от 834 */
 .dd-hero__badge { display: none; }
 .dd-hero__bottom {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 3rem;
+  align-items: stretch;
+  gap: 4rem;
 }
 .dd-hero__lead {
   padding-inline: .6rem;
   color: var(--dd-neutral-1300);
+  text-align: center;
 }
 .dd-hero__lead span { display: block; }
+.dd-hero__lead span + span { margin-top: .8rem; }
+.dd-hero .dd-go .dd-btn--black { flex: 1; }
 
 /* Кнопка из двух частей — одна ссылка: чёрная с подписью и круглая со стрелкой, встык */
 .dd-go {
@@ -150,8 +141,17 @@
     gap: 5rem;
     padding: 5rem 3rem;
   }
+  .dd-hero__top {
+    gap: 1.8rem;
+    text-align: left;
+  }
+  .dd-hero__proof { justify-content: flex-start; }
+  .dd-hero__line { display: block; }
   .dd-hero__line + .dd-hero__line { margin-top: 1.4rem; }
+  /* в макете «A team of» и «Design Experts» — два слоя с шагом 22 */
   .dd-hero__line--fancy {
+    display: flex;
+    flex-wrap: wrap;
     column-gap: 2.2rem;
     padding-right: 9rem; /* место под значок */
   }
@@ -180,7 +180,10 @@
     outline: .2rem solid var(--dd-color-focus);
     outline-offset: .2rem;
   }
-  .dd-hero__bottom { gap: 4rem; }
+  .dd-hero__bottom { align-items: flex-start; }
+  .dd-hero__lead { text-align: left; }
+  .dd-hero__lead span + span { margin-top: 0; }
+  .dd-hero .dd-go .dd-btn--black { flex: initial; }
 }
 @media (min-width: 1320px) {
   .dd-hero { --_header: 7.3rem; }
@@ -197,7 +200,7 @@
   --_fade: 6rem;
 
   display: flex;
-  padding-block: 2rem;
+  padding-block: 1rem;
   overflow: hidden;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--_fade), #000 calc(100% - var(--_fade)), transparent);
   mask-image: linear-gradient(90deg, transparent, #000 var(--_fade), #000 calc(100% - var(--_fade)), transparent);
@@ -205,9 +208,9 @@
 .dd-strip__list {
   flex: none;
   display: flex;
-  gap: .8rem;
+  gap: 1.2rem;
   margin: 0;
-  padding: 0 .8rem 0 0;
+  padding: 0 1.2rem 0 0;
   list-style: none;
   animation: dd-strip-run 80s linear infinite;
 }
@@ -225,10 +228,11 @@
   outline: .2rem solid var(--dd-color-focus);
   outline-offset: .3rem;
 }
+/* на 375 работы стоят 143 × 181 (6144:13597) — обложка обрезается до вертикали */
 .dd-strip__list img {
   display: block;
-  width: 24rem;
-  height: 16rem;
+  width: 14.3rem;
+  height: 18.1rem;
   border-radius: .4rem;
   background: var(--dd-beige-100);
   object-fit: cover;
@@ -309,21 +313,29 @@
   flex: none;
   display: flex;
   justify-content: flex-start;
-  gap: 4rem;
+  gap: 1rem;
   width: auto;
-  padding-right: 4rem;
+  padding-right: 1rem;
   animation: dd-logos-run 70s linear infinite; /* в 1,75 раза медленнее ленты работ по просьбе пользователя 16.10.2026 */
 }
 .dd-logos--home .dd-logos__list li { flex: none; }
+/* на 375 ряд логотипов 24 высотой (6144:14833): кадр 83 × 39 — логотип в нём ростом с макетный,
+   поля кадра уходят в отрицательный отступ */
 .dd-logos--home .dd-logos__list img {
-  width: 15.1rem;
-  height: 7.1rem;
+  width: 8.3rem;
+  height: 3.9rem;
+  margin-block: -.75rem;
 }
 @media (min-width: 834px) {
   .dd-logos--home { gap: 3rem; }
   .dd-logos--home .dd-logos__list {
     gap: 8rem;
     padding-right: 8rem;
+  }
+  .dd-logos--home .dd-logos__list img {
+    width: 15.1rem;
+    height: 7.1rem;
+    margin-block: 0;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -332,12 +344,12 @@
 }
 
 /* ---------- Четыре цифры — 5216:35537 ---------- */
+/* на 375 (6144:13652) — столбцом по центру, между цифрами сплошная черта посередине зазора 40 */
 .dd-stats {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 3rem 2rem;
+  gap: 4rem;
   margin-block: 0;
-  padding: 3rem 1.6rem;
+  padding: 3rem 2.2rem;
   list-style: none;
 }
 .dd-stat {
@@ -345,9 +357,18 @@
   display: flex;
   flex-direction: column;
   gap: .5rem;
+  padding-inline: 3rem;
+  text-align: center;
+}
+.dd-stat + .dd-stat::before {
+  content: "";
+  position: absolute;
+  inset: -2rem 0 auto;
+  height: .1rem;
+  background: var(--dd-beige-100);
 }
 .dd-stat__num {
-  font: italic 300 4rem/4.8rem var(--dd-font-fancy);
+  font: italic 300 3.6rem/4.2rem var(--dd-font-fancy);
   letter-spacing: -.03em;
   color: var(--dd-neutral-1300);
 }
@@ -362,14 +383,19 @@
     gap: 4rem;
     padding: 5rem 3rem 4rem;
   }
+  .dd-stat {
+    padding-inline: 0;
+    text-align: left;
+  }
+  .dd-stat__num {
+    font-size: 4rem;
+    line-height: 4.8rem;
+  }
   /* пунктир 3–3 посередине шага между цифрами */
   .dd-stat + .dd-stat::before {
-    content: "";
-    position: absolute;
-    left: -2rem;
-    top: 0;
-    bottom: 0;
+    inset: 0 auto 0 -2rem;
     width: .1rem;
+    height: auto;
     background: repeating-linear-gradient(180deg, var(--dd-beige-100) 0 .3rem, transparent .3rem .6rem);
   }
 }
@@ -382,14 +408,16 @@
 }
 
 /* ---------- Заголовок с вставкой: «Our [Creative] Services», «Here’s how to (●) get started:» ---------- */
+/* на 375 (6144:13721) — столбцом: строка, вставка, строка через 11, кегль как на 834 */
 .dd-display {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: .4rem 1.1rem;
+  gap: 1.1rem;
   margin: 0;
-  font: 500 3.6rem/4.2rem var(--dd-font-basic);
+  font: 500 5.6rem/6.2rem var(--dd-font-basic);
   letter-spacing: -.04em;
   text-align: center;
   color: var(--dd-neutral-1300);
@@ -413,23 +441,47 @@
   background: var(--dd-yellow-200);
   transform: translateY(-.42rem) rotate(-2deg);
 }
+/* «Our [Creative] Services» на 375 (6144:13668) — MOB/H1 60 / 78, слово на плашке — H1-fancy 65 / 82 */
+.dd-services .dd-display {
+  gap: .2rem;
+  padding-bottom: 2rem;
+  font-size: 6rem;
+  line-height: 7.8rem;
+}
+.dd-services .dd-display .dd-fancy {
+  font-size: 6.5rem;
+  line-height: 8.2rem;
+}
+.dd-services .dd-display__tag { padding-top: .9rem; }
 @media (min-width: 834px) {
   .dd-display {
+    flex-direction: row;
+    gap: .4rem 1.1rem;
+  }
+  .dd-services .dd-display {
+    gap: .4rem 1.1rem;
     font-size: 5.6rem;
     line-height: 6.2rem;
   }
+  .dd-services .dd-display .dd-fancy {
+    font-size: 1em;
+    line-height: inherit;
+  }
+  .dd-services .dd-display__tag { padding-top: 0; }
 }
 
 /* ---------- Сетка услуг — 5168:16252 ---------- */
+/* на 375 (6144:13668) — две колонки 171, зазор 9 × 7, картинка 205 со скруглением 6 */
 .dd-services {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  padding: 5rem 1.6rem 4rem;
+  gap: 2rem;
+  padding: 4rem 1.2rem 5rem;
 }
 .dd-services__list {
   display: grid;
-  gap: 1.6rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .7rem .9rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -447,8 +499,8 @@
 .dd-service__img {
   display: block;
   width: 100%;
-  height: 26rem;
-  border-radius: 1.2rem;
+  height: 20.5rem;
+  border-radius: .6rem;
   background: var(--dd-beige-100);
   object-fit: cover;
 }
@@ -456,9 +508,10 @@
   display: flex;
   flex-direction: column;
   gap: .7rem;
-  padding: 1.6rem;
+  padding: .9rem;
 }
 .dd-service__title {
+  line-height: 2.6rem;
   color: inherit;
   transition: color .15s;
 }
@@ -474,7 +527,7 @@
   position: relative;
   display: block;
   overflow: hidden;
-  border-radius: 1.2rem;
+  border-radius: .6rem;
 }
 .dd-service__go {
   position: absolute;
@@ -548,7 +601,11 @@
     gap: 2.6rem;
   }
   .dd-services__list li { grid-column: span 2; }
+  .dd-service__pic,
+  .dd-service__img { border-radius: 1.2rem; }
   .dd-service__img { height: 36rem; }
+  .dd-service__body { padding: 1.6rem; }
+  .dd-service__title { line-height: var(--dd-h4-light-lh); }
   .dd-services__icons {
     display: flex;
     gap: 1.4rem;
@@ -581,7 +638,7 @@
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  padding-block: 4rem;
+  padding-block: 3rem;
 }
 .dd-steps__head {
   display: flex;
@@ -593,6 +650,7 @@
 }
 .dd-steps__lead {
   max-width: 64rem;
+  padding-inline: 2rem;
   color: var(--dd-neutral-1300);
   opacity: .9;
 }
@@ -621,8 +679,8 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  width: 28rem;
-  min-height: 42rem;
+  width: 30rem;
+  min-height: 45rem;
   padding: 2.4rem;
   border-radius: 1.4rem;
   background: var(--dd-neutral-0);
@@ -665,11 +723,8 @@
     padding-block: 6rem;
   }
   .dd-steps__head { padding-inline: 5rem; }
+  .dd-steps__lead { padding-inline: 0; }
   .dd-steps { --_edge: 3rem; }
-  .dd-step {
-    width: 30rem;
-    min-height: 45rem;
-  }
 }
 @media (min-width: 1320px) {
   .dd-steps { padding-block: 8rem; }
@@ -735,8 +790,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  padding: 5rem 1.6rem 3rem;
+  gap: 2rem;
+  padding: 3rem 1.2rem;
   overflow: hidden;
   overflow: clip;
 }
@@ -744,12 +799,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
   text-align: center;
 }
-.dd-principles__title {
-  max-width: 84rem;
-  padding-top: .6rem;
+.dd-principles__title { max-width: 84rem; }
+/* на 375 (6144:13745) заголовок 28 / 36 Medium одним шрифтом, без кругов и без переноса */
+@media (max-width: 833.98px) {
+  .dd-principles__title {
+    font-weight: 500;
+    font-size: 2.8rem;
+    line-height: 3.6rem;
+  }
+  .dd-principles__title .dd-fancy {
+    font: inherit;
+    letter-spacing: inherit;
+    white-space: nowrap;
+  }
+  .dd-principles__title br { display: none; }
+  /* круга нет, его место — промежуток в пробел: иначе «Client-Centered» и «Approach» слипаются */
+  .dd-principles__title .dd-principles__dot {
+    width: .25em;
+    height: 0;
+    margin: 0;
+    box-shadow: none;
+    animation: none;
+  }
+  .dd-principles__title .dd-principles__dot::before,
+  .dd-principles__title .dd-principles__dot::after { content: none; }
 }
 /* три круга один в другом между словами заголовка */
 /* Оранжевые круги в заголовке: три слоя из макета — кольцо (сам элемент), ореол (::before)
@@ -805,12 +881,13 @@
 }
 .dd-principles__lead {
   max-width: 64rem;
+  padding-inline: 2rem;
   color: var(--dd-neutral-1300);
   opacity: .9;
 }
 .dd-principles__grid {
   display: grid;
-  gap: 1.2rem;
+  gap: .8rem;
 }
 .dd-principles__ghost { display: none; }
 .dd-principle {
@@ -820,12 +897,14 @@
   align-items: center;
   justify-content: center;
   gap: .8rem;
-  min-height: 18.3rem;
   padding: 3rem;
   border-radius: 1.2rem;
   background: var(--dd-fill-soft);
   text-align: center;
 }
+/* на 375 крайние плитки тают вправо, как в макете */
+.dd-principle--left,
+.dd-principle--right { background: linear-gradient(90deg, var(--dd-fill-soft), rgba(233, 228, 218, .3)); }
 .dd-principle__title {
   margin: 0;
   font: 500 2rem/2.4rem var(--dd-font-basic);
@@ -849,7 +928,16 @@
     gap: 6rem;
     padding: 8rem 3rem 3rem;
   }
-  .dd-principles__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dd-principles__head { gap: 1rem; }
+  .dd-principles__title { padding-top: .6rem; }
+  .dd-principles__lead { padding-inline: 0; }
+  .dd-principles__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+  }
+  .dd-principle { min-height: 18.3rem; }
+  .dd-principle--left,
+  .dd-principle--right { background: var(--dd-fill-soft); }
 }
 @media (min-width: 1320px) {
   .dd-principles { padding: 10rem 0 3rem; }
@@ -1001,8 +1089,13 @@
 /* ---------- Две карточки со списками — 5230:40323 ---------- */
 .dd-duo {
   display: grid;
-  gap: 3rem;
-  padding: 4rem 1.6rem;
+  gap: 4rem;
+  padding: 3rem 1.6rem;
+}
+/* заголовок карточки на 375 тот же, что на 834: 28 / 34 (6144:13803) */
+.dd-duo__body .dd-h4 {
+  --dd-h4: 2.8rem;
+  --dd-h4-light-lh: 3.4rem;
 }
 /* Верх карточки — сцена вёрсткой вместо картинки (16.10.2026). Внутри сцены 1em = 10 px макета
    при любой ширине: числа в em — это px из Figma / 10, сцена масштабируется целиком */
@@ -1428,6 +1521,7 @@
 @media (min-width: 834px) {
   .dd-duo {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem;
     padding: 6rem 3rem;
   }
 }
@@ -1440,37 +1534,37 @@
 
 /* ---------- Финальный призыв — 5280:42732 (верхняя часть, 5230:40579) ---------- */
 /* Градиент под ним и под подвалом — фон страницы, см. .dd-home в начале файла */
+/* на 375 (6144:13996): ярлык, заголовок H-huge 62 / 70 и кнопки L столбцом через 11 */
 .dd-final {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4rem;
-  padding: 6rem 1.6rem;
+  gap: 1.6rem;
+  padding: 3rem 1.2rem;
   text-align: center;
 }
 .dd-final__head {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3rem;
-}
-.dd-final__title {
-  font-size: clamp(4.2rem, 11vw, 8rem);
-  line-height: 1.3;
+  gap: 1.6rem;
 }
 .dd-final__title > span { display: block; }
 .dd-final__actions {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.1rem;
   width: 100%;
   max-width: 66rem;
+  padding: 2.4rem .4rem 0;
 }
 @media (min-width: 834px) {
   .dd-final {
     gap: 6rem;
     padding: 10rem 3rem;
   }
+  .dd-final__head { gap: 3rem; }
   .dd-final__title {
     font-size: 8rem;
     line-height: 10.4rem;
@@ -1478,6 +1572,7 @@
   .dd-final__actions {
     flex-direction: row;
     gap: 1.6rem;
+    padding: 0;
   }
   .dd-final__actions .dd-btn { flex: 1; }
 }

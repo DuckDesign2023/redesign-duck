@@ -448,15 +448,15 @@
     opacity: .5;
   }
 
-  /* 15 ссылок тремя столбцами: 6 · 5 · 4 */
+  /* 15 ссылок тремя столбцами по 5 (Figma v2, 5213:28911) */
   .dd-menu__links {
-    grid-template-rows: repeat(6, auto);
+    grid-template-rows: repeat(5, auto);
     grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: var(--_gap);
   }
   .dd-menu__links > li { grid-column: 1; }
-  .dd-menu__links > li:nth-child(n+7) { grid-column: 2; }
-  .dd-menu__links > li:nth-child(n+12) { grid-column: 3; }
+  .dd-menu__links > li:nth-child(n+6) { grid-column: 2; }
+  .dd-menu__links > li:nth-child(n+11) { grid-column: 3; }
   .dd-menu__links > li + li::before { content: none; }
   /* две карточки в ряд */
   .dd-menu__links--large {

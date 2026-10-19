@@ -1,0 +1,22 @@
+<svg width="92.4" height="92.4" viewBox="0 0 92.4 92.4" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="adobe_indesign" filter="url(#filter0_d_0_42)">
+<rect x="21.2" y="9.2" width="50" height="50" rx="9" fill="#49021F"/>
+<g id="Vector">
+<path d="M39.829 24.2728V43.952C39.829 44.1581 39.7387 44.2611 39.558 44.2609H35.9132C35.7524 44.2609 35.6721 44.1579 35.6723 43.952V24.2728C35.6723 24.1082 35.7627 24.0258 35.9434 24.0256H39.5881C39.7263 24.0055 39.8487 24.131 39.829 24.2728Z" fill="#FF3366"/>
+<path d="M50.6125 44.5698C49.2261 44.5914 47.8524 44.2959 46.5913 43.7048C43.914 42.4338 42.7506 39.621 42.7509 36.7228C42.7278 33.8317 44.259 31.077 46.757 29.7099C48.4814 28.7303 50.5097 28.4814 52.4499 28.6596V22.5735C52.4499 22.4297 52.5102 22.3573 52.6307 22.3573H56.4259C56.5296 22.3421 56.6214 22.4362 56.6067 22.5426V40.8007C56.6067 41.5541 56.6813 42.3047 56.7271 43.056C56.7345 43.1843 56.6603 43.3112 56.5464 43.3649C55.5673 43.7837 54.5474 44.0944 53.5042 44.2917C52.5502 44.4723 51.5825 44.5653 50.6125 44.5698ZM52.4499 40.739V32.305C49.7112 31.5441 47.0277 33.635 47.0281 36.5374C46.9618 39.5771 49.672 41.5722 52.4499 40.739Z" fill="#FF3366"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_0_42" x="0" y="0" width="92.4" height="92.4" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feMorphology radius="2" operator="erode" in="SourceAlpha" result="effect1_dropShadow_0_42"/>
+<feOffset dy="12"/>
+<feGaussianBlur stdDeviation="11.6"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.487248 0 0 0 0 0.416099 0 0 0 0 0.273801 0 0 0 0.17 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_42"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_42" result="shape"/>
+</filter>
+</defs>
+</svg>

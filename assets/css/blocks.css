@@ -817,6 +817,75 @@
   .dd-cta-card::before { top: 0; }
 }
 
+/* О7, вид Figma v2 — 6127:12862 (Brand Identity, About), 6127:12904 (Website), 6127:12946 (Pitch Deck).
+   Светлая карточка с тёплым фоном-картинкой, тёмный текст, плитки перекрашены: боковые белые,
+   центральная тёмная. Кнопки — чёрная Get started 250 и белый круг со стрелкой.
+   Фон — верхний слой заливки макета (картинка с фильтрами), снят в bg-warm.webp 2568 × 1142.
+   Оттенок страницы — слой градиента поверх в режиме Color: data-tone="lime" (Website, 80 %),
+   "gold" (Pitch Deck, 60 %); без data-tone — оранжевый (Brand Identity, About).
+   Макета 375 нет: на телефоне карточка как прежняя — во всё окно, без радиуса, кнопка во всю ширину */
+.dd-cta--v2 .dd-cta-card {
+  --dd-color-text: var(--dd-neutral-1300);
+  --dd-color-text-body: var(--dd-neutral-1300);
+  --dd-color-focus: var(--dd-neutral-1300);
+
+  isolation: isolate;
+  background: #fbb04a url('../img/blocks/cta-card/bg-warm.webp') 50% 50% / cover no-repeat;
+}
+.dd-cta--v2 .dd-cta-card::before { content: none; }
+.dd-cta--v2[data-tone] .dd-cta-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  background: var(--_tone);
+  mix-blend-mode: color;
+  opacity: var(--_tone-op);
+  transform: none;
+}
+/* угол и точки градиента пересчитаны из gradientTransform макета на карточку 1284 × 571 */
+.dd-cta--v2[data-tone="lime"] { --_tone: linear-gradient(248.4deg, #d0ff00 -1.5%, #94d63d 49.4%, #009952 100.3%); --_tone-op: .8; }
+.dd-cta--v2[data-tone="gold"] { --_tone: linear-gradient(248.4deg, #ffea00 -1.5%, #cd9a23 49.4%, #b7870f 100.3%); --_tone-op: .6; }
+.dd-cta--v2 .dd-duck--right,
+.dd-cta--v2 .dd-duck--left {
+  --_fill: rgba(255, 255, 255, .21);
+  --_line: rgba(255, 255, 255, .15);
+  --_inner: linear-gradient(180deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .85));
+  --_inner-line: var(--dd-neutral-0);
+  --dd-duck-wing: #f0ba2f;
+  color: #000;
+}
+.dd-cta--v2 .dd-duck--center {
+  --_fill: rgba(71, 38, 23, .21);
+  --_line: rgba(69, 34, 22, .15);
+  --_inner: linear-gradient(180deg, rgba(15, 7, 7, .95), rgba(15, 7, 7, .85));
+  --_inner-line: transparent;
+  box-shadow: inset 0 0 0 .1em var(--_line), 0 .5em 3em rgba(123, 36, 12, .3);
+  color: var(--dd-neutral-0);
+}
+.dd-cta--v2 .dd-cta-card__lead {
+  max-width: 56.4rem;
+  margin-inline: auto;
+  opacity: .8;
+}
+.dd-cta--v2 .dd-cta-card__lead strong { font-weight: 600; }
+.dd-cta--v2 .dd-cta-card__lead span + span { margin-top: 0; }
+.dd-cta--v2 .dd-cta-card__go { justify-content: center; gap: .4rem; }
+.dd-cta--v2 .dd-cta-card__go .dd-btn--black { flex: 1; }
+.dd-cta--v2 .dd-cta-card__go .dd-btn--white { flex: none; }
+.dd-cta--v2 .dd-cta-card__go:hover .dd-btn--black { --_ring: 0 0 0 var(--_w-halo) var(--_halo); }
+.dd-cta--v2 .dd-cta-card__go:hover .dd-btn--white { --_ring: 0 0 0 var(--_w-halo) var(--_halo); }
+.dd-cta--v2 .dd-cta-card__go:active .dd-btn--black { --_fg: var(--dd-neutral-400); }
+.dd-cta--v2 .dd-cta-card__go:active .dd-btn--white { --_bg: var(--dd-beige-50); }
+@media (min-width: 834px) {
+  .dd-cta--v2 .dd-cta-card__go .dd-btn--black { flex: none; width: 25rem; }
+}
+@media (min-width: 1320px) {
+  .dd-cta--v2 { padding-inline: 7.8rem; }
+  .dd-cta--v2 .dd-cta-card { padding: 8rem 14rem 7rem; }
+}
+
 /* ---------- О8. Три превью блога — 5727:4587 · 375: 5910:15885 ---------- */
 .dd-posts {
   display: flex;
@@ -1653,27 +1722,30 @@
 
 /* ---------- О5. FAQ двумя панелями — 5491:1680 · вопрос: faqs main 5494:3327 ---------- */
 /* Тёмная и белая панели рядом; до 1320 — столбцом. Вопрос — кнопка со стрелкой в круге справа:
-   при наведении круг получает заливку, у раскрытого он контрастный, стрелка повёрнута вверх */
+   при наведении круг получает заливку, у раскрытого он контрастный, стрелка повёрнута вверх.
+   На 375 — по макетам главной 6144:13967 и Pricing 6158:16753 (Figma v2): заголовок по центру,
+   панели плотнее, скругление 12 */
 .dd-faqs {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2rem;
   width: 100%;
   max-width: var(--dd-frame);
   margin-inline: auto;
-  padding: 4rem 1.6rem;
+  padding: 3rem 1.6rem;
 }
 .dd-faqs__head {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 2rem;
-  padding-inline: .4rem;
+  align-items: center;
+  gap: 1rem;
+  padding-inline: 2rem;
+  text-align: center;
 }
 .dd-faqs__panels {
   display: grid;
-  gap: 1.2rem;
+  gap: 1.3rem;
 }
 .dd-faqs__panel {
   --_line: var(--dd-beige-50);
@@ -1686,8 +1758,8 @@
   flex-direction: column;
   gap: 3rem;
   min-width: 0;
-  padding: 2.4rem 1.8rem .6rem;
-  border-radius: 2.2rem;
+  padding: 2.4rem 2.4rem 1.6rem;
+  border-radius: 1.2rem;
   background: var(--_ground);
   color: var(--dd-neutral-1300);
 }
@@ -1727,7 +1799,7 @@
 .dd-faqs__list {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 1.6rem;
   margin: 0;
   padding: 0 .6rem;
   list-style: none;
@@ -1831,12 +1903,18 @@
     gap: 5rem;
     padding: 6rem 3rem;
   }
-  .dd-faqs__head { padding-inline: 2rem; }
+  .dd-faqs__head {
+    align-items: flex-start;
+    gap: 2rem;
+    text-align: left;
+  }
   .dd-faqs__panels { gap: 2rem; }
   .dd-faqs__panel {
     gap: 5rem;
     padding: 4.2rem 4.2rem 1.8rem;
+    border-radius: 2.2rem;
   }
+  .dd-faqs__list { gap: 3rem; }
 }
 @media (min-width: 1320px) {
   .dd-faqs { padding: 8rem 12rem; }

@@ -77,8 +77,8 @@
   font-weight: 400;
   color: var(--dd-color-text-body);
 }
-.dd-txt-1 { font-size: 2rem; line-height: 2.6rem; letter-spacing: -.01em; }
-.dd-txt-2 { font-size: 1.8rem; line-height: 2.6rem; letter-spacing: -.01em; }
+.dd-txt-1 { font-size: 2rem; line-height: 3rem; letter-spacing: -.01em; }
+.dd-txt-2 { font-size: 1.8rem; line-height: 2.8rem; letter-spacing: -.01em; }
 .dd-txt-3 { font-size: 1.6rem; line-height: 2.4rem; }
 .dd-txt-4 { font-size: 1.4rem; line-height: 2.1rem; }
 .dd-txt-5 { font-size: 1.2rem; line-height: 1.8rem; }

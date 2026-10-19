@@ -296,7 +296,7 @@
    Абзацы через 20; заголовок отходит от текста выше на 60 / 40 / 30 и стоит над своим текстом в 20 / 16 / 12.
    ========================================================================== */
 .dd-entry-content {
-  font: 400 1.8rem/2.6rem var(--dd-font-basic);
+  font: 400 1.8rem/2.8rem var(--dd-font-basic);
   letter-spacing: -.01em;
   color: var(--dd-neutral-1100);
   overflow-wrap: break-word;
@@ -323,7 +323,7 @@
 .dd-entry-content h4 {
   font-weight: 600;
   font-size: 2rem;
-  line-height: 2.6rem;
+  line-height: 3rem;
   letter-spacing: -.01em;
 }
 .dd-entry-content > * + h2 { margin-top: 4rem; }

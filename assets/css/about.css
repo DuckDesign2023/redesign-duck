@@ -64,14 +64,28 @@
   font-weight: 500;
   font-size: 1.0208em; /* 49 при 48 */
 }
-.dd-about-hero__thumb {
+/* Переключатель в заголовке — 6300:13326 (Figma v2 вместо картинки): пилюля 105 × 58 с градиентом
+   Orange-100 → #c86406, белая обводка 26 %, справа белый круг 42 с уткой. Размеры в em:
+   на 1440 кегль 10 px — как в макете, на телефоне 6,2 px — по высоте строки заголовка (додумано) */
+.dd-about-hero__toggle {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: flex-end;
+  width: 10.5em;
+  height: 5.8em;
+  padding: .8em;
+  border-radius: var(--dd-radius-pill);
+  background: linear-gradient(90deg, var(--dd-orange-100), #c86406);
+  box-shadow: inset 0 0 0 .1rem rgba(255, 255, 255, .26);
+  font-size: .62rem;
+}
+.dd-about-hero__toggle img {
   display: block;
-  width: 6.4rem;
-  height: auto;
-  aspect-ratio: 103 / 52;
-  border-radius: .5rem;
-  object-fit: cover;
-  background: var(--dd-orange-100);
+  width: 4.4em;
+  height: 4.4em;
+  margin: -.1em;
 }
 .dd-about-hero__lead {
   max-width: 72rem;
@@ -81,47 +95,51 @@
 }
 .dd-about-hero__top .dd-btn { align-self: stretch; }
 
-.dd-about-hero__sheet { padding: 1rem 0 0; }
-
-/* Карточка «Our expertise» — 5761:8516 */
-.dd-about-expertise {
-  display: grid;
-  gap: 2.4rem;
-  padding: 3rem 1.6rem 1.6rem;
+/* Лист «Our expertise» — 6127:12521 и 5761:8516 (Figma v2): белая вкладка с вогнутыми углами 30
+   над листом со скруглением 28; лист белый 30 px, дальше уходит в Beige-50 — в фон страницы */
+.dd-about-hero__tab {
+  position: relative;
+  width: max-content;
+  margin: 0 auto;
+  padding: 1.6rem 3.8rem 1.2rem;
+  border-radius: 2.4rem 2.4rem 0 0;
   background: var(--dd-neutral-0);
-}
-.dd-about-expertise__body {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2rem;
-}
-.dd-about-expertise__head {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-/* вторая строка заголовка — целиком курсив: в макете она выше первой, блок 102 при двух строках по 50 */
-.dd-about-expertise__head .dd-fancy { line-height: inherit; }
-.dd-about-expertise__label {
-  margin: 0;
   font: 700 1.6rem/2.4rem var(--dd-font-basic);
   letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--dd-orange-0);
 }
-.dd-about-expertise__text {
+.dd-about-hero__tab::before,
+.dd-about-hero__tab::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 3rem;
+  height: 3rem;
+}
+.dd-about-hero__tab::before {
+  right: 100%;
+  background: radial-gradient(circle at 0 0, transparent 2.95rem, var(--dd-neutral-0) 3rem);
+}
+.dd-about-hero__tab::after {
+  left: 100%;
+  background: radial-gradient(circle at 100% 0, transparent 2.95rem, var(--dd-neutral-0) 3rem);
+}
+.dd-about-expertise {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  text-wrap: pretty;
+  gap: 3rem;
+  padding: 5rem 1.6rem 0;
+  border-radius: 2rem 2rem 0 0;
+  background: linear-gradient(var(--dd-neutral-0) 3rem, var(--dd-beige-50));
 }
-.dd-about-expertise__text p {
-  margin: 0;
-  color: var(--dd-neutral-1200);
+.dd-about-expertise__title {
+  text-align: center;
+  text-wrap: balance;
 }
-.dd-about-expertise__body .dd-btn { align-self: stretch; }
-.dd-about-expertise__list {
+/* Шесть плиток направлений — компоненты 6127:12388…12426. Наведение (вид Variant2, Smart Animate 0,3 с):
+   фон-картинка, белые значок и подпись; у No-code фон светлый — значок и подпись чёрные, как в макете */
+.dd-about-skills {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: .9rem;
@@ -129,20 +147,115 @@
   padding: 0;
   list-style: none;
 }
-.dd-about-expertise__list li {
-  box-sizing: border-box;
-  min-height: 9rem;
-  padding: 1.6rem;
+.dd-about-skill {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  padding: 2.8rem .8rem;
+  overflow: hidden;
   border-radius: .8rem;
-  background: var(--dd-beige-50);
+  background: var(--dd-neutral-0);
+  box-shadow: inset 0 0 0 .1rem rgba(216, 210, 198, .3);
+  font: 500 1.5rem/2.2rem var(--dd-font-basic);
+  letter-spacing: .04em;
+  text-align: center;
+  text-transform: uppercase;
   color: var(--dd-neutral-1300);
+}
+.dd-about-skill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: 50% 50% / cover no-repeat;
+  opacity: 0;
+}
+.dd-about-skill--graphic::before { background-image: url('../img/about/expertise/graphic.webp'); }
+.dd-about-skill--motion::before { background-image: url('../img/about/expertise/motion.webp'); }
+.dd-about-skill--branding::before { background-image: url('../img/about/expertise/branding.webp'); }
+.dd-about-skill--web::before { background-image: url('../img/about/expertise/web.webp'); }
+.dd-about-skill--ux::before { background-image: url('../img/about/expertise/ux.webp'); }
+.dd-about-skill--nocode::before { background-image: url('../img/about/expertise/nocode.webp'); }
+.dd-about-skill__icon { display: grid; }
+.dd-about-skill__icon img {
+  grid-area: 1 / 1;
+  display: block;
+  width: 4.2rem;
+  height: 4.2rem;
+}
+.dd-about-skill__icon img + img { opacity: 0; }
+@media (hover: hover) {
+  .dd-about-skill:hover { color: var(--dd-neutral-0); }
+  .dd-about-skill--nocode:hover { color: var(--dd-neutral-1300); }
+  .dd-about-skill:hover::before,
+  .dd-about-skill:hover .dd-about-skill__icon img + img { opacity: 1; }
+  .dd-about-skill:hover .dd-about-skill__icon img:first-child { opacity: 0; }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .dd-about-skill,
+  .dd-about-skill::before,
+  .dd-about-skill__icon img { transition: color .3s, opacity .3s; }
+}
+/* Плашка «A key advantage» — 6127:12550: значок 112 в полупрозрачном квадрате, крупная строка
+   градиентом Neutral-1100 → Orange-0 (22 / 28, мимо стилей системы), абзац txt 3, кнопка S */
+.dd-about-advantage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 2rem;
+  border-radius: 1.6rem;
+  box-shadow: inset 0 0 0 .1rem var(--dd-beige-100);
+}
+.dd-about-advantage__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 7.2rem;
+  height: 7.2rem;
+  border-radius: 1.6rem;
+  background: rgba(252, 251, 248, .8);
+  box-shadow: inset 0 0 0 .1rem var(--dd-neutral-0);
+}
+.dd-about-advantage__icon img { display: block; width: 4.3rem; height: 4.3rem; }
+.dd-about-advantage__key {
+  margin: 0;
+  font: 500 2.2rem/2.8rem var(--dd-font-basic);
+  letter-spacing: -.03em;
+  color: var(--dd-neutral-1100);
+  text-wrap: pretty;
+}
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .dd-about-advantage__key {
+    background: linear-gradient(90deg, var(--dd-neutral-1100), var(--dd-orange-0));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+.dd-about-advantage__text {
+  margin: 0;
+  color: var(--dd-neutral-1100);
+  text-wrap: pretty;
+}
+/* на телефоне кнопка во всю ширину и размера M — правило раздела 4 DESIGN.md */
+.dd-about-advantage .dd-btn {
+  --_h: 5.2rem;
+  --_pad: 1.6rem;
+  --_fs: 1.4rem;
+  align-self: stretch;
 }
 
 @media (min-width: 834px) {
   .dd-about-hero { --_header: 8.1rem; }
+  /* Figma v2: между строками первого экрана 20, поля сверху и снизу 60 */
   .dd-about-hero__top {
-    gap: 3rem;
-    padding: 6rem 3rem 4rem;
+    gap: 2rem;
+    padding: 6rem 3rem;
   }
   .dd-about-hero__title {
     font-size: 4.8rem;
@@ -152,38 +265,55 @@
     flex-wrap: nowrap;
     gap: 2rem;
   }
-  .dd-about-hero__thumb { width: 10.3rem; }
+  .dd-about-hero__toggle { font-size: 1rem; }
   .dd-about-hero__lead { padding-bottom: 1.2rem; }
   .dd-about-hero__top .dd-btn { align-self: center; }
 
-  .dd-about-hero__sheet { padding: 4rem 3rem 1rem; }
+  .dd-about-hero__sheet { padding-inline: 3rem; }
+  .dd-about-hero__tab { margin-top: 3rem; }
   .dd-about-expertise {
-    grid-template-columns: minmax(0, 648fr) minmax(0, 572fr);
-    gap: 2rem;
-    padding: 5rem 4rem;
-    border-radius: 2.7rem;
+    gap: 4rem;
+    padding: 5rem 4rem 0;
+    border-radius: 2.8rem 2.8rem 0 0;
   }
-  .dd-about-expertise__body { padding: 2rem 4.8rem 0 2.8rem; }
-  .dd-about-expertise__head {
-    gap: 1.3rem;
-    padding-inline: 1.2rem;
+  .dd-about-skills {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
   }
-  .dd-about-expertise__text { padding: 0 1.2rem 5rem; }
-  .dd-about-expertise__body .dd-btn { align-self: flex-start; }
-  .dd-about-expertise__list {
-    grid-auto-rows: 1fr;
-    gap: 1.6rem;
+  .dd-about-skill { padding: 3.6rem 0; }
+  .dd-about-advantage {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 2rem 3rem;
+    padding: 3rem;
+    border-radius: 2.8rem;
   }
-  .dd-about-expertise__list li {
-    min-height: 0;
-    padding: 2.4rem;
-    border-radius: 1.4rem;
+  .dd-about-advantage__icon {
+    grid-row: span 3;
+    width: 11.2rem;
+    height: 11.2rem;
+  }
+  .dd-about-advantage .dd-btn {
+    --_h: 4.1rem;
+    --_pad: 1.2rem;
+    --_fs: 1.2rem;
+    align-self: start;
+    justify-self: start;
   }
 }
 @media (min-width: 1320px) {
   .dd-about-hero { --_header: 7.3rem; }
   .dd-about-hero__top { padding-inline: 14rem; }
   .dd-about-hero__sheet { padding-inline: 6rem; }
+  .dd-about-expertise { padding-inline: 8rem; }
+  .dd-about-skills { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .dd-about-advantage {
+    display: flex;
+    flex-direction: row;
+  }
+  .dd-about-advantage__key,
+  .dd-about-advantage__text { flex: 1 1 0; }
+  .dd-about-advantage .dd-btn { flex: none; }
 }
 
 /* ---------- Логотипы клиентов, вид About — 5760:6859 ---------- */
@@ -296,7 +426,12 @@
 }
 .dd-about-tile--ink { background: var(--dd-neutral-1300); }
 .dd-about-tile--ember { background: linear-gradient(52.9deg, #040506 .2%, var(--dd-orange-0) 57.2%, var(--dd-orange-50) 99.8%); }
-.dd-about-tile--amber { background: linear-gradient(122.3deg, var(--dd-orange-0) 2.6%, #c46b18 56.8%, #e4ad1d 97.4%); }
+/* Figma v2: плитка посветлела — верхний слой Orange-100 → #e7b530, текст тёмный, плюс #c86406 */
+.dd-about-tile--amber {
+  background: linear-gradient(280deg, var(--dd-orange-100) .2%, #e7b530 99.8%);
+  color: var(--dd-neutral-1300);
+}
+.dd-about-tile--amber .dd-about-tile__num span { color: #c86406; }
 .dd-about-tile--sand {
   background: linear-gradient(289.6deg, var(--dd-beige-100) .2%, var(--dd-orange-100) 99.8%);
   color: var(--dd-neutral-1300);

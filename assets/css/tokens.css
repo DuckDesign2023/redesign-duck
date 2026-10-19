@@ -90,10 +90,10 @@
   --dd-font-tech: 'JetBrains Mono', ui-monospace, monospace;
 
   /* Заголовки: кегль / интерлиньяж. База — стили «Headlines MOB» */
-  --dd-h-hero: 3.6rem;  --dd-h-hero-lh: 4.2rem;  --dd-h-hero-fancy: 3.7rem; /* моб. — допущение, макета нет */
-  --dd-h-huge: 7.6rem;  --dd-h-huge-lh: 10rem;
+  --dd-h-hero: 4.4rem;  --dd-h-hero-lh: 5.2rem;  --dd-h-hero-fancy: 4.3rem; /* моб. — 375 index 6144:13562 (курсив на 1 меньше — так в макете) */
+  --dd-h-huge: 6.2rem;  --dd-h-huge-lh: 7rem;
   --dd-h1: 6rem;        --dd-h1-lh: 7.8rem;
-  --dd-h2: 4.2rem;      --dd-h2-lh: 5.6rem;
+  --dd-h2: 4.2rem;      --dd-h2-lh: 5.4rem;
   --dd-h3: 3.6rem;      --dd-h3-lh: 4.2rem;
   --dd-h4: 2.2rem;      --dd-h4-lh: 3rem;
   --dd-h5: 2rem;        --dd-h5-lh: 2.6rem;
