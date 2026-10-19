@@ -182,9 +182,11 @@
 /* только иконка — круг */
 .dd-btn--icon { width: var(--_h); padding: 0; }
 
+/* Наведение у залитых white и yellow — ореол в цвет кнопки, фон не меняется, как у black.
+   В Figma у yellow темнее фон, у white серая обводка 1 — на цветном фоне смотрелось грязно (19.10.2026) */
 .dd-btn--yellow { --_bg: var(--dd-yellow-200); }
 .dd-btn--yellow:hover,
-.dd-btn--yellow.is-hover { --_bg: var(--dd-yellow-100); }
+.dd-btn--yellow.is-hover { --_ring: 0 0 0 var(--_w-halo) var(--dd-yellow-300); }
 .dd-btn--yellow:active,
 .dd-btn--yellow.is-pressed {
   --_bg: var(--dd-yellow-100);
@@ -202,7 +204,7 @@
 
 .dd-btn--white { --_bg: var(--dd-neutral-0); }
 .dd-btn--white:hover,
-.dd-btn--white.is-hover { --_ring: 0 0 0 .1rem var(--dd-beige-100); }
+.dd-btn--white.is-hover { --_ring: 0 0 0 var(--_w-halo) rgba(255, 255, 255, .4); }
 .dd-btn--white:active,
 .dd-btn--white.is-pressed {
   --_bg: var(--dd-beige-50);
