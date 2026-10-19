@@ -18,10 +18,16 @@
       if (max > 1) scroller.tabIndex = 0;
       else scroller.removeAttribute('tabindex');
     }
+    /* шаг — слайд и зазор между слайдами, а не ширина ленты */
+    function step() {
+      var slide = scroller.firstElementChild;
+      if (!slide) return scroller.clientWidth;
+      return slide.getBoundingClientRect().width + (parseFloat(getComputedStyle(scroller).columnGap) || 0);
+    }
     function go(btn, dir) {
       btn.addEventListener('click', function () {
         if (btn.getAttribute('aria-disabled') === 'true') return;
-        scroller.scrollBy({ left: dir * scroller.clientWidth, behavior: calm.matches ? 'auto' : 'smooth' });
+        scroller.scrollBy({ left: dir * step(), behavior: calm.matches ? 'auto' : 'smooth' });
       });
     }
 
