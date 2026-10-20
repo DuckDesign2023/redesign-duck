@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="../assets/css/shell.css?v=29">
     <link rel="stylesheet" href="../assets/css/blocks.css?v=23">
     <link rel="stylesheet" href="../assets/css/capabilities.css?v=13">
-    <link rel="stylesheet" href="../assets/css/ai-development.css?v=88">
+    <link rel="stylesheet" href="../assets/css/ai-development.css?v=91">
 </head>
 <body>
 <a class="dd-skip-link dd-btn dd-btn--s dd-btn--yellow" href="#main"><span class="dd-btn__label">Skip to content</span></a>
@@ -569,24 +569,26 @@
         <h3 class="dd-h4">No design-to-dev friction</h3>
         <p class="dd-txt-3">What you approve in Figma is exactly what renders live.</p>
         <figure class="dd-ai-tile__art dd-ai-tile__art--scene"><img src="../assets/img/ai-development/edge/edge-4-fidelity.jpg?v=7" width="1200" height="1200" alt="" loading="lazy">
-          <!-- сцена «макет = живая страница» (21.10.2026); без скрипта видно фото выше. Карточки «Figma» и «live» с одним
-               фрагментом; полупрозрачная копия фрагмента перелетает с макета на страницу, направляющие сходятся,
-               Δ считает 12.40 → 0.00 px; на совпадении — блик и плитки пера и прицела -->
+          <!-- сцена «одобрено → в браузере» (21.10.2026, вариант пользователя); без скрипта видно фото выше. В «Figma»
+               курсор жмёт «Approve», копия макета снимается и едет в пустую «live», встаёт на место один в один;
+               блик, «0px difference», стеклянная галочка -->
           <div class="dd-edge-scene dd-edge-fid" aria-hidden="true">
             <div class="dd-edge-scene__stage">
               <span class="dd-edge-scene__light"></span>
               <div class="dd-edge-card dd-edge-fid__card dd-edge-fid__design">
                 <div class="dd-edge-code__bar"><i></i><i></i><i></i><span>Figma</span></div>
                 <div class="dd-edge-fid__frag"><span class="dd-edge-fid__media"></span><span class="dd-edge-fid__title"></span><span class="dd-edge-fid__text"></span><span class="dd-edge-fid__btn"></span></div>
+                <span class="dd-edge-fid__ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Approve</span>
               </div>
               <div class="dd-edge-card dd-edge-fid__card dd-edge-fid__live">
                 <div class="dd-edge-code__bar"><i></i><i></i><i></i><span>live</span></div>
-                <div class="dd-edge-fid__frag dd-edge-fid__frag--live"><span class="dd-edge-fid__media"><span class="dd-edge-fid__shine"></span></span><span class="dd-edge-fid__title"></span><span class="dd-edge-fid__text"></span><span class="dd-edge-fid__btn"></span></div>
-                <div class="dd-edge-fid__frag dd-edge-fid__ghost"><span class="dd-edge-fid__media"></span><span class="dd-edge-fid__title"></span><span class="dd-edge-fid__text"></span><span class="dd-edge-fid__btn"></span></div>
+                <span class="dd-edge-fid__slot"></span>
+                <div class="dd-edge-fid__frag dd-edge-fid__frag--move" style="--mx:-24.39em;--my:-16.74em"><span class="dd-edge-fid__media"><span class="dd-edge-fid__shine"></span></span><span class="dd-edge-fid__title"></span><span class="dd-edge-fid__text"></span><span class="dd-edge-fid__btn"></span></div>
               </div>
-              <p class="dd-edge-card dd-edge-fid__delta"><b>Δ <i></i>px</b></p>
-              <div class="dd-edge-glass dd-edge-fid__pen" style="--x:42em;--y:3em;--s:9em;--r:9deg;--g1:#ffca41;--g2:#ff8b20"><i class="dd-edge-glass__glow"></i><span class="dd-edge-glass__tile"><svg viewBox="0 0 48 48"><path d="M24 7 12 25l5 14h14l5-14z"/><path d="M24 7v15"/><circle cx="24" cy="25" r="3"/></svg></span></div>
-              <div class="dd-edge-glass dd-edge-fid__aim" style="--x:49em;--y:36em;--s:8.5em;--r:-8deg;--g1:#ff8b20;--g2:#ffca41"><i class="dd-edge-glass__glow"></i><span class="dd-edge-glass__tile"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="12"/><path d="M24 6v8M24 34v8M6 24h8M34 24h8"/><circle cx="24" cy="24" r="1.5"/></svg></span></div>
+              <p class="dd-edge-card dd-edge-fid__diff"><b>0px</b><span>difference</span></p>
+              <div class="dd-edge-glass dd-edge-fid__pen" style="--x:44em;--y:4em;--s:9em;--r:9deg;--g1:#ffca41;--g2:#ff8b20"><i class="dd-edge-glass__glow"></i><span class="dd-edge-glass__tile"><svg viewBox="0 0 48 48"><path d="M24 7 12 25l5 14h14l5-14z"/><path d="M24 7v15"/><circle cx="24" cy="25" r="3"/></svg></span></div>
+              <div class="dd-edge-glass dd-edge-fid__check" style="--x:48.5em;--y:36.5em;--s:8.5em;--r:-8deg;--g1:#ff8b20;--g2:#ffca41"><i class="dd-edge-glass__glow"></i><span class="dd-edge-glass__tile"><svg viewBox="0 0 48 48"><path d="M13 25l7.5 7.5L35 17"/></svg></span></div>
+              <span class="dd-edge-cursor"><svg><use href="#dd-cursor"/></svg></span>
             </div>
           </div>
         </figure>

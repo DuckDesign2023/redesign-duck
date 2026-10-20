@@ -957,16 +957,31 @@
 .dd-edge-int__count em { display: inline-block; max-width: .7em; overflow: hidden; vertical-align: bottom; font-style: normal; color: var(--dd-orange-100); }
 .dd-edge-int__count span { font: italic 500 1.8em/1 var(--dd-font-fancy); color: var(--dd-orange-100); }
 
-/* ---- No design-to-dev friction: карточки «Figma» и «live», копия фрагмента садится на страницу, «Δ 0.00px» ---- */
-@property --_c { syntax: '<integer>'; inherits: false; initial-value: 0; }
-@property --_ci { syntax: '<integer>'; inherits: false; initial-value: 0; }
-@property --_cf { syntax: '<integer>'; inherits: false; initial-value: 0; }
-.dd-edge-fid__card { padding: 1.5em 2em; }
-.dd-edge-fid__design { z-index: 1; left: 4em; top: 5em; width: 30em; height: 23em; rotate: -5deg; }
-.dd-edge-fid__live { z-index: 2; left: 23.5em; top: 15.5em; width: 33em; height: 25em; rotate: 2deg; }
-.dd-edge-fid__frag { position: absolute; left: 2em; top: 4.6em; width: 26em; height: 14.4em; }
+/* ---- No design-to-dev friction: в «Figma» курсор жмёт «Approve», тот же макет переезжает в «live» и встаёт
+   на место один в один; «0px difference» (21.10.2026, вариант пользователя «одобрено → в браузере») ---- */
+.dd-edge-fid__card { width: 30em; padding: 1.5em 2em; }
+.dd-edge-fid__design { z-index: 1; left: 3em; top: 3em; height: 25em; rotate: -4deg; }
+.dd-edge-fid__live { z-index: 2; left: 26.5em; top: 21em; height: 21em; rotate: 3deg; }
+.dd-edge-fid__frag,
+.dd-edge-fid__slot { position: absolute; left: 2em; top: 4.6em; width: 26em; height: 14.4em; }
 .dd-edge-fid__frag > * { position: absolute; display: block; }
-.dd-edge-fid__design .dd-edge-fid__frag { left: 2em; width: 26em; }
+/* пустое место под макет на странице — пока он не приехал */
+.dd-edge-fid__slot { border-radius: 1.1em; background: rgb(255 255 255 / .04); }
+.dd-edge-fid__ok {
+  position: absolute;
+  left: calc(2em / 1.5); /* em кнопки = 1,5 em сцены */
+  top: calc(19.8em / 1.5);
+  display: flex;
+  align-items: center;
+  gap: .45em;
+  padding: .5em 1em .55em .8em;
+  border-radius: 2em;
+  background: linear-gradient(160deg, #ffca41, #ff8b20);
+  box-shadow: inset 0 .1em 0 rgb(255 255 255 / .55), 0 .6em 1.4em rgb(255 139 32 / .35);
+  color: var(--dd-neutral-1300);
+  font: 600 1.5em/1.2 var(--dd-font-basic);
+}
+.dd-edge-fid__ok svg { width: 1.1em; height: 1.1em; fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
 .dd-edge-fid__media {
   left: 0;
   top: 0;
@@ -1009,17 +1024,6 @@
   background: linear-gradient(160deg, #ffca41, #ff8b20);
   box-shadow: inset 0 .1em 0 rgb(255 255 255 / .55), 0 .6em 1.4em rgb(255 139 32 / .3);
 }
-/* направляющие по левой и верхней кромке фрагмента: у страницы стоят на месте, у копии едут вместе с ней */
-.dd-edge-fid__frag--live::before,
-.dd-edge-fid__frag--live::after,
-.dd-edge-fid__ghost::before,
-.dd-edge-fid__ghost::after { content: ""; position: absolute; opacity: 0; }
-.dd-edge-fid__frag--live::before,
-.dd-edge-fid__ghost::before { left: 0; top: -4em; width: .12em; height: 22.4em; background: repeating-linear-gradient(var(--dd-orange-100) 0 .6em, transparent .6em 1.1em); }
-.dd-edge-fid__frag--live::after,
-.dd-edge-fid__ghost::after { left: -4em; top: 0; width: 34em; height: .12em; background: repeating-linear-gradient(90deg, var(--dd-orange-100) 0 .6em, transparent .6em 1.1em); }
-.dd-edge-fid__ghost { opacity: 0; }
-.dd-edge-fid__ghost > * { box-shadow: none; }
 .dd-edge-fid__media { overflow: hidden; }
 .dd-edge-fid__shine {
   position: absolute;
@@ -1030,26 +1034,25 @@
   background: linear-gradient(100deg, rgb(255 255 255 / 0), rgb(255 255 255 / .35) 50%, rgb(255 255 255 / 0));
   opacity: 0;
 }
-.dd-edge-fid__delta {
+/* плашка — как «~3s / render» */
+.dd-edge-fid__diff {
   z-index: 5;
   left: 4em;
   top: 36.5em;
+  display: flex;
+  align-items: baseline;
+  gap: .5em;
   margin: 0;
   padding: .8em 1.6em .9em;
   border-radius: 1.4em;
   rotate: -3deg;
   white-space: nowrap;
 }
-.dd-edge-fid__delta b { font: 600 3.4em/1 var(--dd-font-basic); letter-spacing: -.03em; }
-.dd-edge-fid__delta i {
-  --_ci: calc(var(--_c) / 100 - .5);
-  --_cf: calc(var(--_c) - var(--_ci) * 100);
-  font-style: normal;
-  counter-reset: dd-ci var(--_ci) dd-cf var(--_cf);
-}
-.dd-edge-fid__delta i::after { content: counter(dd-ci) "." counter(dd-cf, decimal-leading-zero); }
+.dd-edge-fid__diff b { font: 600 3.4em/1 var(--dd-font-basic); letter-spacing: -.03em; }
+.dd-edge-fid__diff span { font: italic 500 1.8em/1 var(--dd-font-fancy); color: var(--dd-orange-100); }
 .dd-edge-fid__pen { z-index: 4; }
-.dd-edge-fid__aim { z-index: 6; }
+.dd-edge-fid__check { z-index: 6; }
+.dd-edge-fid .dd-edge-cursor { left: 15.6em; top: 25.4em; }
 
 /* ---- Zero lock-in: платформы за кодом, замок открывается, копии файлов уходят к выгрузке, «100% portable» ---- */
 @property --_p { syntax: '<integer>'; inherits: false; initial-value: 100; }
@@ -1147,19 +1150,18 @@
   .dd-edge-int.is-armed .dd-edge-int__slot,
   .dd-edge-int.is-armed .dd-edge-int__port--free { animation: dd-eb-fade .5s 3.3s both; }
 
-  /* No design-to-dev friction, ~3,9 с: «Figma» → «live» → копия летит 1–2,8 с, Δ 12.40 → 0.00 → блик → прицел */
+  /* No design-to-dev friction, ~4 с: «Figma» и пустая «live» → курсор к «Approve», нажатие в 1,4 с →
+     копия макета снимается с «Figma» и едет в «live» (1,7–2,7 с) → блик → «0px difference» → галочка */
   .dd-edge-fid.is-armed .dd-edge-fid__design { animation: dd-eb-rise .6s var(--dd-ease-out) both; }
   .dd-edge-fid.is-armed .dd-edge-fid__live { animation: dd-eb-rise .6s var(--dd-ease-out) .3s both; }
-  .dd-edge-fid.is-armed .dd-edge-fid__ghost { animation: dd-ef-ghost 2.2s cubic-bezier(.3, .7, .2, 1) 1s both; }
-  .dd-edge-fid.is-armed .dd-edge-fid__ghost::before,
-  .dd-edge-fid.is-armed .dd-edge-fid__ghost::after { animation: dd-ef-guide 2.2s 1s both; }
-  .dd-edge-fid.is-armed .dd-edge-fid__frag--live::before,
-  .dd-edge-fid.is-armed .dd-edge-fid__frag--live::after { animation: dd-ef-guide 2.2s 1s both; }
-  .dd-edge-fid.is-armed .dd-edge-fid__delta { animation: dd-eb-pop .42s cubic-bezier(.34, 1.56, .64, 1) .8s both, dd-ef-glow .6s ease-out 2.8s both; }
-  .dd-edge-fid.is-armed .dd-edge-fid__delta i { animation: dd-ef-count 1.8s cubic-bezier(.3, .7, .2, 1) 1s both; }
-  .dd-edge-fid.is-armed .dd-edge-fid__shine { animation: dd-ef-shine .7s linear 2.85s both; }
+  .dd-edge-fid.is-armed .dd-edge-cursor { animation: dd-ef-cursor .9s cubic-bezier(.4, 0, .2, 1) .45s both; }
+  .dd-edge-fid.is-armed .dd-edge-cursor svg { animation: dd-ef-click .25s ease-out 1.35s both; }
+  .dd-edge-fid.is-armed .dd-edge-fid__ok { animation: dd-ef-ok .35s cubic-bezier(.34, 1.56, .64, 1) 1.4s both; }
+  .dd-edge-fid.is-armed .dd-edge-fid__frag--move { animation: dd-ef-move 1s cubic-bezier(.45, 0, .2, 1) 1.7s both; }
+  .dd-edge-fid.is-armed .dd-edge-fid__shine { animation: dd-ef-shine .7s linear 2.7s both; }
+  .dd-edge-fid.is-armed .dd-edge-fid__diff { animation: dd-eb-pop .42s cubic-bezier(.34, 1.56, .64, 1) 2.9s both; }
   .dd-edge-fid.is-armed .dd-edge-fid__pen { animation: dd-eb-fly .8s cubic-bezier(.2, .8, .2, 1) .4s both, dd-eb-float 5.4s ease-in-out 4s infinite alternate; --fx: 14em; --fy: -12em; }
-  .dd-edge-fid.is-armed .dd-edge-fid__aim { animation: dd-eb-fly .8s cubic-bezier(.2, .8, .2, 1) 3s both, dd-eb-float 5.6s ease-in-out 4.2s infinite alternate; --fx: 14em; --fy: 12em; }
+  .dd-edge-fid.is-armed .dd-edge-fid__check { animation: dd-eb-fly .8s cubic-bezier(.2, .8, .2, 1) 3.1s both, dd-eb-float 5.6s ease-in-out 4.2s infinite alternate; --fx: 14em; --fy: 12em; }
 
   /* Zero lock-in, ~4 с: код и платформы → замок открывается (0,9–1,4) → платформы уходят назад →
      три копии файлов летят к выгрузке (1,6 + k·0,3), счётчик 0 → 100 % (1,6–3) → плитка ∞ */
@@ -1185,16 +1187,18 @@
 @keyframes dd-ei-more { from { opacity: 0; translate: 0 -2em; } }
 @keyframes dd-ei-plus { from { max-width: 0; opacity: 0; } }
 @keyframes dd-ei-btn { 30% { box-shadow: inset 0 .1em 0 rgb(255 255 255 / .55), 0 0 2.6em rgb(255 202 65 / .95); scale: 1.06; } }
-/* копия: снимается с макета (координаты — от итога на странице), летит, садится и гаснет */
-@keyframes dd-ef-ghost {
-  0% { opacity: 0; translate: -19.5em -10.5em; rotate: -7deg; scale: 1; }
-  10% { opacity: .65; scale: 1.04; }
-  78% { opacity: .65; translate: 0 0; rotate: 0deg; scale: 1; }
-  100% { opacity: 0; translate: 0 0; rotate: 0deg; scale: 1; }
+/* курсор входит снизу справа к «Approve» (координаты — от итога), нажатие, кнопка из стекла становится оранжевой */
+@keyframes dd-ef-cursor { from { opacity: 0; translate: 14em 12em; } 30% { opacity: 1; } }
+@keyframes dd-ef-click { 50% { scale: .82; } }
+@keyframes dd-ef-ok {
+  from { background: rgb(255 255 255 / .1); box-shadow: inset 0 0 0 .08em rgb(255 255 255 / .18), inset 0 .1em 0 rgb(255 255 255 / .2); color: var(--dd-beige-100); scale: .94; }
 }
-@keyframes dd-ef-guide { 0% { opacity: 0; } 10%, 82% { opacity: .9; } 100% { opacity: 0; } }
-@keyframes dd-ef-count { from { --_c: 1240; } }
-@keyframes dd-ef-glow { 40% { box-shadow: inset 0 0 0 .08em rgb(255 139 32 / .6), inset 0 .1em 0 rgb(255 255 255 / .16), 0 0 3em rgb(255 139 32 / .55); } }
+/* копия макета: снимается с «Figma» (--mx/--my — сдвиг до него, замерен), едет и встаёт в «live» */
+@keyframes dd-ef-move {
+  0% { opacity: 0; translate: var(--mx) var(--my); rotate: -7deg; scale: 1; }
+  15% { opacity: 1; translate: var(--mx) var(--my); rotate: -7deg; scale: 1.05; }
+  100% { opacity: 1; translate: 0 0; rotate: 0deg; scale: 1; }
+}
 @keyframes dd-ef-shine { 0% { translate: -7em 0; opacity: 0; } 15%, 85% { opacity: 1; } 100% { translate: 12em 0; opacity: 0; } }
 @keyframes dd-eo-vendor { 0% { opacity: 0; scale: .9; } 15%, 60% { opacity: .85; scale: 1; } }
 @keyframes dd-eo-shake { 25% { rotate: calc(var(--r) - 6deg); } 75% { rotate: calc(var(--r) + 5deg); } }
