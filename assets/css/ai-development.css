@@ -279,9 +279,9 @@
 
 /* ==========================================================================
    Возможности — .dd-ai-edge («сцена», выбрана 12.10.2026)
-   От 834: слева пять строк (ярлык со значком, цифра, заголовок), справа одна карточка с
-   фото выбранной строки и её описанием поверх фото. Строки не раскрываются — высота списка
-   постоянна, при смене строки ничего не прыгает. Строку выбирает указатель, фокус или
+   От 834: слева пять строк (ярлык со значком, цифра, заголовок), у выбранной под заголовком
+   раскрыто описание; справа одна карточка с картинкой выбранной строки во всю высоту блока,
+   высота блока постоянна (20.10.2026). Строку выбирает указатель, фокус или
    нажатие (assets/js/ai-development.js); без скрипта выбрана первая.
    До 834 — аккордеон: строка с ярлыком и заголовком, фото и описание раскрываются внутри.
    ========================================================================== */
@@ -380,7 +380,7 @@
 
 @media (min-width: 834px) {
   .dd-ai-edge { padding: 6rem 0; }
-  .dd-ai-edge__grid { position: relative; display: block; min-height: 56rem; }
+  .dd-ai-edge__grid { position: relative; display: block; height: var(--edge-h, auto); min-height: 56rem; }
   /* пунктир — только сверху и снизу выбранной строки (просьба пользователя 19.10.2026) */
   .dd-ai-tile {
     width: 42%;
@@ -398,42 +398,38 @@
   .dd-ai-tile.is-active .dd-ai-tile__kind { color: var(--dd-color-text); }
   .dd-ai-tile.is-active .dd-ai-tile__kind svg { color: var(--dd-orange-100); }
 
-  /* Карточка справа: фото и описание выбранной строки, одна поверх другой для всех строк */
-  .dd-ai-tile__art,
-  .dd-ai-tile > p {
+  /* Карточка справа: картинка выбранной строки во всю высоту блока, одна поверх другой для всех строк.
+     Высоту блока держит --edge-h — самый высокий вариант списка (assets/js/ai-development.js),
+     поэтому при смене строки карточка не меняет размер (просьба пользователя 20.10.2026) */
+  .dd-ai-tile__art {
     position: absolute;
+    top: 0;
     right: 0;
+    bottom: 0;
     box-sizing: border-box;
     width: 52%;
+    margin: 0;
+    border-radius: var(--dd-radius-lg);
     opacity: 0;
     visibility: hidden;
     transition: opacity .35s, visibility 0s .35s;
     cursor: default;
   }
-  .dd-ai-tile__art { top: 0; bottom: 0; margin: 0; border-radius: var(--dd-radius-lg); }
   .dd-ai-tile__art img { aspect-ratio: auto; }
   .dd-ai-tile:nth-child(5) .dd-ai-tile__art img { object-position: 50% 100%; } /* книжка лежит у низа кадра: держим её над плашкой */
-  /* Описание — белая плашка в нижнем углу фото: фото остаётся светлым, без затемнения */
-  .dd-ai-tile > p {
-    right: 2rem;
-    bottom: 2rem;
-    z-index: 1;
-    width: calc(52% - 4rem);
-    padding: 2rem 2.4rem;
-    border-radius: var(--dd-radius-md);
-    background: var(--dd-color-surface);
-    font-size: 1.8rem;
-    line-height: 2.7rem;
-    color: var(--dd-color-text);
-    transform: translateY(1.2rem);
-    transition: opacity .25s, transform .25s, visibility 0s .25s;
-  }
   .dd-ai-tile.is-active .dd-ai-tile__art { opacity: 1; visibility: visible; transition: opacity .6s; }
+  /* Описание — под заголовком выбранной строки, у остальных свёрнуто */
+  .dd-ai-tile > p {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height .45s cubic-bezier(.4, 0, .2, 1), margin .45s cubic-bezier(.4, 0, .2, 1), opacity .25s;
+  }
   .dd-ai-tile.is-active > p {
+    max-height: var(--p-h, 20rem);
+    margin-top: .8rem;
     opacity: 1;
-    visibility: visible;
-    transform: none;
-    transition: opacity .5s .15s, transform .6s cubic-bezier(.2, .7, .2, 1) .15s;
+    transition: max-height .45s cubic-bezier(.4, 0, .2, 1), margin .45s cubic-bezier(.4, 0, .2, 1), opacity .4s .1s;
   }
 }
 @media (min-width: 1320px) {
@@ -449,17 +445,16 @@
   .dd-ai-tile > p { transition: none; }
 }
 
-/* Проба 20.10.2026 — сцена «Code quality» вместо фото, только при ?code=layers (класс dd-edge-layers
-   на <html>, assets/js/ai-development.js). Язык — карточка «Organization and Full Control» главной:
+/* Сцена «Code quality» вместо фото первой строки (20.10.2026). Скрипт ставит на <html> класс
+   dd-edge-layers — без скрипта остаётся фото. Язык — карточка «Organization and Full Control» главной:
    стекло, пилюли, курсор с ярлыком, мазки; скобка и медаль — картинки (Magnific, GPT 2).
-   Сцена 62 × 52 em, 1 em считается от карточки — вписывается в часть над белой плашкой (--plate).
-   Без скрипта и при «уменьшить движение» стоит итоговый кадр; скрипт ставит .is-armed, затем один раз .is-on */
+   Сцена 62 × 52 em, 1 em считается от карточки — сцена вписывается в неё с лёгкой обрезкой краёв.
+   При «уменьшить движение» стоит итоговый кадр; скрипт ставит .is-armed, затем один раз .is-on */
 @property --_n { syntax: '<integer>'; inherits: false; initial-value: 100; }
 
 .dd-edge-code { display: none; }
 .dd-edge-layers .dd-ai-tile__art--code > img { visibility: hidden; }
 .dd-edge-layers .dd-edge-code {
-  --plate: 0;
   display: block;
   position: absolute;
   inset: 0;
@@ -472,11 +467,11 @@
 .dd-edge-code__stage {
   position: absolute;
   left: 50%;
-  top: calc((1 - var(--plate)) * 50%);
+  top: 50%;
   width: 62em;
   height: 52em;
   translate: -50% -50%;
-  font-size: min(100cqw / 58, 100cqh * (1 - var(--plate)) / 50);
+  font-size: min(100cqw / 58, 100cqh / 50);
 }
 .dd-edge-code__stage > * { position: absolute; }
 .dd-ai-tile__art .dd-edge-code img { width: auto; height: auto; aspect-ratio: auto; object-fit: fill; }
@@ -570,12 +565,6 @@
 
 @media (max-width: 833.98px) {
   .dd-ai-tile__art--code { position: relative; }
-}
-@media (min-width: 834px) {
-  .dd-edge-layers .dd-edge-code { --plate: .2; }
-}
-@media (min-width: 834px) and (max-width: 1319.98px) {
-  .dd-edge-layers .dd-edge-code { --plate: .27; }
 }
 
 /* Движение: редактор → строки набираются под курсором → пилюли → отчёт → кольца до 100 → медаль; ~4,4 с */

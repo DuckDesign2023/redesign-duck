@@ -17,16 +17,34 @@
   (function () {
     var tiles = Array.prototype.slice.call(document.querySelectorAll('.dd-ai-edge .dd-ai-tile'));
     var narrow = matchMedia('(max-width: 833.98px)');
-    /* Проба 20.10.2026: ?code=layers — в первой строке сцена вместо фото. Играет один раз, когда строка
-       выбрана и картинка в окне; при «уменьшить движение» стоит итоговый кадр */
+    /* В первой строке сцена вместо фото (20.10.2026). Играет один раз, когда строка выбрана
+       и картинка в окне; при «уменьшить движение» стоит итоговый кадр */
     var scene = document.querySelector('.dd-edge-code'), sceneSeen = false;
-    if (scene && new URLSearchParams(location.search).get('code') === 'layers') {
+    if (scene) {
       document.documentElement.classList.add('dd-edge-layers');
       if (!reduce) {
         scene.classList.add('is-armed');
         new IntersectionObserver(function (entries) { sceneSeen = entries[0].isIntersecting; playScene(); }, { threshold: .4 }).observe(scene);
       } else scene = null;
-    } else scene = null;
+    }
+    /* От 834 описание раскрыто только у выбранной строки, а карточка справа — во всю высоту блока.
+       Блоку задаём высоту самого высокого варианта списка, чтобы карточка не менялась при смене строки */
+    var grid = document.querySelector('.dd-ai-edge__grid');
+    function fitGrid() {
+      if (!grid || narrow.matches) return;
+      var rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+      var base = 0, tallest = 0;
+      tiles.forEach(function (t) {
+        var p = t.querySelector(':scope > p'), cs = getComputedStyle(p);
+        base += t.offsetHeight - p.offsetHeight - parseFloat(cs.marginTop);
+        tallest = Math.max(tallest, p.scrollHeight);
+        p.style.setProperty('--p-h', p.scrollHeight + 'px'); /* точная высота: свёртка и раскрытие идут вровень */
+      });
+      grid.style.setProperty('--edge-h', Math.ceil(base + tallest + .8 * rem) + 'px');
+    }
+    fitGrid();
+    addEventListener('resize', fitGrid);
+    if (document.fonts) document.fonts.ready.then(fitGrid);
     function playScene() {
       if (!scene || !sceneSeen || !scene.closest('.dd-ai-tile').classList.contains('is-active')) return;
       scene.classList.add('is-on');
