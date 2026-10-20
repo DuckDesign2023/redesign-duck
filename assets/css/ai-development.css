@@ -571,13 +571,10 @@
 
 /* Движение: редактор → строки набираются под курсором → пилюли → отчёт → кольца до 100 → медаль; ~4,4 с */
 @media (prefers-reduced-motion: no-preference) {
-  .dd-edge-code.is-armed :is(.dd-edge-code__editor, .dd-edge-code__report, .dd-edge-code__bracket, .dd-edge-code__medal,
+  /* пока сцена не запущена — всё на паузе; !important, потому что сокращение animation ниже сбрасывает паузу */
+  .dd-edge-code.is-armed:not(.is-on) :is(.dd-edge-code__editor, .dd-edge-code__report, .dd-edge-code__bracket, .dd-edge-code__medal,
     .dd-edge-code__cursor, .dd-edge-code__lines p, .dd-edge-code__tag, .dd-edge-code__rings circle + circle, .dd-edge-code__rings b) {
-    animation-play-state: paused;
-  }
-  .dd-edge-code.is-on :is(.dd-edge-code__editor, .dd-edge-code__report, .dd-edge-code__bracket, .dd-edge-code__medal,
-    .dd-edge-code__cursor, .dd-edge-code__lines p, .dd-edge-code__tag, .dd-edge-code__rings circle + circle, .dd-edge-code__rings b) {
-    animation-play-state: running;
+    animation-play-state: paused !important;
   }
   .dd-edge-code.is-armed .dd-edge-code__editor { animation: dd-ec-rise .6s var(--dd-ease-out) both; }
   .dd-edge-code.is-armed .dd-edge-code__bracket {
@@ -611,9 +608,12 @@
   85%, 100% { translate: 0 0; }
 }
 
-/* Сцена «Instant variations» второй строки (20.10.2026): макет секции дважды перерисовывается строкой
-   рендера, счётчик каждый раз доходит до ~3s, прежние варианты уходят назад каскадом, как задачи
-   в карточке «Organization and Full Control» главной; молния и секундомер — картинки (Magnific, GPT 2) */
+/* Сцена «Instant variations» второй строки (20.10.2026): макет секции перестраивается a → b → c, как
+   в редакторе — каждый элемент переезжает на новое место, меняет размер и цвет, по макету проходит
+   блик, у картинки рамка выделения; прежний вариант уходит назад каскадом (как задачи в карточке
+   «Organization and Full Control» главной), счётчик каждый раз доходит до ~3s.
+   Значения вариантов — переменные --a…/--b…/--c… у каждого элемента: макет без модификатора стоит
+   на c (итог), .dd-evm--a / --b — копии сзади. Молния и секундомер — картинки (Magnific, GPT 2) */
 @property --_s { syntax: '<integer>'; inherits: false; initial-value: 3; }
 
 .dd-edge-var {
@@ -621,12 +621,12 @@
     radial-gradient(60% 70% at 10% 0%, rgb(255 255 255 / .45), rgb(255 255 255 / 0)),
     linear-gradient(117deg, #d8d2c6 0%, #e7cb85 70%, #e7b185 100%);
 }
-.dd-edge-var__watch { --r: 12deg; left: 47em; top: 31em; rotate: var(--r); filter: drop-shadow(0 1.4em 2.4em rgb(160 80 20 / .25)); }
-.dd-ai-tile__art .dd-edge-scene .dd-edge-var__watch { width: 15em; }
-.dd-edge-var__bolt { --r: -14deg; left: 2em; top: -3.5em; rotate: var(--r); filter: drop-shadow(0 1.4em 2.4em rgb(160 110 0 / .28)); }
+.dd-edge-var__bolt { --r: -14deg; z-index: 6; left: 2em; top: -3.5em; rotate: var(--r); filter: drop-shadow(0 1.4em 2.4em rgb(160 110 0 / .28)); }
 .dd-ai-tile__art .dd-edge-scene .dd-edge-var__bolt { width: 10em; }
+.dd-edge-var__watch { --r: 12deg; z-index: 6; left: 47em; top: 31em; rotate: var(--r); filter: drop-shadow(0 1.4em 2.4em rgb(160 80 20 / .3)); }
+.dd-ai-tile__art .dd-edge-scene .dd-edge-var__watch { width: 15em; }
 
-/* макет секции: три варианта на одном месте; итог — c спереди, b и a уходят назад каскадом */
+/* макет секции 40 × 25 em; итог — c спереди, копии a и b сзади каскадом */
 .dd-edge-var__site {
   left: 12em;
   top: 15em;
@@ -634,65 +634,86 @@
   height: 25em;
   overflow: hidden;
   border-radius: 1.4em;
-  clip-path: inset(0 0 0 0 round 1.4em);
-  box-shadow: inset 0 0 0 .1em rgb(255 255 255 / .6), 0 1.6em 4em rgb(122 109 99 / .22);
+  box-shadow: 0 1.6em 4em rgb(122 109 99 / .22);
 }
-.dd-edge-var__site > * { position: absolute; }
-.dd-edge-var__site--a { z-index: 1; translate: -6em -9em; scale: .88; rotate: -8deg; background: #f6f3ed; }
-.dd-edge-var__site--b { z-index: 2; translate: -3em -4.5em; scale: .94; rotate: -4deg; background: #1f1c18; }
-.dd-edge-var__site--c { z-index: 3; background: #ffca41; }
-.dd-edge-var__nav { left: 2.4em; top: 2em; display: flex; align-items: center; gap: .8em; }
-.dd-edge-var__nav i { width: 3em; height: .6em; border-radius: 1em; background: currentColor; opacity: .25; }
-.dd-edge-var__nav i:first-child { width: 1.6em; height: 1.6em; margin-right: .6em; opacity: .9; }
-.dd-edge-var__title { width: 6.5em; margin: 0; font: 600 2.9em/1.08 var(--dd-font-basic); letter-spacing: -.03em; }
-.dd-edge-var__text {
-  width: 14em;
-  height: 2.2em;
-  background:
-    linear-gradient(currentColor, currentColor) 0 0 / 100% .6em no-repeat,
-    linear-gradient(currentColor, currentColor) 0 100% / 70% .6em no-repeat;
-  border-radius: .3em;
-  opacity: .22;
-}
-.dd-edge-var__btn { display: grid; place-items: center; width: 8em; height: 2.8em; border-radius: 2em; }
-.dd-edge-var__btn svg { width: 1.4em; height: 1.4em; }
-.dd-edge-var__shape { border-radius: 50%; }
-/* a — светлый: заголовок сверху слева, тёмная кнопка, жёлтый круг и оранжевый квадрат справа */
-.dd-edge-var__site--a { color: #1a1e23; }
-.dd-edge-var__site--a .dd-edge-var__title { left: calc(2.4em / 2.9); top: calc(6.5em / 2.9); }
-.dd-edge-var__site--a .dd-edge-var__text { left: 2.4em; top: 15.5em; }
-.dd-edge-var__site--a .dd-edge-var__btn { left: 2.4em; top: 20em; background: #1a1e23; color: #fff; }
-.dd-edge-var__site--a .dd-edge-var__shape--1 { left: 24em; top: 6em; width: 11em; height: 11em; background: #ffca41; }
-.dd-edge-var__site--a .dd-edge-var__shape--2 { left: 30.5em; top: 13.5em; width: 7em; height: 7em; border-radius: 1.4em; rotate: 12deg; background: #ff8b20; }
-/* b — тёмный: курсивный заголовок снизу слева, жёлтая кнопка, оранжевый квадрат и светлый круг сверху */
-.dd-edge-var__site--b { color: #f6f3ed; }
-.dd-edge-var__site--b .dd-edge-var__title { left: calc(2.4em / 2.9); top: calc(12em / 2.9); font: italic 500 2.9em/1.08 var(--dd-font-fancy); letter-spacing: -.01em; }
-.dd-edge-var__site--b .dd-edge-var__text { left: 2.4em; top: 7em; width: 11em; }
-.dd-edge-var__site--b .dd-edge-var__btn { left: 2.4em; top: 20em; background: #ffca41; color: #1a1e23; }
-.dd-edge-var__site--b .dd-edge-var__shape--1 { left: 25em; top: 3em; width: 11em; height: 11em; border-radius: 2em; rotate: -10deg; background: #ff8b20; }
-.dd-edge-var__site--b .dd-edge-var__shape--2 { left: 22em; top: 12.5em; width: 6em; height: 6em; background: #ffe7a6; }
-/* c — жёлтый: жирный заголовок справа, тёмная кнопка справа, тёмный круг и белая карточка слева */
-.dd-edge-var__site--c { color: #1a1e23; }
-.dd-edge-var__site--c .dd-edge-var__title { right: calc(2.4em / 2.9); top: calc(8em / 2.9); font-weight: 700; text-align: right; }
-.dd-edge-var__site--c .dd-edge-var__text { right: 2.4em; top: 16em; width: 12em; }
-.dd-edge-var__site--c .dd-edge-var__btn { right: 2.4em; top: 20em; background: #1a1e23; color: #fff; }
-.dd-edge-var__site--c .dd-edge-var__nav { left: auto; right: 2.4em; flex-direction: row-reverse; }
-.dd-edge-var__site--c .dd-edge-var__nav i:first-child { margin: 0 0 0 .6em; }
-.dd-edge-var__site--c .dd-edge-var__shape--1 { left: 3em; top: 6em; width: 12em; height: 12em; background: #1a1e23; }
-.dd-edge-var__site--c .dd-edge-var__shape--2 { left: 10em; top: 11em; width: 7.5em; height: 9.5em; border-radius: 1em; rotate: -8deg; background: #fff; }
+.dd-edge-var__ghost--a { z-index: 1; translate: -6em -9em; scale: .88; rotate: -8deg; }
+.dd-edge-var__ghost--b { z-index: 2; translate: -3em -4.5em; scale: .94; rotate: -4deg; }
+.dd-evm { z-index: 3; --abg: #f6f3ed; --bbg: #1f1c18; --cbg: #ffca41; --afg: #1a1e23; --bfg: #f6f3ed; --cfg: #1a1e23;
+  background: var(--cbg); color: var(--cfg); }
+.dd-evm > * { position: absolute; left: 0; top: 0; translate: var(--cx) var(--cy); }
+.dd-evm--a { background: var(--abg); color: var(--afg); }
+.dd-evm--b { background: var(--bbg); color: var(--bfg); }
+.dd-evm--a > * { translate: var(--ax) var(--ay); }
+.dd-evm--b > * { translate: var(--bx) var(--by); }
 
-/* строка рендера — по ширине макета, проходит его сверху вниз; в итоге не видна */
-.dd-edge-var__scan {
-  z-index: 4;
-  left: 11em;
-  top: 15em;
-  width: 42em;
-  height: .4em;
-  border-radius: 1em;
-  background: #ff8b20;
-  box-shadow: 0 0 0 .25em rgb(255 255 255 / .55);
+.dd-evm__nav { --ax: 2.4em; --ay: 2em; --bx: 2.4em; --by: 2em; --cx: 2.4em; --cy: 2em; display: flex; align-items: center; gap: .8em; width: 35.2em; }
+.dd-evm__nav i { width: 3em; height: .5em; border-radius: 1em; background: currentColor; opacity: .25; }
+.dd-evm__nav i:first-child { width: 1.6em; height: 1.6em; margin-right: .8em; opacity: .9; }
+.dd-evm__nav b { width: 5em; height: 1.8em; margin-left: auto; border-radius: 1em; box-shadow: inset 0 0 0 .12em currentColor; opacity: .5; }
+
+/* картинка: a — справа овалом, b — правая половина в край, c — слева; размер, скругление и цвет тоже меняются */
+.dd-evm__media {
+  --ax: 23em; --ay: 5em; --aw: 14em; --ah: 16.5em; --ar: 7em; --am: #ffe7a6;
+  --bx: 21em; --by: 0em; --bw: 19em; --bh: 25em; --br: 0em; --bm: #ff8b20;
+  --cx: 2.4em; --cy: 5em; --cw: 16em; --ch: 16.5em; --cr: 1.6em; --cm: #1a1e23;
+  width: var(--cw); height: var(--ch); border-radius: var(--cr); background: var(--cm);
+}
+.dd-evm--a .dd-evm__media { width: var(--aw); height: var(--ah); border-radius: var(--ar); background: var(--am); }
+.dd-evm--b .dd-evm__media { width: var(--bw); height: var(--bh); border-radius: var(--br); background: var(--bm); }
+.dd-evm__media i { position: absolute; border-radius: 50%; }
+.dd-evm__media i:first-child { --a1: #ffca41; --b1: #ffe7a6; --c1: #fff; left: 50%; top: 50%; width: 9em; height: 9em; translate: -55% -58%; background: var(--c1); }
+.dd-evm__media i + i { --a1: #ff8b20; --b1: #1f1c18; --c1: #ff8b20; left: 50%; top: 50%; width: 4.6em; height: 4.6em; border-radius: 1.1em; translate: 15% 20%; rotate: 12deg; background: var(--c1); }
+.dd-evm--a .dd-evm__media i { background: var(--a1); }
+.dd-evm--b .dd-evm__media i { background: var(--b1); }
+/* рамка выделения, как в редакторе, — видна только пока макет перестраивается */
+.dd-evm__media::after {
+  content: "";
+  position: absolute;
+  inset: .3em;
+  border: .14em solid #7b5cf0;
+  border-radius: inherit;
   opacity: 0;
 }
+
+.dd-evm__eyebrow { --ax: 2.4em; --ay: 5.4em; --bx: 2.4em; --by: 5.4em; --cx: 31.6em; --cy: 5.4em;
+  --ae: #ffca41; --be: #ff8b20; --ce: #1a1e23; width: 6em; height: 1.7em; border-radius: 1em; background: var(--ce); }
+.dd-evm--a .dd-evm__eyebrow { background: var(--ae); }
+.dd-evm--b .dd-evm__eyebrow { background: var(--be); }
+
+/* заголовок: три начертания лежат друг на друге, видно одно; при перестройке они меняются наплывом */
+.dd-evm__title { --ax: 2.4em; --ay: 8em; --bx: 2.4em; --by: 8em; --cx: 20.6em; --cy: 8em; width: 17em; height: 6.4em; margin: 0; }
+.dd-evm__title span { position: absolute; inset: 0; opacity: 0; }
+.dd-evm__title span:nth-child(1) { font: 600 2.9em/1.08 var(--dd-font-basic); letter-spacing: -.03em; }
+.dd-evm__title span:nth-child(2) { font: italic 500 3.1em/1.02 var(--dd-font-fancy); letter-spacing: -.01em; }
+.dd-evm__title span:nth-child(3) { font: 700 2.9em/1.08 var(--dd-font-basic); letter-spacing: -.03em; text-align: right; }
+.dd-evm .dd-evm__title span:nth-child(3),
+.dd-evm--a .dd-evm__title span:nth-child(1),
+.dd-evm--b .dd-evm__title span:nth-child(2) { opacity: 1; }
+.dd-evm--a .dd-evm__title span:nth-child(3),
+.dd-evm--b .dd-evm__title span:nth-child(3) { opacity: 0; }
+
+.dd-evm__text { --ax: 2.4em; --ay: 15.4em; --bx: 2.4em; --by: 15.4em; --cx: 25.6em; --cy: 15.4em;
+  width: 12em; height: 2.2em; border-radius: .3em; opacity: .25;
+  background:
+    linear-gradient(currentColor, currentColor) 0 0 / 100% .55em no-repeat,
+    linear-gradient(currentColor, currentColor) 0 100% / 72% .55em no-repeat;
+}
+.dd-evm__btns { --ax: 2.4em; --ay: 19.8em; --bx: 2.4em; --by: 19.8em; --cx: 23.8em; --cy: 19.8em; display: flex; gap: .8em; }
+.dd-evm__btns i { display: grid; place-items: center; height: 2.8em; border-radius: 2em; }
+.dd-evm__btns i:first-child { --ab: #1a1e23; --bb: #ffca41; --cb: #1a1e23; --at: #fff; --bt: #1a1e23; --ct: #fff;
+  width: 7em; background: var(--cb); color: var(--ct); }
+.dd-evm--a .dd-evm__btns i:first-child { background: var(--ab); color: var(--at); }
+.dd-evm--b .dd-evm__btns i:first-child { background: var(--bb); color: var(--bt); }
+.dd-evm__btns i + i { width: 6em; box-shadow: inset 0 0 0 .12em currentColor; opacity: .55; }
+.dd-evm__btns svg { width: 1.4em; height: 1.4em; }
+.dd-evm__shine {
+  z-index: 2;
+  width: 12em;
+  height: 100%;
+  background: linear-gradient(100deg, rgb(255 255 255 / 0), rgb(255 255 255 / .5) 50%, rgb(255 255 255 / 0));
+  opacity: 0;
+}
+
 /* счётчик — светлое стекло; цифра — счётчик CSS, в итоге 3 */
 .dd-edge-var__time {
   z-index: 5;
@@ -715,53 +736,117 @@
 .dd-edge-var__time i::after { content: counter(dd-s); }
 .dd-edge-var__time span { font: italic 500 1.8em/1 var(--dd-font-fancy); color: #676155; }
 
-/* Движение: макет a → рендер b (0,8–1,8 с) → a назад → рендер c (2,4–3,4 с) → a и b назад → молния и секундомер; ~4,4 с */
+/* Движение: макет a → перестройка в b (0,9–1,7 с) → копия a назад → перестройка в c (2,5–3,3 с) →
+   копии назад → молния и секундомер; ~4,5 с. У элементов макета шаг --o — перестройка идёт волной */
 @media (prefers-reduced-motion: no-preference) {
-  .dd-edge-var.is-armed :is(.dd-edge-var__site, .dd-edge-var__scan, .dd-edge-var__time, .dd-edge-var__time i, .dd-edge-var__bolt, .dd-edge-var__watch) {
-    animation-play-state: paused;
+  .dd-edge-var.is-armed:not(.is-on) :is(.dd-evm, .dd-evm *, .dd-edge-var__ghost, .dd-edge-var__time, .dd-edge-var__time i, .dd-edge-var__bolt, .dd-edge-var__watch),
+  .dd-edge-var.is-armed:not(.is-on) .dd-evm__media::after,
+  .dd-edge-var.is-armed:not(.is-on) .dd-evm::before,
+  .dd-edge-var.is-armed:not(.is-on) .dd-evm::after {
+    animation-play-state: paused !important;
   }
-  .dd-edge-var.is-on :is(.dd-edge-var__site, .dd-edge-var__scan, .dd-edge-var__time, .dd-edge-var__time i, .dd-edge-var__bolt, .dd-edge-var__watch) {
-    animation-play-state: running;
-  }
-  .dd-edge-var.is-armed .dd-edge-var__site--a { animation: dd-ev-a 3.8s both; }
-  .dd-edge-var.is-armed .dd-edge-var__site--b { animation: dd-ev-b 3.8s both; }
-  .dd-edge-var.is-armed .dd-edge-var__site--c { animation: dd-ev-c 3.8s both; }
-  .dd-edge-var.is-armed .dd-edge-var__scan--1 { animation: dd-ev-scan 1s linear .8s both; }
-  .dd-edge-var.is-armed .dd-edge-var__scan--2 { animation: dd-ev-scan 1s linear 2.4s both; }
+  /* фон нового варианта раскрывается кругом из центра картинки — слои ::before (b) и ::after (c) под элементами */
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) { isolation: isolate; background: var(--abg); animation: dd-ec-rise .6s var(--dd-ease-out) both, dd-evm-card 3.3s both; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost)::before,
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost)::after { content: ""; position: absolute; inset: 0; z-index: -1; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost)::before { background: var(--bbg); animation: dd-evm-fill-b 3.3s both; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost)::after { background: var(--cbg); animation: dd-evm-fill-c 3.3s both; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) > :not(.dd-evm__shine) { animation: dd-evm-move 3.3s var(--o, 0s) both; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__eyebrow { --o: .04s; animation-name: dd-evm-move, dd-evm-eyebrow; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__title { --o: .08s; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__text { --o: .12s; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__btns { --o: .16s; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__media { animation-name: dd-evm-move, dd-evm-media; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__media i { animation: dd-evm-dot 3.3s both; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__media::after { animation: dd-evm-select 3.3s both; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__btns i:first-child { animation: dd-evm-btn 3.3s .16s both; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__title span:nth-child(1) { animation: dd-evm-t1 3.3s .08s both; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__title span:nth-child(2) { animation: dd-evm-t2 3.3s .08s both; }
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__title span:nth-child(3) { animation: dd-evm-t3 3.3s .08s both; }
+  .dd-edge-var.is-armed .dd-evm__shine { animation: dd-evm-shine 3.3s linear both; }
+  .dd-edge-var.is-armed .dd-edge-var__ghost--a { animation: dd-evm-ghost-a 3.7s both; }
+  .dd-edge-var.is-armed .dd-edge-var__ghost--b { animation: dd-evm-ghost-b 3.7s both; }
   .dd-edge-var.is-armed .dd-edge-var__time { animation: dd-ec-pop .42s cubic-bezier(.34, 1.56, .64, 1) .5s both; }
-  .dd-edge-var.is-armed .dd-edge-var__time i { animation: dd-ev-count 2.6s linear .8s both; }
+  .dd-edge-var.is-armed .dd-edge-var__time i { animation: dd-ev-count 2.4s linear .9s both; }
   .dd-edge-var.is-armed .dd-edge-var__bolt {
-    animation: dd-ec-fly-in .8s cubic-bezier(.2, .8, .2, 1) 3.5s both, dd-ec-float 5s ease-in-out 4.4s infinite alternate;
+    animation: dd-ec-fly-in .8s cubic-bezier(.2, .8, .2, 1) 3.6s both, dd-ec-float 5s ease-in-out 4.5s infinite alternate;
     --fx: -16em; --fy: -16em;
   }
   .dd-edge-var.is-armed .dd-edge-var__watch {
-    animation: dd-ec-fly-in .8s cubic-bezier(.2, .8, .2, 1) 3.65s both, dd-ec-float 5.6s ease-in-out 4.55s infinite alternate;
+    animation: dd-ec-fly-in .8s cubic-bezier(.2, .8, .2, 1) 3.75s both, dd-ec-float 5.6s ease-in-out 4.65s infinite alternate;
     --fx: 16em; --fy: 16em;
   }
 }
-/* 0,6 с = 15,8 %; 0,8 = 21 %; 1,8 = 47,4 %; 2,2 = 57,9 %; 2,4 = 63,2 %; 3,4 = 89,5 % от 3,8 с */
-@keyframes dd-ev-a {
-  0% { opacity: 0; translate: 0 3em; scale: 1; rotate: 0deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
-  15.8%, 47.4% { opacity: 1; translate: 0 0; scale: 1; rotate: 0deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
-  57.9%, 89.5% { translate: -3em -4.5em; scale: .94; rotate: -4deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+/* 3,3 с: держит a до 0,9 с (27,3 %), b — с 1,7 (51,5 %) до 2,5 (75,8 %), c — к 3,3 (100 %) */
+@keyframes dd-evm-move {
+  0%, 27.3% { translate: var(--ax) var(--ay); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  51.5%, 75.8% { translate: var(--bx) var(--by); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  100% { translate: var(--cx) var(--cy); }
 }
-@keyframes dd-ev-b {
-  0%, 21% { clip-path: inset(0 0 100% 0 round 1.4em); translate: 0 0; scale: 1; rotate: 0deg; animation-timing-function: linear; }
-  47.4%, 89.5% { clip-path: inset(0 0 0 0 round 1.4em); translate: 0 0; scale: 1; rotate: 0deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+@keyframes dd-evm-card {
+  0%, 27.3% { color: var(--afg); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  51.5%, 75.8% { color: var(--bfg); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  100% { color: var(--cfg); }
 }
-@keyframes dd-ev-c {
-  0%, 63.2% { clip-path: inset(0 0 100% 0 round 1.4em); animation-timing-function: linear; }
-  89.5% { clip-path: inset(0 0 0 0 round 1.4em); }
+@keyframes dd-evm-fill-b {
+  0%, 27.3% { clip-path: circle(0% at 75% 52%); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  51.5%, 100% { clip-path: circle(110% at 75% 52%); }
 }
-@keyframes dd-ev-scan {
-  0% { opacity: 0; translate: 0 0; }
-  6%, 94% { opacity: 1; }
-  100% { opacity: 0; translate: 0 25em; }
+@keyframes dd-evm-fill-c {
+  0%, 75.8% { clip-path: circle(0% at 75% 52%); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  100% { clip-path: circle(110% at 75% 52%); }
 }
+@keyframes dd-evm-media {
+  0%, 27.3% { width: var(--aw); height: var(--ah); border-radius: var(--ar); background-color: var(--am); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  51.5%, 75.8% { width: var(--bw); height: var(--bh); border-radius: var(--br); background-color: var(--bm); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  100% { width: var(--cw); height: var(--ch); border-radius: var(--cr); background-color: var(--cm); }
+}
+@keyframes dd-evm-dot {
+  0%, 27.3% { background-color: var(--a1); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  51.5%, 75.8% { background-color: var(--b1); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  100% { background-color: var(--c1); }
+}
+@keyframes dd-evm-eyebrow {
+  0%, 27.3% { background-color: var(--ae); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  51.5%, 75.8% { background-color: var(--be); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  100% { background-color: var(--ce); }
+}
+@keyframes dd-evm-btn {
+  0%, 27.3% { background-color: var(--ab); color: var(--at); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  51.5%, 75.8% { background-color: var(--bb); color: var(--bt); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+  100% { background-color: var(--cb); color: var(--ct); }
+}
+@keyframes dd-evm-t1 { 0%, 27% { opacity: 1; } 33%, 100% { opacity: 0; } }
+@keyframes dd-evm-t2 { 0%, 44% { opacity: 0; } 51%, 76% { opacity: 1; } 82%, 100% { opacity: 0; } }
+@keyframes dd-evm-t3 { 0%, 93% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes dd-evm-select {
+  0%, 25%, 54%, 74%, 100% { opacity: 0; }
+  29%, 49%, 78%, 97% { opacity: 1; }
+}
+@keyframes dd-evm-shine {
+  0%, 28% { translate: -14em 0; opacity: 0; }
+  30% { opacity: 1; }
+  50% { translate: 42em 0; opacity: 1; }
+  51%, 76% { translate: -14em 0; opacity: 0; }
+  78% { opacity: 1; }
+  98% { translate: 42em 0; opacity: 1; }
+  100% { translate: 42em 0; opacity: 0; }
+}
+/* копии: a появляется за макетом в 0,9 с и уходит назад в 1,7–2,1 и 3,3–3,7; b — появляется в 2,5, уходит в 3,3–3,7 */
+@keyframes dd-evm-ghost-a {
+  0%, 24.3% { opacity: 0; translate: 0 0; scale: 1; rotate: 0deg; }
+  24.4%, 45.9% { opacity: 1; translate: 0 0; scale: 1; rotate: 0deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+  56.8%, 89.2% { translate: -3em -4.5em; scale: .94; rotate: -4deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+}
+@keyframes dd-evm-ghost-b {
+  0%, 67.5% { opacity: 0; translate: 0 0; scale: 1; rotate: 0deg; }
+  67.6%, 89.2% { opacity: 1; translate: 0 0; scale: 1; rotate: 0deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+}
+/* 2,4 с от 0,9: 0 → 3 к 1,7 с, держит до 2,5, снова 0 → 3 к 3,3 */
 @keyframes dd-ev-count {
   0% { --_s: 0; }
-  38.4%, 61.5% { --_s: 3; }
-  61.6% { --_s: 0; }
+  33.3%, 66.6% { --_s: 3; }
+  66.7% { --_s: 0; }
   100% { --_s: 3; }
 }
 

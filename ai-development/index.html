@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="../assets/css/shell.css?v=29">
     <link rel="stylesheet" href="../assets/css/blocks.css?v=23">
     <link rel="stylesheet" href="../assets/css/capabilities.css?v=13">
-    <link rel="stylesheet" href="../assets/css/ai-development.css?v=75">
+    <link rel="stylesheet" href="../assets/css/ai-development.css?v=79">
 </head>
 <body>
 <a class="dd-skip-link dd-btn dd-btn--s dd-btn--yellow" href="#main"><span class="dd-btn__label">Skip to content</span></a>
@@ -507,20 +507,18 @@
         <h3 class="dd-h4">Instant variations</h3>
         <p class="dd-txt-3">A new section or visual asset is a prompt change — not a week-long dev sprint.</p>
         <figure class="dd-ai-tile__art dd-ai-tile__art--scene"><img src="../assets/img/ai-development/edge/edge-2-variations.jpg?v=7" width="1200" height="1200" alt="" loading="lazy">
-          <!-- сцена «два рендера по ~3 с» (20.10.2026); без скрипта видно фото выше.
-               Слои снизу вверх: фон и мазки — код; секундомер — картинка; три варианта секции, строки рендера
-               и счётчик — вёрстка; молния — картинка. Играет один раз (assets/js/ai-development.js) -->
+          <!-- сцена «два варианта по ~3 с» (20.10.2026); без скрипта видно фото выше.
+               Слои снизу вверх: фон и мазки — код; два прежних варианта (a, b) и макет, который перестраивается
+               a → b → c, и счётчик — вёрстка; молния и секундомер (поверх) — картинки. Играет один раз (assets/js/ai-development.js) -->
           <div class="dd-edge-scene dd-edge-var" aria-hidden="true">
             <div class="dd-edge-scene__stage">
               <img class="dd-edge-scene__strokes" src="../assets/img/home/duo/strokes.svg" width="778" height="398" alt="" loading="lazy">
-              <img class="dd-edge-var__watch" src="../assets/img/ai-development/edge/var-watch.webp" alt="" loading="lazy">
-              <div class="dd-edge-var__site dd-edge-var__site--a"><span class="dd-edge-var__nav"><i></i><i></i><i></i><i></i></span><p class="dd-edge-var__title">Instant variations</p><span class="dd-edge-var__text"></span><span class="dd-edge-var__btn"><svg><use href="#dd-chevron-right"/></svg></span><span class="dd-edge-var__shape dd-edge-var__shape--1"></span><span class="dd-edge-var__shape dd-edge-var__shape--2"></span></div>
-              <div class="dd-edge-var__site dd-edge-var__site--b"><span class="dd-edge-var__nav"><i></i><i></i><i></i><i></i></span><p class="dd-edge-var__title">Instant variations</p><span class="dd-edge-var__text"></span><span class="dd-edge-var__btn"><svg><use href="#dd-chevron-right"/></svg></span><span class="dd-edge-var__shape dd-edge-var__shape--1"></span><span class="dd-edge-var__shape dd-edge-var__shape--2"></span></div>
-              <div class="dd-edge-var__site dd-edge-var__site--c"><span class="dd-edge-var__nav"><i></i><i></i><i></i><i></i></span><p class="dd-edge-var__title">Instant variations</p><span class="dd-edge-var__text"></span><span class="dd-edge-var__btn"><svg><use href="#dd-chevron-right"/></svg></span><span class="dd-edge-var__shape dd-edge-var__shape--1"></span><span class="dd-edge-var__shape dd-edge-var__shape--2"></span></div>
-              <span class="dd-edge-var__scan dd-edge-var__scan--1"></span>
-              <span class="dd-edge-var__scan dd-edge-var__scan--2"></span>
+              <div class="dd-edge-var__site dd-evm dd-evm--a dd-edge-var__ghost dd-edge-var__ghost--a"><span class="dd-evm__nav"><i></i><i></i><i></i><i></i><b></b></span><span class="dd-evm__media"><i></i><i></i></span><span class="dd-evm__eyebrow"></span><p class="dd-evm__title"><span>Instant variations</span><span>Instant variations</span><span>Instant variations</span></p><span class="dd-evm__text"></span><span class="dd-evm__btns"><i><svg><use href="#dd-chevron-right"/></svg></i><i></i></span></div>
+              <div class="dd-edge-var__site dd-evm dd-evm--b dd-edge-var__ghost dd-edge-var__ghost--b"><span class="dd-evm__nav"><i></i><i></i><i></i><i></i><b></b></span><span class="dd-evm__media"><i></i><i></i></span><span class="dd-evm__eyebrow"></span><p class="dd-evm__title"><span>Instant variations</span><span>Instant variations</span><span>Instant variations</span></p><span class="dd-evm__text"></span><span class="dd-evm__btns"><i><svg><use href="#dd-chevron-right"/></svg></i><i></i></span></div>
+              <div class="dd-edge-var__site dd-evm"><span class="dd-evm__nav"><i></i><i></i><i></i><i></i><b></b></span><span class="dd-evm__media"><i></i><i></i></span><span class="dd-evm__eyebrow"></span><p class="dd-evm__title"><span>Instant variations</span><span>Instant variations</span><span>Instant variations</span></p><span class="dd-evm__text"></span><span class="dd-evm__btns"><i><svg><use href="#dd-chevron-right"/></svg></i><i></i></span><span class="dd-evm__shine"></span></div>
               <p class="dd-edge-var__time"><b>~<i></i>s</b><span>/ render</span></p>
               <img class="dd-edge-var__bolt" src="../assets/img/ai-development/edge/var-bolt.webp" alt="" loading="lazy">
+              <img class="dd-edge-var__watch" src="../assets/img/ai-development/edge/var-watch.webp" alt="" loading="lazy">
             </div>
           </div>
         </figure>
