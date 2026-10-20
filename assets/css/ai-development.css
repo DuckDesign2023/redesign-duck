@@ -918,6 +918,11 @@
   box-shadow: 0 0 0 .3em rgb(255 139 32 / .18), 0 0 1.2em rgb(255 139 32 / .8);
 }
 .dd-edge-int__node { z-index: 4; }
+/* свободный слот: подключений может быть больше четырёх — бледная плитка «+», пунктир и пустой порт */
+.dd-edge-int__more { z-index: 4; opacity: .45; }
+.dd-edge-int__more .dd-edge-glass__glow { box-shadow: none; }
+.dd-edge-int__slot path { stroke: var(--dd-beige-100); stroke-width: .2; stroke-dasharray: .45 .55; opacity: .5; }
+.dd-edge-int__port--free { background: rgb(255 255 255 / .1); box-shadow: inset 0 0 0 .1em rgb(216 210 198 / .45); }
 .dd-edge-int__label {
   left: 50%;
   top: calc(100% + 1em);
@@ -949,6 +954,7 @@
 .dd-edge-int__count b { font: 600 3.4em/1 var(--dd-font-basic); letter-spacing: -.03em; }
 .dd-edge-int__count i { font-style: normal; counter-reset: dd-e var(--_e); }
 .dd-edge-int__count i::after { content: counter(dd-e); }
+.dd-edge-int__count em { display: inline-block; max-width: .7em; overflow: hidden; vertical-align: bottom; font-style: normal; color: var(--dd-orange-100); }
 .dd-edge-int__count span { font: italic 500 1.8em/1 var(--dd-font-fancy); color: var(--dd-orange-100); }
 
 /* ---- No design-to-dev friction: карточки «Figma» и «live», копия фрагмента садится на страницу, «Δ 0.00px» ---- */
@@ -1135,6 +1141,11 @@
   .dd-edge-int.is-armed .dd-edge-int__count i { animation: dd-ei-count 1.8s step-end .85s both; }
   .dd-edge-int.is-armed .dd-edge-int__pulses path { animation: dd-ei-pulse .7s cubic-bezier(.4, 0, .6, 1) 2.9s both; }
   .dd-edge-int.is-armed .dd-edge-int__btn { animation: dd-ei-btn .7s ease-out 3.5s both; }
+  /* после четвёртого — «+» в счётчике и свободный слот: подключений может быть больше */
+  .dd-edge-int.is-armed .dd-edge-int__count em { animation: dd-ei-plus .4s var(--dd-ease-out) 3s both; }
+  .dd-edge-int.is-armed .dd-edge-int__more { animation: dd-ei-more .6s var(--dd-ease-out) 3.1s both, dd-eb-float 5.2s ease-in-out 4.2s infinite alternate; }
+  .dd-edge-int.is-armed .dd-edge-int__slot,
+  .dd-edge-int.is-armed .dd-edge-int__port--free { animation: dd-eb-fade .5s 3.3s both; }
 
   /* No design-to-dev friction, ~3,9 с: «Figma» → «live» → копия летит 1–2,8 с, Δ 12.40 → 0.00 → блик → прицел */
   .dd-edge-fid.is-armed .dd-edge-fid__design { animation: dd-eb-rise .6s var(--dd-ease-out) both; }
@@ -1171,6 +1182,8 @@
 @keyframes dd-ei-bump { 15% { scale: 1.02; } }
 @keyframes dd-ei-count { 0% { --_e: 0; } 25% { --_e: 1; } 50% { --_e: 2; } 75% { --_e: 3; } 100% { --_e: 4; } }
 @keyframes dd-ei-pulse { 0% { stroke-dashoffset: .07; opacity: 1; } 85% { opacity: 1; } 100% { stroke-dashoffset: -1; opacity: 0; } }
+@keyframes dd-ei-more { from { opacity: 0; translate: 0 -2em; } }
+@keyframes dd-ei-plus { from { max-width: 0; opacity: 0; } }
 @keyframes dd-ei-btn { 30% { box-shadow: inset 0 .1em 0 rgb(255 255 255 / .55), 0 0 2.6em rgb(255 202 65 / .95); scale: 1.06; } }
 /* копия: снимается с макета (координаты — от итога на странице), летит, садится и гаснет */
 @keyframes dd-ef-ghost {
