@@ -610,7 +610,7 @@
 
 /* Сцена «Instant variations» второй строки (20.10.2026): макет секции перестраивается a → b → c, как
    в редакторе — каждый элемент переезжает на новое место, меняет размер и цвет, по макету проходит
-   блик, у картинки рамка выделения; прежний вариант уходит назад каскадом (как задачи в карточке
+   блик; прежний вариант уходит назад каскадом (как задачи в карточке
    «Organization and Full Control» главной), счётчик каждый раз доходит до ~3s.
    Значения вариантов — переменные --a…/--b…/--c… у каждого элемента: макет без модификатора стоит
    на c (итог), .dd-evm--a / --b — копии сзади. Молния и секундомер — картинки (Magnific, GPT 2) */
@@ -665,15 +665,6 @@
 .dd-evm__media i + i { --a1: #ff8b20; --b1: #1f1c18; --c1: #ff8b20; left: 50%; top: 50%; width: 4.6em; height: 4.6em; border-radius: 1.1em; translate: 15% 20%; rotate: 12deg; background: var(--c1); }
 .dd-evm--a .dd-evm__media i { background: var(--a1); }
 .dd-evm--b .dd-evm__media i { background: var(--b1); }
-/* рамка выделения, как в редакторе, — видна только пока макет перестраивается */
-.dd-evm__media::after {
-  content: "";
-  position: absolute;
-  inset: .3em;
-  border: .14em solid #7b5cf0;
-  border-radius: inherit;
-  opacity: 0;
-}
 
 .dd-evm__eyebrow { --ax: 2.4em; --ay: 5.4em; --bx: 2.4em; --by: 5.4em; --cx: 31.6em; --cy: 5.4em;
   --ae: #ffca41; --be: #ff8b20; --ce: #1a1e23; width: 6em; height: 1.7em; border-radius: 1em; background: var(--ce); }
@@ -740,7 +731,6 @@
    копии назад → молния и секундомер; ~4,5 с. У элементов макета шаг --o — перестройка идёт волной */
 @media (prefers-reduced-motion: no-preference) {
   .dd-edge-var.is-armed:not(.is-on) :is(.dd-evm, .dd-evm *, .dd-edge-var__ghost, .dd-edge-var__time, .dd-edge-var__time i, .dd-edge-var__bolt, .dd-edge-var__watch),
-  .dd-edge-var.is-armed:not(.is-on) .dd-evm__media::after,
   .dd-edge-var.is-armed:not(.is-on) .dd-evm::before,
   .dd-edge-var.is-armed:not(.is-on) .dd-evm::after {
     animation-play-state: paused !important;
@@ -758,7 +748,6 @@
   .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__btns { --o: .16s; }
   .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__media { animation-name: dd-evm-move, dd-evm-media; }
   .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__media i { animation: dd-evm-dot 3.3s both; }
-  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__media::after { animation: dd-evm-select 3.3s both; }
   .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__btns i:first-child { animation: dd-evm-btn 3.3s .16s both; }
   .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__title span:nth-child(1) { animation: dd-evm-t1 3.3s .08s both; }
   .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) .dd-evm__title span:nth-child(2) { animation: dd-evm-t2 3.3s .08s both; }
@@ -819,10 +808,6 @@
 @keyframes dd-evm-t1 { 0%, 27% { opacity: 1; } 33%, 100% { opacity: 0; } }
 @keyframes dd-evm-t2 { 0%, 44% { opacity: 0; } 51%, 76% { opacity: 1; } 82%, 100% { opacity: 0; } }
 @keyframes dd-evm-t3 { 0%, 93% { opacity: 0; } 100% { opacity: 1; } }
-@keyframes dd-evm-select {
-  0%, 25%, 54%, 74%, 100% { opacity: 0; }
-  29%, 49%, 78%, 97% { opacity: 1; }
-}
 @keyframes dd-evm-shine {
   0%, 28% { translate: -14em 0; opacity: 0; }
   30% { opacity: 1; }
