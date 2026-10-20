@@ -8,6 +8,9 @@
 
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* Проба 20.10.2026: ?code=layers — «Code quality» слоями вместо фото */
+  if (new URLSearchParams(location.search).get('code') === 'layers') document.documentElement.classList.add('dd-edge-layers');
+
   /* Видео первого экрана: при «уменьшить движение» стоит кадр-заставка */
   var heroVideo = document.querySelector('.dd-ai-hero__bg video');
   if (heroVideo && reduce) { heroVideo.removeAttribute('autoplay'); heroVideo.pause(); }

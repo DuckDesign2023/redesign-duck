@@ -449,6 +449,56 @@
   .dd-ai-tile > p { transition: none; }
 }
 
+/* Проба 20.10.2026 — «Code quality» слоями вместо фото, только при ?code=layers
+   (класс dd-edge-layers на <html>, assets/js/ai-development.js). Стол — кодом, запас бесконечный;
+   сцена — полотно 3 : 2, все предметы в его процентах; рамка карточки режет его по краям. */
+.dd-edge-code { display: none; }
+.dd-edge-layers .dd-ai-tile__art--code > img { visibility: hidden; }
+.dd-edge-layers .dd-edge-code {
+  display: block;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  container-type: size;
+  background: linear-gradient(150deg, #7daf63 0%, #6aa556 45%, #559544 100%);
+}
+.dd-edge-code__stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(150cqh, 118cqw);
+  aspect-ratio: 3 / 2;
+  translate: -50% -50%;
+}
+.dd-edge-code__obj {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  height: auto;
+  translate: -50% -50%;
+  rotate: var(--r);
+  filter: drop-shadow(.35cqw .55cqw .45cqw rgb(28 70 20 / .38));
+}
+.dd-ai-tile__art .dd-edge-code img { height: auto; aspect-ratio: auto; object-fit: fill; }
+.dd-ai-tile__art img.dd-edge-code__obj { width: var(--w); }
+.dd-edge-code__tablet { container-type: inline-size; }
+.dd-edge-code__screen {
+  position: absolute;
+  inset: 9% 7%;
+  padding: 3cqi 3.4cqi;
+  font: 500 3.1cqi / 1.7 var(--dd-font-tech), Consolas, monospace;
+  color: #8fa0b8;
+}
+.dd-edge-code__screen p { margin: 0; white-space: nowrap; padding-left: calc(var(--i) * 2.6cqi); }
+@media (max-width: 833.98px) {
+  .dd-ai-tile__art--code { position: relative; }
+}
+@media (min-width: 834px) {
+  /* белая плашка описания закрывает низ карточки — сцена встаёт выше середины */
+  .dd-edge-code__stage { top: 40%; }
+}
+
 /* ==========================================================================
    Экономика — .dd-ai-econ
    Таблица сравнения по блоку Pricing «Why hiring when you can simply subscribe?»:
