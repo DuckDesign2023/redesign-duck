@@ -17,16 +17,15 @@
   (function () {
     var tiles = Array.prototype.slice.call(document.querySelectorAll('.dd-ai-edge .dd-ai-tile'));
     var narrow = matchMedia('(max-width: 833.98px)');
-    /* В первой строке сцена вместо фото (20.10.2026). Играет один раз, когда строка выбрана
-       и картинка в окне; при «уменьшить движение» стоит итоговый кадр */
-    var scene = document.querySelector('.dd-edge-code'), sceneSeen = false;
-    if (scene) {
-      document.documentElement.classList.add('dd-edge-layers');
-      if (!reduce) {
-        scene.classList.add('is-armed');
-        new IntersectionObserver(function (entries) { sceneSeen = entries[0].isIntersecting; playScene(); }, { threshold: .4 }).observe(scene);
-      } else scene = null;
-    }
+    /* В строках сцены вместо фото (20.10.2026). Каждая играет один раз, когда её строка выбрана
+       и картинка в окне; при «уменьшить движение» стоят итоговые кадры */
+    var scenes = Array.prototype.map.call(document.querySelectorAll('.dd-edge-scene'), function (el) { return { el: el, seen: false }; });
+    if (scenes.length) document.documentElement.classList.add('dd-edge-layers');
+    if (reduce) scenes = [];
+    scenes.forEach(function (s) {
+      s.el.classList.add('is-armed');
+      new IntersectionObserver(function (entries) { s.seen = entries[0].isIntersecting; playScene(); }, { threshold: .4 }).observe(s.el);
+    });
     /* От 834 описание раскрыто только у выбранной строки, а карточка справа — во всю высоту блока.
        Блоку задаём высоту самого высокого варианта списка, чтобы карточка не менялась при смене строки */
     var grid = document.querySelector('.dd-ai-edge__grid');
@@ -46,9 +45,11 @@
     addEventListener('resize', fitGrid);
     if (document.fonts) document.fonts.ready.then(fitGrid);
     function playScene() {
-      if (!scene || !sceneSeen || !scene.closest('.dd-ai-tile').classList.contains('is-active')) return;
-      scene.classList.add('is-on');
-      scene = null;
+      scenes = scenes.filter(function (s) {
+        if (!s.seen || !s.el.closest('.dd-ai-tile').classList.contains('is-active')) return true;
+        s.el.classList.add('is-on');
+        return false;
+      });
     }
     function activate(tile) {
       tiles.forEach(function (t) { t.classList.toggle('is-active', t === tile); });

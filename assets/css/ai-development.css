@@ -452,19 +452,21 @@
    При «уменьшить движение» стоит итоговый кадр; скрипт ставит .is-armed, затем один раз .is-on */
 @property --_n { syntax: '<integer>'; inherits: false; initial-value: 100; }
 
-.dd-edge-code { display: none; }
-.dd-edge-layers .dd-ai-tile__art--code > img { visibility: hidden; }
-.dd-edge-layers .dd-edge-code {
+.dd-edge-scene { display: none; }
+.dd-edge-layers .dd-ai-tile__art--scene > img { visibility: hidden; }
+.dd-edge-layers .dd-edge-scene {
   display: block;
   position: absolute;
   inset: 0;
   overflow: hidden;
   container-type: size;
+}
+.dd-edge-code {
   background:
     radial-gradient(60% 70% at 88% 6%, rgb(255 255 255 / .5), rgb(255 255 255 / 0)),
     linear-gradient(117deg, #d8d2c6 0%, #cfdcc0 55%, #a9d3b1 100%);
 }
-.dd-edge-code__stage {
+.dd-edge-scene__stage {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -473,15 +475,15 @@
   translate: -50% -50%;
   font-size: min(100cqw / 58, 100cqh / 50);
 }
-.dd-edge-code__stage > * { position: absolute; }
-.dd-ai-tile__art .dd-edge-code img { width: auto; height: auto; aspect-ratio: auto; object-fit: fill; }
-.dd-edge-code__strokes {
+.dd-edge-scene__stage > * { position: absolute; }
+.dd-ai-tile__art .dd-edge-scene img { width: auto; height: auto; aspect-ratio: auto; object-fit: fill; }
+.dd-edge-scene__strokes {
   left: -6em;
   top: 7em;
   opacity: .12;
   mix-blend-mode: luminosity;
 }
-.dd-ai-tile__art .dd-edge-code .dd-edge-code__strokes { width: 74em; }
+.dd-ai-tile__art .dd-edge-scene .dd-edge-scene__strokes { width: 74em; }
 .dd-edge-code__bracket { --r: 10deg; left: 39em; top: -2.5em; rotate: var(--r); filter: drop-shadow(0 1.4em 2.4em rgb(80 60 140 / .25)); }
 .dd-ai-tile__art .dd-edge-code .dd-edge-code__bracket { width: 21em; }
 .dd-edge-code__medal { --r: 8deg; left: 49em; top: 17.5em; rotate: var(--r); filter: drop-shadow(0 1.2em 2.2em rgb(30 110 60 / .3)); }
@@ -564,7 +566,7 @@
 }
 
 @media (max-width: 833.98px) {
-  .dd-ai-tile__art--code { position: relative; }
+  .dd-ai-tile__art--scene { position: relative; }
 }
 
 /* Движение: редактор → строки набираются под курсором → пилюли → отчёт → кольца до 100 → медаль; ~4,4 с */
@@ -607,6 +609,160 @@
   12%, 30% { opacity: 1; translate: -24em -30.8em; }
   45%, 62% { translate: -8em -22.6em; }
   85%, 100% { translate: 0 0; }
+}
+
+/* Сцена «Instant variations» второй строки (20.10.2026): макет секции дважды перерисовывается строкой
+   рендера, счётчик каждый раз доходит до ~3s, прежние варианты уходят назад каскадом, как задачи
+   в карточке «Organization and Full Control» главной; молния и секундомер — картинки (Magnific, GPT 2) */
+@property --_s { syntax: '<integer>'; inherits: false; initial-value: 3; }
+
+.dd-edge-var {
+  background:
+    radial-gradient(60% 70% at 10% 0%, rgb(255 255 255 / .45), rgb(255 255 255 / 0)),
+    linear-gradient(117deg, #d8d2c6 0%, #e7cb85 70%, #e7b185 100%);
+}
+.dd-edge-var__watch { --r: 12deg; left: 47em; top: 31em; rotate: var(--r); filter: drop-shadow(0 1.4em 2.4em rgb(160 80 20 / .25)); }
+.dd-ai-tile__art .dd-edge-scene .dd-edge-var__watch { width: 15em; }
+.dd-edge-var__bolt { --r: -14deg; left: 2em; top: -3.5em; rotate: var(--r); filter: drop-shadow(0 1.4em 2.4em rgb(160 110 0 / .28)); }
+.dd-ai-tile__art .dd-edge-scene .dd-edge-var__bolt { width: 10em; }
+
+/* макет секции: три варианта на одном месте; итог — c спереди, b и a уходят назад каскадом */
+.dd-edge-var__site {
+  left: 12em;
+  top: 15em;
+  width: 40em;
+  height: 25em;
+  overflow: hidden;
+  border-radius: 1.4em;
+  clip-path: inset(0 0 0 0 round 1.4em);
+  box-shadow: inset 0 0 0 .1em rgb(255 255 255 / .6), 0 1.6em 4em rgb(122 109 99 / .22);
+}
+.dd-edge-var__site > * { position: absolute; }
+.dd-edge-var__site--a { z-index: 1; translate: -6em -9em; scale: .88; rotate: -8deg; background: #f6f3ed; }
+.dd-edge-var__site--b { z-index: 2; translate: -3em -4.5em; scale: .94; rotate: -4deg; background: #1f1c18; }
+.dd-edge-var__site--c { z-index: 3; background: #ffca41; }
+.dd-edge-var__nav { left: 2.4em; top: 2em; display: flex; align-items: center; gap: .8em; }
+.dd-edge-var__nav i { width: 3em; height: .6em; border-radius: 1em; background: currentColor; opacity: .25; }
+.dd-edge-var__nav i:first-child { width: 1.6em; height: 1.6em; margin-right: .6em; opacity: .9; }
+.dd-edge-var__title { width: 6.5em; margin: 0; font: 600 2.9em/1.08 var(--dd-font-basic); letter-spacing: -.03em; }
+.dd-edge-var__text {
+  width: 14em;
+  height: 2.2em;
+  background:
+    linear-gradient(currentColor, currentColor) 0 0 / 100% .6em no-repeat,
+    linear-gradient(currentColor, currentColor) 0 100% / 70% .6em no-repeat;
+  border-radius: .3em;
+  opacity: .22;
+}
+.dd-edge-var__btn { display: grid; place-items: center; width: 8em; height: 2.8em; border-radius: 2em; }
+.dd-edge-var__btn svg { width: 1.4em; height: 1.4em; }
+.dd-edge-var__shape { border-radius: 50%; }
+/* a — светлый: заголовок сверху слева, тёмная кнопка, жёлтый круг и оранжевый квадрат справа */
+.dd-edge-var__site--a { color: #1a1e23; }
+.dd-edge-var__site--a .dd-edge-var__title { left: calc(2.4em / 2.9); top: calc(6.5em / 2.9); }
+.dd-edge-var__site--a .dd-edge-var__text { left: 2.4em; top: 15.5em; }
+.dd-edge-var__site--a .dd-edge-var__btn { left: 2.4em; top: 20em; background: #1a1e23; color: #fff; }
+.dd-edge-var__site--a .dd-edge-var__shape--1 { left: 24em; top: 6em; width: 11em; height: 11em; background: #ffca41; }
+.dd-edge-var__site--a .dd-edge-var__shape--2 { left: 30.5em; top: 13.5em; width: 7em; height: 7em; border-radius: 1.4em; rotate: 12deg; background: #ff8b20; }
+/* b — тёмный: курсивный заголовок снизу слева, жёлтая кнопка, оранжевый квадрат и светлый круг сверху */
+.dd-edge-var__site--b { color: #f6f3ed; }
+.dd-edge-var__site--b .dd-edge-var__title { left: calc(2.4em / 2.9); top: calc(12em / 2.9); font: italic 500 2.9em/1.08 var(--dd-font-fancy); letter-spacing: -.01em; }
+.dd-edge-var__site--b .dd-edge-var__text { left: 2.4em; top: 7em; width: 11em; }
+.dd-edge-var__site--b .dd-edge-var__btn { left: 2.4em; top: 20em; background: #ffca41; color: #1a1e23; }
+.dd-edge-var__site--b .dd-edge-var__shape--1 { left: 25em; top: 3em; width: 11em; height: 11em; border-radius: 2em; rotate: -10deg; background: #ff8b20; }
+.dd-edge-var__site--b .dd-edge-var__shape--2 { left: 22em; top: 12.5em; width: 6em; height: 6em; background: #ffe7a6; }
+/* c — жёлтый: жирный заголовок справа, тёмная кнопка справа, тёмный круг и белая карточка слева */
+.dd-edge-var__site--c { color: #1a1e23; }
+.dd-edge-var__site--c .dd-edge-var__title { right: calc(2.4em / 2.9); top: calc(8em / 2.9); font-weight: 700; text-align: right; }
+.dd-edge-var__site--c .dd-edge-var__text { right: 2.4em; top: 16em; width: 12em; }
+.dd-edge-var__site--c .dd-edge-var__btn { right: 2.4em; top: 20em; background: #1a1e23; color: #fff; }
+.dd-edge-var__site--c .dd-edge-var__nav { left: auto; right: 2.4em; flex-direction: row-reverse; }
+.dd-edge-var__site--c .dd-edge-var__nav i:first-child { margin: 0 0 0 .6em; }
+.dd-edge-var__site--c .dd-edge-var__shape--1 { left: 3em; top: 6em; width: 12em; height: 12em; background: #1a1e23; }
+.dd-edge-var__site--c .dd-edge-var__shape--2 { left: 10em; top: 11em; width: 7.5em; height: 9.5em; border-radius: 1em; rotate: -8deg; background: #fff; }
+
+/* строка рендера — по ширине макета, проходит его сверху вниз; в итоге не видна */
+.dd-edge-var__scan {
+  z-index: 4;
+  left: 11em;
+  top: 15em;
+  width: 42em;
+  height: .4em;
+  border-radius: 1em;
+  background: #ff8b20;
+  box-shadow: 0 0 0 .25em rgb(255 255 255 / .55);
+  opacity: 0;
+}
+/* счётчик — светлое стекло; цифра — счётчик CSS, в итоге 3 */
+.dd-edge-var__time {
+  z-index: 5;
+  left: 3em;
+  top: 37em;
+  display: flex;
+  align-items: baseline;
+  gap: .4em;
+  margin: 0;
+  padding: .7em 1.5em .8em;
+  border-radius: 2em;
+  background: linear-gradient(77deg, rgb(255 255 255 / .7), rgb(255 255 255 / .92));
+  box-shadow: inset 0 0 0 .073em #fff, 0 1.2em 3em rgb(122 109 99 / .22);
+  rotate: -4deg;
+  color: #1a1e23;
+  white-space: nowrap;
+}
+.dd-edge-var__time b { font: 600 3.4em/1 var(--dd-font-basic); letter-spacing: -.03em; }
+.dd-edge-var__time i { font-style: normal; counter-reset: dd-s var(--_s); }
+.dd-edge-var__time i::after { content: counter(dd-s); }
+.dd-edge-var__time span { font: italic 500 1.8em/1 var(--dd-font-fancy); color: #676155; }
+
+/* Движение: макет a → рендер b (0,8–1,8 с) → a назад → рендер c (2,4–3,4 с) → a и b назад → молния и секундомер; ~4,4 с */
+@media (prefers-reduced-motion: no-preference) {
+  .dd-edge-var.is-armed :is(.dd-edge-var__site, .dd-edge-var__scan, .dd-edge-var__time, .dd-edge-var__time i, .dd-edge-var__bolt, .dd-edge-var__watch) {
+    animation-play-state: paused;
+  }
+  .dd-edge-var.is-on :is(.dd-edge-var__site, .dd-edge-var__scan, .dd-edge-var__time, .dd-edge-var__time i, .dd-edge-var__bolt, .dd-edge-var__watch) {
+    animation-play-state: running;
+  }
+  .dd-edge-var.is-armed .dd-edge-var__site--a { animation: dd-ev-a 3.8s both; }
+  .dd-edge-var.is-armed .dd-edge-var__site--b { animation: dd-ev-b 3.8s both; }
+  .dd-edge-var.is-armed .dd-edge-var__site--c { animation: dd-ev-c 3.8s both; }
+  .dd-edge-var.is-armed .dd-edge-var__scan--1 { animation: dd-ev-scan 1s linear .8s both; }
+  .dd-edge-var.is-armed .dd-edge-var__scan--2 { animation: dd-ev-scan 1s linear 2.4s both; }
+  .dd-edge-var.is-armed .dd-edge-var__time { animation: dd-ec-pop .42s cubic-bezier(.34, 1.56, .64, 1) .5s both; }
+  .dd-edge-var.is-armed .dd-edge-var__time i { animation: dd-ev-count 2.6s linear .8s both; }
+  .dd-edge-var.is-armed .dd-edge-var__bolt {
+    animation: dd-ec-fly-in .8s cubic-bezier(.2, .8, .2, 1) 3.5s both, dd-ec-float 5s ease-in-out 4.4s infinite alternate;
+    --fx: -16em; --fy: -16em;
+  }
+  .dd-edge-var.is-armed .dd-edge-var__watch {
+    animation: dd-ec-fly-in .8s cubic-bezier(.2, .8, .2, 1) 3.65s both, dd-ec-float 5.6s ease-in-out 4.55s infinite alternate;
+    --fx: 16em; --fy: 16em;
+  }
+}
+/* 0,6 с = 15,8 %; 0,8 = 21 %; 1,8 = 47,4 %; 2,2 = 57,9 %; 2,4 = 63,2 %; 3,4 = 89,5 % от 3,8 с */
+@keyframes dd-ev-a {
+  0% { opacity: 0; translate: 0 3em; scale: 1; rotate: 0deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+  15.8%, 47.4% { opacity: 1; translate: 0 0; scale: 1; rotate: 0deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+  57.9%, 89.5% { translate: -3em -4.5em; scale: .94; rotate: -4deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+}
+@keyframes dd-ev-b {
+  0%, 21% { clip-path: inset(0 0 100% 0 round 1.4em); translate: 0 0; scale: 1; rotate: 0deg; animation-timing-function: linear; }
+  47.4%, 89.5% { clip-path: inset(0 0 0 0 round 1.4em); translate: 0 0; scale: 1; rotate: 0deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+}
+@keyframes dd-ev-c {
+  0%, 63.2% { clip-path: inset(0 0 100% 0 round 1.4em); animation-timing-function: linear; }
+  89.5% { clip-path: inset(0 0 0 0 round 1.4em); }
+}
+@keyframes dd-ev-scan {
+  0% { opacity: 0; translate: 0 0; }
+  6%, 94% { opacity: 1; }
+  100% { opacity: 0; translate: 0 25em; }
+}
+@keyframes dd-ev-count {
+  0% { --_s: 0; }
+  38.4%, 61.5% { --_s: 3; }
+  61.6% { --_s: 0; }
+  100% { --_s: 3; }
 }
 
 /* ==========================================================================
