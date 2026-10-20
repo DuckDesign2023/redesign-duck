@@ -439,11 +439,11 @@
   .dd-ai-tile > p { transition: none; }
 }
 
-/* Сцены вместо фото в строках (20.10.2026). Язык — секция «The workflow» этой страницы: тёмная панель,
-   изометрическая стопка слоёв (каркас → тёмный слой → готовый лист с оранжевым контуром), оранжевый
-   свет на «полу»; предметы — 2.5D-значки в SVG, стоят над листом лицом к зрителю. Скрипт ставит на <html>
-   класс dd-edge-layers — без скрипта остаётся фото. Сцена 62 × 52 em, 1 em считается от карточки.
-   При «уменьшить движение» стоит итоговый кадр; скрипт ставит .is-armed, затем один раз .is-on */
+/* Сцены вместо фото в строках (20.10.2026). Цвета и свет — как в секции «The workflow» этой страницы:
+   тёмная панель, оранжевый свет, сетка; композиции свои. Карточки — тёмное стекло (размытие фона, блик
+   по верхней кромке, глубокая тень); значки — стеклянные плитки над цветной формой, всё в коде.
+   Скрипт ставит на <html> класс dd-edge-layers — без скрипта остаётся фото. Сцена 62 × 52 em, 1 em
+   считается от карточки. При «уменьшить движение» стоит итоговый кадр; скрипт ставит .is-armed, затем .is-on */
 @property --_n { syntax: '<integer>'; inherits: false; initial-value: 100; }
 @property --_s { syntax: '<integer>'; inherits: false; initial-value: 3; }
 
@@ -464,130 +464,70 @@
   width: 62em;
   height: 52em;
   translate: -50% -50%;
-  font-size: min(100cqw / 58, 100cqh / 50);
-  perspective: 150em;
+  font-size: min(100cqw / 60, 100cqh / 52);
 }
 .dd-edge-scene__stage > * { position: absolute; }
-
-/* изометрия — как .dd-ai-iso секции workflow */
-.dd-edge-iso {
-  left: 50%;
-  top: 55%;
-  width: 40em;
-  height: var(--ih, 25em);
-  margin: calc(var(--ih, 25em) / -2) 0 0 -20em;
-  transform: rotateX(57deg) rotateZ(-40deg);
-  transform-style: preserve-3d;
-}
-.dd-edge-iso::before {
-  content: "";
-  position: absolute;
-  inset: -35%;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgb(255 139 32 / .4), rgb(255 139 32 / 0));
-  transform: translateZ(-6em);
-}
-.dd-edge-plate {
-  position: absolute;
-  inset: 0;
-  box-sizing: border-box;
-  border-radius: 1em;
-  transform: translateZ(var(--z, 0em));
-}
-.dd-edge-plate svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.dd-edge-plate--wire {
+/* свет и сетка — как «пол» и каркас workflow: стеклу есть что размывать */
+.dd-edge-scene__light {
+  inset: -10em;
   background:
-    linear-gradient(rgb(216 210 198 / .12) .1em, transparent .1em) 0 0 / 100% 12.5%,
-    linear-gradient(90deg, rgb(216 210 198 / .12) .1em, transparent .1em) 0 0 / 8.33% 100%;
-  box-shadow: inset 0 0 0 .1em rgb(216 210 198 / .5);
+    radial-gradient(28em 22em at 62% 66%, rgb(255 139 32 / .42), rgb(255 139 32 / 0) 70%),
+    radial-gradient(22em 18em at 30% 26%, rgb(255 202 65 / .16), rgb(255 202 65 / 0) 70%),
+    linear-gradient(rgb(216 210 198 / .06) .1em, transparent .1em) 0 0 / 4em 4em,
+    linear-gradient(90deg, rgb(216 210 198 / .06) .1em, transparent .1em) 0 0 / 4em 4em;
+  -webkit-mask: radial-gradient(closest-side, #000 55%, transparent);
+  mask: radial-gradient(closest-side, #000 55%, transparent);
 }
-.dd-edge-plate--ink { --z: 2.8em; background: var(--dd-neutral-1200); box-shadow: inset 0 0 0 .1em var(--dd-ink-chip-line); opacity: .55; }
-.dd-edge-plate--live { --z: 5.6em; background: var(--dd-beige-50); }
-/* выбранный слой — оранжевый контур и свет, как у активного слоя workflow */
-.dd-edge-plate--live,
-.dd-evm:not(.dd-edge-var__ghost) { box-shadow: 0 0 0 .2em var(--dd-orange-100), 0 0 7em rgb(255 139 32 / .55); }
 
-/* 2.5D-значок: стоит над листом в точке (--x, --y) на высоте --h и повёрнут к зрителю */
-.dd-edge-bb {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: 0;
-  height: 0;
-  transform: translateZ(var(--h, 9em)) rotateZ(40deg) rotateX(-57deg);
-}
-.dd-edge-bb > span { position: absolute; left: 0; bottom: 0; display: block; translate: -50% 0; transform-origin: 50% 100%; }
-.dd-edge-bb svg { display: block; width: 100%; height: auto; overflow: visible; }
-
-/* плашка с цифрой строки — как теги и подписи на тёмных секциях страницы */
-.dd-edge-fact {
-  z-index: 5;
-  left: 3.5em;
-  bottom: 3.5em;
-  display: flex;
-  align-items: baseline;
-  gap: .5em;
-  margin: 0;
-  padding: .8em 1.5em .9em;
-  border-radius: 1em;
-  background: var(--dd-neutral-1200);
-  box-shadow: inset 0 0 0 .1em var(--dd-ink-chip-line);
+/* тёмное стекло карточек */
+.dd-edge-card {
+  box-sizing: border-box;
+  border-radius: 1.6em;
+  background: linear-gradient(160deg, rgb(255 255 255 / .11), rgb(255 255 255 / .03) 60%);
+  box-shadow:
+    inset 0 0 0 .08em rgb(255 255 255 / .1),
+    inset 0 .1em 0 rgb(255 255 255 / .16),
+    0 2.4em 5em rgb(0 0 0 / .55);
+  -webkit-backdrop-filter: blur(1.4em) saturate(140%);
+  backdrop-filter: blur(1.4em) saturate(140%);
   color: var(--dd-neutral-0);
-  white-space: nowrap;
-}
-.dd-edge-fact b { font: 600 2.6em/1 var(--dd-font-basic); letter-spacing: -.03em; }
-.dd-edge-fact span { font: italic 500 2em/1 var(--dd-font-fancy); color: var(--dd-orange-100); }
-
-@media (max-width: 833.98px) {
-  .dd-ai-tile__art--scene { position: relative; }
 }
 
-/* ---- Code quality: каркас → ИИ пишет код на тёмном слое → готовый лист → четыре «100» ---- */
-.dd-edge-code .dd-edge-iso { --ih: 28em; }
-.dd-edge-code__code [pathLength] { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
-.dd-edge-code__tags { stroke: var(--dd-orange-200); stroke-width: 4; }
-.dd-edge-code__txt { stroke: var(--dd-beige-200); stroke-width: 4; }
-.dd-edge-live .is-ink { fill: var(--dd-neutral-1300); }
-.dd-edge-live .is-white { fill: var(--dd-neutral-0); }
-.dd-edge-live .is-yellow { fill: var(--dd-yellow-200); }
-.dd-edge-live .is-orange { fill: var(--dd-orange-100); }
-.dd-edge-live .is-line { fill: var(--dd-beige-100); }
-/* кольцо Lighthouse — тёмная плашка с кольцом и цифрой, стоит на нижнем блоке листа */
-.dd-edge-code__ring { --h: 6em; }
-.dd-edge-code__ring > span {
-  width: 4.6em;
-  padding: .5em;
-  border-radius: .9em;
-  background: var(--dd-neutral-1200);
-  box-shadow: inset 0 0 0 .1em var(--dd-ink-chip-line), 0 1.2em 2.4em rgb(0 0 0 / .45);
+/* стеклянный значок: цветная форма сзади просвечивает сквозь матовую плитку */
+.dd-edge-glass { left: var(--x); top: var(--y); width: var(--s); height: var(--s); rotate: var(--r); }
+.dd-edge-glass > * { position: absolute; }
+.dd-edge-glass__glow {
+  inset: 26% -10% -12% 30%;
+  border-radius: 32%;
+  background: linear-gradient(135deg, var(--g1), var(--g2));
+  box-shadow: 0 0 3em rgb(255 139 32 / .45);
 }
-.dd-edge-code__ring svg { rotate: -90deg; }
-.dd-edge-code__ring circle { fill: none; stroke-width: 3.6; }
-.dd-edge-code__ring circle:first-child { stroke: var(--dd-ink-chip-line); }
-.dd-edge-code__ring circle + circle { stroke: var(--dd-yellow-200); stroke-linecap: round; stroke-dasharray: 100.6; stroke-dashoffset: 0; }
-.dd-edge-code__ring b {
-  position: absolute;
-  inset: .5em;
+.dd-edge-glass__tile {
+  inset: 0;
   display: grid;
   place-items: center;
-  font: 600 1.25em/1 var(--dd-font-basic);
-  letter-spacing: -.03em;
-  color: var(--dd-neutral-0);
-  counter-reset: dd-n var(--_n);
+  border-radius: 28%;
+  background: linear-gradient(145deg, rgb(255 255 255 / .26), rgb(255 255 255 / .06));
+  box-shadow:
+    inset 0 0 0 .08em rgb(255 255 255 / .32),
+    inset 0 .14em 0 rgb(255 255 255 / .42),
+    0 1.8em 3.4em rgb(0 0 0 / .5);
+  -webkit-backdrop-filter: blur(.9em) saturate(170%);
+  backdrop-filter: blur(.9em) saturate(170%);
 }
-.dd-edge-code__ring b::after { content: counter(dd-n); }
-.dd-edge-code__chip { --h: 8.5em; }
-.dd-edge-code__chip > span { width: 8em; }
-.dd-edge-code__chip path { fill: none; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; }
-.dd-edge-code__chip .is-side { stroke: #b8601a; }
-.dd-edge-code__chip .is-face { stroke: var(--dd-orange-100); }
-.dd-edge-code__badge { --h: 9.5em; }
-.dd-edge-code__badge > span { width: 6.4em; }
-.dd-edge-code__badge .is-side { fill: #c9921a; }
-.dd-edge-code__badge .is-face { fill: var(--dd-yellow-200); }
-.dd-edge-code__badge .is-mark { fill: none; stroke: var(--dd-neutral-1300); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
-/* курсор с ярлыком — как на главной */
-.dd-edge-cursor { z-index: 6; left: 41em; top: 33em; padding: 2.07em 0 0 1.45em; filter: drop-shadow(0 .93em 2.4em rgb(0 0 0 / .5)); }
+.dd-edge-glass__tile svg {
+  width: 48%;
+  overflow: visible;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 .15em .3em rgb(0 0 0 / .25));
+}
+
+/* курсор с ярлыком — как на главной, светлый на тёмном */
+.dd-edge-cursor { z-index: 6; padding: 2.07em 0 0 1.45em; filter: drop-shadow(0 .93em 2.4em rgb(0 0 0 / .55)); }
 .dd-edge-cursor svg { position: absolute; left: 0; top: 0; width: 1.87em; height: 2.19em; color: var(--dd-neutral-0); }
 .dd-edge-cursor span {
   display: block;
@@ -600,13 +540,88 @@
   white-space: nowrap;
 }
 
-/* ---- Instant variations: лист перестраивается a → b → c, прежние варианты уходят вниз слоями ---- */
-.dd-edge-var__site { position: absolute; inset: 0; overflow: hidden; border-radius: 1em; }
-.dd-edge-var__ghost--a { transform: translateZ(2.4em); opacity: .4; }
-.dd-edge-var__ghost--b { transform: translateZ(4.8em); opacity: .6; }
-.dd-evm { --abg: #f6f3ed; --bbg: #1a1e23; --cbg: #ffca41; --afg: #040506; --bfg: #f6f3ed; --cfg: #040506;
+@media (max-width: 833.98px) {
+  .dd-ai-tile__art--scene { position: relative; }
+}
+
+/* ---- Code quality: редактор → строки набираются под курсором → теги → отчёт → кольца до 100 → галочка ---- */
+.dd-edge-code__brackets { z-index: 0; }
+.dd-edge-code__editor { z-index: 1; left: 3em; top: 6em; width: 40em; padding: 1.5em 2em 1.8em; }
+.dd-edge-code__bar { display: flex; align-items: center; gap: .6em; margin-bottom: 1.3em; }
+.dd-edge-code__bar i { width: .9em; height: .9em; border-radius: 50%; background: rgb(255 255 255 / .18); }
+.dd-edge-code__bar i:first-child { background: var(--dd-orange-100); }
+.dd-edge-code__bar span {
+  margin-left: .8em;
+  padding: .35em .9em;
+  border-radius: 2em;
+  background: rgb(255 255 255 / .07);
+  font: 500 1.05em/1.3 var(--dd-font-basic);
+  color: var(--dd-beige-100);
+}
+.dd-edge-code__lines p {
+  margin: 0;
+  padding-left: calc(var(--d) * 1.6em);
+  font: 500 1.55em/1.75 var(--dd-font-tech), Consolas, monospace;
+  color: rgb(216 210 198 / .55);
+  white-space: nowrap;
+}
+.dd-edge-code__lines b { font-weight: 600; color: var(--dd-orange-200); }
+.dd-edge-code__lines em { font-style: normal; color: var(--dd-neutral-0); }
+/* теги — как .dd-ai-tag в шагах workflow */
+.dd-edge-code__tags { display: flex; gap: .7em; margin-top: 1.3em; }
+.dd-edge-code__tag {
+  padding: .5em .9em;
+  border-radius: .5em;
+  box-shadow: inset 0 0 0 .1em var(--dd-ink-chip-line);
+  font: 500 1em/1.3 var(--dd-font-basic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dd-beige-100);
+}
+.dd-edge-code__report { --r: -4deg; z-index: 2; left: 13em; top: 29em; width: 38em; padding: 1.6em 2em 1.8em; rotate: var(--r); }
+.dd-edge-code__report-title { display: flex; align-items: baseline; justify-content: space-between; margin: 0 0 1.2em; }
+.dd-edge-code__report-title span { font: 600 1.45em/1.3 var(--dd-font-basic); letter-spacing: -.02em; }
+.dd-edge-code__report-title em { display: inline-block; font: italic 500 1.6em/1.3 var(--dd-font-fancy); color: var(--dd-orange-100); }
+.dd-edge-code__defs { position: absolute; }
+.dd-edge-code__rings { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8em; margin: 0; padding: 0; list-style: none; }
+.dd-edge-code__rings li { position: relative; display: flex; flex-direction: column; align-items: center; gap: .7em; }
+.dd-edge-code__rings svg { width: 6.6em; height: 6.6em; rotate: -90deg; overflow: visible; }
+.dd-edge-code__rings circle { fill: none; stroke-width: 3; }
+.dd-edge-code__rings circle:first-child { stroke: rgb(255 255 255 / .1); }
+.dd-edge-code__rings circle + circle { stroke: url(#dd-edge-ring); stroke-linecap: round; stroke-dasharray: 106.8; stroke-dashoffset: 0; filter: drop-shadow(0 0 .25em rgb(255 139 32 / .6)); }
+.dd-edge-code__rings b {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: calc(6.6em / 1.9);
+  display: grid;
+  place-items: center;
+  font: 600 1.9em/1 var(--dd-font-basic);
+  letter-spacing: -.03em;
+  counter-reset: dd-n var(--_n);
+}
+.dd-edge-code__rings b::after { content: counter(dd-n); }
+.dd-edge-code__rings span { font: 500 1em/1.2 var(--dd-font-basic); color: var(--dd-beige-100); white-space: nowrap; }
+.dd-edge-code__check { z-index: 3; }
+.dd-edge-code .dd-edge-cursor { left: 45em; top: 42.5em; }
+
+/* ---- Instant variations: макет перестраивается a → b → c, прежние варианты уходят назад каскадом ---- */
+.dd-edge-var__bolt { z-index: 4; }
+.dd-edge-var__watch { z-index: 6; }
+.dd-edge-var__hand { transform-box: view-box; transform-origin: 24px 27px; }
+.dd-edge-var__site {
+  left: 12em;
+  top: 15em;
+  width: 40em;
+  height: 25em;
+  overflow: hidden;
+  border-radius: 1.4em;
+  box-shadow: 0 2.4em 5em rgb(0 0 0 / .6);
+}
+.dd-edge-var__ghost--a { z-index: 1; translate: -6em -9em; scale: .88; rotate: -8deg; }
+.dd-edge-var__ghost--b { z-index: 2; translate: -3em -4.5em; scale: .94; rotate: -4deg; }
+.dd-evm { z-index: 3; --abg: #f6f3ed; --bbg: #1a1e23; --cbg: #ffca41; --afg: #040506; --bfg: #f6f3ed; --cfg: #040506;
   background: var(--cbg); color: var(--cfg); }
-.dd-evm:not(.dd-edge-var__ghost) { transform: translateZ(7.2em); }
 .dd-evm > * { position: absolute; left: 0; top: 0; translate: var(--cx) var(--cy); }
 .dd-evm--a { background: var(--abg); color: var(--afg); }
 .dd-evm--b { background: var(--bbg); color: var(--bfg); }
@@ -668,23 +683,27 @@
   z-index: 2;
   width: 12em;
   height: 100%;
-  background: linear-gradient(100deg, rgb(255 202 65 / 0), rgb(255 202 65 / .35) 50%, rgb(255 202 65 / 0));
+  background: linear-gradient(100deg, rgb(255 255 255 / 0), rgb(255 255 255 / .4) 50%, rgb(255 255 255 / 0));
   opacity: 0;
 }
-.dd-edge-var__bolt { --h: 16em; }
-.dd-edge-var__bolt > span { width: 4.6em; }
-.dd-edge-var__bolt .is-side { fill: #c9921a; }
-.dd-edge-var__bolt .is-face { fill: var(--dd-yellow-200); }
-.dd-edge-var__watch { --h: 12.5em; }
-.dd-edge-var__watch > span { width: 7em; }
-.dd-edge-var__watch .is-rim { fill: var(--dd-orange-100); }
-.dd-edge-var__watch .is-side { fill: #b8601a; }
-.dd-edge-var__watch .is-face { fill: var(--dd-beige-50); }
-.dd-edge-var__watch .is-hand { fill: none; stroke: var(--dd-neutral-1300); stroke-width: 4; stroke-linecap: round; }
-.dd-edge-var__watch .is-hub { fill: var(--dd-neutral-1300); }
-.dd-edge-var__hand { transform-box: view-box; transform-origin: 42px 52px; }
-.dd-edge-var .dd-edge-fact i { font-style: normal; counter-reset: dd-s var(--_s); }
-.dd-edge-var .dd-edge-fact i::after { content: counter(dd-s); }
+/* счётчик — тёмное стекло; цифра — счётчик CSS, в итоге 3 */
+.dd-edge-var__time {
+  z-index: 5;
+  left: 3em;
+  top: 37.5em;
+  display: flex;
+  align-items: baseline;
+  gap: .4em;
+  margin: 0;
+  padding: .8em 1.6em .9em;
+  border-radius: 1.4em;
+  rotate: -4deg;
+  white-space: nowrap;
+}
+.dd-edge-var__time b { font: 600 3.4em/1 var(--dd-font-basic); letter-spacing: -.03em; }
+.dd-edge-var__time i { font-style: normal; counter-reset: dd-s var(--_s); }
+.dd-edge-var__time i::after { content: counter(dd-s); }
+.dd-edge-var__time span { font: italic 500 1.8em/1 var(--dd-font-fancy); color: var(--dd-orange-100); }
 
 /* ---- Движение ---- */
 @media (prefers-reduced-motion: no-preference) {
@@ -692,35 +711,24 @@
   .dd-edge-scene.is-armed:not(.is-on) *,
   .dd-edge-scene.is-armed:not(.is-on) *::before,
   .dd-edge-scene.is-armed:not(.is-on) *::after { animation-play-state: paused !important; }
+  .dd-edge-scene.is-armed .dd-edge-scene__light { animation: dd-eb-fade 1.2s ease-out both; }
 
-  /* общее: слои ложатся сверху, значки встают, плашка с цифрой всплывает */
-  .dd-edge-scene.is-armed .dd-edge-iso::before { animation: dd-eb-fade 1.2s ease-out both; }
-  .dd-edge-scene.is-armed .dd-edge-plate--wire { animation: dd-eb-fade .5s ease-out both; }
+  /* Code quality, ~4,4 с */
+  .dd-edge-code.is-armed .dd-edge-code__editor { animation: dd-eb-rise .6s var(--dd-ease-out) both; }
+  .dd-edge-code.is-armed .dd-edge-code__brackets { animation: dd-eb-fly .9s cubic-bezier(.2, .8, .2, 1) .2s both, dd-eb-float 5s ease-in-out 4.6s infinite alternate; --fx: 18em; --fy: -14em; }
+  .dd-edge-code.is-armed .dd-edge-code__lines p { animation: dd-eb-type .34s steps(14, end) calc(.6s + var(--l) * .22s) both; }
+  .dd-edge-code.is-armed .dd-edge-cursor { animation: dd-eb-cursor 3.1s cubic-bezier(.4, 0, .2, 1) .15s both; }
+  .dd-edge-code.is-armed .dd-edge-code__tag { animation: dd-eb-pop .42s cubic-bezier(.34, 1.56, .64, 1) 2s both; }
+  .dd-edge-code.is-armed .dd-edge-code__tag + .dd-edge-code__tag { animation-delay: 2.12s; }
+  .dd-edge-code.is-armed .dd-edge-code__report { animation: dd-eb-rise .6s var(--dd-ease-out) 2.2s both; }
+  .dd-edge-code.is-armed .dd-edge-code__rings circle + circle { animation: dd-eb-ring 1s var(--dd-ease-out) calc(2.6s + var(--k) * .15s) both; }
+  .dd-edge-code.is-armed .dd-edge-code__rings b { animation: dd-eb-count 1s var(--dd-ease-out) calc(2.6s + var(--k) * .15s) both; }
+  .dd-edge-code.is-armed .dd-edge-code__report-title em { animation: dd-eb-pop .42s cubic-bezier(.34, 1.56, .64, 1) 3.9s both; }
+  .dd-edge-code.is-armed .dd-edge-code__check { animation: dd-eb-fly .8s cubic-bezier(.2, .8, .2, 1) 3.6s both, dd-eb-float 5.6s ease-in-out 4.6s infinite alternate; --fx: 16em; --fy: 12em; }
 
-  /* Code quality, ~4,4 с: тёмный слой 0,1 → код линиями 0,55–1,9 → лист 1,9 → кольца 2,8–4 → галочка 3,9 → «Lighthouse 100/100» 4 */
-  .dd-edge-code.is-armed .dd-edge-plate--ink { animation: dd-eb-drop-ink .6s cubic-bezier(.2, .7, .2, 1) .1s both, dd-eb-dim .5s ease 2.4s forwards; }
-  .dd-edge-code.is-armed .dd-edge-plate--ink::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(100deg, transparent 42%, rgb(255 202 65 / .3) 50%, transparent 58%) 130% 0 / 260% 100% no-repeat;
-    animation: dd-eb-scan 1.4s linear .6s both;
-  }
-  .dd-edge-code.is-armed .dd-edge-code__code [pathLength] { animation: dd-eb-draw .3s cubic-bezier(.4, 0, .2, 1) var(--_d) both; }
-  .dd-edge-code.is-armed .dd-edge-plate--live { animation: dd-eb-drop .6s cubic-bezier(.2, .7, .2, 1) 1.9s both, dd-eb-glow .6s ease 2.4s both; }
-  .dd-edge-code.is-armed .dd-edge-live g[style] { animation: dd-eb-rise .5s cubic-bezier(.2, .7, .2, 1) calc(2.3s + var(--_i) * .1s) both; }
-  .dd-edge-code.is-armed .dd-edge-code__ring > span { animation: dd-eb-pop .45s cubic-bezier(.34, 1.4, .64, 1) calc(2.8s + var(--k) * .12s) both; }
-  .dd-edge-code.is-armed .dd-edge-code__ring circle + circle { animation: dd-eb-ring 1s var(--dd-ease-out) calc(2.9s + var(--k) * .12s) both; }
-  .dd-edge-code.is-armed .dd-edge-code__ring b { animation: dd-eb-count 1s var(--dd-ease-out) calc(2.9s + var(--k) * .12s) both; }
-  .dd-edge-code.is-armed .dd-edge-code__chip > span { animation: dd-eb-pop .5s cubic-bezier(.34, 1.4, .64, 1) 1s both; }
-  .dd-edge-code.is-armed .dd-edge-code__badge > span { animation: dd-eb-pop .5s cubic-bezier(.34, 1.4, .64, 1) 3.9s both; }
-  .dd-edge-code.is-armed .dd-edge-fact { animation: dd-eb-pop .42s cubic-bezier(.34, 1.4, .64, 1) 4s both; }
-  .dd-edge-code.is-armed .dd-edge-cursor { animation: dd-eb-cursor 3.4s cubic-bezier(.4, 0, .2, 1) .2s both; }
-
-  /* Instant variations, ~4 с: лист a → перестройка в b (0,9–1,7 с) → копия a вниз → перестройка в c (2,5–3,3 с) →
-     копии вниз; секундомер встаёт сразу, стрелка делает круг на каждый рендер; молния — в конце */
-  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) { isolation: isolate; background: var(--abg); animation: dd-evm-drop .6s cubic-bezier(.2, .7, .2, 1) both, dd-evm-card 3.3s both; }
+  /* Instant variations, ~4 с: макет a → перестройка в b (0,9–1,7 с) → копия a назад → перестройка в c (2,5–3,3 с) →
+     копии назад; секундомер влетает сразу, стрелка делает круг на каждый рендер; молния — в конце */
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) { isolation: isolate; background: var(--abg); animation: dd-eb-rise .6s var(--dd-ease-out) both, dd-evm-card 3.3s both; }
   /* фон нового варианта раскрывается кругом из центра картинки — слои ::before (b) и ::after (c) под элементами */
   .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost)::before,
   .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost)::after { content: ""; position: absolute; inset: 0; z-index: -1; }
@@ -740,31 +748,27 @@
   .dd-edge-var.is-armed .dd-evm__shine { animation: dd-evm-shine 3.3s linear both; }
   .dd-edge-var.is-armed .dd-edge-var__ghost--a { animation: dd-evm-ghost-a 3.7s both; }
   .dd-edge-var.is-armed .dd-edge-var__ghost--b { animation: dd-evm-ghost-b 3.7s both; }
-  .dd-edge-var.is-armed .dd-edge-var__watch > span { animation: dd-eb-pop .5s cubic-bezier(.34, 1.4, .64, 1) .45s both; }
+  .dd-edge-var.is-armed .dd-edge-var__time { animation: dd-eb-pop .42s cubic-bezier(.34, 1.56, .64, 1) .5s both; }
+  .dd-edge-var.is-armed .dd-edge-var__time i { animation: dd-ev-count 2.4s linear .9s both; }
+  .dd-edge-var.is-armed .dd-edge-var__watch { animation: dd-eb-fly .8s cubic-bezier(.2, .8, .2, 1) .3s both, dd-eb-float 5.6s ease-in-out 4.6s infinite alternate; --fx: 16em; --fy: 14em; }
   .dd-edge-var.is-armed .dd-edge-var__hand { animation: dd-evm-hand 2.4s linear .9s both; }
-  .dd-edge-var.is-armed .dd-edge-var__bolt > span { animation: dd-eb-pop .5s cubic-bezier(.34, 1.4, .64, 1) 3.5s both; }
-  .dd-edge-var.is-armed .dd-edge-fact { animation: dd-eb-pop .42s cubic-bezier(.34, 1.4, .64, 1) .5s both; }
-  .dd-edge-var.is-armed .dd-edge-fact i { animation: dd-ev-count 2.4s linear .9s both; }
+  .dd-edge-var.is-armed .dd-edge-var__bolt { animation: dd-eb-fly .8s cubic-bezier(.2, .8, .2, 1) 3.5s both, dd-eb-float 5s ease-in-out 4.6s infinite alternate; --fx: -14em; --fy: -14em; }
 }
 @keyframes dd-eb-fade { from { opacity: 0; } }
-@keyframes dd-eb-drop { from { opacity: 0; transform: translateZ(calc(var(--z) + 9em)); } }
-@keyframes dd-eb-drop-ink { from { opacity: 0; transform: translateZ(calc(var(--z) + 9em)); } to { opacity: 1; } }
-@keyframes dd-eb-dim { from { opacity: 1; } to { opacity: .55; } }
-@keyframes dd-eb-scan { from { opacity: 1; } 95% { opacity: 1; } to { opacity: 0; background-position: -30% 0; } }
-@keyframes dd-eb-draw { from { stroke-dashoffset: 1; } }
-@keyframes dd-eb-rise { from { opacity: 0; transform: translateY(8px); } }
-@keyframes dd-eb-glow { from { box-shadow: 0 0 0 .2em rgb(255 139 32 / 0), 0 0 7em rgb(255 139 32 / 0); } }
-@keyframes dd-eb-pop { from { opacity: 0; scale: .4; } }
-@keyframes dd-eb-ring { from { stroke-dashoffset: 100.6; } }
+@keyframes dd-eb-rise { from { opacity: 0; translate: 0 3em; } }
+@keyframes dd-eb-fly { from { opacity: 0; translate: var(--fx) var(--fy); rotate: calc(var(--r) + 30deg); } }
+@keyframes dd-eb-float { to { transform: translateY(-.6em); } }
+@keyframes dd-eb-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
+@keyframes dd-eb-pop { from { opacity: 0; scale: .6; } }
+@keyframes dd-eb-ring { from { stroke-dashoffset: 106.8; } }
 @keyframes dd-eb-count { from { --_n: 0; } }
-/* курсор: входит к строкам кода, перебегает по ним, затем к кольцам (координаты — от итога) */
+/* курсор: входит к первой строке, перебегает к строке с заголовком, затем к отчёту (координаты — от итога) */
 @keyframes dd-eb-cursor {
-  0% { opacity: 0; translate: 6em 8em; }
-  12%, 28% { opacity: 1; translate: -16em -16em; }
-  42%, 58% { translate: -10em -10em; }
+  0% { opacity: 0; translate: 8em 6em; }
+  12%, 30% { opacity: 1; translate: -23em -30.8em; }
+  45%, 62% { translate: -7em -22.6em; }
   85%, 100% { translate: 0 0; }
 }
-@keyframes dd-evm-drop { from { opacity: 0; transform: translateZ(16em); } }
 /* 3,3 с: держит a до 0,9 с (27,3 %), b — с 1,7 (51,5 %) до 2,5 (75,8 %), c — к 3,3 (100 %) */
 @keyframes dd-evm-move {
   0%, 27.3% { translate: var(--ax) var(--ay); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
@@ -816,15 +820,15 @@
   98% { translate: 42em 0; opacity: 1; }
   100% { translate: 42em 0; opacity: 0; }
 }
-/* копии: a появляется под листом в 0,9 с и опускается слоем в 1,7–2,1 и 3,3–3,7; b — появляется в 2,5, опускается в 3,3–3,7 */
+/* копии: a появляется за макетом в 0,9 с и уходит назад в 1,7–2,1 и 3,3–3,7; b — появляется в 2,5, уходит в 3,3–3,7 */
 @keyframes dd-evm-ghost-a {
-  0%, 24.3% { opacity: 0; transform: translateZ(7.2em); }
-  24.4%, 45.9% { opacity: 1; transform: translateZ(7.2em); animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
-  56.8%, 89.2% { opacity: .6; transform: translateZ(4.8em); animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+  0%, 24.3% { opacity: 0; translate: 0 0; scale: 1; rotate: 0deg; }
+  24.4%, 45.9% { opacity: 1; translate: 0 0; scale: 1; rotate: 0deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+  56.8%, 89.2% { translate: -3em -4.5em; scale: .94; rotate: -4deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
 }
 @keyframes dd-evm-ghost-b {
-  0%, 67.5% { opacity: 0; transform: translateZ(7.2em); }
-  67.6%, 89.2% { opacity: 1; transform: translateZ(7.2em); animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+  0%, 67.5% { opacity: 0; translate: 0 0; scale: 1; rotate: 0deg; }
+  67.6%, 89.2% { opacity: 1; translate: 0 0; scale: 1; rotate: 0deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
 }
 /* стрелка: круг за первый рендер (0,9–1,7 с), стоит, второй круг (2,5–3,3 с) */
 @keyframes dd-evm-hand {
