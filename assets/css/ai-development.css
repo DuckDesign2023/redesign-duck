@@ -323,12 +323,6 @@
   transition: color .3s;
 }
 .dd-ai-tile__kind svg { flex: none; width: 2rem; height: 2rem; color: var(--dd-orange-100); transition: color .3s; }
-.dd-ai-tile__fact {
-  margin: 0;
-  font: italic 500 1.4rem/2.1rem var(--dd-font-fancy);
-  color: var(--dd-color-text);
-  white-space: nowrap;
-}
 .dd-ai-tile h3 { margin: 0 0 .8rem; }
 .dd-ai-tile > p { margin: 0; color: var(--dd-color-text-body); text-wrap: pretty; }
 .dd-ai-tile__art { order: -1; margin: 0 0 2rem; overflow: hidden; border-radius: var(--dd-radius-md); background: var(--dd-beige-100); }
@@ -445,12 +439,13 @@
   .dd-ai-tile > p { transition: none; }
 }
 
-/* Сцена «Code quality» вместо фото первой строки (20.10.2026). Скрипт ставит на <html> класс
-   dd-edge-layers — без скрипта остаётся фото. Язык — карточка «Organization and Full Control» главной:
-   стекло, пилюли, курсор с ярлыком, мазки; скобка и медаль — картинки (Magnific, GPT 2).
-   Сцена 62 × 52 em, 1 em считается от карточки — сцена вписывается в неё с лёгкой обрезкой краёв.
+/* Сцены вместо фото в строках (20.10.2026). Язык — секция «The workflow» этой страницы: тёмная панель,
+   изометрическая стопка слоёв (каркас → тёмный слой → готовый лист с оранжевым контуром), оранжевый
+   свет на «полу»; предметы — 2.5D-значки в SVG, стоят над листом лицом к зрителю. Скрипт ставит на <html>
+   класс dd-edge-layers — без скрипта остаётся фото. Сцена 62 × 52 em, 1 em считается от карточки.
    При «уменьшить движение» стоит итоговый кадр; скрипт ставит .is-armed, затем один раз .is-on */
 @property --_n { syntax: '<integer>'; inherits: false; initial-value: 100; }
+@property --_s { syntax: '<integer>'; inherits: false; initial-value: 3; }
 
 .dd-edge-scene { display: none; }
 .dd-edge-layers .dd-ai-tile__art--scene > img { visibility: hidden; }
@@ -460,11 +455,7 @@
   inset: 0;
   overflow: hidden;
   container-type: size;
-}
-.dd-edge-code {
-  background:
-    radial-gradient(60% 70% at 88% 6%, rgb(255 255 255 / .5), rgb(255 255 255 / 0)),
-    linear-gradient(117deg, #d8d2c6 0%, #cfdcc0 55%, #a9d3b1 100%);
+  background: var(--dd-neutral-1300);
 }
 .dd-edge-scene__stage {
   position: absolute;
@@ -474,172 +465,148 @@
   height: 52em;
   translate: -50% -50%;
   font-size: min(100cqw / 58, 100cqh / 50);
+  perspective: 150em;
 }
 .dd-edge-scene__stage > * { position: absolute; }
-.dd-ai-tile__art .dd-edge-scene img { width: auto; height: auto; aspect-ratio: auto; object-fit: fill; }
-.dd-edge-scene__strokes {
-  left: -6em;
-  top: 7em;
-  opacity: .12;
-  mix-blend-mode: luminosity;
-}
-.dd-ai-tile__art .dd-edge-scene .dd-edge-scene__strokes { width: 74em; }
-.dd-edge-code__bracket { --r: 10deg; left: 39em; top: -2.5em; rotate: var(--r); filter: drop-shadow(0 1.4em 2.4em rgb(80 60 140 / .25)); }
-.dd-ai-tile__art .dd-edge-code .dd-edge-code__bracket { width: 21em; }
-.dd-edge-code__medal { --r: 8deg; left: 49em; top: 17.5em; rotate: var(--r); filter: drop-shadow(0 1.2em 2.2em rgb(30 110 60 / .3)); }
-.dd-ai-tile__art .dd-edge-code .dd-edge-code__medal { width: 13em; }
 
-/* стекло — как .dd-duo-task главной */
-.dd-edge-code__editor,
-.dd-edge-code__report {
-  box-sizing: border-box;
-  border-radius: 1.6em;
-  background: linear-gradient(77deg, rgb(255 255 255 / .6), rgb(255 255 255 / .9));
-  box-shadow: inset 0 0 0 .073em #fff, inset 0 0 3.08em .733em #fff, 0 1.6em 4em rgb(122 109 99 / .18);
-  -webkit-backdrop-filter: blur(.415em);
-  backdrop-filter: blur(.415em);
+/* изометрия — как .dd-ai-iso секции workflow */
+.dd-edge-iso {
+  left: 50%;
+  top: 55%;
+  width: 40em;
+  height: var(--ih, 25em);
+  margin: calc(var(--ih, 25em) / -2) 0 0 -20em;
+  transform: rotateX(57deg) rotateZ(-40deg);
+  transform-style: preserve-3d;
 }
-.dd-edge-code__editor { left: 3em; top: 5em; width: 40em; padding: 1.5em 2em 1.8em; }
-.dd-edge-code__bar { display: flex; align-items: center; gap: .6em; margin-bottom: 1.3em; }
-.dd-edge-code__bar i { width: .9em; height: .9em; border-radius: 50%; background: #e2dbcf; }
-.dd-edge-code__bar span {
-  margin-left: .8em;
-  padding: .35em .9em;
-  border-radius: 2em;
-  background: rgb(216 210 198 / .45);
-  font: 500 1.05em/1.3 var(--dd-font-basic);
-  color: #676155;
-}
-.dd-edge-code__lines p {
-  margin: 0;
-  padding-left: calc(var(--d) * 1.6em);
-  font: 500 1.55em/1.75 var(--dd-font-tech), Consolas, monospace;
-  color: #8c8576;
-  white-space: nowrap;
-}
-.dd-edge-code__lines b { font-weight: 600; color: #6b4fe0; }
-.dd-edge-code__lines em { font-style: normal; color: #1a1e23; }
-.dd-edge-code__tags { display: flex; gap: .7em; margin-top: 1.3em; }
-.dd-edge-code__tag {
-  padding: .615em 1.077em;
-  border-radius: 2.7em;
-  font: 500 1.1em/1.363 var(--dd-font-basic);
-  letter-spacing: -.01em;
-}
-.dd-edge-code__tag--a { background: #c7e3a8; color: #3b4d30; }
-.dd-edge-code__tag--b { background: #b6e0d3; color: #304b4d; }
-
-.dd-edge-code__report { --r: -4deg; left: 14em; top: 28.5em; width: 38em; padding: 1.6em 2em 1.8em; rotate: var(--r); }
-.dd-edge-code__report-title { margin: 0 0 1.2em; font: 600 1.45em/1.3 var(--dd-font-basic); letter-spacing: -.02em; color: #1a1e23; }
-.dd-edge-code__rings { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8em; margin: 0; padding: 0; list-style: none; }
-.dd-edge-code__rings li { position: relative; display: flex; flex-direction: column; align-items: center; gap: .7em; }
-.dd-edge-code__rings svg { width: 6.6em; height: 6.6em; rotate: -90deg; }
-.dd-edge-code__rings circle { fill: none; stroke-width: 3.2; }
-.dd-edge-code__rings circle:first-child { stroke: #d6ebcd; }
-.dd-edge-code__rings circle + circle { stroke: #23a052; stroke-linecap: round; stroke-dasharray: 106.8; stroke-dashoffset: 0; }
-.dd-edge-code__rings b {
+.dd-edge-iso::before {
+  content: "";
   position: absolute;
-  top: 0;
-  width: 100%;
-  display: grid;
-  place-items: center;
-  font: 600 1.9em/1 var(--dd-font-basic);
-  height: calc(6.6em / 1.9);
-  color: #1f7a3d;
-  counter-reset: dd-n var(--_n);
+  inset: -35%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(255 139 32 / .4), rgb(255 139 32 / 0));
+  transform: translateZ(-6em);
 }
-.dd-edge-code__rings b::after { content: counter(dd-n); }
-.dd-edge-code__rings span { font: 500 1em/1.2 var(--dd-font-basic); color: #676155; white-space: nowrap; }
+.dd-edge-plate {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border-radius: 1em;
+  transform: translateZ(var(--z, 0em));
+}
+.dd-edge-plate svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.dd-edge-plate--wire {
+  background:
+    linear-gradient(rgb(216 210 198 / .12) .1em, transparent .1em) 0 0 / 100% 12.5%,
+    linear-gradient(90deg, rgb(216 210 198 / .12) .1em, transparent .1em) 0 0 / 8.33% 100%;
+  box-shadow: inset 0 0 0 .1em rgb(216 210 198 / .5);
+}
+.dd-edge-plate--ink { --z: 2.8em; background: var(--dd-neutral-1200); box-shadow: inset 0 0 0 .1em var(--dd-ink-chip-line); opacity: .55; }
+.dd-edge-plate--live { --z: 5.6em; background: var(--dd-beige-50); }
+/* выбранный слой — оранжевый контур и свет, как у активного слоя workflow */
+.dd-edge-plate--live,
+.dd-evm:not(.dd-edge-var__ghost) { box-shadow: 0 0 0 .2em var(--dd-orange-100), 0 0 7em rgb(255 139 32 / .55); }
 
-/* курсор с ярлыком — как .dd-duo-cursor главной */
-.dd-edge-code__cursor { left: 46em; top: 42em; padding: 2.07em 0 0 1.45em; filter: drop-shadow(0 .93em 3.74em rgb(122 109 99 / .57)); }
-.dd-edge-code__cursor svg { position: absolute; left: 0; top: 0; width: 1.87em; height: 2.19em; color: #423b2f; }
-.dd-edge-code__cursor span {
-  display: block;
-  padding: .53em;
-  border-radius: .29em;
-  background: #423b2f;
-  color: #fff;
-  font: 500 1.32em/.758 var(--dd-font-basic);
-  letter-spacing: -.04em;
+/* 2.5D-значок: стоит над листом в точке (--x, --y) на высоте --h и повёрнут к зрителю */
+.dd-edge-bb {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 0;
+  height: 0;
+  transform: translateZ(var(--h, 9em)) rotateZ(40deg) rotateX(-57deg);
+}
+.dd-edge-bb > span { position: absolute; left: 0; bottom: 0; display: block; translate: -50% 0; transform-origin: 50% 100%; }
+.dd-edge-bb svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* плашка с цифрой строки — как теги и подписи на тёмных секциях страницы */
+.dd-edge-fact {
+  z-index: 5;
+  left: 3.5em;
+  bottom: 3.5em;
+  display: flex;
+  align-items: baseline;
+  gap: .5em;
+  margin: 0;
+  padding: .8em 1.5em .9em;
+  border-radius: 1em;
+  background: var(--dd-neutral-1200);
+  box-shadow: inset 0 0 0 .1em var(--dd-ink-chip-line);
+  color: var(--dd-neutral-0);
   white-space: nowrap;
 }
+.dd-edge-fact b { font: 600 2.6em/1 var(--dd-font-basic); letter-spacing: -.03em; }
+.dd-edge-fact span { font: italic 500 2em/1 var(--dd-font-fancy); color: var(--dd-orange-100); }
 
 @media (max-width: 833.98px) {
   .dd-ai-tile__art--scene { position: relative; }
 }
 
-/* Движение: редактор → строки набираются под курсором → пилюли → отчёт → кольца до 100 → медаль; ~4,4 с */
-@media (prefers-reduced-motion: no-preference) {
-  /* пока сцена не запущена — всё на паузе; !important, потому что сокращение animation ниже сбрасывает паузу */
-  .dd-edge-code.is-armed:not(.is-on) :is(.dd-edge-code__editor, .dd-edge-code__report, .dd-edge-code__bracket, .dd-edge-code__medal,
-    .dd-edge-code__cursor, .dd-edge-code__lines p, .dd-edge-code__tag, .dd-edge-code__rings circle + circle, .dd-edge-code__rings b) {
-    animation-play-state: paused !important;
-  }
-  .dd-edge-code.is-armed .dd-edge-code__editor { animation: dd-ec-rise .6s var(--dd-ease-out) both; }
-  .dd-edge-code.is-armed .dd-edge-code__bracket {
-    animation: dd-ec-fly-in .9s cubic-bezier(.2, .8, .2, 1) .2s both, dd-ec-float 5s ease-in-out 4.6s infinite alternate;
-    --fx: 22em; --fy: -18em;
-  }
-  .dd-edge-code.is-armed .dd-edge-code__lines p { animation: dd-ec-type .34s steps(14, end) calc(.6s + var(--l) * .22s) both; }
-  .dd-edge-code.is-armed .dd-edge-code__cursor { animation: dd-ec-cursor 3.1s cubic-bezier(.4, 0, .2, 1) .15s both; }
-  .dd-edge-code.is-armed .dd-edge-code__tag { animation: dd-ec-pop .42s cubic-bezier(.34, 1.56, .64, 1) 2s both; }
-  .dd-edge-code.is-armed .dd-edge-code__tag + .dd-edge-code__tag { animation-delay: 2.12s; }
-  .dd-edge-code.is-armed .dd-edge-code__report { animation: dd-ec-rise .6s var(--dd-ease-out) 2.2s both; }
-  .dd-edge-code.is-armed .dd-edge-code__rings circle + circle { animation: dd-ec-ring 1s var(--dd-ease-out) calc(2.6s + var(--k) * .15s) both; }
-  .dd-edge-code.is-armed .dd-edge-code__rings b { animation: dd-ec-count 1s var(--dd-ease-out) calc(2.6s + var(--k) * .15s) both; }
-  .dd-edge-code.is-armed .dd-edge-code__medal {
-    animation: dd-ec-fly-in .8s cubic-bezier(.34, 1.4, .64, 1) 3.6s both, dd-ec-float 5.6s ease-in-out 4.6s infinite alternate;
-    --fx: 18em; --fy: 16em;
-  }
+/* ---- Code quality: каркас → ИИ пишет код на тёмном слое → готовый лист → четыре «100» ---- */
+.dd-edge-code .dd-edge-iso { --ih: 28em; }
+.dd-edge-code__code [pathLength] { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.dd-edge-code__tags { stroke: var(--dd-orange-200); stroke-width: 4; }
+.dd-edge-code__txt { stroke: var(--dd-beige-200); stroke-width: 4; }
+.dd-edge-live .is-ink { fill: var(--dd-neutral-1300); }
+.dd-edge-live .is-white { fill: var(--dd-neutral-0); }
+.dd-edge-live .is-yellow { fill: var(--dd-yellow-200); }
+.dd-edge-live .is-orange { fill: var(--dd-orange-100); }
+.dd-edge-live .is-line { fill: var(--dd-beige-100); }
+/* кольцо Lighthouse — тёмная плашка с кольцом и цифрой, стоит на нижнем блоке листа */
+.dd-edge-code__ring { --h: 6em; }
+.dd-edge-code__ring > span {
+  width: 4.6em;
+  padding: .5em;
+  border-radius: .9em;
+  background: var(--dd-neutral-1200);
+  box-shadow: inset 0 0 0 .1em var(--dd-ink-chip-line), 0 1.2em 2.4em rgb(0 0 0 / .45);
 }
-@keyframes dd-ec-rise { from { opacity: 0; translate: 0 3em; } }
-@keyframes dd-ec-fly-in { from { opacity: 0; translate: var(--fx) var(--fy); rotate: calc(var(--r) + 35deg); } }
-@keyframes dd-ec-float { to { transform: translateY(-.7em); } }
-@keyframes dd-ec-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
-@keyframes dd-ec-pop { from { opacity: 0; scale: .6; } }
-@keyframes dd-ec-ring { from { stroke-dashoffset: 106.8; } }
-@keyframes dd-ec-count { from { --_n: 0; } }
-/* курсор: входит к первой строке, перебегает к строке с заголовком, затем к отчёту (координаты — от итога) */
-@keyframes dd-ec-cursor {
-  0% { opacity: 0; translate: 8em 6em; }
-  12%, 30% { opacity: 1; translate: -24em -30.8em; }
-  45%, 62% { translate: -8em -22.6em; }
-  85%, 100% { translate: 0 0; }
+.dd-edge-code__ring svg { rotate: -90deg; }
+.dd-edge-code__ring circle { fill: none; stroke-width: 3.6; }
+.dd-edge-code__ring circle:first-child { stroke: var(--dd-ink-chip-line); }
+.dd-edge-code__ring circle + circle { stroke: var(--dd-yellow-200); stroke-linecap: round; stroke-dasharray: 100.6; stroke-dashoffset: 0; }
+.dd-edge-code__ring b {
+  position: absolute;
+  inset: .5em;
+  display: grid;
+  place-items: center;
+  font: 600 1.25em/1 var(--dd-font-basic);
+  letter-spacing: -.03em;
+  color: var(--dd-neutral-0);
+  counter-reset: dd-n var(--_n);
+}
+.dd-edge-code__ring b::after { content: counter(dd-n); }
+.dd-edge-code__chip { --h: 8.5em; }
+.dd-edge-code__chip > span { width: 8em; }
+.dd-edge-code__chip path { fill: none; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; }
+.dd-edge-code__chip .is-side { stroke: #b8601a; }
+.dd-edge-code__chip .is-face { stroke: var(--dd-orange-100); }
+.dd-edge-code__badge { --h: 9.5em; }
+.dd-edge-code__badge > span { width: 6.4em; }
+.dd-edge-code__badge .is-side { fill: #c9921a; }
+.dd-edge-code__badge .is-face { fill: var(--dd-yellow-200); }
+.dd-edge-code__badge .is-mark { fill: none; stroke: var(--dd-neutral-1300); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+/* курсор с ярлыком — как на главной */
+.dd-edge-cursor { z-index: 6; left: 41em; top: 33em; padding: 2.07em 0 0 1.45em; filter: drop-shadow(0 .93em 2.4em rgb(0 0 0 / .5)); }
+.dd-edge-cursor svg { position: absolute; left: 0; top: 0; width: 1.87em; height: 2.19em; color: var(--dd-neutral-0); }
+.dd-edge-cursor span {
+  display: block;
+  padding: .53em;
+  border-radius: .29em;
+  background: var(--dd-neutral-0);
+  color: var(--dd-neutral-1300);
+  font: 500 1.32em/.758 var(--dd-font-basic);
+  letter-spacing: -.04em;
+  white-space: nowrap;
 }
 
-/* Сцена «Instant variations» второй строки (20.10.2026): макет секции перестраивается a → b → c, как
-   в редакторе — каждый элемент переезжает на новое место, меняет размер и цвет, по макету проходит
-   блик; прежний вариант уходит назад каскадом (как задачи в карточке
-   «Organization and Full Control» главной), счётчик каждый раз доходит до ~3s.
-   Значения вариантов — переменные --a…/--b…/--c… у каждого элемента: макет без модификатора стоит
-   на c (итог), .dd-evm--a / --b — копии сзади. Молния и секундомер — картинки (Magnific, GPT 2) */
-@property --_s { syntax: '<integer>'; inherits: false; initial-value: 3; }
-
-.dd-edge-var {
-  background:
-    radial-gradient(60% 70% at 10% 0%, rgb(255 255 255 / .45), rgb(255 255 255 / 0)),
-    linear-gradient(117deg, #d8d2c6 0%, #e7cb85 70%, #e7b185 100%);
-}
-.dd-edge-var__bolt { --r: -14deg; z-index: 6; left: 2em; top: -3.5em; rotate: var(--r); filter: drop-shadow(0 1.4em 2.4em rgb(160 110 0 / .28)); }
-.dd-ai-tile__art .dd-edge-scene .dd-edge-var__bolt { width: 10em; }
-.dd-edge-var__watch { --r: 12deg; z-index: 6; left: 47em; top: 31em; rotate: var(--r); filter: drop-shadow(0 1.4em 2.4em rgb(160 80 20 / .3)); }
-.dd-ai-tile__art .dd-edge-scene .dd-edge-var__watch { width: 15em; }
-
-/* макет секции 40 × 25 em; итог — c спереди, копии a и b сзади каскадом */
-.dd-edge-var__site {
-  left: 12em;
-  top: 15em;
-  width: 40em;
-  height: 25em;
-  overflow: hidden;
-  border-radius: 1.4em;
-  box-shadow: 0 1.6em 4em rgb(122 109 99 / .22);
-}
-.dd-edge-var__ghost--a { z-index: 1; translate: -6em -9em; scale: .88; rotate: -8deg; }
-.dd-edge-var__ghost--b { z-index: 2; translate: -3em -4.5em; scale: .94; rotate: -4deg; }
-.dd-evm { z-index: 3; --abg: #f6f3ed; --bbg: #1f1c18; --cbg: #ffca41; --afg: #1a1e23; --bfg: #f6f3ed; --cfg: #1a1e23;
+/* ---- Instant variations: лист перестраивается a → b → c, прежние варианты уходят вниз слоями ---- */
+.dd-edge-var__site { position: absolute; inset: 0; overflow: hidden; border-radius: 1em; }
+.dd-edge-var__ghost--a { transform: translateZ(2.4em); opacity: .4; }
+.dd-edge-var__ghost--b { transform: translateZ(4.8em); opacity: .6; }
+.dd-evm { --abg: #f6f3ed; --bbg: #1a1e23; --cbg: #ffca41; --afg: #040506; --bfg: #f6f3ed; --cfg: #040506;
   background: var(--cbg); color: var(--cfg); }
+.dd-evm:not(.dd-edge-var__ghost) { transform: translateZ(7.2em); }
 .dd-evm > * { position: absolute; left: 0; top: 0; translate: var(--cx) var(--cy); }
 .dd-evm--a { background: var(--abg); color: var(--afg); }
 .dd-evm--b { background: var(--bbg); color: var(--bfg); }
@@ -648,30 +615,30 @@
 
 .dd-evm__nav { --ax: 2.4em; --ay: 2em; --bx: 2.4em; --by: 2em; --cx: 2.4em; --cy: 2em; display: flex; align-items: center; gap: .8em; width: 35.2em; }
 .dd-evm__nav i { width: 3em; height: .5em; border-radius: 1em; background: currentColor; opacity: .25; }
-.dd-evm__nav i:first-child { width: 1.6em; height: 1.6em; margin-right: .8em; opacity: .9; }
-.dd-evm__nav b { width: 5em; height: 1.8em; margin-left: auto; border-radius: 1em; box-shadow: inset 0 0 0 .12em currentColor; opacity: .5; }
+.dd-evm__nav i:first-child { width: 1.6em; height: 1.6em; margin-right: .8em; background: var(--dd-orange-100); opacity: 1; }
+.dd-evm__nav b { width: 5em; height: 1.8em; margin-left: auto; border-radius: 1em; background: currentColor; opacity: .14; }
 
 /* картинка: a — справа овалом, b — правая половина в край, c — слева; размер, скругление и цвет тоже меняются */
 .dd-evm__media {
-  --ax: 23em; --ay: 5em; --aw: 14em; --ah: 16.5em; --ar: 7em; --am: #ffe7a6;
+  --ax: 23em; --ay: 5em; --aw: 14em; --ah: 16.5em; --ar: 7em; --am: #ffca41;
   --bx: 21em; --by: 0em; --bw: 19em; --bh: 25em; --br: 0em; --bm: #ff8b20;
-  --cx: 2.4em; --cy: 5em; --cw: 16em; --ch: 16.5em; --cr: 1.6em; --cm: #1a1e23;
+  --cx: 2.4em; --cy: 5em; --cw: 16em; --ch: 16.5em; --cr: 1.6em; --cm: #040506;
   width: var(--cw); height: var(--ch); border-radius: var(--cr); background: var(--cm);
 }
 .dd-evm--a .dd-evm__media { width: var(--aw); height: var(--ah); border-radius: var(--ar); background: var(--am); }
 .dd-evm--b .dd-evm__media { width: var(--bw); height: var(--bh); border-radius: var(--br); background: var(--bm); }
 .dd-evm__media i { position: absolute; border-radius: 50%; }
-.dd-evm__media i:first-child { --a1: #ffca41; --b1: #ffe7a6; --c1: #fff; left: 50%; top: 50%; width: 9em; height: 9em; translate: -55% -58%; background: var(--c1); }
-.dd-evm__media i + i { --a1: #ff8b20; --b1: #1f1c18; --c1: #ff8b20; left: 50%; top: 50%; width: 4.6em; height: 4.6em; border-radius: 1.1em; translate: 15% 20%; rotate: 12deg; background: var(--c1); }
+.dd-evm__media i:first-child { --a1: #ff8b20; --b1: #ffca41; --c1: #f6f3ed; left: 50%; top: 50%; width: 9em; height: 9em; translate: -55% -58%; background: var(--c1); }
+.dd-evm__media i + i { --a1: #040506; --b1: #040506; --c1: #ff8b20; left: 50%; top: 50%; width: 4.6em; height: 4.6em; border-radius: 1.1em; translate: 15% 20%; rotate: 12deg; background: var(--c1); }
 .dd-evm--a .dd-evm__media i { background: var(--a1); }
 .dd-evm--b .dd-evm__media i { background: var(--b1); }
 
 .dd-evm__eyebrow { --ax: 2.4em; --ay: 5.4em; --bx: 2.4em; --by: 5.4em; --cx: 31.6em; --cy: 5.4em;
-  --ae: #ffca41; --be: #ff8b20; --ce: #1a1e23; width: 6em; height: 1.7em; border-radius: 1em; background: var(--ce); }
+  --ae: #ffca41; --be: #ff8b20; --ce: #040506; width: 6em; height: 1.7em; border-radius: 1em; background: var(--ce); }
 .dd-evm--a .dd-evm__eyebrow { background: var(--ae); }
 .dd-evm--b .dd-evm__eyebrow { background: var(--be); }
 
-/* заголовок: три начертания лежат друг на друге, видно одно; при перестройке они меняются наплывом */
+/* заголовок: три начертания лежат друг на друге, видно одно; при перестройке старое гаснет, новое проявляется */
 .dd-evm__title { --ax: 2.4em; --ay: 8em; --bx: 2.4em; --by: 8em; --cx: 20.6em; --cy: 8em; width: 17em; height: 6.4em; margin: 0; }
 .dd-evm__title span { position: absolute; inset: 0; opacity: 0; }
 .dd-evm__title span:nth-child(1) { font: 600 2.9em/1.08 var(--dd-font-basic); letter-spacing: -.03em; }
@@ -691,52 +658,70 @@
 }
 .dd-evm__btns { --ax: 2.4em; --ay: 19.8em; --bx: 2.4em; --by: 19.8em; --cx: 23.8em; --cy: 19.8em; display: flex; gap: .8em; }
 .dd-evm__btns i { display: grid; place-items: center; height: 2.8em; border-radius: 2em; }
-.dd-evm__btns i:first-child { --ab: #1a1e23; --bb: #ffca41; --cb: #1a1e23; --at: #fff; --bt: #1a1e23; --ct: #fff;
+.dd-evm__btns i:first-child { --ab: #040506; --bb: #ffca41; --cb: #040506; --at: #fff; --bt: #040506; --ct: #fff;
   width: 7em; background: var(--cb); color: var(--ct); }
 .dd-evm--a .dd-evm__btns i:first-child { background: var(--ab); color: var(--at); }
 .dd-evm--b .dd-evm__btns i:first-child { background: var(--bb); color: var(--bt); }
-.dd-evm__btns i + i { width: 6em; box-shadow: inset 0 0 0 .12em currentColor; opacity: .55; }
+.dd-evm__btns i + i { width: 6em; background: currentColor; opacity: .14; }
 .dd-evm__btns svg { width: 1.4em; height: 1.4em; }
 .dd-evm__shine {
   z-index: 2;
   width: 12em;
   height: 100%;
-  background: linear-gradient(100deg, rgb(255 255 255 / 0), rgb(255 255 255 / .5) 50%, rgb(255 255 255 / 0));
+  background: linear-gradient(100deg, rgb(255 202 65 / 0), rgb(255 202 65 / .35) 50%, rgb(255 202 65 / 0));
   opacity: 0;
 }
+.dd-edge-var__bolt { --h: 16em; }
+.dd-edge-var__bolt > span { width: 4.6em; }
+.dd-edge-var__bolt .is-side { fill: #c9921a; }
+.dd-edge-var__bolt .is-face { fill: var(--dd-yellow-200); }
+.dd-edge-var__watch { --h: 12.5em; }
+.dd-edge-var__watch > span { width: 7em; }
+.dd-edge-var__watch .is-rim { fill: var(--dd-orange-100); }
+.dd-edge-var__watch .is-side { fill: #b8601a; }
+.dd-edge-var__watch .is-face { fill: var(--dd-beige-50); }
+.dd-edge-var__watch .is-hand { fill: none; stroke: var(--dd-neutral-1300); stroke-width: 4; stroke-linecap: round; }
+.dd-edge-var__watch .is-hub { fill: var(--dd-neutral-1300); }
+.dd-edge-var__hand { transform-box: view-box; transform-origin: 42px 52px; }
+.dd-edge-var .dd-edge-fact i { font-style: normal; counter-reset: dd-s var(--_s); }
+.dd-edge-var .dd-edge-fact i::after { content: counter(dd-s); }
 
-/* счётчик — светлое стекло; цифра — счётчик CSS, в итоге 3 */
-.dd-edge-var__time {
-  z-index: 5;
-  left: 3em;
-  top: 37em;
-  display: flex;
-  align-items: baseline;
-  gap: .4em;
-  margin: 0;
-  padding: .7em 1.5em .8em;
-  border-radius: 2em;
-  background: linear-gradient(77deg, rgb(255 255 255 / .7), rgb(255 255 255 / .92));
-  box-shadow: inset 0 0 0 .073em #fff, 0 1.2em 3em rgb(122 109 99 / .22);
-  rotate: -4deg;
-  color: #1a1e23;
-  white-space: nowrap;
-}
-.dd-edge-var__time b { font: 600 3.4em/1 var(--dd-font-basic); letter-spacing: -.03em; }
-.dd-edge-var__time i { font-style: normal; counter-reset: dd-s var(--_s); }
-.dd-edge-var__time i::after { content: counter(dd-s); }
-.dd-edge-var__time span { font: italic 500 1.8em/1 var(--dd-font-fancy); color: #676155; }
-
-/* Движение: макет a → перестройка в b (0,9–1,7 с) → копия a назад → перестройка в c (2,5–3,3 с) →
-   копии назад → молния и секундомер; ~4,5 с. У элементов макета шаг --o — перестройка идёт волной */
+/* ---- Движение ---- */
 @media (prefers-reduced-motion: no-preference) {
-  .dd-edge-var.is-armed:not(.is-on) :is(.dd-evm, .dd-evm *, .dd-edge-var__ghost, .dd-edge-var__time, .dd-edge-var__time i, .dd-edge-var__bolt, .dd-edge-var__watch),
-  .dd-edge-var.is-armed:not(.is-on) .dd-evm::before,
-  .dd-edge-var.is-armed:not(.is-on) .dd-evm::after {
-    animation-play-state: paused !important;
+  /* пока сцена не запущена — всё на паузе; !important, потому что сокращение animation ниже сбрасывает паузу */
+  .dd-edge-scene.is-armed:not(.is-on) *,
+  .dd-edge-scene.is-armed:not(.is-on) *::before,
+  .dd-edge-scene.is-armed:not(.is-on) *::after { animation-play-state: paused !important; }
+
+  /* общее: слои ложатся сверху, значки встают, плашка с цифрой всплывает */
+  .dd-edge-scene.is-armed .dd-edge-iso::before { animation: dd-eb-fade 1.2s ease-out both; }
+  .dd-edge-scene.is-armed .dd-edge-plate--wire { animation: dd-eb-fade .5s ease-out both; }
+
+  /* Code quality, ~4,4 с: тёмный слой 0,1 → код линиями 0,55–1,9 → лист 1,9 → кольца 2,8–4 → галочка 3,9 → «Lighthouse 100/100» 4 */
+  .dd-edge-code.is-armed .dd-edge-plate--ink { animation: dd-eb-drop-ink .6s cubic-bezier(.2, .7, .2, 1) .1s both, dd-eb-dim .5s ease 2.4s forwards; }
+  .dd-edge-code.is-armed .dd-edge-plate--ink::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(100deg, transparent 42%, rgb(255 202 65 / .3) 50%, transparent 58%) 130% 0 / 260% 100% no-repeat;
+    animation: dd-eb-scan 1.4s linear .6s both;
   }
+  .dd-edge-code.is-armed .dd-edge-code__code [pathLength] { animation: dd-eb-draw .3s cubic-bezier(.4, 0, .2, 1) var(--_d) both; }
+  .dd-edge-code.is-armed .dd-edge-plate--live { animation: dd-eb-drop .6s cubic-bezier(.2, .7, .2, 1) 1.9s both, dd-eb-glow .6s ease 2.4s both; }
+  .dd-edge-code.is-armed .dd-edge-live g[style] { animation: dd-eb-rise .5s cubic-bezier(.2, .7, .2, 1) calc(2.3s + var(--_i) * .1s) both; }
+  .dd-edge-code.is-armed .dd-edge-code__ring > span { animation: dd-eb-pop .45s cubic-bezier(.34, 1.4, .64, 1) calc(2.8s + var(--k) * .12s) both; }
+  .dd-edge-code.is-armed .dd-edge-code__ring circle + circle { animation: dd-eb-ring 1s var(--dd-ease-out) calc(2.9s + var(--k) * .12s) both; }
+  .dd-edge-code.is-armed .dd-edge-code__ring b { animation: dd-eb-count 1s var(--dd-ease-out) calc(2.9s + var(--k) * .12s) both; }
+  .dd-edge-code.is-armed .dd-edge-code__chip > span { animation: dd-eb-pop .5s cubic-bezier(.34, 1.4, .64, 1) 1s both; }
+  .dd-edge-code.is-armed .dd-edge-code__badge > span { animation: dd-eb-pop .5s cubic-bezier(.34, 1.4, .64, 1) 3.9s both; }
+  .dd-edge-code.is-armed .dd-edge-fact { animation: dd-eb-pop .42s cubic-bezier(.34, 1.4, .64, 1) 4s both; }
+  .dd-edge-code.is-armed .dd-edge-cursor { animation: dd-eb-cursor 3.4s cubic-bezier(.4, 0, .2, 1) .2s both; }
+
+  /* Instant variations, ~4 с: лист a → перестройка в b (0,9–1,7 с) → копия a вниз → перестройка в c (2,5–3,3 с) →
+     копии вниз; секундомер встаёт сразу, стрелка делает круг на каждый рендер; молния — в конце */
+  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) { isolation: isolate; background: var(--abg); animation: dd-evm-drop .6s cubic-bezier(.2, .7, .2, 1) both, dd-evm-card 3.3s both; }
   /* фон нового варианта раскрывается кругом из центра картинки — слои ::before (b) и ::after (c) под элементами */
-  .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost) { isolation: isolate; background: var(--abg); animation: dd-ec-rise .6s var(--dd-ease-out) both, dd-evm-card 3.3s both; }
   .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost)::before,
   .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost)::after { content: ""; position: absolute; inset: 0; z-index: -1; }
   .dd-edge-var.is-armed .dd-evm:not(.dd-edge-var__ghost)::before { background: var(--bbg); animation: dd-evm-fill-b 3.3s both; }
@@ -755,17 +740,31 @@
   .dd-edge-var.is-armed .dd-evm__shine { animation: dd-evm-shine 3.3s linear both; }
   .dd-edge-var.is-armed .dd-edge-var__ghost--a { animation: dd-evm-ghost-a 3.7s both; }
   .dd-edge-var.is-armed .dd-edge-var__ghost--b { animation: dd-evm-ghost-b 3.7s both; }
-  .dd-edge-var.is-armed .dd-edge-var__time { animation: dd-ec-pop .42s cubic-bezier(.34, 1.56, .64, 1) .5s both; }
-  .dd-edge-var.is-armed .dd-edge-var__time i { animation: dd-ev-count 2.4s linear .9s both; }
-  .dd-edge-var.is-armed .dd-edge-var__bolt {
-    animation: dd-ec-fly-in .8s cubic-bezier(.2, .8, .2, 1) 3.6s both, dd-ec-float 5s ease-in-out 4.5s infinite alternate;
-    --fx: -16em; --fy: -16em;
-  }
-  .dd-edge-var.is-armed .dd-edge-var__watch {
-    animation: dd-ec-fly-in .8s cubic-bezier(.2, .8, .2, 1) 3.75s both, dd-ec-float 5.6s ease-in-out 4.65s infinite alternate;
-    --fx: 16em; --fy: 16em;
-  }
+  .dd-edge-var.is-armed .dd-edge-var__watch > span { animation: dd-eb-pop .5s cubic-bezier(.34, 1.4, .64, 1) .45s both; }
+  .dd-edge-var.is-armed .dd-edge-var__hand { animation: dd-evm-hand 2.4s linear .9s both; }
+  .dd-edge-var.is-armed .dd-edge-var__bolt > span { animation: dd-eb-pop .5s cubic-bezier(.34, 1.4, .64, 1) 3.5s both; }
+  .dd-edge-var.is-armed .dd-edge-fact { animation: dd-eb-pop .42s cubic-bezier(.34, 1.4, .64, 1) .5s both; }
+  .dd-edge-var.is-armed .dd-edge-fact i { animation: dd-ev-count 2.4s linear .9s both; }
 }
+@keyframes dd-eb-fade { from { opacity: 0; } }
+@keyframes dd-eb-drop { from { opacity: 0; transform: translateZ(calc(var(--z) + 9em)); } }
+@keyframes dd-eb-drop-ink { from { opacity: 0; transform: translateZ(calc(var(--z) + 9em)); } to { opacity: 1; } }
+@keyframes dd-eb-dim { from { opacity: 1; } to { opacity: .55; } }
+@keyframes dd-eb-scan { from { opacity: 1; } 95% { opacity: 1; } to { opacity: 0; background-position: -30% 0; } }
+@keyframes dd-eb-draw { from { stroke-dashoffset: 1; } }
+@keyframes dd-eb-rise { from { opacity: 0; transform: translateY(8px); } }
+@keyframes dd-eb-glow { from { box-shadow: 0 0 0 .2em rgb(255 139 32 / 0), 0 0 7em rgb(255 139 32 / 0); } }
+@keyframes dd-eb-pop { from { opacity: 0; scale: .4; } }
+@keyframes dd-eb-ring { from { stroke-dashoffset: 100.6; } }
+@keyframes dd-eb-count { from { --_n: 0; } }
+/* курсор: входит к строкам кода, перебегает по ним, затем к кольцам (координаты — от итога) */
+@keyframes dd-eb-cursor {
+  0% { opacity: 0; translate: 6em 8em; }
+  12%, 28% { opacity: 1; translate: -16em -16em; }
+  42%, 58% { translate: -10em -10em; }
+  85%, 100% { translate: 0 0; }
+}
+@keyframes dd-evm-drop { from { opacity: 0; transform: translateZ(16em); } }
 /* 3,3 с: держит a до 0,9 с (27,3 %), b — с 1,7 (51,5 %) до 2,5 (75,8 %), c — к 3,3 (100 %) */
 @keyframes dd-evm-move {
   0%, 27.3% { translate: var(--ax) var(--ay); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
@@ -817,15 +816,21 @@
   98% { translate: 42em 0; opacity: 1; }
   100% { translate: 42em 0; opacity: 0; }
 }
-/* копии: a появляется за макетом в 0,9 с и уходит назад в 1,7–2,1 и 3,3–3,7; b — появляется в 2,5, уходит в 3,3–3,7 */
+/* копии: a появляется под листом в 0,9 с и опускается слоем в 1,7–2,1 и 3,3–3,7; b — появляется в 2,5, опускается в 3,3–3,7 */
 @keyframes dd-evm-ghost-a {
-  0%, 24.3% { opacity: 0; translate: 0 0; scale: 1; rotate: 0deg; }
-  24.4%, 45.9% { opacity: 1; translate: 0 0; scale: 1; rotate: 0deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
-  56.8%, 89.2% { translate: -3em -4.5em; scale: .94; rotate: -4deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+  0%, 24.3% { opacity: 0; transform: translateZ(7.2em); }
+  24.4%, 45.9% { opacity: 1; transform: translateZ(7.2em); animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+  56.8%, 89.2% { opacity: .6; transform: translateZ(4.8em); animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
 }
 @keyframes dd-evm-ghost-b {
-  0%, 67.5% { opacity: 0; translate: 0 0; scale: 1; rotate: 0deg; }
-  67.6%, 89.2% { opacity: 1; translate: 0 0; scale: 1; rotate: 0deg; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+  0%, 67.5% { opacity: 0; transform: translateZ(7.2em); }
+  67.6%, 89.2% { opacity: 1; transform: translateZ(7.2em); animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+}
+/* стрелка: круг за первый рендер (0,9–1,7 с), стоит, второй круг (2,5–3,3 с) */
+@keyframes dd-evm-hand {
+  0% { rotate: 0deg; }
+  33.3%, 66.6% { rotate: 360deg; }
+  100% { rotate: 720deg; }
 }
 /* 2,4 с от 0,9: 0 → 3 к 1,7 с, держит до 2,5, снова 0 → 3 к 3,3 */
 @keyframes dd-ev-count {
