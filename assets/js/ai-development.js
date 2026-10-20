@@ -8,6 +8,13 @@
 
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* Декор заголовка стека: вариант из ?stack=1|2|3 (по умолчанию 1), пока пользователь выбирает */
+  var stack = document.querySelector('.dd-ai-s3');
+  if (stack) {
+    var sv = new URLSearchParams(location.search).get('stack');
+    stack.setAttribute('data-stack', /^[123]$/.test(sv) ? sv : '1');
+  }
+
   /* Видео первого экрана: при «уменьшить движение» стоит кадр-заставка */
   var heroVideo = document.querySelector('.dd-ai-hero__bg video');
   if (heroVideo && reduce) { heroVideo.removeAttribute('autoplay'); heroVideo.pause(); }

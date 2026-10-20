@@ -69,6 +69,16 @@
   height: auto;
   margin-left: .6rem;
   vertical-align: middle;
+  animation: dd-car-slap .5s cubic-bezier(.34, 1.56, .64, 1) .8s both;
+}
+/* наклейка шлёпается на место через 0,8 с: опускается с 1,4 и поворота −14°, встаёт с перелётом.
+   Первый экран — не по прокрутке, как тумблер About. При reduce стоит */
+@keyframes dd-car-slap {
+  from { opacity: 0; transform: scale(1.4) rotate(-14deg); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-car-hero__tag { animation: none; }
 }
 .dd-car-hero__lead {
   max-width: 32.9rem;

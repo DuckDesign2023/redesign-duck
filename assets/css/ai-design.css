@@ -45,12 +45,6 @@
   font-style: italic;
   font-weight: 400;
 }
-.dd-aid-spark {
-  display: inline-block;
-  width: .7em;
-  height: .7em;
-  vertical-align: -.04em;
-}
 /* пунктир системы 3–3 над элементом */
 .dd-aid-dash {
   background: linear-gradient(90deg, var(--dd-color-divider) 50%, transparent 0) 0 0 / .6rem .1rem repeat-x;

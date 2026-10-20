@@ -174,6 +174,28 @@
   });
 })();
 
+/* Декор в заголовке ([data-head-on]: искра .dd-spark, плашка стека AI Development) — включается так же,
+   как тумблер: заголовок в полосе 28–42 % окна — is-on, ушёл из окна — сброс. is-armed (исходный вид)
+   ставится, только если движение разрешено: без скрипта и при reduce декор стоит итоговым.
+   Вариант искры — из ?spark=1|2|3 (по умолчанию 1), пока пользователь выбирает. */
+(function () {
+  var v = new URLSearchParams(location.search).get('spark');
+  document.querySelectorAll('.dd-spark').forEach(function (s) {
+    s.setAttribute('data-v', /^[123]$/.test(v) ? v : '1');
+  });
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll('[data-head-on]').forEach(function (el) {
+    var head = el.closest('h1, h2') || el;
+    el.classList.add('is-armed');
+    new IntersectionObserver(function (entries) {
+      if (entries.some(function (e) { return e.isIntersecting; })) el.classList.add('is-on');
+    }, { rootMargin: '-28% 0px -58% 0px' }).observe(head);
+    new IntersectionObserver(function (entries) {
+      if (entries.every(function (e) { return !e.isIntersecting; })) el.classList.remove('is-on');
+    }).observe(head);
+  });
+})();
+
 /* Переключатель в заголовке первого экрана About (.dd-about-hero__toggle) — включается один раз,
    через 2 с после загрузки страницы (просьба пользователя 19.10.2026). Вид — about.css.
    При prefers-reduced-motion не трогаем: стоит включённым, как в разметке. */
