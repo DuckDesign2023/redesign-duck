@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="../assets/css/shell.css?v=29">
     <link rel="stylesheet" href="../assets/css/blocks.css?v=23">
     <link rel="stylesheet" href="../assets/css/capabilities.css?v=13">
-    <link rel="stylesheet" href="../assets/css/ai-development.css?v=85">
+    <link rel="stylesheet" href="../assets/css/ai-development.css?v=87">
 </head>
 <body>
 <a class="dd-skip-link dd-btn dd-btn--s dd-btn--yellow" href="#main"><span class="dd-btn__label">Skip to content</span></a>
@@ -523,19 +523,101 @@
         <div class="dd-ai-tile__top"><p class="dd-ai-tile__kind">Integrations<svg aria-hidden="true"><use href="#dd-edge-plug"/></svg></p></div>
         <h3 class="dd-h4">Seamless automations</h3>
         <p class="dd-txt-3">AI agents, webhooks, Stripe and custom databases plug in without friction.</p>
-        <figure class="dd-ai-tile__art"><img src="../assets/img/ai-development/edge/edge-3-automations.jpg?v=7" width="1200" height="1200" alt="" loading="lazy"></figure>
+        <figure class="dd-ai-tile__art dd-ai-tile__art--scene"><img src="../assets/img/ai-development/edge/edge-3-automations.jpg?v=7" width="1200" height="1200" alt="" loading="lazy">
+          <!-- сцена «четыре подключения» (21.10.2026); без скрипта видно фото выше. Карточка сайта в центре, четыре
+               стеклянные плитки по углам, кабели прорисовываются к портам по очереди, счётчик 0 → 4, затем по всем
+               кабелям пробегает огонёк и вспыхивает кнопка -->
+          <div class="dd-edge-scene dd-edge-int" aria-hidden="true">
+            <div class="dd-edge-scene__stage">
+              <span class="dd-edge-scene__light"></span>
+              <svg class="dd-edge-int__wires" viewBox="0 0 62 52">
+                <path style="--k:0" pathLength="1" d="M9.25 9.25C15 9.25 14 20 20 20"/>
+                <path style="--k:1" pathLength="1" d="M52.75 9.25C47 9.25 48 20 42 20"/>
+                <path style="--k:2" pathLength="1" d="M51.75 36.25C46 36.25 48 28 42 28"/>
+                <path style="--k:3" pathLength="1" d="M10.25 36.25C16 36.25 14 28 20 28"/>
+                <g class="dd-edge-int__pulses">
+                  <path pathLength="1" d="M9.25 9.25C15 9.25 14 20 20 20"/>
+                  <path pathLength="1" d="M52.75 9.25C47 9.25 48 20 42 20"/>
+                  <path pathLength="1" d="M51.75 36.25C46 36.25 48 28 42 28"/>
+                  <path pathLength="1" d="M10.25 36.25C16 36.25 14 28 20 28"/>
+                </g>
+              </svg>
+              <div class="dd-edge-card dd-edge-int__site">
+                <div class="dd-edge-code__bar"><i></i><i></i><i></i></div>
+                <span class="dd-edge-int__title"></span>
+                <span class="dd-edge-int__text"></span>
+                <span class="dd-edge-int__btn"><svg><use href="#dd-chevron-right"/></svg></span>
+              </div>
+              <i class="dd-edge-int__port" style="--k:0;--px:20em;--py:20em"></i>
+              <i class="dd-edge-int__port" style="--k:1;--px:42em;--py:20em"></i>
+              <i class="dd-edge-int__port" style="--k:2;--px:42em;--py:28em"></i>
+              <i class="dd-edge-int__port" style="--k:3;--px:20em;--py:28em"></i>
+              <div class="dd-edge-glass dd-edge-int__node" style="--k:0;--x:5em;--y:5em;--s:8.5em;--r:-8deg;--g1:#ffca41;--g2:#ff8b20;--fx:-10em;--fy:-10em"><i class="dd-edge-glass__glow"></i><span class="dd-edge-glass__tile"><svg viewBox="0 0 48 48"><path d="M24 8c1.5 8.5 7.5 14.5 16 16-8.5 1.5-14.5 7.5-16 16-1.5-8.5-7.5-14.5-16-16 8.5-1.5 14.5-7.5 16-16z"/></svg></span><span class="dd-edge-int__label">AI agents</span></div>
+              <div class="dd-edge-glass dd-edge-int__node" style="--k:1;--x:48.5em;--y:5em;--s:8.5em;--r:8deg;--g1:#ff8b20;--g2:#ffca41;--fx:10em;--fy:-10em"><i class="dd-edge-glass__glow"></i><span class="dd-edge-glass__tile"><svg viewBox="0 0 48 48"><g transform="scale(2)" stroke-width="1.7"><path d="M4.88 13.61A4 4 0 1 0 11 17h6"/><path d="M15.07 20.5A4 4 0 1 0 17 13c-.71 0-1.42.18-2 .5l-3-5.5"/><path d="M16 8a4 4 0 1 0-8 0c0 1.5.77 2.82 2 3.5L7 17"/></g></svg></span><span class="dd-edge-int__label">Webhooks</span></div>
+              <div class="dd-edge-glass dd-edge-int__node" style="--k:2;--x:47.5em;--y:32em;--s:8.5em;--r:-6deg;--g1:#ffca41;--g2:#ff8b20;--fx:10em;--fy:10em"><i class="dd-edge-glass__glow"></i><span class="dd-edge-glass__tile"><svg viewBox="0 0 48 48"><rect x="8" y="12" width="32" height="24" rx="5"/><path d="M8 20h32M14 29h7"/></svg></span><span class="dd-edge-int__label">Stripe</span></div>
+              <div class="dd-edge-glass dd-edge-int__node" style="--k:3;--x:6em;--y:32em;--s:8.5em;--r:7deg;--g1:#ff8b20;--g2:#ffca41;--fx:-10em;--fy:10em"><i class="dd-edge-glass__glow"></i><span class="dd-edge-glass__tile"><svg viewBox="0 0 48 48"><ellipse cx="24" cy="13" rx="13" ry="5"/><path d="M11 13v22c0 2.8 5.8 5 13 5s13-2.2 13-5V13M11 24c0 2.8 5.8 5 13 5s13-2.2 13-5"/></svg></span><span class="dd-edge-int__label">Custom databases</span></div>
+              <p class="dd-edge-card dd-edge-int__count"><b><i></i></b><span>endpoints</span></p>
+            </div>
+          </div>
+        </figure>
       </li>
       <li class="dd-ai-tile">
         <div class="dd-ai-tile__top"><p class="dd-ai-tile__kind">Fidelity<svg aria-hidden="true"><use href="#dd-edge-ruler"/></svg></p></div>
         <h3 class="dd-h4">No design-to-dev friction</h3>
         <p class="dd-txt-3">What you approve in Figma is exactly what renders live.</p>
-        <figure class="dd-ai-tile__art"><img src="../assets/img/ai-development/edge/edge-4-fidelity.jpg?v=7" width="1200" height="1200" alt="" loading="lazy"></figure>
+        <figure class="dd-ai-tile__art dd-ai-tile__art--scene"><img src="../assets/img/ai-development/edge/edge-4-fidelity.jpg?v=7" width="1200" height="1200" alt="" loading="lazy">
+          <!-- сцена «макет = живая страница» (21.10.2026); без скрипта видно фото выше. Карточки «Figma» и «live» с одним
+               фрагментом; полупрозрачная копия фрагмента перелетает с макета на страницу, направляющие сходятся,
+               Δ считает 12.40 → 0.00 px; на совпадении — блик и плитки пера и прицела -->
+          <div class="dd-edge-scene dd-edge-fid" aria-hidden="true">
+            <div class="dd-edge-scene__stage">
+              <span class="dd-edge-scene__light"></span>
+              <div class="dd-edge-card dd-edge-fid__card dd-edge-fid__design">
+                <div class="dd-edge-code__bar"><i></i><i></i><i></i><span>Figma</span></div>
+                <div class="dd-edge-fid__frag"><span class="dd-edge-fid__media"></span><span class="dd-edge-fid__title"></span><span class="dd-edge-fid__text"></span><span class="dd-edge-fid__btn"></span></div>
+              </div>
+              <div class="dd-edge-card dd-edge-fid__card dd-edge-fid__live">
+                <div class="dd-edge-code__bar"><i></i><i></i><i></i><span>live</span></div>
+                <div class="dd-edge-fid__frag dd-edge-fid__frag--live"><span class="dd-edge-fid__media"><span class="dd-edge-fid__shine"></span></span><span class="dd-edge-fid__title"></span><span class="dd-edge-fid__text"></span><span class="dd-edge-fid__btn"></span></div>
+                <div class="dd-edge-fid__frag dd-edge-fid__ghost"><span class="dd-edge-fid__media"></span><span class="dd-edge-fid__title"></span><span class="dd-edge-fid__text"></span><span class="dd-edge-fid__btn"></span></div>
+              </div>
+              <p class="dd-edge-card dd-edge-fid__delta"><b>Δ <i></i>px</b></p>
+              <div class="dd-edge-glass dd-edge-fid__pen" style="--x:42em;--y:3em;--s:9em;--r:9deg;--g1:#ffca41;--g2:#ff8b20"><i class="dd-edge-glass__glow"></i><span class="dd-edge-glass__tile"><svg viewBox="0 0 48 48"><path d="M24 7 12 25l5 14h14l5-14z"/><path d="M24 7v15"/><circle cx="24" cy="25" r="3"/></svg></span></div>
+              <div class="dd-edge-glass dd-edge-fid__aim" style="--x:49em;--y:36em;--s:8.5em;--r:-8deg;--g1:#ff8b20;--g2:#ffca41"><i class="dd-edge-glass__glow"></i><span class="dd-edge-glass__tile"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="12"/><path d="M24 6v8M24 34v8M6 24h8M34 24h8"/><circle cx="24" cy="24" r="1.5"/></svg></span></div>
+            </div>
+          </div>
+        </figure>
       </li>
       <li class="dd-ai-tile">
         <div class="dd-ai-tile__top"><p class="dd-ai-tile__kind">Ownership<svg aria-hidden="true"><use href="#dd-edge-box"/></svg></p></div>
         <h3 class="dd-h4">Infinite customization, zero lock-in</h3>
         <p class="dd-txt-3">Clean, fully exportable source — none of the hard limits of Tilda, Webflow or Wix. Maintained by any engineering team, forever.</p>
-        <figure class="dd-ai-tile__art"><img src="../assets/img/ai-development/edge/edge-5-ownership.jpg?v=7" width="1200" height="1200" alt="" loading="lazy"></figure>
+        <figure class="dd-ai-tile__art dd-ai-tile__art--scene"><img src="../assets/img/ai-development/edge/edge-5-ownership.jpg?v=7" width="1200" height="1200" alt="" loading="lazy">
+          <!-- сцена «замок открыт, код уходит с вами» (21.10.2026); без скрипта видно фото выше. Платформы за карточкой
+               кода, замок на её углу открывается, платформы уходят назад, копии трёх файлов вылетают к плитке выгрузки,
+               счётчик 0 → 100 %; в конце — плитка ∞ -->
+          <div class="dd-edge-scene dd-edge-own" aria-hidden="true">
+            <div class="dd-edge-scene__stage">
+              <span class="dd-edge-scene__light"></span>
+              <span class="dd-edge-own__vendor" style="--x:5em;--y:3.5em">Webflow</span>
+              <span class="dd-edge-own__vendor" style="--x:15.5em;--y:2.5em">WordPress</span>
+              <span class="dd-edge-own__vendor" style="--x:8.5em;--y:7.4em">Framer</span>
+              <span class="dd-edge-own__vendor" style="--x:20em;--y:6.8em">Wix</span>
+              <div class="dd-edge-card dd-edge-own__code">
+                <div class="dd-edge-code__bar"><i></i><i></i><i></i></div>
+                <ul class="dd-edge-own__tree"><li>index.html</li><li>styles.css</li><li>app.js</li></ul>
+                <div class="dd-edge-own__lines"><i style="--w:14em"></i><i style="--w:20em;--d:1"></i><i style="--w:11em;--d:1"></i><i style="--w:17em;--d:2"></i><i style="--w:9em"></i></div>
+              </div>
+              <div class="dd-edge-glass dd-edge-own__lock" style="--x:30em;--y:5em;--s:9em;--r:8deg;--g1:#ffca41;--g2:#ff8b20"><i class="dd-edge-glass__glow"></i><span class="dd-edge-glass__tile"><svg viewBox="0 0 48 48"><g class="dd-edge-own__shackle"><path d="M17 22v-6a7 7 0 0 1 14 0v6"/></g><rect x="12" y="22" width="24" height="18" rx="4"/><path d="M24 29v4"/></svg></span></div>
+              <span class="dd-edge-own__file" style="--k:0;--y:13em;--fx:-27.44em;--fy:1.28em">index.html</span>
+              <span class="dd-edge-own__file" style="--k:1;--y:17.4em;--fx:-27.44em;--fy:.2em">styles.css</span>
+              <span class="dd-edge-own__file" style="--k:2;--y:21.8em;--fx:-27.44em;--fy:-.89em">app.js</span>
+              <div class="dd-edge-glass dd-edge-own__box" style="--x:46.5em;--y:28em;--s:9em;--r:-8deg;--g1:#ff8b20;--g2:#ffca41"><i class="dd-edge-glass__glow"></i><span class="dd-edge-glass__tile"><svg viewBox="0 0 48 48"><path d="M24 8v19M16 20l8 8 8-8M10 30v5a5 5 0 0 0 5 5h18a5 5 0 0 0 5-5v-5"/></svg></span></div>
+              <p class="dd-edge-card dd-edge-own__count"><b><i></i>%</b><span>portable</span><s></s></p>
+              <div class="dd-edge-glass dd-edge-own__inf" style="--x:4em;--y:40em;--s:8em;--r:-7deg;--g1:#ffca41;--g2:#ff8b20"><i class="dd-edge-glass__glow"></i><span class="dd-edge-glass__tile"><svg viewBox="0 0 48 48"><path d="M24 24c-4-5-7-7-10.5-7a7 7 0 0 0 0 14c3.5 0 6.5-2 10.5-7s7-7 10.5-7a7 7 0 0 1 0 14c-3.5 0-6.5-2-10.5-7z"/></svg></span></div>
+            </div>
+          </div>
+        </figure>
       </li>
     </ul>
   </div>
