@@ -8,9 +8,6 @@
 
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* Проба 20.10.2026: ?code=layers — «Code quality» слоями вместо фото */
-  if (new URLSearchParams(location.search).get('code') === 'layers') document.documentElement.classList.add('dd-edge-layers');
-
   /* Видео первого экрана: при «уменьшить движение» стоит кадр-заставка */
   var heroVideo = document.querySelector('.dd-ai-hero__bg video');
   if (heroVideo && reduce) { heroVideo.removeAttribute('autoplay'); heroVideo.pause(); }
@@ -20,8 +17,24 @@
   (function () {
     var tiles = Array.prototype.slice.call(document.querySelectorAll('.dd-ai-edge .dd-ai-tile'));
     var narrow = matchMedia('(max-width: 833.98px)');
+    /* Проба 20.10.2026: ?code=layers — в первой строке сцена вместо фото. Играет один раз, когда строка
+       выбрана и картинка в окне; при «уменьшить движение» стоит итоговый кадр */
+    var scene = document.querySelector('.dd-edge-code'), sceneSeen = false;
+    if (scene && new URLSearchParams(location.search).get('code') === 'layers') {
+      document.documentElement.classList.add('dd-edge-layers');
+      if (!reduce) {
+        scene.classList.add('is-armed');
+        new IntersectionObserver(function (entries) { sceneSeen = entries[0].isIntersecting; playScene(); }, { threshold: .4 }).observe(scene);
+      } else scene = null;
+    } else scene = null;
+    function playScene() {
+      if (!scene || !sceneSeen || !scene.closest('.dd-ai-tile').classList.contains('is-active')) return;
+      scene.classList.add('is-on');
+      scene = null;
+    }
     function activate(tile) {
       tiles.forEach(function (t) { t.classList.toggle('is-active', t === tile); });
+      playScene();
     }
     tiles.forEach(function (tile) {
       tile.tabIndex = 0;
