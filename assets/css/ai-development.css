@@ -616,11 +616,16 @@
   height: 25em;
   overflow: hidden;
   border-radius: 1.4em;
-  box-shadow: 0 2.4em 5em rgb(0 0 0 / .6);
+  box-shadow: inset 0 .12em 0 rgb(255 255 255 / .35), 0 2.4em 5em rgb(0 0 0 / .6);
 }
 .dd-edge-var__ghost--a { z-index: 1; translate: -6em -9em; scale: .88; rotate: -8deg; }
 .dd-edge-var__ghost--b { z-index: 2; translate: -3em -4.5em; scale: .94; rotate: -4deg; }
-.dd-evm { z-index: 3; --abg: #f6f3ed; --bbg: #1a1e23; --cbg: #ffca41; --afg: #040506; --bfg: #f6f3ed; --cfg: #040506;
+/* материал вариантов: a — тёплая бумага, b — графит со свечением со стороны картинки, c — жёлто-оранжевый */
+.dd-evm { z-index: 3;
+  --abg: linear-gradient(160deg, #fdfbf7, #e8e1d4);
+  --bbg: radial-gradient(70% 90% at 80% 50%, rgb(255 139 32 / .28), rgb(255 139 32 / 0) 70%), linear-gradient(160deg, #262a31, #0f1114);
+  --cbg: radial-gradient(80% 90% at 15% 0%, rgb(255 255 255 / .35), rgb(255 255 255 / 0) 60%), linear-gradient(150deg, #ffd768, #ffa63a);
+  --afg: #040506; --bfg: #f6f3ed; --cfg: #040506;
   background: var(--cbg); color: var(--cfg); }
 .dd-evm > * { position: absolute; left: 0; top: 0; translate: var(--cx) var(--cy); }
 .dd-evm--a { background: var(--abg); color: var(--afg); }
@@ -638,20 +643,29 @@
   --ax: 23em; --ay: 5em; --aw: 14em; --ah: 16.5em; --ar: 7em; --am: #ffca41;
   --bx: 21em; --by: 0em; --bw: 19em; --bh: 25em; --br: 0em; --bm: #ff8b20;
   --cx: 2.4em; --cy: 5em; --cw: 16em; --ch: 16.5em; --cr: 1.6em; --cm: #040506;
-  width: var(--cw); height: var(--ch); border-radius: var(--cr); background: var(--cm);
+  width: var(--cw); height: var(--ch); border-radius: var(--cr);
+  background-color: var(--cm);
+  background-image: radial-gradient(120% 90% at 22% 12%, rgb(255 255 255 / .34), rgb(255 255 255 / 0) 55%), linear-gradient(165deg, rgb(255 255 255 / .06), rgb(0 0 0 / .2));
+  box-shadow: inset 0 .1em 0 rgb(255 255 255 / .3), 0 1.2em 2.6em rgb(0 0 0 / .28);
 }
-.dd-evm--a .dd-evm__media { width: var(--aw); height: var(--ah); border-radius: var(--ar); background: var(--am); }
-.dd-evm--b .dd-evm__media { width: var(--bw); height: var(--bh); border-radius: var(--br); background: var(--bm); }
-.dd-evm__media i { position: absolute; border-radius: 50%; }
-.dd-evm__media i:first-child { --a1: #ff8b20; --b1: #ffca41; --c1: #f6f3ed; left: 50%; top: 50%; width: 9em; height: 9em; translate: -55% -58%; background: var(--c1); }
-.dd-evm__media i + i { --a1: #040506; --b1: #040506; --c1: #ff8b20; left: 50%; top: 50%; width: 4.6em; height: 4.6em; border-radius: 1.1em; translate: 15% 20%; rotate: 12deg; background: var(--c1); }
-.dd-evm--a .dd-evm__media i { background: var(--a1); }
-.dd-evm--b .dd-evm__media i { background: var(--b1); }
+.dd-evm--a .dd-evm__media { width: var(--aw); height: var(--ah); border-radius: var(--ar); background-color: var(--am); }
+.dd-evm--b .dd-evm__media { width: var(--bw); height: var(--bh); border-radius: var(--br); background-color: var(--bm); }
+.dd-evm__media i {
+  position: absolute;
+  border-radius: 50%;
+  background-image: radial-gradient(90% 80% at 30% 20%, rgb(255 255 255 / .5), rgb(255 255 255 / 0) 60%), linear-gradient(160deg, rgb(255 255 255 / 0), rgb(0 0 0 / .18));
+  box-shadow: inset 0 .08em 0 rgb(255 255 255 / .4), 0 .9em 1.8em rgb(0 0 0 / .3);
+}
+.dd-evm__media i:first-child { --a1: #ff8b20; --b1: #ffca41; --c1: #f6f3ed; left: 50%; top: 50%; width: 9em; height: 9em; translate: -55% -58%; background-color: var(--c1); }
+.dd-evm__media i + i { --a1: #040506; --b1: #040506; --c1: #ff8b20; left: 50%; top: 50%; width: 4.6em; height: 4.6em; border-radius: 1.1em; translate: 15% 20%; rotate: 12deg; background-color: var(--c1); }
+.dd-evm--a .dd-evm__media i { background-color: var(--a1); }
+.dd-evm--b .dd-evm__media i { background-color: var(--b1); }
 
 .dd-evm__eyebrow { --ax: 2.4em; --ay: 5.4em; --bx: 2.4em; --by: 5.4em; --cx: 31.6em; --cy: 5.4em;
-  --ae: #ffca41; --be: #ff8b20; --ce: #040506; width: 6em; height: 1.7em; border-radius: 1em; background: var(--ce); }
-.dd-evm--a .dd-evm__eyebrow { background: var(--ae); }
-.dd-evm--b .dd-evm__eyebrow { background: var(--be); }
+  --ae: #ffca41; --be: #ff8b20; --ce: #040506; width: 6em; height: 1.7em; border-radius: 1em; background-color: var(--ce);
+  background-image: linear-gradient(rgb(255 255 255 / .3), rgb(255 255 255 / 0)); }
+.dd-evm--a .dd-evm__eyebrow { background-color: var(--ae); }
+.dd-evm--b .dd-evm__eyebrow { background-color: var(--be); }
 
 /* заголовок: три начертания лежат друг на друге, видно одно; при перестройке старое гаснет, новое проявляется */
 .dd-evm__title { --ax: 2.4em; --ay: 8em; --bx: 2.4em; --by: 8em; --cx: 20.6em; --cy: 8em; width: 17em; height: 6.4em; margin: 0; }
@@ -674,9 +688,11 @@
 .dd-evm__btns { --ax: 2.4em; --ay: 19.8em; --bx: 2.4em; --by: 19.8em; --cx: 23.8em; --cy: 19.8em; display: flex; gap: .8em; }
 .dd-evm__btns i { display: grid; place-items: center; height: 2.8em; border-radius: 2em; }
 .dd-evm__btns i:first-child { --ab: #040506; --bb: #ffca41; --cb: #040506; --at: #fff; --bt: #040506; --ct: #fff;
-  width: 7em; background: var(--cb); color: var(--ct); }
-.dd-evm--a .dd-evm__btns i:first-child { background: var(--ab); color: var(--at); }
-.dd-evm--b .dd-evm__btns i:first-child { background: var(--bb); color: var(--bt); }
+  width: 7em; background-color: var(--cb); color: var(--ct);
+  background-image: linear-gradient(rgb(255 255 255 / .22), rgb(255 255 255 / 0) 60%);
+  box-shadow: inset 0 .08em 0 rgb(255 255 255 / .3), 0 .6em 1.4em rgb(0 0 0 / .25); }
+.dd-evm--a .dd-evm__btns i:first-child { background-color: var(--ab); color: var(--at); }
+.dd-evm--b .dd-evm__btns i:first-child { background-color: var(--bb); color: var(--bt); }
 .dd-evm__btns i + i { width: 6em; background: currentColor; opacity: .14; }
 .dd-evm__btns svg { width: 1.4em; height: 1.4em; }
 .dd-evm__shine {
