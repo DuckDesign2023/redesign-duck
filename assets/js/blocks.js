@@ -204,3 +204,10 @@
   if (document.readyState === 'complete') start();
   else window.addEventListener('load', start);
 })();
+
+/* Кнопки из двух частей: движение стрелки в круге из ?btn=1|2|3 — предложение, пока пользователь
+   выбирает (21.10.2026); без параметра — только состояния из дизайна. Виды — в blocks.css */
+(function () {
+  var v = new URLSearchParams(location.search).get('btn');
+  if (/^[123]$/.test(v)) document.documentElement.setAttribute('data-btn-motion', v);
+})();
