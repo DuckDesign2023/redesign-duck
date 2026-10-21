@@ -1972,41 +1972,18 @@
    видны всегда, на любом устройстве; при наведении и нажатии — состояния из дизайна (ореол у основной
    части, толстое кольцо у круга), их ставят правила самих блоков. 21.10.2026, замечание дизайнера:
    круг больше не прячется под основной частью и не выезжает, без мыши тоже виден.
-   Движение стрелки в круге при наведении — предложение, пока на выбор: ?btn=1|2|3 (blocks.js ставит
-   data-btn-motion на <html>), без параметра — только состояния. 1 — стрелка уходит вверх-вправо
-   и возвращается снизу-слева; 2 — стрелка поворачивается вправо; 3 — от круга расходится кольцо */
-:is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child { position: relative; }
-[data-btn-motion="1"] :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child { overflow: hidden; }
+   Стрелка в круге при наведении доворачивается на 45° с лёгким перелётом (выбор пользователя из трёх
+   видов): «↗» — по часовой в «→», прямые «→» и «›» — против часовой в «↗» */
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  [data-btn-motion="1"] :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go):hover > .dd-btn:last-child .dd-btn__icon {
-    animation: dd-arrow-pass .5s var(--dd-ease-move);
-  }
-  [data-btn-motion="2"] :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child .dd-btn__icon {
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child .dd-btn__icon {
     transition: transform .36s cubic-bezier(.34, 1.56, .64, 1);
   }
-  [data-btn-motion="2"] :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go):hover > .dd-btn:last-child .dd-btn__icon {
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go):is(:hover, :focus-visible) > .dd-btn:last-child .dd-btn__icon:has(use[href*="arrow-out"]) {
     transform: rotate(45deg);
   }
-  [data-btn-motion="3"] :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go) > .dd-btn:last-child::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    box-shadow: 0 0 0 .2rem currentColor;
-    opacity: 0;
-    pointer-events: none;
+  :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go):is(:hover, :focus-visible) > .dd-btn:last-child .dd-btn__icon:has(use[href*="right"]) {
+    transform: rotate(-45deg);
   }
-  [data-btn-motion="3"] :is(.dd-go, .dd-cap-hero__go, .dd-pitch__go, .dd-cta-card__go):hover > .dd-btn:last-child::after {
-    animation: dd-ring-out .7s var(--dd-ease-out);
-  }
-}
-@keyframes dd-arrow-pass {
-  45% { transform: translate(160%, -160%); }
-  46% { transform: translate(-160%, 160%); }
-}
-@keyframes dd-ring-out {
-  from { opacity: .5; transform: scale(1); }
-  to { opacity: 0; transform: scale(1.5); }
 }
 
 @media (prefers-reduced-motion: reduce) {
