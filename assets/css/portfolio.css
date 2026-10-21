@@ -522,7 +522,7 @@
   .dd-folio-awards {
     gap: 6rem;
     padding: 10rem 3rem;
-    overflow: clip;
+    overflow: clip visible; /* сверху и снизу жёлтое пятно не обрезается */
   }
   /* жёлтое пятно за заголовком: Yellow-200 60 %, размытие 229,6 */
   .dd-folio-awards::before {
