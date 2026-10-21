@@ -140,8 +140,8 @@
   var flow = document.querySelector('.dd-ai-layers');
   if (flow) layers(flow);
 
-  /* Сцены карточек процесса: играют один раз, когда карточка вошла в окно, и заново под
-     указателем. Пока сцена не доиграла, новый запуск не начинается */
+  /* Сцены карточек процесса: играют только под указателем (21.10.2026, просьба пользователя:
+     без запуска при появлении в окне). Пока сцена не доиграла, новый запуск не начинается */
   (function () {
     var arts = Array.prototype.slice.call(document.querySelectorAll('.dd-ai-art[data-play]'));
     if (!arts.length || reduce || !document.body.getAnimations) return;
@@ -153,16 +153,7 @@
       Promise.all(art.getAnimations({ subtree: true }).map(function (a) { return a.finished; })).then(done, done);
     }
 
-    var seen = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        seen.unobserve(entry.target);
-        play(entry.target);
-      });
-    }, { threshold: .6 });
-
     arts.forEach(function (art) {
-      seen.observe(art);
       art.closest('.dd-ai-p2__card').addEventListener('mouseenter', function () { play(art); });
     });
   })();
