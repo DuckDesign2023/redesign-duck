@@ -522,8 +522,8 @@
 }
 
 /* Движение карточки услуги: в правом верхнем углу подрастает круг-стрелка — как у карточек кейсов
-   и статей. Приближение обложки (выбор 16.10.2026) режет края картинки; с 21.10.2026 вид наведения
-   выбирается заново — варианты в blocks.css. Картинка в обёртке .dd-service__pic */
+   и статей; рамку картинки обводит линия (blocks.css, «Наведение карточек сеток услуг»).
+   Картинка в обёртке .dd-service__pic */
 .dd-service__pic {
   position: relative;
   display: block;
@@ -550,18 +550,12 @@
   width: 1.7rem;
   height: 1.7rem;
 }
-.dd-service__img { transition: transform .6s var(--dd-ease-out); }
-/* приближение обложки режет края картинки — осталось только как вариант 0 для сравнения;
-   остальные варианты наведения — в blocks.css («Наведение карточек сеток услуг») */
-[data-card-hover="0"] .dd-service:hover .dd-service__img,
-[data-card-hover="0"] .dd-service:focus-visible .dd-service__img { transform: scale(1.04); }
 .dd-service:hover .dd-service__go,
 .dd-service:focus-visible .dd-service__go {
   opacity: 1;
   transform: none;
 }
 @media (prefers-reduced-motion: reduce) {
-  .dd-service__img,
   .dd-service__go { transition: none; }
 }
 

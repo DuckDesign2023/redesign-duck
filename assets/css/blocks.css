@@ -2317,54 +2317,21 @@
 
 /* ---------- Наведение карточек сеток услуг: главная (.dd-service) и направления (.dd-cap-service) ----------
    21.10.2026, замечание дизайнера: картинки готовятся точно под пропорции рамки из Figma, поэтому
-   при наведении картинка не приближается и не режется — двигается рамка целиком или слой поверх.
-   Пока пользователь выбирает, вариант берётся из ?hover=0…4 (blocks.js ставит data-card-hover
-   на <html>, по умолчанию 1): 0 — прежнее приближение (для сравнения), 1 — подъём, 2 — вдох,
-   3 — вуаль, 4 — обводка. Круг-стрелка подрастает во всех вариантах, как раньше */
+   при наведении картинка не приближается и не режется. Рамку обводит тонкая линия (1, чёрный
+   с прозрачностью .33) и подтягивается к ней с 12 до 6 — выбор пользователя из четырёх видов
+   (подъём, вдох, вуаль, обводка). Круг-стрелка подрастает, как раньше */
 .dd-service__pic,
 .dd-cap-service__media {
+  outline: .1rem solid transparent;
+  outline-offset: 1.2rem;
   transition:
-    transform var(--dd-dur-slow) var(--dd-ease-out),
-    box-shadow var(--dd-dur-slow) var(--dd-ease-out),
-    border-radius var(--dd-dur-slow) var(--dd-ease-out),
     outline-offset var(--dd-dur-base) var(--dd-ease-out),
     outline-color var(--dd-dur-base);
 }
-/* 3 — вуаль: снизу проступает тёмный градиент, картинка под ним целиком */
-[data-card-hover="3"] .dd-service__pic::before,
-[data-card-hover="3"] .dd-cap-service__media::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgb(19 16 19 / .5), rgb(19 16 19 / 0) 60%);
-  opacity: 0;
-  transition: opacity var(--dd-dur-slow) var(--dd-ease-out);
-  pointer-events: none;
-}
-/* 4 — обводка: тонкая тёмная линия обходит рамку снаружи и подтягивается к ней */
-[data-card-hover="4"] .dd-service__pic,
-[data-card-hover="4"] .dd-cap-service__media {
-  outline: .2rem solid transparent;
-  outline-offset: 1.2rem;
-}
 @media (hover: hover) {
-  /* 1 — подъём: рамка поднимается на 8, под ней мягкая тень — как наведение ленты работ Behance */
-  [data-card-hover="1"] .dd-service:hover .dd-service__pic,
-  [data-card-hover="1"] .dd-cap-service:hover .dd-cap-service__media {
-    transform: translateY(-.8rem);
-    box-shadow: 0 2.4rem 4rem -2rem rgb(71 44 32 / .35);
-  }
-  /* 2 — вдох: рамка с картинкой целиком чуть сжимается, углы круглее — как нажатие кнопки */
-  [data-card-hover="2"] .dd-service:hover .dd-service__pic,
-  [data-card-hover="2"] .dd-cap-service:hover .dd-cap-service__media {
-    transform: scale(.97);
-    border-radius: 2.4rem;
-  }
-  [data-card-hover="3"] .dd-service:hover .dd-service__pic::before,
-  [data-card-hover="3"] .dd-cap-service:hover .dd-cap-service__media::before { opacity: 1; }
-  [data-card-hover="4"] .dd-service:hover .dd-service__pic,
-  [data-card-hover="4"] .dd-cap-service:hover .dd-cap-service__media {
-    outline-color: var(--dd-neutral-1300);
+  .dd-service:hover .dd-service__pic,
+  .dd-cap-service:hover .dd-cap-service__media {
+    outline-color: rgb(4 5 6 / .33); /* --dd-neutral-1300 */
     outline-offset: .6rem;
   }
 }
