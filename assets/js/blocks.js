@@ -174,15 +174,10 @@
   });
 })();
 
-/* Декор в заголовке ([data-head-on]: искра .dd-spark, плашка стека AI Development) — включается так же,
+/* Декор в заголовке ([data-head-on]: искра .dd-spark, терминал стека AI Development) — включается так же,
    как тумблер: заголовок в полосе 28–42 % окна — is-on, ушёл из окна — сброс. is-armed (исходный вид)
-   ставится, только если движение разрешено: без скрипта и при reduce декор стоит итоговым.
-   Вариант искры — из ?spark=1|2|3 (по умолчанию 1), пока пользователь выбирает. */
+   ставится, только если движение разрешено: без скрипта и при reduce декор стоит итоговым. */
 (function () {
-  var v = new URLSearchParams(location.search).get('spark');
-  document.querySelectorAll('.dd-spark').forEach(function (s) {
-    s.setAttribute('data-v', /^[123]$/.test(v) ? v : '1');
-  });
   if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.querySelectorAll('[data-head-on]').forEach(function (el) {
     var head = el.closest('h1, h2') || el;

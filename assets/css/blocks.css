@@ -2115,11 +2115,10 @@
   height: .757em;
 }
 
-/* ---------- Искра в заголовке (.dd-spark) — три звезды встроенным SVG: AI Design «Scaling Quality»,
-   AI Development «tech stack». Включается, как тумблер (blocks.js, [data-head-on]): полоса 28–42 %
-   окна — is-on, ушёл из окна — сброс. Вариант из ?spark=1|2|3 (data-v), пока пользователь выбирает:
-   1 — вспышка: звёзды по очереди выпрыгивают с поворотом; 2 — мерцание: всё время по цепочке, как
-   точка principles; 3 — вспышка, затем мерцание. Без скрипта и при reduce звёзды стоят. */
+/* ---------- Искра в заголовке (.dd-spark) — три звезды встроенным SVG, AI Design «Scaling Quality».
+   Включается, как тумблер (blocks.js, [data-head-on]): полоса 28–42 % окна — is-on, ушёл из окна —
+   сброс. Звёзды по очереди выпрыгивают с поворотом, затем мерцают по цепочке, как точка principles
+   (выбор пользователя 21.10.2026 из трёх видов). Без скрипта и при reduce звёзды стоят. */
 .dd-spark {
   display: inline-block;
   width: .7em;
@@ -2134,18 +2133,17 @@
 }
 .dd-spark .dd-spark__b { --_n: 1; }
 .dd-spark .dd-spark__c { --_n: 2; }
-.dd-spark.is-armed:not([data-v="2"]) path {
+.dd-spark.is-armed path {
   opacity: 0;
   transform: scale(0) rotate(-90deg);
 }
-.dd-spark.is-armed.is-on:not([data-v="2"]) path {
+.dd-spark.is-armed.is-on path {
   opacity: 1;
   transform: none;
   transition: transform .45s cubic-bezier(.34, 1.56, .64, 1) calc(var(--_n) * .12s),
               opacity .16s linear calc(var(--_n) * .12s);
+  animation: dd-spark-twinkle 2.6s ease-in-out calc(.7s + var(--_n) * .35s) infinite;
 }
-.dd-spark[data-v="2"] path { animation: dd-spark-twinkle 2.6s ease-in-out calc(var(--_n) * .35s) infinite; }
-.dd-spark[data-v="3"].is-on path { animation: dd-spark-twinkle 2.6s ease-in-out calc(.7s + var(--_n) * .35s) infinite; }
 @keyframes dd-spark-twinkle {
   0%, 50%, 100% { transform: none; }
   25% { transform: scale(1.25) rotate(15deg); }
