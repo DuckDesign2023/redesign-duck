@@ -18,7 +18,7 @@
   var q = new URLSearchParams(location.search);
   var SPEED = Math.min(4, Math.max(1, parseFloat(q.get('speed')) || 2));
   var EASE = Math.min(1, Math.max(.04, parseFloat(q.get('ease')) || .12));
-  var GAP = 20; /* низ карточек — в 20 от низа окна (просьба пользователя 21.10.2026) */
+  var GAP = 80; /* низ карточек — в 80 от низа окна (просьба пользователя 21.10.2026; пробовали 60 и 20) */
   var on = false;
   var top = 0;
   var run = 0;
