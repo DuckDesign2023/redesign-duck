@@ -695,7 +695,8 @@
 .dd-cap-service__media img { transition: transform .6s var(--dd-ease-out); }
 @media (hover: hover) {
   .dd-cap-service:hover .dd-cap-service__go { transform: none; }
-  .dd-cap-service:hover .dd-cap-service__media img { transform: scale(1.04); }
+  /* приближение режет края картинки — только вариант 0 для сравнения, остальные — в blocks.css */
+  [data-card-hover="0"] .dd-cap-service:hover .dd-cap-service__media img { transform: scale(1.04); }
 }
 @media (prefers-reduced-motion: reduce) {
   .dd-cap-service__go,

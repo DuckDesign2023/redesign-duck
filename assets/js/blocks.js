@@ -204,3 +204,10 @@
   if (document.readyState === 'complete') start();
   else window.addEventListener('load', start);
 })();
+
+/* Наведение карточек сеток услуг (главная и направления): вариант из ?hover=0…4, по умолчанию 1 —
+   пока пользователь выбирает (21.10.2026). Виды — в blocks.css */
+(function () {
+  var v = new URLSearchParams(location.search).get('hover');
+  document.documentElement.setAttribute('data-card-hover', /^[0-4]$/.test(v) ? v : '1');
+})();
