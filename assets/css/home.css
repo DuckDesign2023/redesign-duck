@@ -499,7 +499,8 @@
 .dd-service__img {
   display: block;
   width: 100%;
-  height: 20.5rem;
+  height: auto;
+  aspect-ratio: 171 / 205; /* пропорции окна картинки — из Figma, при любой ширине одни и те же */
   border-radius: .6rem;
   background: var(--dd-beige-100);
   object-fit: cover;
@@ -603,7 +604,9 @@
   .dd-services__list li { grid-column: span 2; }
   .dd-service__pic,
   .dd-service__img { border-radius: 1.2rem; }
-  .dd-service__img { height: 36rem; }
+  /* окна картинок как в Figma 1440 (310,5 × 360 и 647 × 360) — под них готовятся файлы */
+  .dd-service__img { aspect-ratio: 808 / 936; }
+  .dd-services__wide .dd-service__img { aspect-ratio: 1683 / 936; }
   .dd-service__body { padding: 1.6rem; }
   .dd-service__title { line-height: var(--dd-h4-light-lh); }
   .dd-services__icons {
@@ -626,6 +629,9 @@
 }
 @media (min-width: 1320px) {
   .dd-services { padding: 10rem 6rem 8rem; }
+  /* в ряду узкие и широкая: чтобы обе держали пропорцию и были одной высоты, зазор растёт вместе
+     с колонками — 26 при сетке 1320, как в Figma */
+  .dd-services__list { column-gap: calc(100% * 26 / 1320); } /* % зазора — от ширины сетки */
   .dd-services__list li { grid-column: span 1; }
   .dd-services__list .dd-services__wide { grid-column: span 2; }
 }

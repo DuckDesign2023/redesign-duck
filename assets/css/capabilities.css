@@ -566,17 +566,14 @@
     text-align: left;
   }
   .dd-cap-services__more { order: 0; }
+  /* окна картинок держат пропорции Figma (300,5 × 290 и 627 × 290) при любой ширине, а обычная
+     и двойная карточка в ряду одной высоты: для этого зазор растёт вместе с колонками —
+     26 при сетке 1280, как в Figma */
   .dd-cap-services__list {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1.2rem 2.6rem;
+    gap: 1.2rem calc(100% * 26 / 1280); /* % зазора — от ширины сетки */
   }
-  /* окно картинки одной высоты у обычной и у двойной карточки: 290 при колонке 300,5 */
-  .dd-cap-service__media,
-  .dd-cap-services__item--wide .dd-cap-service__media {
-    aspect-ratio: auto;
-    height: calc((100cqw - 7.8rem) / 4 * 580 / 601);
-    border-radius: 1.2rem;
-  }
+  .dd-cap-service__media { border-radius: 1.2rem; }
   .dd-cap-service { border-radius: 1.2rem; }
   .dd-cap-service__body { padding: 1.4rem 1.2rem; }
 }
