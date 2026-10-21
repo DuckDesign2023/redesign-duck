@@ -222,7 +222,7 @@
   display: block;
   overflow: hidden;
   border-radius: .4rem;
-  transition: transform var(--dd-dur-base) var(--dd-ease-out), box-shadow var(--dd-dur-base) var(--dd-ease-out), opacity var(--dd-dur-base);
+  transition: transform var(--dd-dur-base) var(--dd-ease-out), box-shadow var(--dd-dur-base) var(--dd-ease-out);
 }
 .dd-strip__work:focus-visible {
   outline: .2rem solid var(--dd-color-focus);
@@ -242,13 +242,10 @@
   to { transform: translateX(-100%); }
 }
 
-/* наведение и фокус. Правило наведённой работы весит столько же, сколько правило приглушения,
-   и стоит ниже — иначе приглушение побеждает и наведённая работа тоже бледнеет */
-.dd-strip:hover .dd-strip__work,
-.dd-strip:focus-within .dd-strip__work { opacity: .55; }
+/* наведение и фокус: работа поднимается с тенью. Остальные работы не приглушаются
+   (21.10.2026, замечание дизайнера) */
 .dd-strip .dd-strip__work:hover,
 .dd-strip .dd-strip__work:focus-visible {
-  opacity: 1;
   transform: translateY(-.8rem);
   box-shadow: 0 1.8rem 3.6rem -1.2rem rgba(4, 5, 6, .35);
 }
