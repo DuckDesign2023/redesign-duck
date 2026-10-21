@@ -30,7 +30,7 @@
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  padding: 4rem 1.6rem 3rem;
+  padding: 4rem var(--dd-gutter) 3rem;
   text-align: center;
   color: var(--dd-neutral-0);
 }
@@ -299,7 +299,7 @@
   /* Figma v2: между строками первого экрана 20, поля сверху и снизу 60 */
   .dd-about-hero__top {
     gap: 2rem;
-    padding: 6rem 3rem;
+    padding: 6rem var(--dd-gutter);
   }
   .dd-about-hero__title {
     font-size: 4.8rem;
@@ -313,7 +313,7 @@
   .dd-about-hero__lead { padding-bottom: 1.2rem; }
   .dd-about-hero__top .dd-btn { align-self: center; }
 
-  .dd-about-hero__sheet { padding-inline: 3rem; }
+  .dd-about-hero__sheet { padding-inline: var(--dd-gutter); }
   .dd-about-hero__tab { margin-top: 3rem; }
   .dd-about-expertise {
     gap: 4rem;
@@ -348,7 +348,6 @@
 @media (min-width: 1320px) {
   .dd-about-hero { --_header: 7.3rem; }
   .dd-about-hero__top { padding-inline: 14rem; }
-  .dd-about-hero__sheet { padding-inline: 6rem; }
   .dd-about-expertise { padding-inline: 8rem; }
   .dd-about-skills { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .dd-about-advantage {
@@ -370,7 +369,7 @@
   align-items: stretch;
   justify-content: flex-start;
   gap: 3rem;
-  padding: 4rem 1.6rem;
+  padding: 4rem var(--dd-gutter);
 }
 .dd-logos__intro {
   display: flex;
@@ -399,7 +398,7 @@
 @media (min-width: 834px) {
   .dd-logos--about {
     gap: 7rem;
-    padding: 10rem 3rem;
+    padding: 10rem var(--dd-gutter);
   }
   .dd-logos--about .dd-logos__list {
     gap: 10rem;
@@ -409,7 +408,7 @@
   }
 }
 @media (min-width: 1320px) {
-  .dd-logos--about { padding-inline: 7rem; }
+  .dd-logos--about { padding-inline: var(--dd-gutter); }
 }
 
 /* ---------- Картинка + текст, вид About — 5757:26164 ---------- */
@@ -445,7 +444,7 @@
   width: 100%;
   max-width: var(--dd-frame);
   margin-inline: auto;
-  padding: 4rem 1.6rem 3rem;
+  padding: 4rem var(--dd-gutter) 3rem;
 }
 .dd-about-story__title { margin: 0; }
 .dd-about-story__grid {
@@ -581,9 +580,8 @@
   .dd-about-story { border-radius: 4.2rem 4.2rem 0 0; }
   .dd-about-story__inner {
     gap: 5rem;
-    padding: 8rem 3rem 7rem;
+    padding: 8rem var(--dd-gutter) 7rem;
   }
-  .dd-about-story__title { padding-inline: 1rem; }
   /* до 1320 колонок две: широкая плитка — во весь ряд, две узкие — рядом */
   .dd-about-story__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -614,6 +612,5 @@
   }
 }
 @media (min-width: 1320px) {
-  .dd-about-story__inner { padding-inline: 10rem; }
   .dd-about-story__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }

@@ -12,7 +12,7 @@
    Скрипта у блоков нет: лента тегов бежит на CSS.
    ========================================================================== */
 
-/* Лист блока: до предела сетки, дальше по центру. Поля у каждого блока свои */
+/* Лист блока: до предела сетки, дальше по центру. Поле по бокам — общий отступ --dd-gutter (сетка, 21.10.2026) */
 .dd-cap-hero__inner,
 .dd-cap-goals,
 .dd-cap-services,
@@ -347,7 +347,7 @@
 @media (min-width: 834px) {
   .dd-cap-goals {
     gap: 2rem;
-    padding: 4rem 3rem 6rem;
+    padding: 4rem var(--dd-gutter) 6rem;
   }
   .dd-cap-goals__card {
     padding: 4.1rem;
@@ -406,7 +406,6 @@
   }
 }
 @media (min-width: 1320px) {
-  .dd-cap-goals { padding-inline: 6rem; }
   .dd-cap-goals__list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .dd-cap-goals__note {
     grid-template-columns: 9.1rem repeat(2, minmax(0, 1fr));
@@ -422,7 +421,7 @@
   display: flex;
   flex-direction: column;
   gap: 4rem;
-  padding: 3rem 1.4rem;
+  padding: 3rem var(--dd-gutter);
 }
 .dd-cap-services__head { display: contents; }
 /* слова заголовка стоят в ряд и переносятся целиком: на 375 — три строки по центру */
@@ -541,7 +540,7 @@
 }
 
 @media (min-width: 834px) {
-  .dd-cap-services { padding: 10rem 3rem 5rem; }
+  .dd-cap-services { padding: 10rem var(--dd-gutter) 5rem; }
   /* блок стоит сразу под логотипами: поле сверху 70 */
   .dd-cap-services--six { padding-top: 7rem; }
   /* пять коротких страниц Figma v2: поле снизу 60 */
@@ -555,7 +554,7 @@
     display: flex;
     align-items: center;
     gap: 1.1rem;
-    padding: 0 0 2rem 1.2rem;
+    padding-bottom: 2rem;
   }
   /* шаг слов 11 и поправка на тот же трекинг после последней буквы */
   .dd-cap-services__title {
@@ -578,7 +577,6 @@
   .dd-cap-service__body { padding: 1.4rem 1.2rem; }
 }
 @media (min-width: 1320px) {
-  .dd-cap-services { padding-inline: 8rem; }
 }
 
 /* ---------- Шкала процесса — 5730:9917 · 375: 5910:15576 ---------- */
@@ -589,7 +587,7 @@
 .dd-cap-process__inner {
   display: grid;
   gap: 2rem;
-  padding: 2rem 1.6rem;
+  padding: 2rem var(--dd-gutter);
 }
 .dd-cap-process__intro,
 .dd-cap-process__head {
@@ -597,10 +595,7 @@
   flex-direction: column;
 }
 .dd-cap-process__intro { gap: 2rem; }
-.dd-cap-process__head {
-  gap: 1.6rem;
-  padding-inline: 1rem;
-}
+.dd-cap-process__head { gap: 1.6rem; }
 .dd-cap-process__title span { color: var(--dd-yellow-0); }
 .dd-cap-process__lead {
   display: flex;
@@ -667,7 +662,7 @@
   .dd-cap-process__inner {
     grid-template-columns: minmax(0, 3fr) minmax(0, 4fr);
     gap: 3rem;
-    padding: 6rem 3rem;
+    padding: 6rem var(--dd-gutter);
   }
   .dd-cap-process__intro { justify-content: space-between; }
   .dd-cap-process__head { gap: 3rem; }
@@ -679,9 +674,9 @@
   .dd-cap-step__body { padding: .4rem 0 3.6rem; }
 }
 @media (min-width: 1320px) {
-  .dd-cap-process__inner { padding: 8rem 12rem; }
+  .dd-cap-process__inner { padding-block: 8rem; }
   .dd-cap-process__intro { padding-right: 6rem; }
-  .dd-cap-process__steps { padding-inline: 5rem 6rem; }
+  .dd-cap-process__steps { padding-left: 5rem; } /* правый край шагов — на общем отступе */
 }
 
 /* ---------- Движение (в Figma его нет): карточка сетки услуг ----------
@@ -732,7 +727,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding: 3rem 1.6rem 4rem;
+  padding: 3rem var(--dd-gutter) 4rem;
   border-radius: 2rem 2rem 0 0;
   background: linear-gradient(var(--dd-neutral-0), var(--dd-beige-50));
 }
@@ -858,7 +853,7 @@
     --_tool: 5rem;
 
     gap: 3rem;
-    padding: 4rem 3rem 8rem;
+    padding: 4rem var(--dd-gutter) 8rem;
     border-radius: 4.4rem 4.4rem 0 0;
   }
   .dd-cap-formats__head { padding: 2rem; }
@@ -870,7 +865,7 @@
   }
 }
 @media (min-width: 1320px) {
-  .dd-cap-formats { padding-inline: 9rem; }
+  .dd-cap-formats { padding-inline: max(var(--dd-gutter), calc((100% - var(--dd-container-large)) / 2)); } /* фон во всё окно, содержимое в сетке */
   .dd-cap-formats__head {
     flex-direction: row;
     align-items: flex-end;

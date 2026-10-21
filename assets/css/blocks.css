@@ -14,7 +14,8 @@
    Поведение — site/assets/js/blocks.js: стрелки ленты отзывов.
    ========================================================================== */
 
-/* Лист блока: до предела сетки, дальше по центру. Поля у каждого блока свои */
+/* Лист блока: до предела сетки, дальше по центру. Поле по бокам у всех — общий отступ --dd-gutter
+   (сетка Client-First, 21.10.2026): контент блока стоит на одной линии с остальными секциями */
 .dd-logos,
 .dd-stats,
 .dd-media,
@@ -37,7 +38,7 @@
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  padding: 2rem 1.2rem;
+  padding: 2rem var(--dd-gutter);
 }
 .dd-logos__title {
   margin: 0;
@@ -93,13 +94,10 @@
     flex-direction: row;
     justify-content: space-between;
     gap: 3rem;
-    padding: 4rem 3rem;
+    padding: 4rem var(--dd-gutter);
   }
   .dd-logos__list { display: contents; }
   .dd-logos__list img { width: calc(var(--w) * .1rem); }
-}
-@media (min-width: 1320px) {
-  .dd-logos { padding-inline: 7rem; }
 }
 
 /* ---------- О2. Картинка + текст — 5728:9785 · 375: 5910:15471 ---------- */
@@ -119,13 +117,12 @@
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
-  padding: 3.2rem 1.4rem 1.4rem;
+  padding: 3.2rem var(--dd-gutter) 1.4rem;
 }
 .dd-media__head {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding-inline: .6rem;
 }
 .dd-media__eyebrow {
   margin: 0;
@@ -138,7 +135,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
-  padding: 0 2.6rem 0 .6rem;
+  padding-right: 2.6rem;
 }
 .dd-media__lead {
   margin: 0;
@@ -173,7 +170,7 @@
 @media (min-width: 834px) {
   .dd-media {
     gap: 6rem;
-    padding: 5rem 3rem 6rem;
+    padding: 5rem var(--dd-gutter) 6rem;
   }
   /* две равные колонки: сетка, а не flex — у текста есть поля, и flex делит место не поровну */
   .dd-media__row {
@@ -192,11 +189,12 @@
     border-radius: 1.6rem;
   }
   .dd-media__row--reverse .dd-media__figure { order: 0; }
+  /* текст слева — от общего отступа, без внутреннего поля карточки */
+  .dd-media__row--reverse .dd-media__body { padding-left: 0; }
 }
 @media (min-width: 1320px) {
   .dd-media {
     gap: 9rem;
-    padding-inline: 9rem;
   }
 }
 /* Вид одной парой — website 5880:3398: заголовок класса dd-h2, абзацы через 10,
@@ -239,7 +237,7 @@
 .dd-testimonials__title {
   position: relative;
   order: 1;
-  padding-inline: 2rem;
+  padding-inline: var(--dd-gutter);
 }
 .dd-testimonials__ribbon {
   position: relative;
@@ -248,12 +246,13 @@
 .dd-testimonials__actions {
   position: relative;
   order: 3;
-  padding-inline: 1.4rem;
+  padding-inline: var(--dd-gutter);
 }
 .dd-testimonials__clutch { width: 100%; }
 .dd-testimonials__arrows { display: none; }
+/* первая карточка — на краю сетки (общий отступ, шире 1560 + отступы — по контейнеру), лента уходит за край окна */
 .dd-testimonials__scroller {
-  --_edge: 1.4rem;
+  --_edge: max(var(--dd-gutter), calc((100cqw - var(--dd-container-large)) / 2));
 
   overflow-x: auto;
   overscroll-behavior-x: contain;
@@ -404,7 +403,7 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2rem;
   margin-block: 0;
-  padding: 0 2.4rem;
+  padding: 0 var(--dd-gutter);
   list-style: none;
 }
 .dd-award {
@@ -455,7 +454,7 @@
     display: flex;
     align-items: flex-end;
     gap: 1rem;
-    padding-inline: 3rem;
+    padding-inline: var(--dd-gutter);
   }
   .dd-testimonials__title {
     flex: 1;
@@ -496,14 +495,10 @@
     transition: opacity .2s;
   }
   .dd-testimonials.is-end .dd-testimonials__ribbon::after { opacity: 0; }
-  .dd-testimonials__scroller { --_edge: 3rem; }
   .dd-testimonial { width: 34.8rem; }
   .dd-testimonial__main,
   .dd-testimonial__meta { padding: 2.8rem; }
-  .dd-awards {
-    display: flex;
-    padding-inline: 3rem;
-  }
+  .dd-awards { display: flex; }
   .dd-award {
     flex: 1 1 0;
     min-width: 0;
@@ -512,16 +507,7 @@
 }
 @media (min-width: 1320px) {
   .dd-testimonials { padding-top: 12rem; }
-  .dd-testimonials__top { padding-inline: 12rem 11rem; }
-  .dd-testimonials__scroller { --_edge: 8rem; }
-  .dd-awards {
-    gap: 6rem;
-    padding-inline: 10rem;
-  }
-  /* на окне шире листа первая карточка стоит под заголовком, а не у края окна */
-  @supports (width: 1cqw) {
-    .dd-testimonials__scroller { --_edge: max(8rem, calc((100cqw - var(--dd-frame)) / 2 + 8rem)); }
-  }
+  .dd-awards { gap: 6rem; }
 }
 /* без скрипта стрелок нет, лента листается как обычная прокрутка */
 @media (scripting: none) {
@@ -536,12 +522,11 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding: 3rem 1.2rem;
+  padding: 3rem var(--dd-gutter);
 }
 .dd-cases__top { display: contents; }
 .dd-cases__title {
   order: 1;
-  padding-inline: 1.2rem;
   text-wrap: balance; /* на ширинах без макета заголовок не оставляет одно слово в строке */
 }
 .dd-cases__list {
@@ -664,13 +649,12 @@
 @media (min-width: 834px) {
   .dd-cases {
     gap: 6rem;
-    padding: 6rem 3rem;
+    padding: 6rem var(--dd-gutter);
   }
   .dd-cases__top {
     display: flex;
     align-items: flex-end;
     gap: 1rem;
-    padding-inline: 2rem;
   }
   .dd-cases__title {
     flex: 1;
@@ -685,7 +669,7 @@
   .dd-case-card { border-radius: 1.8rem; }
 }
 @media (min-width: 1320px) {
-  .dd-cases { padding: 9rem 10rem; }
+  .dd-cases { padding-block: 9rem; }
 }
 
 /* ---------- О7. Карточка-призыв с утками — 5727:4529 · 375: 5910:15854 ---------- */
@@ -701,7 +685,7 @@
   flex-direction: column;
   align-items: center;
   gap: 3rem;
-  padding: 4rem 2rem;
+  padding: 4rem var(--dd-gutter);
   overflow: hidden;
   /* радиальный градиент макета: центр вверху посередине, радиусы 89,6 % ширины и 100 % высоты */
   background: radial-gradient(89.6% 100% at 50% 0, var(--dd-orange-100) 0, #871d1d 60%, #380d0d 100%);
@@ -800,7 +784,7 @@
 .dd-cta-card__go:active .dd-btn--yellow { --_ring: inset 0 0 0 var(--_w-press) var(--dd-yellow-50); }
 
 @media (min-width: 834px) {
-  .dd-cta { padding: 2rem; }
+  .dd-cta { padding: 2rem var(--dd-gutter); } /* края карточки — на общем отступе */
   .dd-cta-card {
     padding: 8rem 4rem 6rem;
     border-radius: 3.1rem;
@@ -895,7 +879,6 @@
   .dd-cta--v2 .dd-cta-card__go .dd-btn--black { flex: none; width: 25rem; }
 }
 @media (min-width: 1320px) {
-  .dd-cta--v2 { padding-inline: 7.8rem; }
   .dd-cta--v2 .dd-cta-card { padding: 8rem 14rem 7rem; }
 }
 
@@ -904,13 +887,10 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding: 3rem 1.6rem;
+  padding: 3rem var(--dd-gutter);
 }
 .dd-posts__top { display: contents; }
-.dd-posts__title {
-  order: 1;
-  padding-inline: 1rem;
-}
+.dd-posts__title { order: 1; }
 .dd-posts__list {
   order: 2;
   display: grid;
@@ -976,13 +956,12 @@
 @media (min-width: 834px) {
   .dd-posts {
     gap: 6rem;
-    padding: 6rem 3rem;
+    padding: 6rem var(--dd-gutter);
   }
   .dd-posts__top {
     display: flex;
     align-items: flex-end;
     gap: 1rem;
-    padding-inline: 1rem;
   }
   .dd-posts__title {
     flex: 1;
@@ -995,7 +974,6 @@
   }
 }
 @media (min-width: 1320px) {
-  .dd-posts { padding-inline: 10rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1035,7 +1013,7 @@
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  padding: 3rem 1.6rem;
+  padding: 3rem var(--dd-gutter);
 }
 .dd-works__head {
   display: flex;
@@ -1065,8 +1043,8 @@
   align-self: stretch;
   display: flex;
   gap: 2rem;
-  margin-inline: -1.6rem;
-  padding-inline: 1.6rem;
+  margin-inline: calc(-1 * var(--dd-gutter));
+  padding-inline: var(--dd-gutter);
   overflow-x: auto;
   scrollbar-width: none;
   background: linear-gradient(var(--dd-beige-100) 0 0) bottom / 100% .1rem no-repeat;
@@ -1112,7 +1090,7 @@
 .dd-works__ribbon {
   container-type: inline-size; /* 50cqw — середина ленты */
   align-self: stretch;
-  margin-inline: -1.6rem;
+  margin-inline: calc(-1 * var(--dd-gutter));
   padding-bottom: 2rem;
   overflow-x: auto;
   overscroll-behavior-x: contain;
@@ -1154,7 +1132,7 @@
 @media (min-width: 834px) {
   .dd-works {
     gap: 5rem;
-    padding: 6rem 3rem;
+    padding: 6rem var(--dd-gutter);
   }
   .dd-works__head {
     align-self: stretch;
@@ -1185,7 +1163,7 @@
   }
 }
 @media (min-width: 1320px) {
-  .dd-works { padding: 7rem 12rem 6rem; }
+  .dd-works { padding-block: 7rem 6rem; }
   /* вид website и pitch deck — 5880:2501: поле сверху 50, блок 619 */
   .dd-works--snug { padding-top: 5rem; }
 }
@@ -1201,7 +1179,7 @@
 .dd-plan {
   display: grid;
   gap: .8rem;
-  padding: 4rem 1.2rem;
+  padding: 4rem var(--dd-gutter);
 }
 .dd-plan__card {
   box-sizing: border-box;
@@ -1384,7 +1362,7 @@
 @media (min-width: 834px) {
   .dd-plan {
     gap: 2rem;
-    padding: 4rem 3rem;
+    padding: 4rem var(--dd-gutter);
   }
   .dd-plan__card {
     gap: 2.2rem;
@@ -1420,7 +1398,6 @@
 @media (min-width: 1320px) {
   .dd-plan {
     grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-    padding-inline: 8rem;
   }
 }
 
@@ -1432,7 +1409,7 @@
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  padding: 2rem 1.8rem;
+  padding: 2rem var(--dd-gutter);
   overflow: hidden;
   overflow: clip visible;
   overflow-clip-margin: 30rem; /* размытие пятна доходит до 30 за край блока — не срезаем его */
@@ -1501,7 +1478,7 @@
 @media (min-width: 834px) {
   .dd-pitch {
     gap: 6rem;
-    padding: 8rem 3rem 6rem;
+    padding: 8rem var(--dd-gutter) 6rem;
   }
   .dd-pitch__glow {
     left: 68.12%;
@@ -1528,12 +1505,12 @@
 @media (min-width: 1320px) {
   .dd-pitch {
     gap: 8rem;
-    padding: 10rem 26rem 7rem 12rem;
+    padding: 10rem calc(var(--dd-gutter) + 19rem) 7rem var(--dd-gutter); /* справа запас — строка текста прежней длины */
   }
 }
 
 /* ---------- О10. Шесть плиток преимуществ — 5727:4473 · 375: 5910:15723 ---------- */
-.dd-benefits { padding: 3rem 1.6rem; }
+.dd-benefits { padding: 3rem var(--dd-gutter); }
 .dd-benefits__list {
   display: grid;
   gap: .8rem;
@@ -1564,7 +1541,7 @@
 .dd-benefit__text { text-wrap: pretty; }
 
 @media (min-width: 834px) {
-  .dd-benefits { padding: 6rem 3rem; }
+  .dd-benefits { padding: 6rem var(--dd-gutter); }
   .dd-benefits__list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.4rem;
@@ -1572,7 +1549,7 @@
   .dd-benefit { padding: 3.4rem; }
 }
 @media (min-width: 1320px) {
-  .dd-benefits { padding: 7rem 10rem; }
+  .dd-benefits { padding-block: 7rem; }
   .dd-benefits__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
@@ -1582,7 +1559,7 @@
 .dd-faq {
   display: grid;
   gap: 4rem;
-  padding: 4rem 2rem;
+  padding: 4rem var(--dd-gutter);
 }
 .dd-faq__head {
   display: flex;
@@ -1702,7 +1679,7 @@
 .dd-faq__a-inner > * + * { margin-top: 1rem; }
 
 @media (min-width: 834px) {
-  .dd-faq { padding: 6rem 3rem; }
+  .dd-faq { padding: 6rem var(--dd-gutter); }
   .dd-faq__list { gap: 8rem; }
   .dd-faq__item + .dd-faq__item::before { top: -4rem; }
 }
@@ -1710,7 +1687,7 @@
   /* на 1440 заголовок 392,7, список 727,3: колонка заголовка шире трети */
   .dd-faq {
     grid-template-columns: minmax(0, 39.267fr) minmax(0, 72.733fr);
-    padding: 4rem 14rem 10rem;
+    padding-block: 4rem 10rem;
   }
   .dd-faq__list { padding-top: 5.4rem; }
 }
@@ -1749,7 +1726,7 @@
   width: 100%;
   max-width: var(--dd-frame);
   margin-inline: auto;
-  padding: 3rem 1.6rem;
+  padding: 3rem var(--dd-gutter);
 }
 .dd-faqs__head {
   display: flex;
@@ -1920,7 +1897,7 @@
 @media (min-width: 834px) {
   .dd-faqs {
     gap: 5rem;
-    padding: 6rem 3rem;
+    padding: 6rem var(--dd-gutter);
   }
   .dd-faqs__head {
     align-items: flex-start;
@@ -1936,7 +1913,7 @@
   .dd-faqs__list { gap: 3rem; }
 }
 @media (min-width: 1320px) {
-  .dd-faqs { padding: 8rem 12rem; }
+  .dd-faqs { padding-block: 8rem; }
   .dd-faqs__panels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 /* без скрипта все ответы раскрыты, значка-переключателя нет */
@@ -2186,7 +2163,7 @@
 .dd-aid-cta {
   position: relative;
   margin-top: 4.8rem;
-  padding: 10rem 1rem 6rem;
+  padding: 10rem var(--dd-gutter) 6rem;
   border-radius: 2rem 2rem 0 0;
   background: #131013;
   color: var(--dd-neutral-0);
@@ -2249,7 +2226,7 @@
 @media (min-width: 834px) {
   .dd-aid-cta {
     margin-top: 6rem;
-    padding: 12rem 4rem 6rem;
+    padding: 12rem var(--dd-gutter) 6rem;
     border-radius: 2.8rem 2.8rem 0 0;
   }
   .dd-aid-cta::before {
@@ -2302,7 +2279,7 @@
   .dd-aid-leaders__list { animation-duration: 54s; }
 }
 @media (min-width: 1320px) {
-  .dd-aid-cta { padding-inline: 8rem; }
+  .dd-aid-cta { padding-inline: max(var(--dd-gutter), calc((100% - var(--dd-container-large)) / 2)); } /* фон во всё окно, содержимое в сетке */
 }
 
 /* ---------- Четыре цифры — 5216:35537 (главная; с 21.10.2026 и AI Development, перенесён из home.css) ---------- */
@@ -2311,7 +2288,7 @@
   display: grid;
   gap: 4rem;
   margin-block: 0;
-  padding: 3rem 2.2rem;
+  padding: 3rem var(--dd-gutter);
   list-style: none;
 }
 .dd-stat {
@@ -2343,7 +2320,7 @@
   .dd-stats {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 4rem;
-    padding: 5rem 3rem 4rem;
+    padding: 5rem var(--dd-gutter) 4rem;
   }
   .dd-stat {
     padding-inline: 0;
@@ -2364,7 +2341,6 @@
 @media (min-width: 1320px) {
   .dd-stats {
     gap: 8rem;
-    padding-inline: 7rem;
   }
   .dd-stat + .dd-stat::before { left: -4rem; }
 }

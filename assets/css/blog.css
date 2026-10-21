@@ -35,12 +35,12 @@
 }
 
 /* ---------- Список: рубрики, сетка записей, страницы — 1035:4965, 1035:5423 … 5574 ---------- */
-.dd-blog-list { padding: 4rem 1.6rem; }
+.dd-blog-list { padding: 4rem var(--dd-gutter); }
 
 /* Ряд рубрик листается, пока не помещается */
 .dd-blog-filter {
-  margin-inline: -1.6rem;
-  padding-inline: 1.6rem;
+  margin-inline: calc(-1 * var(--dd-gutter));
+  padding-inline: var(--dd-gutter);
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -108,11 +108,7 @@
   .dd-blog-hero { padding-inline: 3rem; }
   .dd-blog-hero__lead { max-width: 64rem; }
 
-  .dd-blog-list { padding: 4rem 3rem 6rem; }
-  .dd-blog-filter {
-    margin-inline: -3rem;
-    padding-inline: 3rem;
-  }
+  .dd-blog-list { padding: 4rem var(--dd-gutter) 6rem; }
   .dd-blog-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     row-gap: 4rem;
@@ -124,7 +120,7 @@
 @media (min-width: 1320px) {
   .dd-blog-hero { padding-inline: 6rem; }
 
-  .dd-blog-list { padding: 4rem 10rem 8rem; }
+  .dd-blog-list { padding-block: 4rem 8rem; }
   .dd-blog-filter {
     margin-inline: 0;
     padding-inline: 0;

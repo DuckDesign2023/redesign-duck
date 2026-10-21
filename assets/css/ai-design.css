@@ -82,7 +82,7 @@
   display: flex;
   min-height: 100svh;
   margin-top: calc(-1 * var(--_header));
-  padding: calc(var(--_header) + 1rem) 2.4rem 2.4rem;
+  padding: calc(var(--_header) + 1rem) var(--dd-gutter) 2.4rem;
   overflow: hidden;
   color: var(--dd-neutral-0);
 }
@@ -141,7 +141,7 @@
   .dd-aid-hero {
     --_header: 8.1rem;
 
-    padding: calc(var(--_header) + 6rem) 4rem 9rem;
+    padding: calc(var(--_header) + 6rem) var(--dd-gutter) 9rem;
   }
   .dd-aid-hero__bg video { object-position: center; }
   .dd-aid-hero__inner { width: 60.6rem; }
@@ -182,20 +182,20 @@
   .dd-aid-hero {
     --_header: 7.3rem;
 
-    padding: 15.6rem 10rem 9rem;
+    padding: 15.6rem max(var(--dd-gutter), calc((100% - var(--dd-container-large)) / 2)) 9rem; /* фон во всё окно, текст — в сетке */
   }
 }
 
 /* ---------- «We do not replace creativity» — тёмная панель сразу под первым экраном ---------- */
 .dd-aid-manifest {
-  padding-inline: .6rem;
+  padding-inline: var(--dd-gutter);
   background:
     linear-gradient(#13100f, rgb(19 16 15 / 0)),
     linear-gradient(rgb(206 92 4 / 0), var(--dd-color-bg));
 }
 .dd-aid-manifest__panel {
   box-sizing: border-box;
-  max-width: calc(var(--dd-frame) - 12rem); /* на 10 шире контента с каждой стороны, как на 1440 */
+  max-width: var(--dd-container-large); /* края панели — на общем отступе, как у остальных секций */
   margin-inline: auto;
   padding: 3.2rem;
   border: .1rem solid rgb(255 203 161 / .16);
@@ -239,7 +239,6 @@
 
 @media (min-width: 834px) {
   .dd-aid-manifest {
-    padding-inline: 2rem;
     background: linear-gradient(rgb(206 92 4 / 0), var(--dd-color-bg));
   }
   .dd-aid-manifest__panel {
@@ -272,7 +271,6 @@
   }
 }
 @media (min-width: 1320px) {
-  .dd-aid-manifest { padding-inline: 6rem; }
   .dd-aid-manifest__panel {
     padding: 8rem 14rem 12rem;
     border-radius: 3.8rem;
@@ -301,7 +299,7 @@
 }
 
 /* ---------- Возможности: лента карточек за край окна ---------- */
-.dd-aid-caps { overflow: hidden; }
+.dd-aid-caps { container-type: inline-size; overflow: hidden; }
 .dd-aid-caps .dd-aid-head { margin-bottom: 2rem; }
 .dd-aid-caps__nav { display: none; }
 .dd-aid-caps__scroller {
@@ -310,7 +308,7 @@
   scroll-snap-type: x proximity;
   scrollbar-width: none;
   scroll-padding-inline: var(--_pad);
-  --_pad: 1.6rem;
+  --_pad: max(var(--dd-gutter), calc((100cqw - var(--dd-container-large)) / 2)); /* первая карточка — на краю сетки */
 }
 .dd-aid-caps__scroller::-webkit-scrollbar { display: none; }
 .dd-aid-caps__scroller:focus-visible {
@@ -388,7 +386,6 @@
 
 @media (min-width: 834px) {
   .dd-aid-caps .dd-aid-head { margin-bottom: 3rem; }
-  .dd-aid-caps__scroller { --_pad: 3rem; }
   .dd-aid-caps__list { gap: 1.2rem; }
   .dd-aid-cap { width: 30rem; }
   .dd-aid-cap__media { border-radius: var(--dd-radius-lg); }
@@ -399,9 +396,6 @@
     margin-bottom: 2rem;
   }
   .dd-aid-caps__nav [aria-disabled='true'] { opacity: .4; }
-}
-@media (min-width: 1320px) {
-  .dd-aid-caps__scroller { --_pad: max(7rem, calc((100vw - var(--dd-frame)) / 2 + 7rem)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .dd-aid-cap__play span { transition: none; }

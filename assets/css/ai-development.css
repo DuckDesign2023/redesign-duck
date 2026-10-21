@@ -195,9 +195,9 @@
 }
 .dd-ai-flow__panel {
   box-sizing: border-box;
-  max-width: calc(var(--dd-frame) - 4rem);
+  max-width: var(--dd-frame);
   margin: 0 auto;
-  padding: 4rem 1.6rem 1.6rem;
+  padding: 4rem var(--dd-gutter) 1.6rem; /* панель цвета полотна — содержимое на общем отступе */
   background: var(--dd-neutral-1300);
   color: var(--dd-color-text);
 }
@@ -218,11 +218,11 @@
 
 
 @media (min-width: 834px) {
-  .dd-ai-flow { padding: 2rem; }
-  .dd-ai-flow__panel { padding: 6rem 3rem 3rem; }
+  .dd-ai-flow { padding-block: 2rem; }
+  .dd-ai-flow__panel { padding: 6rem var(--dd-gutter) 3rem; }
 }
 @media (min-width: 1320px) {
-  .dd-ai-flow__panel { padding: 8rem 5rem 5rem; }
+  .dd-ai-flow__panel { padding: 8rem var(--dd-gutter) 5rem; }
   .dd-ai-flow .dd-ai-head { padding: 0 3rem; }
 }
 
@@ -1501,7 +1501,7 @@
   .dd-ai-flow--layers .dd-ai-head { margin-bottom: 0; }
 }
 @media (min-width: 1320px) {
-  .dd-ai-layers { --_pin-top: 7.3rem; --_gap: 9.5rem; padding: 0 3rem; }
+  .dd-ai-layers { --_pin-top: 7.3rem; --_gap: 9.5rem; }
   .dd-ai-layers[data-active="3"] { --_gap: 4.6rem; }
   .dd-ai-layers__pin { gap: 8rem; }
   .dd-ai-layers__stage { height: 60rem; }
@@ -1902,10 +1902,6 @@
   .dd-ai-s3__grid { grid-template-columns: repeat(3, 1fr); border-radius: 2.2rem; }
   .dd-ai-s3__grid li { min-height: 20rem; padding: 3rem; box-sizing: border-box; }
   .dd-ai-s3__grid svg { width: 4.8rem; height: 4.8rem; }
-}
-/* Четыре цифры (общий .dd-stats) перед отзывами: поле как у соседних блоков страницы — 120 от 1320 */
-@media (min-width: 834px) {
-  .dd-stats { padding-inline: var(--dd-gutter-narrow); }
 }
 @media (min-width: 1320px) {
   .dd-ai-s3 { padding: 8rem 0; }

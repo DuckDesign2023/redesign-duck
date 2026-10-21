@@ -65,10 +65,10 @@
 /* ---------- Фильтр категорий и сетка работ — 5072:775, 5066:441 · 375: 5138:9779, 5138:9812 ---------- */
 /* Ряд вкладок листается, пока не помещается. На каждую категорию — своя панель с заголовком
    и сеткой; показана та, чья радиокнопка выбрана */
-.dd-folio-works { padding: 4rem 1.6rem; }
+.dd-folio-works { padding: 4rem var(--dd-gutter); }
 .dd-folio-filter {
-  margin-inline: -1.6rem;
-  padding-inline: 1.6rem;
+  margin-inline: calc(-1 * var(--dd-gutter));
+  padding-inline: var(--dd-gutter);
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -152,7 +152,7 @@
   flex-direction: column;
   gap: 4.8rem;
   margin-block: 0;
-  padding: 2rem 1.6rem;
+  padding: 2rem var(--dd-gutter);
   list-style: none;
 }
 .dd-folio-stat {
@@ -206,7 +206,7 @@
 
 /* ---------- Полоса-призыв «Interested?» — 5078:6980 · 375: 5138:9977 ---------- */
 /* Градиент макета 375: от оранжевого в правом верхнем углу к тёмному в левом нижнем */
-.dd-folio-cta { padding: .8rem; }
+.dd-folio-cta { padding: .8rem var(--dd-gutter); } /* края карточки — на общем отступе */
 .dd-folio-cta__card {
   display: flex;
   flex-direction: column;
@@ -234,7 +234,7 @@
   display: flex;
   flex-direction: column;
   gap: 5rem;
-  padding: 8rem 1.6rem;
+  padding: 8rem var(--dd-gutter);
 }
 .dd-folio-awards__head {
   display: flex;
@@ -472,11 +472,6 @@
   }
   .dd-folio-hero__actions .dd-btn { flex: 1 1 0; }
 
-  .dd-folio-works { padding-inline: 3rem; }
-  .dd-folio-filter {
-    margin-inline: -3rem;
-    padding-inline: 3rem;
-  }
   .dd-folio-panel__title {
     margin-top: 5rem;
     text-align: center;
@@ -487,7 +482,7 @@
   .dd-folio-stats {
     flex-direction: row;
     gap: 2.4rem;
-    padding: 7rem 3rem 4rem;
+    padding: 7rem var(--dd-gutter) 4rem;
   }
   .dd-folio-stat { flex: 1 1 0; }
   .dd-folio-stat + .dd-folio-stat::before {
@@ -501,7 +496,7 @@
     background: repeating-linear-gradient(180deg, var(--dd-beige-100) 0 .3rem, transparent .3rem .6rem);
   }
 
-  .dd-folio-cta { padding: 5rem 3rem; }
+  .dd-folio-cta { padding-block: 5rem; }
   .dd-folio-cta__card {
     flex-direction: row;
     align-items: center;
@@ -521,7 +516,7 @@
 
   .dd-folio-awards {
     gap: 6rem;
-    padding: 10rem 3rem;
+    padding-block: 10rem;
     overflow: clip visible; /* сверху и снизу жёлтое пятно не обрезается */
   }
   /* жёлтое пятно за заголовком: Yellow-200 60 %, размытие 229,6 */
@@ -593,7 +588,6 @@
 @media (min-width: 1320px) {
   .dd-folio-hero { padding-inline: 6rem; }
 
-  .dd-folio-works { padding-inline: 9rem; }
   .dd-folio-filter {
     margin-inline: 0;
     padding-inline: 0;
@@ -601,16 +595,14 @@
 
   .dd-folio-stats {
     gap: 4.8rem;
-    padding-inline: 7rem;
   }
   .dd-folio-stat + .dd-folio-stat::before { left: -2.4rem; }
 
-  .dd-folio-cta { padding-inline: 8rem; }
   .dd-folio-cta__title { flex: 1 1 0; }
 
   .dd-folio-awards {
     gap: 9rem;
-    padding: 12rem 10rem;
+    padding-block: 12rem;
   }
   /* карточка отзыва 803,5 и две колонки плиток по 198,25 — как в макете 1440 */
   .dd-folio-awards__grid { grid-template-columns: minmax(0, 803.5fr) minmax(0, 198.25fr) minmax(0, 198.25fr); }

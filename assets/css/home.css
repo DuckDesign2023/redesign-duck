@@ -363,7 +363,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding: 4rem 1.2rem 5rem;
+  padding: 4rem var(--dd-gutter) 5rem;
 }
 .dd-services__list {
   display: grid;
@@ -474,7 +474,7 @@
 @media (min-width: 834px) {
   .dd-services {
     gap: 4rem;
-    padding: 8rem 3rem 6rem;
+    padding: 8rem var(--dd-gutter) 6rem;
   }
   .dd-services .dd-display {
     min-height: 7.78rem;
@@ -511,7 +511,7 @@
   }
 }
 @media (min-width: 1320px) {
-  .dd-services { padding: 10rem 6rem 8rem; }
+  .dd-services { padding-block: 10rem 8rem; }
   /* в ряду узкие и широкая: чтобы обе держали пропорцию и были одной высоты, зазор растёт вместе
      с колонками — 26 при сетке 1320, как в Figma */
   .dd-services__list { column-gap: calc(100% * 26 / 1320); } /* % зазора — от ширины сетки */
@@ -543,7 +543,7 @@
   color: var(--dd-neutral-1300);
   opacity: .9;
 }
-.dd-steps { --_edge: 1.6rem; }
+.dd-steps { --_edge: max(var(--dd-gutter), calc((100cqw - var(--dd-container-large)) / 2)); } /* первая карточка на краю сетки */
 .dd-steps__scroller {
   overflow-x: auto;
   overscroll-behavior-x: contain;
@@ -613,15 +613,10 @@
   }
   .dd-steps__head { padding-inline: 5rem; }
   .dd-steps__lead { padding-inline: 0; }
-  .dd-steps { --_edge: 3rem; }
 }
 @media (min-width: 1320px) {
   .dd-steps { padding-block: 8rem; }
   .dd-steps__head { padding-inline: 10rem; }
-  .dd-steps { --_edge: 8rem; }
-  @supports (width: 1cqw) {
-    .dd-steps { --_edge: max(8rem, calc((100cqw - var(--dd-frame)) / 2 + 8rem)); }
-  }
 }
 
 /* Прокрутка ленты шагов (просьба пользователя 16.10.2026): на мыши колесо над лентой листает её
@@ -680,7 +675,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding: 3rem 1.2rem;
+  padding: 3rem var(--dd-gutter);
   overflow: hidden;
   overflow: clip;
 }
@@ -815,7 +810,7 @@
 @media (min-width: 834px) {
   .dd-principles {
     gap: 6rem;
-    padding: 8rem 3rem 3rem;
+    padding: 8rem var(--dd-gutter) 3rem;
   }
   .dd-principles__head { gap: 1rem; }
   .dd-principles__title { padding-top: .6rem; }
@@ -979,7 +974,7 @@
 .dd-duo {
   display: grid;
   gap: 4rem;
-  padding: 3rem 1.6rem;
+  padding: 3rem var(--dd-gutter);
 }
 /* заголовок карточки на 375 тот же, что на 834: 28 / 34 (6144:13803) */
 .dd-duo__body .dd-h4 {
@@ -1411,13 +1406,13 @@
   .dd-duo {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 3rem;
-    padding: 6rem 3rem;
+    padding: 6rem var(--dd-gutter);
   }
 }
 @media (min-width: 1320px) {
   .dd-duo {
     gap: 5rem;
-    padding: 8rem 12rem;
+    padding-block: 8rem;
   }
 }
 
@@ -1429,7 +1424,7 @@
   flex-direction: column;
   align-items: center;
   gap: 1.6rem;
-  padding: 3rem 1.2rem;
+  padding: 3rem var(--dd-gutter);
   text-align: center;
 }
 .dd-final__head {
@@ -1451,7 +1446,7 @@
 @media (min-width: 834px) {
   .dd-final {
     gap: 6rem;
-    padding: 10rem 3rem;
+    padding: 10rem var(--dd-gutter);
   }
   .dd-final__head { gap: 3rem; }
   .dd-final__title {
