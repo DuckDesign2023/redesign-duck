@@ -6,7 +6,8 @@
    страница идёт следом. Бегунок в этом режиме скрыт (home-pin.css). Колесо над лентой больше
    не листает её вбок, а прокручивает страницу.
    Подбор на живой странице: ?speed=1.5|2|3 (по умолчанию 2), ?ease=.08….3 (по умолчанию .12;
-   меньше — плавнее и с большим хвостом). */
+   меньше — плавнее и с большим хвостом); ?speed=1&ease=1 — первая проба, 1 : 1 без догона;
+   ?anim=old — прежняя лента с бегунком, как на главной. */
 (function () {
   var pin = document.querySelector('.dd-steps-pin');
   if (!pin) return;
@@ -16,6 +17,8 @@
   var wide = window.matchMedia('(min-width: 834px)');
   var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
   var q = new URLSearchParams(location.search);
+  /* ?anim=old — прежняя лента главной с бегунком (home.js), чтобы к ней можно было вернуться */
+  if (q.get('anim') === 'old') return;
   var SPEED = Math.min(4, Math.max(1, parseFloat(q.get('speed')) || 2));
   var EASE = Math.min(1, Math.max(.04, parseFloat(q.get('ease')) || .12));
   var GAP = 80; /* низ карточек — в 80 от низа окна (просьба пользователя 21.10.2026; пробовали 60 и 20) */
