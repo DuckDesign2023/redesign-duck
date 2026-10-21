@@ -261,6 +261,16 @@
   scrollbar-width: none;
 }
 .dd-testimonials__scroller::-webkit-scrollbar { display: none; }
+/* мышью ленту тянут (blocks.js): рука над лентой, сжатая — пока тянут; привязку к карточкам на это
+   время снимает is-drag. Лента помещается целиком — ей ставят is-fit, руки нет */
+@media (hover: hover) and (pointer: fine) {
+  .dd-testimonials__scroller:not(.is-fit) { cursor: grab; }
+}
+.dd-testimonials__scroller.is-drag {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
 /* Указатель ленты (до 834, где стрелок нет): точки под лентой, текущая вытянута. Точки ставит
    blocks.js; когда лента помещается целиком, указатель скрыт (hidden) */
 .dd-testimonials__dots { display: none; }

@@ -51,6 +51,7 @@
       next.setAttribute('aria-disabled', atEnd);
       block.classList.toggle('is-end', atEnd);
       dots.hidden = max <= 1;
+      scroller.classList.toggle('is-fit', max <= 1);
       if (dots.hidden) return;
       var at = Math.round(Math.min(1, Math.max(0, scroller.scrollLeft / max)) * (n - 1));
       Array.prototype.forEach.call(dots.children, function (d, i) { d.classList.toggle('is-on', i === at); });
@@ -68,6 +69,54 @@
     window.addEventListener('resize', update);
     if (window.ResizeObserver) new ResizeObserver(update).observe(scroller);
     update();
+
+    /* Мышью ленту можно тянуть (просьба пользователя 21.10.2026). Нажал и повёл больше чем на 5 —
+       лента идёт за мышью, привязка к карточкам на это время снята; отпустил — лента докатывается
+       с учётом скорости броска до ближайшей карточки, затем привязка возвращается. Клик после
+       перетаскивания гасится. Палец и тачпад листают ленту сами, их это не касается */
+    var drag = null;
+    function snapTo(left) {
+      var st = step();
+      var max = scroller.scrollWidth - scroller.clientWidth;
+      var to = st ? Math.min(max, Math.max(0, Math.round(left / st) * st)) : left;
+      scroller.scrollTo({ left: to, behavior: calm.matches ? 'auto' : 'smooth' });
+      var done = function () { scroller.classList.remove('is-drag'); };
+      if ('onscrollend' in window) scroller.addEventListener('scrollend', done, { once: true });
+      else setTimeout(done, 450);
+      if (Math.abs(to - scroller.scrollLeft) < 1) done();
+    }
+    scroller.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      if (scroller.scrollWidth - scroller.clientWidth <= 1) return;
+      drag = { x: e.clientX, left: scroller.scrollLeft, moved: false, id: e.pointerId, v: 0, t: e.timeStamp, lx: e.clientX };
+    });
+    scroller.addEventListener('pointermove', function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dx = e.clientX - drag.x;
+      if (!drag.moved) {
+        if (Math.abs(dx) < 5) return;
+        drag.moved = true;
+        scroller.classList.add('is-drag');
+        scroller.setPointerCapture(e.pointerId);
+      }
+      scroller.scrollLeft = drag.left - dx;
+      var dt = e.timeStamp - drag.t;
+      if (dt > 0) drag.v = 0.8 * ((e.clientX - drag.lx) / dt) + 0.2 * drag.v;
+      drag.t = e.timeStamp;
+      drag.lx = e.clientX;
+    });
+    function release(e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var was = drag;
+      drag = null;
+      if (!was.moved) return;
+      var fresh = e.timeStamp - was.t < 80 ? was.v : 0; /* бросок, если мышь ещё двигалась */
+      snapTo(scroller.scrollLeft - fresh * 250);
+      scroller.addEventListener('click', function (c) { c.preventDefault(); c.stopPropagation(); }, { capture: true, once: true });
+    }
+    scroller.addEventListener('pointerup', release);
+    scroller.addEventListener('pointercancel', release);
+    scroller.addEventListener('dragstart', function (e) { e.preventDefault(); });
   });
 })();
 
