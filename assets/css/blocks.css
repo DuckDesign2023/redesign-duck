@@ -1796,8 +1796,7 @@
   color: var(--dd-neutral-0);
 }
 .dd-faqs__tags span + span {
-  margin-left: -.8rem;
-  padding-left: 2.3rem; /* 15 видимого поля + 8 под первой плашкой */
+  margin-left: -.8rem; /* поле 15 у неё как у первой, 8 из них уходят под первую — так в макете */
   box-shadow: inset 0 0 0 .15rem var(--dd-beige-100);
 }
 .dd-faqs__panel--dark .dd-faqs__tags span:first-child {
