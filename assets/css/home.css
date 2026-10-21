@@ -25,7 +25,6 @@
 }
 
 .dd-hero__inner,
-.dd-stats,
 .dd-services,
 .dd-steps__head,
 .dd-duo,
@@ -338,70 +337,6 @@
 @media (prefers-reduced-motion: reduce) {
   .dd-logos--home .dd-logos__list { animation: none; }
   .dd-logos--home .dd-logos__list[aria-hidden] { display: none; }
-}
-
-/* ---------- Четыре цифры — 5216:35537 ---------- */
-/* на 375 (6144:13652) — столбцом по центру, между цифрами сплошная черта посередине зазора 40 */
-.dd-stats {
-  display: grid;
-  gap: 4rem;
-  margin-block: 0;
-  padding: 3rem 2.2rem;
-  list-style: none;
-}
-.dd-stat {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: .5rem;
-  padding-inline: 3rem;
-  text-align: center;
-}
-.dd-stat + .dd-stat::before {
-  content: "";
-  position: absolute;
-  inset: -2rem 0 auto;
-  height: .1rem;
-  background: var(--dd-beige-100);
-}
-.dd-stat__num {
-  font: italic 300 3.6rem/4.2rem var(--dd-font-fancy);
-  letter-spacing: -.03em;
-  color: var(--dd-neutral-1300);
-}
-.dd-stat__text {
-  margin: 0;
-  font: 400 1.3rem/2rem var(--dd-font-basic);
-  color: var(--dd-neutral-1300);
-}
-@media (min-width: 834px) {
-  .dd-stats {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 4rem;
-    padding: 5rem 3rem 4rem;
-  }
-  .dd-stat {
-    padding-inline: 0;
-    text-align: left;
-  }
-  .dd-stat__num {
-    font-size: 4rem;
-    line-height: 4.8rem;
-  }
-  /* пунктир 3–3 посередине шага между цифрами */
-  .dd-stat + .dd-stat::before {
-    inset: 0 auto 0 -2rem;
-    width: .1rem;
-    height: auto;
-    background: repeating-linear-gradient(180deg, var(--dd-beige-100) 0 .3rem, transparent .3rem .6rem);
-  }
-}
-@media (min-width: 1320px) {
-  .dd-stats {
-    gap: 8rem;
-    padding-inline: 7rem;
-  }
-  .dd-stat + .dd-stat::before { left: -4rem; }
 }
 
 /* ---------- Заголовок с вставкой: «Our [Creative] Services», «Here’s how to (●) get started:» ---------- */

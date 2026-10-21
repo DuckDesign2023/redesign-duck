@@ -103,78 +103,6 @@
   pointer-events: none;
 }
 
-/* Внизу первого экрана — .dd-ai-proof: три цифры и бегущая лента клиентов, состав как на живой
-   странице. Без плашки и делений: строка стоит прямо на сцене, по левому краю с заголовком;
-   цифра жёлтым, единица белым */
-.dd-ai-proof { position: relative; display: flex; flex-direction: column; gap: 2.4rem; padding-block: 2.4rem 3rem; border-top: .1rem dashed rgba(255, 255, 255, .3); } /* линия и знаки ленты — белые с прозрачностью, не серые */
-.dd-ai-proof__stats { display: flex; gap: 2.4rem; margin: 0; padding: 0; list-style: none; }
-.dd-ai-proof__stats li { flex: 1 1 0; min-width: 0; }
-.dd-ai-proof__num {
-  margin: 0;
-  font: 400 1.8rem/2.4rem var(--dd-font-basic);
-  letter-spacing: -.02em;
-  color: var(--dd-neutral-0);
-  white-space: nowrap;
-}
-.dd-ai-proof__num em { font-style: normal; color: var(--dd-yellow-200); }
-.dd-ai-proof__cap { margin: .2rem 0 0; font: 400 1.2rem/1.6rem var(--dd-font-basic); color: var(--dd-beige-200); }
-@media (min-width: 834px) {
-  .dd-ai-proof { gap: 3rem; padding-block: 3rem 4rem; }
-  .dd-ai-proof__stats { gap: 4rem; }
-  .dd-ai-proof__stats li { flex: none; }
-  .dd-ai-proof__num { font-size: 2.2rem; line-height: 3rem; }
-  .dd-ai-proof__cap { font-size: 1.4rem; line-height: 2rem; }
-}
-@media (min-width: 1320px) {
-  .dd-ai-proof { flex-direction: row; align-items: center; gap: 5rem; }
-  .dd-ai-proof__stats { flex: none; }
-}
-
-/* Бегущая лента клиентов. Высота логотипа, шаг, скорость и поведение — как на живой странице:
-   белые полупрозрачные знаки, под указателем лента встаёт и знак светлеет. Две одинаковые
-   дорожки едут на свою ширину — петля без шва. При «уменьшить движение» лента стоит
-   и листается вручную */
-.dd-ai-trust__marq {
-  display: flex;
-  flex: 1;
-  width: 100%;
-  min-width: 0;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-.dd-ai-trust__track {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: 2.4rem;
-  margin: 0;
-  padding: 0 2.4rem 0 0;
-  list-style: none;
-  animation: dd-ai-marquee 44s linear infinite;
-}
-.dd-ai-trust__marq:hover .dd-ai-trust__track { animation-play-state: paused; }
-.dd-ai-trust__track img {
-  display: block;
-  width: auto;
-  height: 2.8rem;
-  filter: brightness(0) invert(1);
-  opacity: .6;
-  transition: opacity .25s;
-}
-.dd-ai-trust__track img:hover { opacity: .92; }
-@keyframes dd-ai-marquee {
-  to { transform: translateX(-100%); }
-}
-@media (min-width: 834px) {
-  .dd-ai-trust__track { gap: 3.4rem; padding-right: 3.4rem; }
-  .dd-ai-trust__track img { height: 3.7rem; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .dd-ai-trust__marq { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
-  .dd-ai-trust__track { animation: none; }
-  .dd-ai-trust__track[aria-hidden] { display: none; }
-}
 .dd-ai-hero__bg img,
 .dd-ai-hero__bg video {
   position: absolute;
@@ -198,6 +126,20 @@
 .dd-ai-hero__lead { max-width: 46rem; margin: 1.6rem 0 0; color: var(--dd-neutral-0); text-wrap: pretty; }
 .dd-ai-hero__lead strong { font-weight: 600; }
 .dd-ai-hero__actions { display: flex; flex-direction: column; gap: 2rem; width: 100%; margin-top: 3rem; }
+/* Фраза рядом с кнопкой — как .dd-aid-hero__note на AI Design (21.10.2026: заменила строку цифр
+   и ленту клиентов; цифры — отдельным блоком .dd-stats перед отзывами, логотипы — лентой внизу) */
+.dd-ai-hero__note {
+  margin: 0;
+  font: italic 300 1.5rem/2.2rem var(--dd-font-fancy);
+  letter-spacing: -.03em;
+}
+.dd-ai-hero__note b {
+  font-weight: 700;
+  background: linear-gradient(94deg, #ffca41 7.46%, #ffda7a 103.56%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 @media (min-width: 834px) {
   .dd-ai-hero { --_header: 8.1rem; }
@@ -219,8 +161,11 @@
   .dd-ai-hero__title { margin-top: 2.4rem; font-size: 4.8rem; line-height: 5.6rem; }
   .dd-ai-hero__title .dd-fancy { font-size: 4.9rem; }
   .dd-ai-hero__actions { flex-direction: row; align-items: center; gap: 3.6rem; width: auto; margin-top: 0; }
+  .dd-ai-hero__actions .dd-btn { flex: none; }
+  .dd-ai-hero__note { max-width: 37.8rem; font-size: 1.6rem; line-height: 2.4rem; }
+  .dd-ai-hero__note span { display: block; }
 }
-/* невысокое окно: прежние поля, чтобы первый экран со строкой цифр помещался в окно */
+/* невысокое окно: прежние поля, чтобы первый экран помещался в окно */
 @media (min-width: 834px) and (max-height: 860px) {
   .dd-ai-hero__inner { padding-block: calc(var(--_header) + 4rem) 4rem; }
   .dd-ai-hero__lead { margin-top: 1.6rem; }
@@ -1953,6 +1898,10 @@
   .dd-ai-s3__grid { grid-template-columns: repeat(3, 1fr); border-radius: 2.2rem; }
   .dd-ai-s3__grid li { min-height: 20rem; padding: 3rem; box-sizing: border-box; }
   .dd-ai-s3__grid svg { width: 4.8rem; height: 4.8rem; }
+}
+/* Четыре цифры (общий .dd-stats) перед отзывами: поле как у соседних блоков страницы — 120 от 1320 */
+@media (min-width: 834px) {
+  .dd-stats { padding-inline: var(--dd-gutter-narrow); }
 }
 @media (min-width: 1320px) {
   .dd-ai-s3 { padding: 8rem 0; }
