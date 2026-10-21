@@ -2314,28 +2314,3 @@
 @media (min-width: 1320px) {
   .dd-aid-cta { padding-inline: 8rem; }
 }
-
-/* ---------- Наведение карточек сеток услуг: главная (.dd-service) и направления (.dd-cap-service) ----------
-   21.10.2026, замечание дизайнера: картинки готовятся точно под пропорции рамки из Figma, поэтому
-   при наведении картинка не приближается и не режется. Рамку обводит тонкая линия (1, чёрный
-   с прозрачностью .33) и подтягивается к ней с 12 до 6 — выбор пользователя из четырёх видов
-   (подъём, вдох, вуаль, обводка). Круг-стрелка подрастает, как раньше */
-.dd-service__pic,
-.dd-cap-service__media {
-  outline: .1rem solid transparent;
-  outline-offset: 1.2rem;
-  transition:
-    outline-offset var(--dd-dur-base) var(--dd-ease-out),
-    outline-color var(--dd-dur-base);
-}
-@media (hover: hover) {
-  .dd-service:hover .dd-service__pic,
-  .dd-cap-service:hover .dd-cap-service__media {
-    outline-color: rgb(4 5 6 / .33); /* --dd-neutral-1300 */
-    outline-offset: .6rem;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .dd-service__pic,
-  .dd-cap-service__media { transition: none; }
-}

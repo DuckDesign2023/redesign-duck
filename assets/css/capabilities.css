@@ -685,16 +685,19 @@
 }
 
 /* ---------- Движение (в Figma его нет): карточка сетки услуг ----------
-   Круг-стрелка подрастает до размера; рамку картинки обводит линия — blocks.css,
-   «Наведение карточек сеток услуг» */
+   Круг-стрелка подрастает до размера, заголовок желтеет — как в сетке услуг главной. Сама картинка
+   не двигается (21.10.2026): файлы готовятся точно под рамку из Figma */
 .dd-cap-service__go {
   transform: scale(.7);
   transition: opacity var(--dd-dur-fast), transform var(--dd-dur-base) var(--dd-ease-out);
 }
 .dd-cap-service:focus-visible .dd-cap-service__go,
 .dd-cap-service.is-hover .dd-cap-service__go { transform: none; }
+.dd-cap-service__body h3 { transition: color .15s; }
+.dd-cap-service:focus-visible .dd-cap-service__body h3 { color: var(--dd-yellow-0); }
 @media (hover: hover) {
   .dd-cap-service:hover .dd-cap-service__go { transform: none; }
+  .dd-cap-service:hover .dd-cap-service__body h3 { color: var(--dd-yellow-0); }
 }
 @media (prefers-reduced-motion: reduce) {
   .dd-cap-service__go { transition: none; }
