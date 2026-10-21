@@ -126,6 +126,10 @@
 .dd-ai-hero__lead { max-width: 46rem; margin: 1.6rem 0 0; color: var(--dd-neutral-0); text-wrap: pretty; }
 .dd-ai-hero__lead strong { font-weight: 600; }
 .dd-ai-hero__actions { display: flex; flex-direction: column; gap: 2rem; width: 100%; margin-top: 3rem; }
+/* Лента «Trusted by:» под первым экраном (общий .dd-logos--run.dd-logos--dark): полоса во всё окно
+   цвета полотна — первый экран, лента и workflow идут одним тёмным полем */
+.dd-ai-logos { background: var(--dd-neutral-1300); }
+
 /* Фраза рядом с кнопкой — как .dd-aid-hero__note на AI Design (21.10.2026: заменила строку цифр
    и ленту клиентов; цифры — отдельным блоком .dd-stats перед отзывами, логотипы — лентой внизу) */
 .dd-ai-hero__note {

@@ -278,13 +278,8 @@
   .dd-strip__list img { transition: none; }
 }
 
-/* ---------- Логотипы и «картинка + текст»: виды главной — 5168:16025, 5168:16209 ---------- */
+/* ---------- «Картинка + текст»: вид главной — 5168:16209 (лента логотипов — общий .dd-logos--run в blocks.css) ---------- */
 @media (min-width: 834px) {
-  .dd-logos--home { padding-block: 6rem 4rem; }
-  .dd-logos--home .dd-logos__title {
-    font-size: 1.6rem;
-    line-height: 2.4rem;
-  }
   .dd-media--home .dd-media__title {
     font-size: 4.8rem;
     line-height: 5.4rem;
@@ -297,46 +292,6 @@
   .dd-media--home { padding: 8rem 7rem 4rem; }
   .dd-media--home .dd-media__row { gap: 5rem; }
   .dd-media--home .dd-media__text { padding-right: 12.6rem; }
-}
-
-/* ---------- Логотипы — вид главной с 16.10.2026: бегущая лента ---------- */
-/* Подпись стоит на месте, логотипы бегут в полосе от неё до края сетки; у краёв полосы
-   проявляются и тают (маска). Двенадцать логотипов ленты AI Development в кадре 151 × 71 —
-   как на живом сайте, цвет Beige логотипов макета. Под мышью лента стоит.
-   Вторая лента повторяет первую ради бесшовного круга. Общая часть ленты — blocks.css */
-.dd-logos--home { gap: 2rem; }
-.dd-logos--home .dd-logos__list {
-  flex: none;
-  display: flex;
-  justify-content: flex-start;
-  gap: 1rem;
-  width: auto;
-  padding-right: 1rem;
-  animation: dd-logos-run 70s linear infinite; /* в 1,75 раза медленнее ленты работ по просьбе пользователя 16.10.2026 */
-}
-.dd-logos--home .dd-logos__list li { flex: none; }
-/* на 375 ряд логотипов 24 высотой (6144:14833): кадр 83 × 39 — логотип в нём ростом с макетный,
-   поля кадра уходят в отрицательный отступ */
-.dd-logos--home .dd-logos__list img {
-  width: 8.3rem;
-  height: 3.9rem;
-  margin-block: -.75rem;
-}
-@media (min-width: 834px) {
-  .dd-logos--home { gap: 3rem; }
-  .dd-logos--home .dd-logos__list {
-    gap: 8rem;
-    padding-right: 8rem;
-  }
-  .dd-logos--home .dd-logos__list img {
-    width: 15.1rem;
-    height: 7.1rem;
-    margin-block: 0;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .dd-logos--home .dd-logos__list { animation: none; }
-  .dd-logos--home .dd-logos__list[aria-hidden] { display: none; }
 }
 
 /* ---------- Заголовок с вставкой: «Our [Creative] Services», «Here’s how to (●) get started:» ---------- */

@@ -2368,3 +2368,62 @@
   }
   .dd-stat + .dd-stat::before { left: -4rem; }
 }
+
+/* ---------- Логотипы — бегущая лента «Trusted by:» (главная с 16.10.2026; с 21.10.2026 общая — и AI Development) ---------- */
+/* Подпись стоит на месте, логотипы бегут в полосе от неё до края сетки; у краёв полосы
+   проявляются и тают (маска). Двенадцать логотипов ленты AI Development в кадре 151 × 71 —
+   как на живом сайте, цвет Beige логотипов макета. Под мышью лента стоит.
+   Вторая лента повторяет первую ради бесшовного круга. Перенесено из home.css 21.10.2026 */
+.dd-logos--run { gap: 2rem; }
+.dd-logos--run .dd-logos__list {
+  flex: none;
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  width: auto;
+  padding-right: 1rem;
+  animation: dd-logos-run 70s linear infinite; /* в 1,75 раза медленнее ленты работ по просьбе пользователя 16.10.2026 */
+}
+.dd-logos--run .dd-logos__list li { flex: none; }
+/* на 375 ряд логотипов 24 высотой (6144:14833): кадр 83 × 39 — логотип в нём ростом с макетный,
+   поля кадра уходят в отрицательный отступ */
+.dd-logos--run .dd-logos__list img {
+  width: 8.3rem;
+  height: 3.9rem;
+  margin-block: -.75rem;
+}
+@media (min-width: 834px) {
+  .dd-logos--run { gap: 3rem; }
+  .dd-logos--run .dd-logos__list {
+    gap: 8rem;
+    padding-right: 8rem;
+  }
+  .dd-logos--run .dd-logos__list img {
+    width: 15.1rem;
+    height: 7.1rem;
+    margin-block: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dd-logos--run .dd-logos__list { animation: none; }
+  .dd-logos--run .dd-logos__list[aria-hidden] { display: none; }
+}
+@media (min-width: 834px) {
+  .dd-logos--run { padding-block: 6rem 4rem; }
+  .dd-logos--run .dd-logos__title {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+  }
+}
+/* тёмный вид (AI Development, под первым экраном): подпись светлая, логотипы белые полупрозрачные,
+   под мышью светлеют — как прежняя лента в первом экране страницы */
+.dd-logos--dark .dd-logos__title { color: var(--dd-beige-200); }
+.dd-logos--dark .dd-logos__list img {
+  filter: brightness(0) invert(1);
+  opacity: .6;
+  transition: opacity .25s;
+}
+.dd-logos--dark .dd-logos__list img:hover { opacity: .92; }
+@media (prefers-reduced-motion: reduce) {
+  .dd-logos--dark .dd-logos__list img { transition: none; }
+}
