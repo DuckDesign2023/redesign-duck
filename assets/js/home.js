@@ -1,76 +1,64 @@
 /* duck.design — главная. Тогл в заголовке «Here's how to get started» — общий, включает его blocks.js. */
 
-/* Лента шагов: колесо над лентой листает её вбок, пока есть куда (у края колесо отдаётся
-   странице); бегунок под лентой показывает долю видимого и прокрутки, тянется мышью и пальцем,
-   нажатие по дорожке — прыжок. Когда лента помещается целиком, бегунка нет. */
+/* Лента шагов листается прокруткой страницы (22.10.2026, вариант с дубля главной; бегунка нет).
+   Обёртка .dd-steps-pin получает высоту «секция + путь ленты / SPEED», секция в ней прилипает
+   (home.css). Пока секция стоит, прокрутка страницы двигает ленту в SPEED раз быстрее, а лента
+   не прыгает за щелчком колеса — догоняет нужное место, каждый кадр проходя долю EASE от остатка.
+   Прилипает по низу окна: низ карточек в GAP от низа малой высоты окна (100svh), поэтому на телефоне
+   положение не меняется, когда прячется адресная строка. При «уменьшить движение» — обычная лента. */
 (function () {
-  var sec = document.querySelector('.dd-steps');
-  if (!sec) return;
-  var scroller = sec.querySelector('.dd-steps__scroller');
-  var bar = sec.querySelector('.dd-steps__bar');
-  var thumb = sec.querySelector('.dd-steps__thumb');
-  if (!scroller || !bar || !thumb) return;
+  var pin = document.querySelector('.dd-steps-pin');
+  var sec = pin && pin.querySelector('.dd-steps');
+  var scroller = sec && sec.querySelector('.dd-steps__scroller');
+  if (!scroller) return;
   var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var phone = window.matchMedia('(max-width: 833.98px)');
+  var SPEED = 2;
+  var EASE = .12;
+  var on = false, run = 0, top = 0, target = 0, now = 0, raf = 0;
 
-  function max() { return scroller.scrollWidth - scroller.clientWidth; }
-  function update() {
-    var m = max();
-    if (m <= 1) { bar.hidden = true; return; }
-    bar.hidden = false;
-    var trackW = bar.clientWidth;
-    var w = Math.max(trackW * scroller.clientWidth / scroller.scrollWidth, 40);
-    thumb.style.width = w + 'px';
-    thumb.style.transform = 'translateX(' + (scroller.scrollLeft / m) * (trackW - w) + 'px)';
+  /* секция встаёт, когда верх обёртки доходит до top; дальше run / SPEED пикселей прокрутки она
+     листает ленту. getBoundingClientRect обёртки — на случай, если выше что-то догрузилось */
+  function want() {
+    var y = -pin.getBoundingClientRect().top + top;
+    return Math.min(run, Math.max(0, y * SPEED));
   }
-  scroller.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  update();
-
-  /* колесо: цель копится по шагам колеса, лента догоняет её по кадрам (каждый кадр — 18 % остатка),
-     поэтому идёт плавно, а не рывками по шагу колеса; при prefers-reduced-motion — сразу */
-  var target = null;
-  var raf = 0;
-  function tick() {
-    var diff = target - scroller.scrollLeft;
-    if (Math.abs(diff) < .5) { scroller.scrollLeft = target; target = null; raf = 0; return; }
-    scroller.scrollLeft += diff * .18;
-    raf = window.requestAnimationFrame(tick);
+  function put(x) { now = x; scroller.scrollLeft = x; }
+  function step() {
+    var d = target - now;
+    put(Math.abs(d) < .5 ? target : now + d * EASE);
+    raf = now === target ? 0 : window.requestAnimationFrame(step);
   }
-  scroller.addEventListener('wheel', function (e) {
-    if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-    var m = max();
-    if (m <= 1) return;
-    var from = target === null ? scroller.scrollLeft : target;
-    if ((from <= 0 && e.deltaY < 0) || (from >= m - 1 && e.deltaY > 0)) return;
-    e.preventDefault();
-    target = Math.min(m, Math.max(0, from + e.deltaY));
-    if (calm.matches) { scroller.scrollLeft = target; target = null; return; }
-    if (!raf) raf = window.requestAnimationFrame(tick);
-  }, { passive: false });
+  function sync() {
+    if (!on) return;
+    target = want();
+    if (!raf) raf = window.requestAnimationFrame(step);
+  }
+  function layout() {
+    on = !calm.matches;
+    pin.classList.toggle('is-pinned', on);
+    if (raf) { window.cancelAnimationFrame(raf); raf = 0; }
+    if (!on) { pin.style.height = ''; sec.style.removeProperty('--_pin-top'); return; }
+    run = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+    var gap = phone.matches ? 24 : 80;
+    var cardsEnd = scroller.getBoundingClientRect().bottom - sec.getBoundingClientRect().top;
+    sec.style.setProperty('--_pin-top', 'calc(100svh - ' + Math.round(gap + cardsEnd) + 'px)');
+    top = parseFloat(getComputedStyle(sec).top) || 0;
+    pin.style.height = sec.offsetHeight + Math.round(run / SPEED) + 'px';
+    target = want();
+    put(target);
+  }
 
-  var drag = null;
-  thumb.addEventListener('pointerdown', function (e) {
-    if (raf) { window.cancelAnimationFrame(raf); raf = 0; target = null; }
-    drag = { x: e.clientX, left: scroller.scrollLeft };
-    thumb.setPointerCapture(e.pointerId);
-    bar.classList.add('is-drag');
-    e.preventDefault();
+  window.addEventListener('scroll', sync, { passive: true });
+  var lastW = window.innerWidth;
+  window.addEventListener('resize', function () {
+    /* на телефоне высота окна меняется от адресной строки — там пересчёт только при смене ширины */
+    if (window.innerWidth !== lastW || !phone.matches) { lastW = window.innerWidth; layout(); }
   });
-  thumb.addEventListener('pointermove', function (e) {
-    if (!drag) return;
-    var room = bar.clientWidth - thumb.offsetWidth;
-    if (room > 0) scroller.scrollLeft = drag.left + (e.clientX - drag.x) * max() / room;
-  });
-  function end() { drag = null; bar.classList.remove('is-drag'); }
-  thumb.addEventListener('pointerup', end);
-  thumb.addEventListener('pointercancel', end);
-  bar.addEventListener('pointerdown', function (e) {
-    if (e.target === thumb) return;
-    var r = bar.getBoundingClientRect();
-    var w = thumb.offsetWidth;
-    var ratio = Math.min(1, Math.max(0, (e.clientX - r.left - w / 2) / (r.width - w)));
-    scroller.scrollTo({ left: ratio * max(), behavior: calm.matches ? 'auto' : 'smooth' });
-  });
+  phone.addEventListener('change', layout);
+  calm.addEventListener('change', layout);
+  if ('ResizeObserver' in window) new ResizeObserver(layout).observe(sec);
+  layout();
 })();
 
 /* Сцены двух карточек (.dd-duo): вариант движения из ?duo=1|2|3 (по умолчанию 1) — в data-duo

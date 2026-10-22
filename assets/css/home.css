@@ -619,52 +619,30 @@
   .dd-steps__head { padding-inline: 10rem; }
 }
 
-/* Прокрутка ленты шагов (просьба пользователя 16.10.2026): на мыши колесо над лентой листает её
-   вбок, пока есть куда, у края — страница; под лентой бегунок-индикатор: ширина — доля видимого,
-   положение — доля прокрутки, его можно тянуть, нажатие по дорожке — прыжок. На тач лента
-   листается свайпом как раньше, бегунок тоже тянется. Всё считает home.js; без скрипта бегунка нет.
-   Привязка к карточкам (scroll-snap) остаётся только там, где мыши нет: с колесом и бегунком
-   она дёргает ленту */
-@media (hover: hover) {
-  .dd-steps__scroller { scroll-snap-type: none; }
-}
+/* Лента шагов листается прокруткой страницы (22.10.2026, вариант пользователя с дубля главной;
+   бегунок снят): секция прилипает, вертикальная прокрутка двигает карточки вбок в 2 раза быстрее
+   и с плавным догоном. Прилипает по низу окна — низ карточек в 80 от низа экрана (на телефоне 24),
+   высота считается от малой высоты окна (svh), чтобы лента не дёргалась, когда прячется адресная
+   строка. Если секция ниже окна, вверх уходит заголовок, карточки видны целиком. Класс is-pinned,
+   --_pin-top и высоту обёртки ставит home.js; без скрипта и при reduce — обычная лента пальцем */
 .dd-steps__scroller:focus-visible {
   outline: .2rem solid var(--dd-color-focus);
   outline-offset: -.2rem;
 }
-.dd-steps__bar {
-  position: relative;
-  box-sizing: border-box;
-  width: calc((100% - 2 * var(--_edge)) * .8); /* 80 % ширины сетки, по центру — просьба пользователя */
-  height: .4rem;
-  margin: calc(2.4rem - 3rem) auto 0; /* бегунок в 2,4 под карточками при зазоре секции 3 */
-  border-radius: var(--dd-radius-pill);
-  background: var(--dd-beige-100);
-  cursor: pointer;
-  touch-action: none;
+@media (hover: hover) {
+  .dd-steps__scroller { scroll-snap-type: none; }
 }
-.dd-steps__bar[hidden] { display: none; }
-.dd-steps__bar::before {
-  content: "";
-  position: absolute;
-  inset: -1.2rem 0;
+.dd-steps-pin.is-pinned > .dd-steps {
+  position: sticky;
+  top: var(--_pin-top, 0);
 }
-.dd-steps__thumb {
-  display: block;
-  width: 20%;
-  height: 100%;
-  border-radius: inherit;
-  background: var(--dd-neutral-1300);
-  cursor: grab;
-  transition: background var(--dd-dur-fast);
+.dd-steps-pin.is-pinned .dd-steps__scroller {
+  overflow-x: hidden; /* ленту ведёт прокрутка страницы, свайп вбок её не тянет */
+  scroll-snap-type: none;
 }
-.dd-steps__bar:hover .dd-steps__thumb { background: var(--dd-orange-50); }
-.dd-steps__bar.is-drag .dd-steps__thumb {
-  background: var(--dd-orange-50);
-  cursor: grabbing;
-}
-@media (min-width: 834px) {
-  .dd-steps__bar { margin-top: calc(2.4rem - 6rem); } /* зазор секции от 834 — 6 */
+/* на телефоне карточка не выше экрана под шапкой: 340–450, текста в ней до 340 */
+@media (max-width: 833.98px) {
+  .dd-steps-pin.is-pinned .dd-step { min-height: clamp(34rem, calc(100svh - 6.1rem - 4.8rem), 45rem); }
 }
 
 /* ---------- Принципы — 5216:38944 ---------- */
