@@ -107,8 +107,13 @@
   color: var(--dd-neutral-1300);
   text-align: center;
 }
-.dd-hero__lead span { display: block; }
-.dd-hero__lead span + span { margin-top: .8rem; }
+.dd-hero__lead > span { display: block; }
+.dd-hero__lead > span + span { margin-top: .8rem; }
+/* на 375 (6144:13562) три короткие фразы — каждая своей строкой; от 834 — одной строкой */
+.dd-hero__phrase { display: block; }
+@media (min-width: 834px) {
+  .dd-hero__phrase { display: inline; }
+}
 .dd-hero .dd-go .dd-btn--black { flex: 1; }
 
 /* Кнопка из двух частей — одна ссылка: чёрная с подписью и круглая со стрелкой, встык */
@@ -181,7 +186,7 @@
   }
   .dd-hero__bottom { align-items: flex-start; }
   .dd-hero__lead { text-align: left; }
-  .dd-hero__lead span + span { margin-top: 0; }
+  .dd-hero__lead > span + span { margin-top: 0; }
   .dd-hero .dd-go .dd-btn--black { flex: initial; }
 }
 @media (min-width: 1320px) {
@@ -396,7 +401,15 @@
   display: flex;
   flex-direction: column;
   gap: .7rem;
-  padding: .9rem;
+  padding: .9rem .7rem; /* текст 153 в ширину, как в макете 375: колонка уже на 4 из-за общего поля 16 */
+}
+/* у Branding на 375 (6144:13689) только вторая половина текста */
+@media (max-width: 833.98px) {
+  .dd-service__wide-only { display: none; }
+}
+/* надпись над заголовком «картинки + текста» — только на 375 (6144:14872), на 1440 её нет */
+@media (min-width: 834px) {
+  .dd-media--home .dd-media__eyebrow--phone { display: none; }
 }
 .dd-service__title {
   line-height: 2.6rem;
@@ -665,6 +678,9 @@
   text-align: center;
 }
 .dd-principles__title { max-width: 84rem; }
+@media (min-width: 834px) {
+  .dd-principles__amp { display: none; }
+}
 /* на 375 (6144:13745) заголовок 28 / 36 Medium одним шрифтом, без кругов и без переноса */
 @media (max-width: 833.98px) {
   .dd-principles__title {
@@ -677,7 +693,8 @@
     letter-spacing: inherit;
     white-space: nowrap;
   }
-  .dd-principles__title br { display: none; }
+  .dd-principles__title br,
+  .dd-principles__and { display: none; } /* на 375 в макете «&» вместо «and» и без переноса */
   /* круга нет, его место — промежуток в пробел: иначе «Client-Centered» и «Approach» слипаются */
   .dd-principles__title .dd-principles__dot {
     width: .25em;
