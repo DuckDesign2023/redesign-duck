@@ -343,6 +343,9 @@
   border-radius: 50%;
   object-fit: cover;
 }
+/* Отзыв без портрета (автор аноним или фото нет): значок компании с её сайта; белый значок
+   на белой карточке держит тонкое кольцо */
+.dd-testimonial__photo--logo { box-shadow: 0 0 0 .1rem rgba(4, 5, 6, .08); }
 /* Отзыв без портрета: круг с инициалами автора или компании — как на AI Development */
 .dd-testimonial__photo--initials {
   display: grid;
