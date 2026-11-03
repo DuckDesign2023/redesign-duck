@@ -1288,15 +1288,6 @@
   .dd-ai-econ__us { inset: 0 0 0 calc((100% - 14rem - 5.6rem) / 2 + 14rem + 5.6rem); }
 }
 
-/* Отзыв без портрета: круг с инициалами на месте фото */
-.dd-ai-initials {
-  display: grid;
-  place-items: center;
-  background: var(--dd-yellow-400);
-  font: italic 500 1.8rem/1 var(--dd-font-fancy);
-  color: var(--dd-yellow-0);
-}
-
 /* Тариф: скидка срока — жёлтая плашка, а не бледная подпись. Только на этой странице,
    общий блок .dd-plan не тронут */
 .dd-plan .dd-plan__term-off,
