@@ -262,6 +262,7 @@
 
 .dd-price-tip {
   --_shut: inset(0 calc(100% - var(--_pw, 100%)) 0 0 round var(--_pr));
+  --_open: inset(0 0 0 0 round var(--_pr)); /* раскрытая форма — как скругление карточки */
 
   position: absolute;
   top: 0;
@@ -287,7 +288,7 @@
   max-width: 28rem;
   margin: 0;
   padding: 0 1.4rem;
-  border-radius: 1.2rem;
+  border-radius: calc(var(--_pr) - .8rem); /* концентрично карточке: её радиус минус отступ */
   background: rgba(246, 243, 237, .33); /* --dd-beige-50 при прозрачности 0,33 */
   background: color-mix(in srgb, var(--dd-beige-50) 33%, transparent);
   overflow: hidden;
@@ -348,27 +349,41 @@
   grid-template-rows: 1fr;
   padding-top: calc(var(--_ph) + .2rem);
   padding-bottom: .8rem;
-  clip-path: inset(0 0 0 0 round var(--_pr));
+  clip-path: var(--_open);
   transition: clip-path .3s var(--dd-ease-out), grid-template-rows .35s var(--dd-ease-out) .25s,
     padding .35s var(--dd-ease-out) .25s, visibility 0s;
 }
 
-/* от 1320 ярлыки прижаты к краям окна: карточка тоже уходит за край, её прямой край — у края окна;
-   поля карточки равные — центр списка совпадает с центром логотипа */
+/* от 1320 ярлыки прижаты к краям окна: карточка тоже уходит за край, её прямой край — у края окна.
+   Подложка списка с этой стороны тоже прямая и без отступа — доходит до края, как карточка;
+   недостающий отступ (0,8) добавлен к её внутреннему полю — центр списка = центр логотипа */
 @media (min-width: 1320px) {
   .dd-price-badge {
     --_ph: 3.8em;
     --_pr: 1.9em;
   }
   .dd-price-tip {
+    --_open: inset(0 0 0 0 round 0 var(--_pr) var(--_pr) 0);
+
+    padding-inline: 0 .8rem;
     border-radius: 0 var(--_pr) var(--_pr) 0;
+  }
+  .dd-price-tip__list {
+    padding-inline: 2.2rem 1.4rem;
+    border-radius: 0 calc(var(--_pr) - .8rem) calc(var(--_pr) - .8rem) 0;
   }
   .dd-price-hero__badges--right .dd-price-tip {
     --_shut: inset(0 0 0 calc(100% - var(--_pw, 100%)) round var(--_pr));
+    --_open: inset(0 0 0 0 round var(--_pr) 0 0 var(--_pr));
 
     left: auto;
     right: 0;
+    padding-inline: .8rem 0;
     border-radius: var(--_pr) 0 0 var(--_pr);
+  }
+  .dd-price-hero__badges--right .dd-price-tip__list {
+    padding-inline: 1.4rem 2.2rem;
+    border-radius: calc(var(--_pr) - .8rem) 0 0 calc(var(--_pr) - .8rem);
   }
 }
 
