@@ -31,13 +31,10 @@
 })();
 
 /* Подсказки ярлыков первого экрана (просьба пользователя 03.11.2026), стили — pricing.css.
-   Вид на выбор — ?tip=1|2|3 (до выбора пользователя). Esc закрывает подсказку, пока мышь
-   или фокус не уйдут с ярлыка */
+   Esc закрывает подсказку, пока мышь или фокус не уйдут с ярлыка */
 (() => {
   const hero = document.querySelector('.dd-price-hero');
   if (!hero) return;
-  const tip = new URLSearchParams(location.search).get('tip');
-  if (/^[123]$/.test(tip || '')) hero.dataset.tip = tip;
 
   const badges = [...hero.querySelectorAll('.dd-price-badge')];
   addEventListener('keydown', (e) => {
