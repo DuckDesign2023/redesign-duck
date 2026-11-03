@@ -293,19 +293,18 @@
 .dd-price-tip__list::before { content: ""; height: .2rem; }
 .dd-price-tip__list::after { content: ""; height: 1.4rem; }
 .dd-price-tip__row + .dd-price-tip__row { margin-top: 1rem; }
-/* строка: значки на линии заголовка, описание ниже на всю ширину строки (и под значками) */
+/* строка по центру карточки, как логотип: значки и заголовок одной линией, описание под ними */
 .dd-price-tip__row {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-areas: "icon head" "text text";
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   gap: .2rem .6rem;
-  text-align: left;
+  text-align: center;
 }
 .dd-price-tip__row > span:last-child { display: contents; }
 /* значки без подложки: оранжевый Orange-100 и жёлтый Yellow-200 (копии значков наград в img/pricing/tip-*) */
 .dd-price-tip__icons {
-  grid-area: icon;
   display: flex;
   gap: .1rem;
 }
@@ -316,12 +315,11 @@
 .dd-price-tip__head,
 .dd-price-tip__text { display: block; }
 .dd-price-tip__head {
-  grid-area: head;
   font: 600 1.3rem/1.8rem var(--dd-font-basic);
   color: var(--dd-neutral-1300);
 }
 .dd-price-tip__text {
-  grid-area: text;
+  flex-basis: 100%;
   font: 400 1.2rem/1.6rem var(--dd-font-basic);
   color: var(--dd-neutral-900);
 }
@@ -348,14 +346,14 @@
   transition: clip-path .3s var(--dd-ease-out), grid-template-rows .35s var(--dd-ease-out) .25s, visibility 0s;
 }
 
-/* от 1320 ярлыки прижаты к краям окна: карточка тоже уходит за край, её прямой край — у края окна */
+/* от 1320 ярлыки прижаты к краям окна: карточка тоже уходит за край, её прямой край — у края окна;
+   поля карточки равные — центр списка совпадает с центром логотипа */
 @media (min-width: 1320px) {
   .dd-price-badge {
     --_ph: 3.8em;
     --_pr: 1.9em;
   }
   .dd-price-tip {
-    padding: var(--_ph) 1.6rem 0 calc(1.6rem + var(--_tuck));
     border-radius: 0 var(--_pr) var(--_pr) 0;
   }
   .dd-price-hero__badges--right .dd-price-tip {
@@ -363,7 +361,6 @@
 
     left: auto;
     right: 0;
-    padding: var(--_ph) calc(1.6rem + var(--_tuck)) 0 1.6rem;
     border-radius: var(--_pr) 0 0 var(--_pr);
   }
 }
