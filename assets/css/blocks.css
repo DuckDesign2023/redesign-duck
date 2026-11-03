@@ -1124,9 +1124,10 @@
   height: auto;
   aspect-ratio: 3 / 2;
   border-radius: .4rem;
-  background: var(--dd-beige-100);
-  object-fit: cover;
+  background: var(--bg, var(--dd-beige-100));
+  object-fit: contain;
 }
+.dd-works__list .dd-work--frame { border-radius: .4rem; }
 .dd-works__more { align-self: stretch; }
 
 @media (min-width: 834px) {

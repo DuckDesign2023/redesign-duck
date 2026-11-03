@@ -135,13 +135,13 @@
   aspect-ratio: 3 / 2;
   border-radius: 1rem;
   overflow: hidden;
-  background: var(--dd-beige-100);
+  background: var(--bg, var(--dd-beige-100));
 }
 .dd-folio-grid img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 /* ---------- Пять цифр — 5078:7260 · 375: 5138:9837 ---------- */
