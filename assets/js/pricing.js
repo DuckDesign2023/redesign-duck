@@ -30,6 +30,26 @@
   });
 })();
 
+/* Подсказки ярлыков первого экрана (просьба пользователя 03.11.2026), стили — pricing.css.
+   Вид на выбор — ?tip=1|2|3 (до выбора пользователя). Esc закрывает подсказку, пока мышь
+   или фокус не уйдут с ярлыка */
+(() => {
+  const hero = document.querySelector('.dd-price-hero');
+  if (!hero) return;
+  const tip = new URLSearchParams(location.search).get('tip');
+  if (/^[123]$/.test(tip || '')) hero.dataset.tip = tip;
+
+  const badges = [...hero.querySelectorAll('.dd-price-badge')];
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') for (const b of badges) b.classList.add('is-tip-off');
+  });
+  for (const b of badges) {
+    const on = () => b.classList.remove('is-tip-off');
+    b.addEventListener('pointerleave', on);
+    b.addEventListener('blur', on);
+  }
+})();
+
 /* Таблица «Why hiring…» (просьба пользователя 16.10.2026): подсчёт значков и блик по тёмной
    колонке, стили — pricing.css. Играет один раз, когда таблица впервые поднимается над нижней
    пятой окна: is-armed — исходное положение, is-on — запуск */

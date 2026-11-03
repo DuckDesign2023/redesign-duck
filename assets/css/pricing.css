@@ -224,6 +224,241 @@
   from { scale: 0; }
 }
 
+/* Подсказки ярлыков (просьба пользователя 03.11.2026): расшифровка достижения на площадке.
+   Открываются наведением и фокусом (ярлык в порядке Tab), Esc закрывает (pricing.js).
+   Три вида на выбор — ?tip=1|2|3 (pricing.js ставит data-tip на первый экран), без параметра — 1.
+   1 — тёмная подсказка со стрелкой, выезжает от ярлыка;
+   2 — белая карточка награды: раскрывается шторкой от ярлыка, значок, цифра и текст следом;
+   3 — от 1320 сам ярлык удлиняется внутрь страницы строкой достижения, номер делает оборот
+       (уже 1320 — как вид 1).
+   До 1320 подсказка стоит под ярлыком, от 1320 — сбоку, к середине страницы */
+.dd-price-badge {
+  position: relative;
+  outline: none;
+}
+.dd-price-badge:is(:hover, :focus-visible) { z-index: 3; }
+.dd-price-badge:focus-visible { box-shadow: 0 0 0 .2rem var(--dd-color-focus); }
+.dd-price-tip {
+  position: absolute;
+  top: calc(100% + 1.2rem);
+  left: 50%;
+  z-index: 3;
+  box-sizing: border-box;
+  display: block;
+  width: max-content;
+  max-width: 26rem;
+  padding: 1.2rem 1.6rem 1.3rem;
+  border-radius: var(--dd-radius-lg);
+  background: var(--dd-neutral-1300);
+  color: var(--dd-neutral-0);
+  font: 400 1.3rem/1.8rem var(--dd-font-basic);
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  translate: -50% -.6rem;
+  scale: .96;
+  transform-origin: top center;
+  transition: opacity .16s, translate .24s var(--dd-ease-out), scale .24s var(--dd-ease-out), visibility 0s .24s;
+}
+/* мостик над зазором: мышь переходит с ярлыка на подсказку, не закрывая её */
+.dd-price-tip::before {
+  content: "";
+  position: absolute;
+  inset: -1.2rem 0 100%;
+}
+/* стрелка к ярлыку */
+.dd-price-tip::after {
+  content: "";
+  position: absolute;
+  top: -.5rem;
+  left: calc(50% - .6rem);
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: .2rem;
+  background: inherit;
+  rotate: 45deg;
+}
+.dd-price-tip__icon,
+.dd-price-tip__fig { display: none; }
+.dd-price-tip__head,
+.dd-price-tip__text { display: block; }
+.dd-price-tip__head { font-weight: 600; font-size: 1.4rem; line-height: 2rem; }
+.dd-price-tip__text { margin-top: .2rem; opacity: .72; }
+.dd-price-badge .dd-price-tip__icon img { width: 2rem; height: 2rem; }
+
+.dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) .dd-price-tip {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  translate: -50% 0;
+  scale: 1;
+  transition-delay: .06s, .06s, .06s, 0s;
+}
+
+@media (min-width: 1320px) {
+  .dd-price-tip {
+    top: 50%;
+    left: calc(100% + 1.4rem);
+    translate: -.8rem -50%;
+    transform-origin: left center;
+  }
+  .dd-price-tip::before { inset: 0 100% 0 -1.4rem; }
+  .dd-price-tip::after { top: calc(50% - .6rem); left: -.5rem; }
+  .dd-price-hero__badges--right .dd-price-tip {
+    left: auto;
+    right: calc(100% + 1.4rem);
+    translate: .8rem -50%;
+    transform-origin: right center;
+  }
+  .dd-price-hero__badges--right .dd-price-tip::before { inset: 0 -1.4rem 0 100%; }
+  .dd-price-hero__badges--right .dd-price-tip::after { left: auto; right: -.5rem; }
+  .dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) .dd-price-tip { translate: 0 -50%; }
+}
+
+/* вид 2 — карточка награды */
+.dd-price-hero[data-tip="2"] .dd-price-tip {
+  --_shut: inset(0 0 100% 0 round 1.6rem);
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "icon fig" "body body";
+  align-items: center;
+  gap: 1.2rem 1rem;
+  width: 30rem;
+  max-width: none;
+  padding: 2rem 2rem 2.2rem;
+  border-radius: var(--dd-radius-xl);
+  background: var(--dd-neutral-0);
+  color: var(--dd-neutral-1300);
+  box-shadow: var(--dd-shadow-card);
+  opacity: 1;
+  scale: 1;
+  translate: -50% 0;
+  clip-path: var(--_shut);
+  transition: clip-path .42s var(--dd-ease-out), visibility 0s .42s;
+}
+.dd-price-hero[data-tip="2"] .dd-price-tip::after { display: none; }
+.dd-price-hero[data-tip="2"] .dd-price-tip__icon {
+  grid-area: icon;
+  display: grid;
+  place-items: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  background: var(--dd-yellow-200);
+  scale: 0;
+  transition: scale .4s cubic-bezier(.34, 1.56, .64, 1);
+}
+.dd-price-hero[data-tip="2"] .dd-price-tip__fig {
+  grid-area: fig;
+  display: block;
+  font: italic 500 3.6rem/1 var(--dd-font-fancy);
+  letter-spacing: -.03em;
+}
+.dd-price-hero[data-tip="2"] .dd-price-tip__body { grid-area: body; }
+.dd-price-hero[data-tip="2"] .dd-price-tip__head { font-size: 1.6rem; line-height: 2.2rem; }
+.dd-price-hero[data-tip="2"] .dd-price-tip__text {
+  margin-top: .4rem;
+  font-size: 1.4rem;
+  line-height: 2rem;
+  color: var(--dd-neutral-1000);
+  opacity: 1;
+}
+.dd-price-hero[data-tip="2"] :is(.dd-price-tip__fig, .dd-price-tip__body) {
+  opacity: 0;
+  translate: 0 .8rem;
+  transition: opacity .3s, translate .4s var(--dd-ease-out);
+}
+.dd-price-hero[data-tip="2"] .dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) .dd-price-tip {
+  clip-path: inset(0 0 0 0 round 1.6rem);
+  translate: -50% 0;
+  transition: clip-path .42s var(--dd-ease-out), visibility 0s;
+}
+.dd-price-hero[data-tip="2"] .dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) .dd-price-tip__icon {
+  scale: 1;
+  transition-delay: .16s;
+}
+.dd-price-hero[data-tip="2"] .dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) :is(.dd-price-tip__fig, .dd-price-tip__body) {
+  opacity: 1;
+  translate: 0 0;
+}
+.dd-price-hero[data-tip="2"] .dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) .dd-price-tip__fig { transition-delay: .2s; }
+.dd-price-hero[data-tip="2"] .dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) .dd-price-tip__body { transition-delay: .26s; }
+@media (min-width: 1320px) {
+  .dd-price-hero[data-tip="2"] .dd-price-tip {
+    --_shut: inset(0 100% 0 0 round 1.6rem);
+    translate: 0 -50%;
+  }
+  .dd-price-hero[data-tip="2"] .dd-price-hero__badges--right .dd-price-tip { --_shut: inset(0 0 0 100% round 1.6rem); }
+  .dd-price-hero[data-tip="2"] .dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) .dd-price-tip { translate: 0 -50%; }
+}
+
+/* вид 3 — ярлык удлиняется строкой достижения (от 1320) */
+@media (min-width: 1320px) {
+  /* колонка значков узкая: ярлык растёт по содержимому за её край */
+  .dd-price-hero[data-tip="3"] .dd-price-badge { width: max-content; }
+  .dd-price-hero[data-tip="3"] .dd-price-tip {
+    position: static;
+    display: grid;
+    grid-template-columns: 0fr;
+    width: auto;
+    max-width: none;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    color: var(--dd-neutral-1300);
+    opacity: 1;
+    visibility: visible;
+    translate: none;
+    scale: none;
+    transition: grid-template-columns .5s var(--dd-ease-out);
+  }
+  .dd-price-hero[data-tip="3"] .dd-price-tip::before,
+  .dd-price-hero[data-tip="3"] .dd-price-tip::after { display: none; }
+  .dd-price-hero[data-tip="3"] .dd-price-tip__body {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .dd-price-hero[data-tip="3"] .dd-price-tip__head {
+    padding-inline: .8rem .4rem;
+    font-size: 1.4rem;
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .dd-price-hero[data-tip="3"] .dd-price-hero__badges--right .dd-price-tip__head { padding-inline: .4rem .8rem; }
+  .dd-price-hero[data-tip="3"] .dd-price-tip__text { display: none; }
+  .dd-price-hero[data-tip="3"] .dd-price-badge__num { transition: rotate .6s var(--dd-ease-out), background-color .3s; }
+  .dd-price-hero[data-tip="3"] .dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) .dd-price-tip {
+    grid-template-columns: 1fr;
+    translate: none;
+    scale: none;
+  }
+  .dd-price-hero[data-tip="3"] .dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) .dd-price-tip__head {
+    opacity: 1;
+    transition-delay: .18s;
+  }
+  .dd-price-hero[data-tip="3"] .dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) .dd-price-badge__num {
+    rotate: 360deg;
+    background-color: var(--dd-yellow-200);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-price-tip,
+  .dd-price-hero .dd-price-tip,
+  .dd-price-hero .dd-price-badge:is(:hover, :focus-visible) .dd-price-tip { translate: -50% 0; scale: 1; }
+  .dd-price-tip *,
+  .dd-price-badge__num { transition: none !important; }
+}
+@media (min-width: 1320px) and (prefers-reduced-motion: reduce) {
+  .dd-price-tip,
+  .dd-price-hero .dd-price-tip,
+  .dd-price-hero .dd-price-badge:is(:hover, :focus-visible) .dd-price-tip { translate: 0 -50%; }
+  .dd-price-hero[data-tip="3"] .dd-price-tip { translate: none; }
+}
+
 /* ---------- Срок и три тарифа — 5564:2569, 5564:2369 ---------- */
 /* Белый лист со скруглением 44 держит карточки тарифов и «package deal». Переключатель
    срока стоит на белом язычке над листом; галтели язычка — 44. Срок — радиокнопки:
