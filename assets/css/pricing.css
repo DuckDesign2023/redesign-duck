@@ -293,15 +293,12 @@
 .dd-price-tip__list::before { content: ""; height: .2rem; }
 .dd-price-tip__list::after { content: ""; height: 1.4rem; }
 .dd-price-tip__row + .dd-price-tip__row { margin-top: 1rem; }
-/* строка по центру карточки, как логотип: значок и заголовок одной линией, описание под ними.
-   Сетка в две колонки: ширину строки задаёт самое длинное — пара «значок + заголовок» или
-   описание; лишнее место делится поровну, значок прижат вправо, заголовок влево — пара по центру */
+/* строка по центру карточки, как логотип: значки отдельной линией, под ними заголовок и описание.
+   Один столбец — ширину карточки задаёт самая длинная линия */
 .dd-price-tip__row {
   display: grid;
-  grid-template-columns: auto auto;
-  justify-content: center;
-  align-items: center;
-  gap: .2rem .6rem;
+  justify-items: center;
+  gap: .2rem;
   text-align: center;
 }
 .dd-price-tip__row > span:last-child { display: contents; }
@@ -309,18 +306,7 @@
 .dd-price-tip__icons {
   display: flex;
   gap: .1rem;
-  justify-self: end;
-}
-.dd-price-tip__head { justify-self: start; }
-/* несколько наград в строке (кубки Clutch) — значки отдельной строкой над заголовком */
-.dd-price-tip__icons:has(> :nth-child(2)) {
-  grid-column: 1 / -1;
-  justify-self: center;
   margin-bottom: .2rem;
-}
-.dd-price-tip__icons:has(> :nth-child(2)) ~ span .dd-price-tip__head {
-  grid-column: 1 / -1;
-  justify-self: center;
 }
 .dd-price-badge .dd-price-tip__icon {
   width: 1.8rem;
@@ -333,7 +319,6 @@
   color: var(--dd-neutral-1300);
 }
 .dd-price-tip__text {
-  grid-column: 1 / -1;
   font: 400 1.2rem/1.6rem var(--dd-font-basic);
   color: var(--dd-neutral-900);
 }
