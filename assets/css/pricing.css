@@ -224,44 +224,57 @@
   from { scale: 0; }
 }
 
-/* Подсказки ярлыков (просьба пользователя 03.11.2026; из трёх видов выбрана карточка, затем ужата):
-   строка на каждое достижение — сколько строк, такая и цифра на ярлыке. Открывается наведением
-   и фокусом (ярлык в порядке Tab), Esc закрывает (pricing.js). Появление классическое: карточка
-   проявляется и подъезжает от ярлыка на 1,2 rem. До 1320 — под ярлыком; от 1320 — сбоку, к середине
-   страницы, верх вровень с верхом ярлыка, растёт вниз. .dd-price-tip — прозрачная рамка вплотную
-   к ярлыку: её поле закрывает зазор, и мышь переходит на карточку, не закрывая её */
+/* Подсказки ярлыков (просьба пользователя 03.11.2026): при наведении сам ярлык раскрывается вниз
+   в карточку, под линией — список достижений (строк столько, какая цифра на ярлыке); номер гаснет,
+   серый логотип темнеет. Открывается наведением и фокусом (ярлык в порядке Tab), Esc закрывает
+   (pricing.js). Карточка .dd-price-tip лежит под логотипом и номером, от верха ярлыка; рост идёт
+   обрезкой из точной формы ярлыка (--_pw — ширина ярлыка, ставит pricing.js; --_ph — высота) */
 .dd-price-badge {
+  --_ph: 3.8rem;
+  --_pr: 1.9rem;
+
   position: relative;
   outline: none;
 }
+.dd-price-badge > img,
+.dd-price-badge__num {
+  position: relative;
+  z-index: 1;
+}
+.dd-price-badge > img { transition: filter .3s; }
+.dd-price-badge__num { transition: opacity .2s, scale .3s var(--dd-ease-out); }
 .dd-price-badge:is(:hover, :focus-visible) { z-index: 3; }
 .dd-price-badge:focus-visible { box-shadow: 0 0 0 .2rem var(--dd-color-focus); }
+
 .dd-price-tip {
-  --_from: -50% -1.2rem;
-  --_to: -50% 0;
+  --_shut: inset(0 calc(100% - var(--_pw, 100%)) calc(100% - var(--_ph)) 0 round var(--_pr));
 
   position: absolute;
-  top: 100%;
-  left: 50%;
-  z-index: 3;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  box-sizing: border-box;
+  min-width: 100%;
   width: max-content;
-  padding-top: 1rem;
-  opacity: 0;
+  padding: var(--_ph) 1.6rem 1.4rem;
+  border-radius: var(--_pr) var(--_pr) 1.4rem 1.4rem;
+  background: var(--dd-neutral-0);
+  box-shadow: var(--dd-shadow-sm);
   visibility: hidden;
   pointer-events: none;
-  translate: var(--_from);
-  transition: opacity .18s ease-in, translate .18s ease-in, visibility 0s .18s;
+  clip-path: var(--_shut);
+  transition: clip-path .3s var(--dd-ease-out), visibility 0s .3s;
 }
 .dd-price-tip__list {
   display: grid;
   gap: 1rem;
   max-width: 26rem;
   margin: 0;
-  padding: 1.2rem 1.4rem;
-  border-radius: 1.2rem;
-  background: var(--dd-neutral-0);
-  box-shadow: var(--dd-shadow-sm); /* тень «2» дизайн-системы — у мелких плавающих плашек */
+  padding: 1.2rem 0 0;
+  border-top: .1rem solid var(--dd-neutral-200);
   list-style: none;
+  opacity: 0;
+  transition: opacity .15s;
 }
 /* строка: значок на линии заголовка, описание ниже на всю ширину строки (и под значком) */
 .dd-price-tip__row {
@@ -292,34 +305,48 @@
   color: var(--dd-neutral-900);
 }
 
+.dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) > img { filter: brightness(.35); }
+.dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) .dd-price-badge__num {
+  opacity: 0;
+  scale: .5;
+}
 .dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) .dd-price-tip {
-  opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  translate: var(--_to);
-  transition: opacity .32s ease, translate .45s var(--dd-ease-out), visibility 0s;
+  clip-path: inset(-2rem -2rem -3rem -2rem);
+  transition: clip-path .45s var(--dd-ease-out), visibility 0s;
+}
+.dd-price-badge:is(:hover, :focus-visible):not(.is-tip-off) .dd-price-tip__list {
+  opacity: 1;
+  transition: opacity .3s .15s;
 }
 
+/* от 1320 ярлыки прижаты к краям окна: карточка тоже уходит за край, её левый (у правых — правый)
+   край прямой, отступ списка — как у логотипа */
 @media (min-width: 1320px) {
+  .dd-price-badge {
+    --_ph: 3.8em;
+    --_pr: 1.9em;
+  }
   .dd-price-tip {
-    --_from: -1.2rem 0;
-    --_to: 0 0;
-
-    top: 0;
-    left: 100%;
-    padding: 0 0 0 1.2rem;
+    padding: var(--_ph) 1.6rem 1.4rem calc(2.4em + var(--_tuck));
+    border-radius: 0 var(--_pr) 1.4rem 0;
   }
   .dd-price-hero__badges--right .dd-price-tip {
-    --_from: 1.2rem 0;
+    --_shut: inset(0 0 calc(100% - var(--_ph)) calc(100% - var(--_pw, 100%)) round var(--_pr));
 
     left: auto;
-    right: 100%;
-    padding: 0 1.2rem 0 0;
+    right: 0;
+    padding: var(--_ph) calc(2.4em + var(--_tuck)) 1.4rem 1.6rem;
+    border-radius: var(--_pr) 0 0 1.4rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dd-price-tip { --_from: var(--_to); }
+  .dd-price-tip,
+  .dd-price-tip__list,
+  .dd-price-badge > img,
+  .dd-price-badge__num { transition: none !important; }
 }
 
 /* ---------- Срок и три тарифа — 5564:2569, 5564:2369 ---------- */

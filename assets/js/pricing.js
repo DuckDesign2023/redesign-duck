@@ -31,12 +31,19 @@
 })();
 
 /* Подсказки ярлыков первого экрана (просьба пользователя 03.11.2026), стили — pricing.css.
-   Esc закрывает подсказку, пока мышь или фокус не уйдут с ярлыка */
+   --_pw — ширина ярлыка: из неё карточка начинает раскрываться. Esc закрывает подсказку,
+   пока мышь или фокус не уйдут с ярлыка */
 (() => {
   const hero = document.querySelector('.dd-price-hero');
   if (!hero) return;
 
   const badges = [...hero.querySelectorAll('.dd-price-badge')];
+  const measure = () => {
+    for (const b of badges) b.style.setProperty('--_pw', b.offsetWidth + 'px');
+  };
+  measure();
+  addEventListener('resize', measure);
+  if (document.fonts) document.fonts.ready.then(measure);
   addEventListener('keydown', (e) => {
     if (e.key === 'Escape') for (const b of badges) b.classList.add('is-tip-off');
   });
