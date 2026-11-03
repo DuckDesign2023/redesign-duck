@@ -272,26 +272,30 @@
   grid-template-rows: 0fr;
   min-width: 100%;
   width: max-content;
-  padding: var(--_ph) 1.6rem 0;
+  padding: var(--_ph) .8rem 0;
   border-radius: var(--_pr);
   background: var(--dd-neutral-0);
   visibility: hidden;
   pointer-events: none;
   clip-path: var(--_shut);
-  transition: grid-template-rows .25s var(--dd-ease-out), clip-path .3s var(--dd-ease-out) .2s, visibility 0s .5s;
+  transition: grid-template-rows .25s var(--dd-ease-out), padding .25s var(--dd-ease-out), clip-path .3s var(--dd-ease-out) .2s, visibility 0s .5s;
 }
+/* список на еле заметной бежевой подложке (как фон страницы) со скруглением — выделен внутри карточки */
 .dd-price-tip__list {
   display: grid;
   min-height: 0;
   max-width: 28rem;
   margin: 0;
-  padding: 0;
+  padding: 0 1.4rem;
+  border-radius: 1.2rem;
+  background: var(--dd-beige-50);
   overflow: hidden;
   list-style: none;
 }
-/* поля списка внутри сворачиваемой строки, чтобы свёрнутая карточка была ровно в высоту ярлыка */
-.dd-price-tip__list::before { content: ""; height: .2rem; }
-.dd-price-tip__list::after { content: ""; height: 1.4rem; }
+/* поля списка по вертикали — внутри сворачиваемой строки, чтобы свёрнутая карточка была ровно
+   в высоту ярлыка; отступы карточки вокруг подложки появляются при раскрытии */
+.dd-price-tip__list::before,
+.dd-price-tip__list::after { content: ""; height: 1.2rem; }
 .dd-price-tip__row + .dd-price-tip__row { margin-top: 1rem; }
 /* строка по центру карточки, как логотип: значки отдельной линией, под ними заголовок и описание.
    Один столбец — ширину карточки задаёт самая длинная линия */
@@ -341,8 +345,11 @@
   visibility: visible;
   pointer-events: auto;
   grid-template-rows: 1fr;
+  padding-top: calc(var(--_ph) + .2rem);
+  padding-bottom: .8rem;
   clip-path: inset(0 0 0 0 round var(--_pr));
-  transition: clip-path .3s var(--dd-ease-out), grid-template-rows .35s var(--dd-ease-out) .25s, visibility 0s;
+  transition: clip-path .3s var(--dd-ease-out), grid-template-rows .35s var(--dd-ease-out) .25s,
+    padding .35s var(--dd-ease-out) .25s, visibility 0s;
 }
 
 /* от 1320 ярлыки прижаты к краям окна: карточка тоже уходит за край, её прямой край — у края окна;
