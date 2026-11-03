@@ -288,7 +288,8 @@
   margin: 0;
   padding: 0 1.4rem;
   border-radius: 1.2rem;
-  background: var(--dd-beige-50);
+  background: rgba(246, 243, 237, .33); /* --dd-beige-50 при прозрачности 0,33 */
+  background: color-mix(in srgb, var(--dd-beige-50) 33%, transparent);
   overflow: hidden;
   list-style: none;
 }
