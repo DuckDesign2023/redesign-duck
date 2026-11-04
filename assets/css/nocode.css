@@ -1,0 +1,444 @@
+/* ==========================================================================
+   duck.design — страница No-code (Figma v3, 1440 no-code 6400:12609, 04.11.2026)
+   Макета 375 нет: мобильный вид — по разделу 4 DESIGN.md.
+   Готовые блоки (cap-hero, logos, plan, cap-services, testimonials, media-text) — со своими
+   числами из общих файлов; здесь — виды этих блоков для страницы и три своих блока:
+   .dd-nc-cut (две шкалы), .dd-nc-process (четыре шага), .dd-nc-cta (призыв).
+   Требует tokens, components, blocks, capabilities.
+   ========================================================================== */
+
+/* ---------- Первый экран — 6400:12610 ---------- */
+/* Вид cap-hero: градиент макета на всех ширинах, фото человека — вырезанный слой (без серой
+   подложки макета), стоит у правого края сетки на нижнем краю блока. Ряд логотипов платформ
+   вместо ленты тегов. Угол и стопы градиента пересчитаны из gradientTransform на лист 1440 × 640 */
+.dd-cap-hero--nocode {
+  --_plate: linear-gradient(115deg, #fef3d8 2%, #d5dadf 98%);
+  --_label: var(--dd-orange-0);
+
+  /* на телефоне блок по содержимому, фото — последним, на нижнем краю (додумано) */
+  min-height: 0;
+  padding: calc(var(--_header) + 4rem) 0 0;
+}
+.dd-cap-hero--nocode .dd-cap-hero__go { margin-bottom: 2rem; }
+.dd-nc-platforms {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem 1.6rem;
+  max-width: 34rem;
+  margin: 0;
+  padding: 1.4rem 0 0;
+  list-style: none;
+}
+.dd-nc-platforms img { display: block; height: auto; }
+/* перенос заголовка как в макете — после «Fast»; уже 1320 строка течёт сама */
+.dd-nc-br { display: none; }
+@media (min-width: 1320px) {
+  .dd-nc-br { display: inline; }
+}
+.dd-nc-hero__photo {
+  display: block;
+  width: min(100%, 30rem);
+  margin: 0 auto;
+}
+.dd-nc-hero__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 834px) {
+  /* стиль страницы грузится позже capabilities.css — поля 834+ повторены здесь */
+  .dd-cap-hero--nocode {
+    justify-content: center;
+    min-height: 64rem;
+    padding: calc(var(--_header) + 6rem) 0 4rem;
+  }
+  .dd-cap-hero--nocode .dd-cap-hero__go { margin-bottom: 0; }
+  /* текст 634 и поле 6 слева; до 1320 колонка уже — фото стоит рядом */
+  .dd-cap-hero--nocode .dd-cap-hero__text { max-width: min(64rem, 58%); }
+  .dd-nc-platforms {
+    justify-content: flex-start;
+    max-width: none;
+    gap: 2rem 3rem;
+    padding-block: 4.4rem; /* рамка ряда 107: поля 44, шаг колонки 16 — сверх них */
+  }
+  .dd-nc-hero__photo {
+    position: absolute;
+    right: calc(max(var(--dd-gutter), (100% - var(--dd-container-large)) / 2) + 4.3rem);
+    bottom: 0;
+    z-index: -1;
+    width: min(48.5rem, 40vw);
+    margin: 0;
+  }
+}
+@media (min-width: 1320px) {
+  .dd-cap-hero--nocode .dd-cap-hero__text { max-width: 64rem; }
+  .dd-nc-platforms { column-gap: 6rem; }
+}
+
+/* ---------- Тариф — 6400:12685 ---------- */
+/* Карточка — свой градиент макета (6400:12686) вместо картинки блока, как у Motion.
+   Угол и стопы пересчитаны из gradientTransform на карточку 840 × 599 */
+.dd-plan--nocode .dd-plan__card { background: linear-gradient(306deg, #dfe6e9 -2.5%, #b2c3cd 19%, #7b7e93 43.6%, #37333c 73.4%, #100f10 100%); }
+
+/* ---------- Сетка из четырёх плиток — 6466:14783 ---------- */
+/* Готовый cap-services без ряда заголовка; картинок в макете нет — серые заглушки */
+@media (min-width: 834px) {
+  .dd-cap-services--nocode { padding: 7rem var(--dd-gutter) 6rem; }
+}
+
+/* ---------- «Cut Your Development Costs» — 6466:14627 ---------- */
+.dd-nc-cut {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  padding: 4rem var(--dd-gutter);
+}
+/* строка текста, плитка стоит в ней по центру строки: на телефоне слова переносятся как текст */
+.dd-nc-cut__title { text-align: center; }
+/* плитка с ножницами: 69 × 61 при кегле 48 — в em, чтобы на телефоне шла вместе с кеглем.
+   Наклон 1°, знак стоит ровно */
+.dd-nc-cut__tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.44em;
+  height: 1.27em;
+  margin-inline: .03em;
+  vertical-align: middle;
+  border-radius: .25em;
+  background: linear-gradient(160deg, #7b7e93 0%, #37333c 44%, #100f10 100%);
+  transform: rotate(-1deg);
+}
+.dd-nc-cut__tile span {
+  font-size: .83em;
+  line-height: 1;
+  transform: rotate(1deg);
+}
+.dd-nc-cut__cards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-nc-cut__or {
+  margin: 0;
+  font: 500 2.8rem/3.6rem var(--dd-font-basic);
+  color: var(--dd-beige-400);
+}
+
+/* карточка-шкала: светлая наклонена влево, тёмная вправо (в макете ±2°) */
+.dd-nc-gauge-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.2rem;
+  width: min(100%, 35.1rem);
+  padding: 1.2rem;
+  border-radius: 3.2rem;
+}
+.dd-nc-gauge-card--slow {
+  min-height: 39.1rem;
+  background: linear-gradient(180deg, #fff, rgba(255, 255, 255, .8));
+  box-shadow: inset 0 0 0 .15rem #fff, 0 1.6rem 3.6rem rgba(107, 81, 64, .08);
+  transform: rotate(-2deg);
+}
+.dd-nc-gauge-card--fast {
+  --_text: var(--dd-neutral-0);
+
+  background: linear-gradient(180deg, #37333c, #100f10);
+  box-shadow: inset 0 0 0 .15rem rgba(123, 126, 137, .2);
+  transform: rotate(2deg);
+}
+.dd-nc-gauge {
+  position: relative;
+  aspect-ratio: 327 / 250;
+  border-radius: 2rem;
+  background: linear-gradient(180deg, rgba(246, 243, 237, 0), rgba(246, 243, 237, .5));
+}
+.dd-nc-gauge-card--fast .dd-nc-gauge { background: linear-gradient(180deg, rgba(68, 64, 72, 0), rgba(68, 64, 72, .5)); }
+/* дуга 245 стоит в 41 от краёв и в 56 от верха; у слоя поле 15 под свечение заливки */
+.dd-nc-gauge svg {
+  position: absolute;
+  top: 16.4%;
+  left: 7.95%;
+  width: 84.1%;
+  height: auto;
+  overflow: visible;
+}
+.dd-nc-gauge__track { fill: #e6e2da; }
+.dd-nc-gauge-card--fast .dd-nc-gauge__track { fill: #434048; }
+.dd-nc-gauge__fill path {
+  stroke: rgba(255, 255, 255, .1);
+  stroke-width: 1;
+}
+.dd-nc-gauge__fill { filter: drop-shadow(0 0 .6rem rgba(218, 68, 180, .3)); }
+.dd-nc-gauge-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: .9rem 2.6rem;
+  text-align: center;
+  color: var(--_text, var(--dd-neutral-1100));
+}
+.dd-nc-gauge-card__value {
+  margin: 0;
+  font: italic 400 2.9rem/3.6rem var(--dd-font-fancy);
+}
+.dd-nc-gauge-card--slow .dd-nc-gauge-card__value {
+  background: linear-gradient(90deg, #303840, #827a6a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dd-nc-gauge-card__label {
+  margin: 0;
+  font: 400 1.8rem/2.8rem var(--dd-font-basic);
+}
+
+@media (min-width: 834px) {
+  .dd-nc-cut {
+    gap: 6rem;
+    padding: 7rem var(--dd-gutter) 9rem;
+  }
+  /* в одну строку, как в макете: шаг 11, строка 62 */
+  .dd-nc-cut__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0 1.1rem;
+  }
+  .dd-nc-cut__tile { margin-inline: 0; }
+  .dd-nc-cut__cards {
+    flex-direction: row;
+    justify-content: center;
+    gap: 3rem;
+  }
+}
+
+/* Движение — «пробуждение один раз» (data-wake, shell.js): когда карточки впервые поднимаются
+   над нижней пятой окна, заливка шкалы доезжает до своего деления — светлая, за ней тёмная.
+   Заливку открывает коническая маска из центра дуги; угол — зарегистрированная переменная.
+   Без скрипта, при reduce и без @property — сразу итоговый вид */
+@property --_sweep {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 180deg;
+}
+.dd-nc-gauge__fill {
+  -webkit-mask: conic-gradient(from -90deg at 50% 89.87%, #000 var(--_sweep), transparent 0);
+  mask: conic-gradient(from -90deg at 50% 89.87%, #000 var(--_sweep), transparent 0);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dd-nc-cut__cards.is-armed .dd-nc-gauge__fill { --_sweep: 0deg; }
+  .dd-nc-cut__cards.is-on .dd-nc-gauge__fill {
+    --_sweep: var(--_to);
+    transition: --_sweep 1.2s cubic-bezier(.22, .8, .3, 1) calc(var(--_n, 0) * .35s + .1s);
+  }
+}
+
+/* ---------- «Our no-code dev process» — 6465:12271 ---------- */
+/* Четыре шага по ряду: круг со значком, белая черта до следующего круга, у последнего — гаснет.
+   До 1320 — две колонки, до 834 — столбец с чертой вниз, как шкала процесса Capabilities */
+.dd-nc-process {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 4rem var(--dd-gutter);
+}
+.dd-nc-process__steps {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-nc-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5.2rem minmax(0, 1fr);
+  column-gap: 1.6rem;
+}
+.dd-nc-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 5.3rem;
+  bottom: .1rem;
+  left: 2.4rem;
+  width: .4rem;
+  background: var(--dd-neutral-0);
+}
+.dd-nc-step__icon {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.2rem;
+  height: 5.2rem;
+  border: .15rem solid rgba(216, 210, 198, .5);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fff, rgba(255, 255, 255, .8));
+  box-shadow: 0 1.6rem 3.6rem rgba(107, 81, 64, .08);
+  color: var(--dd-neutral-1300);
+}
+.dd-nc-step__icon svg {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+.dd-nc-step__body {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  padding: .8rem 0 2.4rem;
+}
+.dd-nc-step:last-child .dd-nc-step__body { padding-bottom: 0; }
+.dd-nc-step__body p { color: var(--dd-neutral-1100); }
+
+@media (min-width: 834px) {
+  .dd-nc-process {
+    gap: 6rem;
+    padding-block: 6rem;
+  }
+  .dd-nc-process__steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 4rem;
+  }
+  .dd-nc-step {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+  }
+  /* черта: короткий хвост слева (18) и от круга до конца колонки; зазор у круга 1 */
+  .dd-nc-step__icon { margin-left: 1.9rem; }
+  .dd-nc-step::before,
+  .dd-nc-step:not(:last-child)::after,
+  .dd-nc-step:last-child::after {
+    content: "";
+    position: absolute;
+    top: 2.4rem;
+    bottom: auto;
+    height: .4rem;
+    background: var(--dd-neutral-0);
+  }
+  .dd-nc-step::before { left: 0; width: 1.8rem; }
+  .dd-nc-step:not(:last-child)::after,
+  .dd-nc-step:last-child::after {
+    left: 7.2rem;
+    right: 0;
+    width: auto;
+  }
+  .dd-nc-step:nth-child(odd)::before { background: none; }
+  .dd-nc-step:nth-child(even)::after { background: linear-gradient(90deg, var(--dd-neutral-0), var(--dd-beige-50)); }
+  .dd-nc-step__body { padding: 0 1.8rem; }
+  .dd-nc-step:last-child .dd-nc-step__body { padding-bottom: 0; }
+}
+@media (min-width: 1320px) {
+  .dd-nc-process { padding-block: 8rem; }
+  /* колонки макета 257 · 257 · 343 · 343 */
+  .dd-nc-process__steps { grid-template-columns: 257fr 257fr 343fr 343fr; }
+  .dd-nc-step:nth-child(odd)::before { background: var(--dd-neutral-0); }
+  .dd-nc-step:first-child::before { background: none; }
+  .dd-nc-step:nth-child(even)::after { background: var(--dd-neutral-0); }
+  .dd-nc-step:last-child::after { background: linear-gradient(90deg, var(--dd-neutral-0), var(--dd-beige-50)); }
+}
+
+/* ---------- «Multiply your agency output…» — 6465:10036 ---------- */
+/* Готовый media-text одной парой; поле снизу 90, как сверху. Три пункта с галочкой —
+   квадрат 18 с обводкой Orange-50, как в макете */
+@media (min-width: 834px) {
+  /* строки как в макете: заголовок 567, текст 527 — колонка шире, строка нет */
+  .dd-media--nocode .dd-media__head { max-width: 56.7rem; }
+  .dd-media--nocode .dd-media__text { max-width: 52.7rem; } /* без поля справа 46 */
+}
+@media (min-width: 1320px) {
+  .dd-media--nocode { padding-bottom: 9rem; }
+}
+.dd-nc-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-nc-checks li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.3rem;
+  font: 600 1.4rem/2.1rem var(--dd-font-basic);
+  text-transform: uppercase;
+  color: var(--dd-neutral-1300);
+}
+.dd-nc-checks li::before {
+  content: "";
+  flex: none;
+  box-sizing: border-box;
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-top: .15rem;
+  border: .1rem solid var(--dd-orange-50);
+  border-radius: .4rem;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M12.09 6.94L7.84 11.06 5.91 9.19' stroke='%23c86406' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
+}
+
+/* ---------- Призыв «Submit your design request…» — 6465:11341 ---------- */
+/* Секция во всё окно, градиент сверху вниз; ниже его продолжает подвал (у подвала No-code
+   в макете своя заливка #c9d2d8 → #7979a9) */
+.dd-nc-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  padding: 6rem var(--dd-gutter) 4rem;
+  background: linear-gradient(180deg, var(--dd-beige-50) 0%, #e2d6ce 50%, #c9d2d8 100%);
+  text-align: center;
+}
+.dd-nc-cta .dd-h2 { max-width: 96rem; }
+.dd-nc-cta__lead {
+  max-width: 36rem;
+  padding-bottom: 2rem;
+  color: var(--dd-neutral-1300);
+}
+.dd-nc-cta__lead strong { font-weight: 600; }
+.dd-nc-cta__go {
+  display: flex;
+  gap: .4rem;
+  width: 100%;
+  max-width: 62rem;
+  border-radius: var(--dd-radius-pill);
+  text-decoration: none;
+}
+.dd-nc-cta__go:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .3rem;
+}
+.dd-nc-cta__go .dd-btn--black { flex: 1; }
+.dd-nc-cta__go:hover .dd-btn--black { --_ring: 0 0 0 var(--_w-halo) var(--_halo); }
+.dd-nc-cta__go:hover .dd-btn--stroke-heavy { --_ring: inset 0 0 0 var(--_w-hover) var(--dd-neutral-1300); }
+.dd-nc-cta__go:active .dd-btn--black { --_fg: var(--dd-neutral-400); }
+.dd-nc-cta__go:active .dd-btn--stroke-heavy { --_ring: inset 0 0 0 .2rem var(--dd-beige-200); }
+@media (prefers-reduced-motion: no-preference) {
+  .dd-nc-cta__go > .dd-btn:last-child .dd-btn__icon { transition: transform .36s cubic-bezier(.34, 1.56, .64, 1); }
+  .dd-nc-cta__go:is(:hover, :focus-visible) > .dd-btn:last-child .dd-btn__icon { transform: rotate(45deg); }
+}
+main:has(.dd-nc-cta) + .dd-footer { background: linear-gradient(180deg, #c9d2d8, #7979a9); }
+
+@media (min-width: 834px) {
+  .dd-nc-cta { padding: 12rem var(--dd-gutter) 7rem; }
+  .dd-nc-cta__go {
+    justify-content: center;
+    width: auto;
+  }
+  .dd-nc-cta__go .dd-btn--black {
+    flex: none;
+    width: 25rem;
+  }
+}
