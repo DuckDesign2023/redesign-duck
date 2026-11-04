@@ -440,6 +440,93 @@
 }
 .dd-eyebrow__icon { flex: none; width: 2.4rem; height: 2.4rem; }
 
+/* ---------- Чекбокс и радио (Figma 6465:3051, 6465:3112) ---------- */
+/* <label class="dd-check"><input class="dd-check__box" type="checkbox|radio"> Подпись</label>
+   Размер L 24, .dd-check--s — 18. Тёмный вид — внутри .dd-on-dark.
+   Подпись входит в зону клика; высота строки не меньше 44 для пальца. */
+.dd-check {
+  display: inline-flex;
+  align-items: center;
+  gap: .8rem;
+  min-height: 4.4rem;
+  font: 500 1.6rem/2rem var(--dd-font-basic);
+  color: inherit;
+  cursor: pointer;
+}
+.dd-check__box {
+  --_size: 2.4rem;
+  --_dot: .6rem;          /* кольцо радио: (24 − 12) / 2 */
+  --_tick: 1.8rem;
+  --_tick-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M14.0625 5.625L7.10156 12.375L3.9375 9.30682' stroke='%23fdfdfd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --_tick-off: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M14.0625 5.625L7.10156 12.375L3.9375 9.30682' stroke='%23d8d2c6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  flex: none;
+  box-sizing: border-box;
+  width: var(--_size);
+  height: var(--_size);
+  margin: 0;
+  border-radius: .4rem;
+  background: var(--dd-neutral-0) no-repeat center / var(--_tick);
+  box-shadow: inset 0 0 0 .15rem var(--dd-beige-200);
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  transition: background-color .15s, box-shadow .15s;
+}
+.dd-check--s .dd-check__box {
+  --_size: 1.8rem;
+  --_dot: .5rem;          /* (18 − 8) / 2 */
+  --_tick: 1.4rem;
+}
+.dd-check__box[type="radio"] { border-radius: 50%; }
+.dd-check__box:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
+}
+
+/* выбрано */
+.dd-check__box[type="checkbox"]:checked {
+  background-color: var(--dd-orange-50);
+  background-image: var(--_tick-img);
+  box-shadow: none;
+}
+.dd-check__box[type="radio"]:checked {
+  background-color: #fdfdfd;
+  box-shadow: inset 0 0 0 var(--_dot) var(--dd-orange-50);
+}
+
+/* наведение — только мышь */
+@media (hover: hover) {
+  .dd-check:hover .dd-check__box[type="checkbox"]:not(:checked, :disabled) { box-shadow: inset 0 0 0 .15rem var(--dd-yellow-50); }
+  .dd-check:hover .dd-check__box[type="radio"]:not(:checked, :disabled) { box-shadow: inset 0 0 0 .15rem var(--dd-orange-50); }
+  .dd-check:hover .dd-check__box[type="checkbox"]:checked:not(:disabled) { background-color: var(--dd-orange-0); }
+  .dd-check:hover .dd-check__box[type="radio"]:checked:not(:disabled) { box-shadow: inset 0 0 0 var(--_dot) var(--dd-orange-0); }
+}
+
+/* отключено */
+.dd-check:has(.dd-check__box:disabled),
+.dd-check__box:disabled { cursor: not-allowed; }
+.dd-check__box:disabled { background-color: var(--dd-beige-50); box-shadow: none; }
+.dd-check__box[type="checkbox"]:checked:disabled { background-color: var(--dd-beige-200); background-image: var(--_tick-off); }
+.dd-check__box[type="radio"]:checked:disabled { background-color: var(--dd-beige-100); box-shadow: inset 0 0 0 var(--_dot) var(--dd-beige-200); }
+
+/* тёмная поверхность */
+.dd-on-dark .dd-check__box {
+  --_tick-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M14.0625 5.625L7.10156 12.375L3.9375 9.30682' stroke='%23040506' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --_tick-off: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M14.0625 5.625L7.10156 12.375L3.9375 9.30682' stroke='%235d6b79' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-color: transparent;
+  box-shadow: inset 0 0 0 .15rem var(--dd-neutral-1000);
+}
+.dd-on-dark .dd-check__box[type="checkbox"]:checked { background-color: var(--dd-yellow-100); box-shadow: none; }
+.dd-on-dark .dd-check__box[type="radio"]:checked { background-color: var(--dd-neutral-1300); box-shadow: inset 0 0 0 var(--_dot) var(--dd-yellow-100); }
+@media (hover: hover) {
+  .dd-on-dark .dd-check:hover .dd-check__box:not(:checked, :disabled) { box-shadow: inset 0 0 0 .15rem var(--dd-neutral-800); }
+  .dd-on-dark .dd-check:hover .dd-check__box[type="checkbox"]:checked:not(:disabled) { background-color: var(--dd-yellow-50); }
+  .dd-on-dark .dd-check:hover .dd-check__box[type="radio"]:checked:not(:disabled) { box-shadow: inset 0 0 0 var(--_dot) var(--dd-yellow-50); }
+}
+.dd-on-dark .dd-check__box:disabled { background-color: var(--dd-neutral-1100); box-shadow: inset 0 0 0 .15rem var(--dd-neutral-1000); }
+.dd-on-dark .dd-check__box[type="checkbox"]:checked:disabled { background-color: var(--dd-neutral-1000); box-shadow: none; }
+.dd-on-dark .dd-check__box[type="radio"]:checked:disabled { background-color: var(--dd-neutral-900); box-shadow: inset 0 0 0 var(--_dot) var(--dd-neutral-1000); }
+
 /* ---------- Работа портфолио (Portfolio, тизер Pricing) — как на живом сайте ---------- */
 /* Картинка — ссылка на крупный файл: скрипт gallery.js открывает её в окне просмотра.
    Ролик Motion — ссылка на YouTube: скрипт ставит плеер на место обложки.
@@ -558,5 +645,6 @@ html:has(.dd-lightbox[open]) { overflow: hidden; }
   .dd-btn__icon,
   .dd-input,
   .dd-field,
-  .dd-field__label { transition: none; }
+  .dd-field__label,
+  .dd-check__box { transition: none; }
 }

@@ -91,8 +91,18 @@
   --_tag-fg: rgba(4, 5, 6, .8);
 }
 .dd-cap-hero--uxui { --_plate: linear-gradient(79deg, #6fdcaf 3%, #8fe5e6 97%); }
-.dd-cap-hero--illustration { --_plate: linear-gradient(79deg, #edd5bf 3%, #efe4cf 97%); }
-.dd-cap-hero--print { --_plate: linear-gradient(79deg, #e7edbf 3%, #d4efcf 97%); }
+/* Figma v3 (04.11.2026): Illustration — сплошной розовый 6300:5730; ярлык Orange-0 даёт на нём 4,1 : 1,
+   поэтому чуть темнее — #6e3604, 4,6 : 1 (додумано) */
+.dd-cap-hero--illustration {
+  --_plate: #dca5b9;
+  --_label: #6e3604;
+}
+/* Figma v3: Print — фото 6328:7216 / 6328:7217 (как у pitch deck). Ярлык макета #455c23 на фото
+   даёт 2,9–4,2 : 1 — темнее, #2a3914, 4,8 : 1 (додумано). Плашка — низ мобильного фото */
+.dd-cap-hero--print {
+  --_plate: #9ccf80;
+  --_label: #2a3914;
+}
 .dd-cap-hero--landing { --_plate: linear-gradient(115deg, #c9e2ff 2%, #b2a4fd 98%); }
 /* без фото на телефоне блок по содержимому: высоты 760 под картинку нет — додумано */
 .dd-cap-hero--flat {
@@ -455,6 +465,11 @@
 .dd-cap-services--uxui,
 .dd-cap-services--landing {
   --_tag: linear-gradient(76deg, #6fdcaf 3%, #8fe5e6 97%);
+  --_tag-fg: var(--dd-neutral-1300);
+}
+/* Print — плашка появилась в Figma v3 (6400:12192): верхний слой заливки, оливковый */
+.dd-cap-services--print {
+  --_tag: linear-gradient(296deg, #e9e5a8 -2%, #b3d07e 100%);
   --_tag-fg: var(--dd-neutral-1300);
 }
 .dd-cap-services__more { order: 1; }
