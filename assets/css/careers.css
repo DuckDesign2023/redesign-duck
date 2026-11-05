@@ -1,228 +1,346 @@
 /* ==========================================================================
    duck.design — блоки страницы Careers (/careers/)
-   Макет Figma «v1» 1079:3194 нарисован в старом стиле: из него взят состав секций (заголовок
-   с наклейкой, вакансии с фильтром и аккордеоном, форма заявки). Тексты, вакансии и поля формы —
-   с живой страницы. Типографика, кнопки, радиусы и отступы — из системы (DESIGN.md, раздел 9).
-   Подключается только на этой странице, после blocks.css (аккордеон — механика .dd-faq__*,
-   раскрывает blocks.js). Скрипт формы — js/careers.js.
-   Свои блоки: .dd-car-hero · .dd-car-jobs · .dd-car-form. Эталоны — design-system/blocks/car-*.html.
+   Figma v3: «1440 careers» 6405:17609, вакансия — компонент job 6464:20523 (только 1440; мобильный
+   вид — по разделу 4 DESIGN.md). Тексты вакансий, почта и поля формы — с живой страницы.
+   Подключается только на этой странице. Скрипт — js/careers.js (окно вакансии и проверка формы).
+   Свои блоки: .dd-car-hero · .dd-car-jobs · .dd-car-dlg · .dd-car-form. Эталоны — design-system/blocks/car-*.html.
+   Заменено 05.11.2026: вкладки-фильтр, вакансии аккордеоном FAQ, белая панель формы (сборка 15.10).
    ========================================================================== */
 
-/* ---------- Общее: лист, секция и её заголовок (как .dd-ref-sec, .dd-ref-head) ---------- */
+/* ---------- Первый экран — 6464:20764: градиент заходит под шапку ---------- */
 .dd-car-hero {
+  --_header: 6.1rem;
+
+  position: relative;
+  isolation: isolate;
   box-sizing: border-box;
-  width: 100%;
-  max-width: var(--dd-frame);
-  margin-inline: auto;
-}
-.dd-car-sec { padding-block: 3rem; }
-.dd-car-head {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.6rem;
-  max-width: 86rem;
-  margin: 0 auto 3rem;
+  gap: 3rem;
+  margin-top: calc(-1 * var(--_header));
+  padding: calc(var(--_header) + 4rem) var(--dd-gutter) 4rem;
+  background: linear-gradient(180deg, #f3d5ad 0%, #f7ebd9 47%, var(--dd-beige-50) 100%);
   text-align: center;
 }
-.dd-car-head h2,
-.dd-car-head p { margin: 0; }
-.dd-car-head > .dd-txt-2 {
-  max-width: 64rem;
+
+/* Три плитки с утками — 6405:19926, 365 × 153. Размеры в em: на телефоне группа мельче */
+.dd-car-hero__ducks {
+  position: relative;
+  flex: none;
+  width: 36.5em;
+  height: 15.3em;
+  font-size: .8rem;
+}
+.dd-car-hero__tile {
+  position: absolute;
+  box-sizing: border-box;
+  display: block;
+  padding: 1.2em;
+  border-radius: 2.8em;
+  background: rgba(255, 255, 255, .21);
+  box-shadow: inset 0 0 0 .1em rgba(255, 255, 255, .15);
+  -webkit-backdrop-filter: blur(.57em);
+  backdrop-filter: blur(.57em);
+}
+.dd-car-hero__tile > span {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 2em;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .85));
+  box-shadow: inset 0 0 0 .1em #fff;
+  color: #000;
+  --dd-duck-wing: #f0ba2f;
+}
+.dd-car-hero__tile svg {
+  width: 61%;
+  aspect-ratio: 62.785 / 61.343;
+}
+.dd-car-hero__tile--l {
+  left: 1.48em;
+  top: 2.06em;
+  width: 11.4em;
+  height: 11.4em;
+  transform: rotate(-18deg);
+}
+.dd-car-hero__tile--r {
+  left: 22.83em;
+  top: 1.53em;
+  width: 12.1em;
+  height: 12.1em;
+  transform: rotate(18deg);
+}
+.dd-car-hero__tile--c {
+  left: 11.5em;
+  top: .4em;
+  width: 12.8em;
+  height: 12.8em;
+  padding: 1.3em;
+  border-radius: 2.7em;
+  background: rgba(71, 38, 23, .21);
+  box-shadow: inset 0 0 0 .1em rgba(69, 34, 22, .15), 0 .5em 3em rgba(123, 36, 12, .3);
+}
+.dd-car-hero__tile--c > span {
+  border-radius: 1.9em;
+  background: linear-gradient(180deg, rgba(15, 7, 7, .95), rgba(15, 7, 7, .85));
+  box-shadow: none;
+  color: #fff;
+  --dd-duck-wing: url(#dd-car-wing);
+}
+
+.dd-car-hero__title {
+  max-width: 104rem;
+  text-wrap: balance;
+}
+/* «extraordinary» — H2-fancy с градиентом 6405:18000, как в макете */
+.dd-car-hero__accent {
+  background: linear-gradient(90deg, #388bff 0%, #8975ed 25%, #e252ab 50%, #f25b50 75%, #ef8031 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dd-car-hero__lead {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 78rem;
+  margin-top: -1.8rem; /* от заголовка 12, общий шаг блока 30 */
+  color: var(--dd-neutral-1100);
   text-wrap: pretty;
 }
-.dd-car-head a {
-  font-weight: 600;
-  color: var(--dd-neutral-1300);
+.dd-car-hero__lead p { margin: 0; }
+.dd-car-hero__lead a {
+  color: inherit;
   text-decoration: underline;
   text-underline-offset: .3rem;
 }
-.dd-car-head a:focus-visible {
+.dd-car-hero__lead a:focus-visible {
   outline: .2rem solid var(--dd-color-focus);
   outline-offset: .2rem;
   border-radius: .2rem;
 }
 
-/* ---------- Первый экран — числа .dd-folio-hero; наклейка с живой страницы ---------- */
-.dd-car-hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4rem;
-  padding: 7rem 1.6rem 4rem;
-  text-align: center;
-}
-.dd-car-hero__text {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-.dd-car-hero__title {
-  margin: 0;
-  color: var(--dd-neutral-1300);
-  text-wrap: balance;
-}
-.dd-car-hero__tag {
-  display: inline-block;
-  width: 7.2rem;
-  height: auto;
-  margin-left: .6rem;
-  vertical-align: middle;
-  animation: dd-car-slap .5s cubic-bezier(.34, 1.56, .64, 1) .8s both;
-}
-/* наклейка шлёпается на место через 0,8 с: опускается с 1,4 и поворота −14°, встаёт с перелётом.
-   Первый экран — не по прокрутке, как тумблер About. При reduce стоит */
-@keyframes dd-car-slap {
-  from { opacity: 0; transform: scale(1.4) rotate(-14deg); }
-  to { opacity: 1; transform: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .dd-car-hero__tag { animation: none; }
-}
-.dd-car-hero__lead {
-  max-width: 32.9rem;
-  margin: 0;
-  color: var(--dd-neutral-1300);
-}
-.dd-car-hero .dd-btn { align-self: stretch; }
-
-/* ---------- Вакансии: вкладки фильтра Portfolio и карточки-аккордеоны ---------- */
-/* Вкладка — радиокнопка; фильтр без скрипта, через :has() */
-.dd-car-filter {
-  margin: 0 -1.6rem 3rem;
-  padding-inline: 1.6rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.dd-car-filter::-webkit-scrollbar { display: none; }
-.dd-car-filter__row {
-  display: flex;
-  gap: 2rem;
-  width: max-content;
+/* ---------- Вакансии — 6464:20623: две колонки 514 с шагом 12, по центру до 1040 ---------- */
+.dd-car-jobs { padding: 1rem var(--dd-gutter) 4rem; }
+.dd-car-jobs__list {
+  display: grid;
+  gap: .9rem;
+  max-width: 104rem;
   margin: 0 auto;
-  padding: 0;
-  border: 0;
-  box-shadow: inset 0 -.1rem 0 var(--dd-beige-100);
-}
-.dd-car-filter__tab {
-  flex: none;
-  padding: 1rem .6rem;
-  box-shadow: inset 0 -.2rem 0 var(--_line, transparent);
-  font: 600 1.4rem/2.1rem var(--dd-font-basic);
-  color: var(--dd-neutral-1100);
-  white-space: nowrap;
-  cursor: pointer;
-}
-.dd-car-filter__tab:has(:checked) { --_line: var(--dd-orange-50); }
-.dd-car-filter__tab:has(:focus-visible) {
-  outline: .2rem solid var(--dd-color-focus);
-  outline-offset: -.2rem;
-}
-@media (hover: hover) {
-  .dd-car-filter__tab:not(:has(:checked)):hover { --_line: var(--dd-beige-200); }
-}
-.dd-car-jobs:has([value="design"]:checked) .dd-car-job:not([data-cat="design"]),
-.dd-car-jobs:has([value="marketing"]:checked) .dd-car-job:not([data-cat="marketing"]),
-.dd-car-jobs:has([value="development"]:checked) .dd-car-job:not([data-cat="development"]) { display: none; }
-
-.dd-car-list {
-  display: flex;
-  flex-direction: column;
-  gap: .8rem;
-  margin: 0;
   padding: 0;
   list-style: none;
 }
-/* вид пункта FAQ: белая карточка вместо линии между пунктами, значок справа */
+
+/* Карточка — компонент job 6405:18015: белая, обводка Beige-100 50 % снаружи, поля и шаг 22 */
 .dd-car-job {
-  border-radius: var(--dd-radius-sm);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  padding: 2rem;
+  border-radius: .8rem;
   background: var(--dd-neutral-0);
+  box-shadow: 0 0 0 .1rem rgba(216, 210, 198, .5);
 }
-.dd-car-jobs .dd-faq__item + .dd-faq__item::before { content: none; }
-.dd-car-job .dd-faq__toggle {
+.dd-car-job__head {
+  display: flex;
   align-items: center;
-  padding: 2rem 1.6rem;
+  gap: 2.2rem;
+}
+.dd-car-job__name {
+  flex: 1;
+  min-width: 0;
+}
+/* Кнопка — на всю карточку через ::after */
+.dd-car-job__open {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.dd-car-job__open::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   border-radius: inherit;
 }
-.dd-car-job .dd-faq__toggle::before { inset: 0; }
-.dd-car-job .dd-faq__toggle:focus-visible { outline-offset: -.2rem; }
-.dd-car-job .dd-faq__icon { margin-left: auto; }
-.dd-car-job__name {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: .8rem 1.6rem;
+.dd-car-job__open:focus-visible { outline: none; }
+.dd-car-job__open:focus-visible::after {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .2rem;
 }
-.dd-car-job__tags {
-  display: flex;
-  gap: .6rem;
+.dd-car-job__go {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--dd-beige-400);
+  color: var(--dd-neutral-0);
+  transition: background-color .2s;
 }
-.dd-car-job__tags span {
-  padding: .2rem 1rem;
-  border-radius: var(--dd-radius-pill);
-  background: var(--dd-beige-50);
-  font: 600 1.2rem/1.8rem var(--dd-font-basic);
-  letter-spacing: 0;
+.dd-car-job__go svg { width: 1.4rem; height: 1.4rem; }
+.dd-car-job__text {
+  margin: 0;
+  padding-top: 1.6rem;
+  border-top: .1rem solid var(--dd-neutral-400);
   color: var(--dd-neutral-1100);
 }
-.dd-car-job .dd-faq__a-inner { padding: 0 1.6rem; }
-.dd-car-job .dd-faq__a-inner > :first-child { margin-top: 0; }
-.dd-car-job .dd-faq__a-inner > :last-child { margin-bottom: 2rem; }
-.dd-car-job__text { max-width: 72rem; }
-.dd-car-job__text > * { margin: 0; }
-.dd-car-job__text > * + * { margin-top: 1rem; }
-.dd-car-job__text strong {
-  font-weight: 600;
-  color: var(--dd-neutral-1300);
-}
-.dd-car-job__text ul {
-  padding-left: 2.2rem;
-  list-style: disc;
-}
-.dd-car-job__text li + li { margin-top: .4rem; }
 
-/* ---------- Форма заявки: белая панель, поля .dd-input ---------- */
-.dd-car-form { scroll-margin-top: 8rem; }
-.dd-car-form__card {
+/* Ярлыки: пилюля 33, обводка 1,5 Beige-100; Part-time — Beige-400 с часами, Full-time — без значка */
+.dd-car-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  margin: auto 0 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-car-tag {
   box-sizing: border-box;
-  padding: 2.4rem 1.6rem;
-  border-radius: var(--dd-radius-sm);
-  background: var(--dd-neutral-0);
-}
-.dd-car-form__grid {
-  display: grid;
-  gap: 1.2rem;
-}
-.dd-car-form__field { min-width: 0; }
-.dd-car-form__label {
-  display: block;
-  margin-bottom: .8rem;
+  display: inline-flex;
+  align-items: center;
+  height: 3.3rem;
+  padding: .6rem .8rem;
+  border-radius: 1.9rem;
+  box-shadow: inset 0 0 0 .15rem var(--dd-beige-100);
   font: 600 1.4rem/2.1rem var(--dd-font-basic);
   color: var(--dd-neutral-1300);
 }
-.dd-car-form select.dd-input__control {
-  height: 100%;
+.dd-car-tag svg { flex: none; width: 2.1rem; height: 2.1rem; }
+.dd-car-tag span { padding-inline: .6rem; }
+.dd-car-tag--muted { color: var(--dd-beige-400); }
+
+@media (hover: hover) {
+  .dd-car-job:hover .dd-car-job__go { background: var(--dd-neutral-1300); }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .dd-car-job__go svg { transition: transform .36s cubic-bezier(.34, 1.56, .64, 1); }
+  .dd-car-job:is(:hover, :focus-within) .dd-car-job__go svg { transform: rotate(45deg); }
+}
+
+/* ---------- Окно вакансии: полный текст живой страницы и Apply — к форме с этой вакансией ---------- */
+.dd-car-dlg {
+  box-sizing: border-box;
+  width: min(72rem, 100% - 3.2rem);
+  max-width: none;
+  max-height: calc(100dvh - 3.2rem);
+  margin: auto;
+  padding: 2.4rem 2rem;
+  border: 0;
+  border-radius: .8rem;
+  background: var(--dd-neutral-0);
+  color: var(--dd-neutral-1300);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.dd-car-dlg[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.dd-car-dlg::backdrop { background: rgba(4, 5, 6, .5); }
+html:has(.dd-car-dlg[open]) { overflow: hidden; }
+.dd-car-dlg__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.dd-car-dlg__close { flex: none; }
+.dd-car-dlg__text {
+  padding-top: 2rem;
+  border-top: .1rem solid var(--dd-neutral-400);
+  color: var(--dd-neutral-1100);
+}
+.dd-car-dlg__text > * { margin: 0; }
+.dd-car-dlg__text > * + * { margin-top: 1rem; }
+.dd-car-dlg__text strong {
+  font-weight: 600;
+  color: var(--dd-neutral-1300);
+}
+.dd-car-dlg__text ul { padding-left: 2.2rem; }
+.dd-car-dlg__text li + li { margin-top: .4rem; }
+.dd-car-dlg__text li::marker { color: var(--dd-beige-400); }
+.dd-car-dlg__apply { align-self: flex-start; }
+
+/* ---------- Форма — 6405:19881: тёмно-оранжевая панель по краям окна, как подвал ---------- */
+.dd-car-form {
+  padding-inline: .6rem;
+  scroll-margin-top: 9rem; /* Apply и ссылка #formcareer: верх панели не уходит под закреплённую шапку */
+}
+.dd-car-form__panel {
+  padding: 4rem 1.6rem;
+  border-radius: var(--dd-radius-xl);
+  /* 6405:19882: от Orange-0 в правом верхнем углу к Neutral-1300 в левом нижнем */
+  background: linear-gradient(239deg, var(--dd-orange-0) 2%, var(--dd-neutral-1300) 99%);
+  color: var(--dd-neutral-0);
+}
+.dd-car-form__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  max-width: 117.6rem;
+  margin-inline: auto;
+}
+.dd-car-form__head {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  padding-bottom: 1rem;
+}
+.dd-car-form__head > * { margin: 0; }
+.dd-car-form__lead { color: rgba(255, 255, 255, .8); }
+.dd-car-form__form {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+.dd-car-form__grid {
+  display: grid;
+  gap: 1.6rem;
+}
+
+/* Поле-список: подпись — сам выбранный пункт; пока выбран первый, текст как у пустой подписи */
+.dd-car-form__select .dd-field__control {
   -webkit-appearance: none;
   appearance: none;
+  padding: 1.4rem 3.2rem 1.4rem .4rem;
   cursor: pointer;
 }
-/* «Choose your desired position» — подсказка, а не выбор: цвет подсказки поля */
-.dd-car-form .dd-input:has(option:first-child:checked) .dd-input__control { color: var(--dd-beige-400); }
-.dd-car-form .dd-input:has(option:first-child:checked):not(:hover, :focus-within) {
-  --_icon: var(--dd-beige-400);
-  box-shadow: inset 0 0 0 .1rem var(--dd-beige-100);
+.dd-car-form__select:has(option:first-child:checked) .dd-field__control { color: var(--_label); }
+.dd-car-form__select:has(option:first-child:checked):not(:hover, :focus-within) {
+  --_line: rgba(255, 255, 255, .2);
+  --_icon-op: .6;
 }
-.dd-car-form .dd-input:has(select) { position: relative; cursor: pointer; }
-.dd-car-form .dd-input:has(select) .dd-input__icon { pointer-events: none; }
-/* ошибка: обводка поля — Error, текст — Neutral-1300 (Error текстом не проходит по контрасту) */
+.dd-car-form__select .dd-field__control option {
+  background: var(--dd-neutral-0);
+  color: var(--dd-neutral-1300);
+}
+.dd-car-form__select .dd-field__icon {
+  position: absolute;
+  right: .2rem;
+  top: 1.6rem;
+  pointer-events: none;
+}
+
+/* Ошибка: линия Red-300, подпись остаётся белой — Red-300 на панели 3,3 : 1, для текста мало */
+.dd-car-form .dd-field:has([aria-invalid="true"]) { --_label: var(--dd-neutral-0); }
 .dd-car-form__tip {
   display: flex;
   align-items: center;
   gap: .6rem;
   margin: .6rem 0 0;
   font: 500 1.2rem/1.8rem var(--dd-font-basic);
-  color: var(--dd-neutral-1300);
+  color: var(--dd-neutral-0);
 }
 .dd-car-form__tip::before {
   content: "";
@@ -230,140 +348,134 @@
   width: .8rem;
   height: .8rem;
   border-radius: 50%;
-  background: var(--dd-error);
+  background: var(--dd-red-300);
 }
 .dd-car-form__tip[hidden] { display: none; }
 
-.dd-car-form__choice {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.2rem;
-  margin: 2.4rem 0 0;
-  padding: 0;
-  border: 0;
-  text-align: center;
-}
-.dd-car-form__choice legend {
-  float: left;
-  width: 100%;
-  margin-bottom: 1.2rem;
-  padding: 0;
-  font: 600 1.6rem/2.4rem var(--dd-font-basic);
-  color: var(--dd-neutral-1300);
-}
-.dd-car-form__options {
-  clear: both;
-  display: flex;
-  justify-content: center;
-  gap: 2.4rem;
-}
-.dd-car-form__radio {
-  display: flex;
-  align-items: center;
-  gap: .8rem;
-  min-height: 4.4rem;
-  font: 500 1.6rem/2rem var(--dd-font-basic);
-  color: var(--dd-neutral-1300);
-  cursor: pointer;
-}
-.dd-car-form__radio input {
-  flex: none;
-  width: 2rem;
-  height: 2rem;
-  margin: 0;
-  border-radius: 50%;
-  background: var(--dd-neutral-0);
-  box-shadow: inset 0 0 0 .2rem var(--dd-beige-300);
-  -webkit-appearance: none;
-  appearance: none;
-  cursor: pointer;
-  transition: box-shadow .15s;
-}
-.dd-car-form__radio input:checked { box-shadow: inset 0 0 0 .6rem var(--dd-neutral-1300); }
-.dd-car-form__radio input:focus-visible {
-  outline: .2rem solid var(--dd-color-focus);
-  outline-offset: .2rem;
-}
-@media (hover: hover) {
-  .dd-car-form__radio:hover input:not(:checked) { box-shadow: inset 0 0 0 .2rem var(--dd-neutral-1100); }
+/* Длинная подпись на узком экране — над полем: в строку поля не помещается */
+@media (max-width: 833.98px) {
+  .dd-car-form__field--long .dd-field {
+    flex-wrap: wrap;
+    height: auto;
+  }
+  .dd-car-form__field--long .dd-field__label {
+    order: -1;
+    position: static;
+    flex-basis: 100%;
+    padding: 1rem .4rem 0;
+    font-size: 1.4rem;
+    line-height: 2rem;
+  }
+  .dd-car-form__field--long .dd-field:focus-within .dd-field__label,
+  .dd-car-form__field--long .dd-field:has(.dd-field__control:where(:not(:placeholder-shown))) .dd-field__label {
+    font-weight: 400;
+    font-size: 1.4rem;
+    line-height: 2rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .dd-car-form__field--long .dd-field__control {
+    height: 4rem;
+    padding: .6rem .4rem .8rem;
+  }
 }
 
-.dd-car-form__send {
+/* Вопрос с радио — 6465:3236: txt 2, «Yes / No» — .dd-check тёмного вида, зазор 11 */
+.dd-car-form__choice {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 1.6rem;
-  margin-top: 2.4rem;
+  gap: .4rem 3rem;
+  padding: 0 0 1rem;
 }
-.dd-car-form__send .dd-btn { align-self: stretch; }
-.dd-car-form__status {
+.dd-car-form__q {
+  flex-basis: 100%;
   margin: 0;
+}
+.dd-car-form__choice .dd-check {
+  gap: 1.1rem;
+  font-weight: 400;
+  font-size: 1.8rem;
+  line-height: 2.8rem;
+  letter-spacing: -.01em;
+}
+
+/* Отправка — 6405:19911: yellow M «Send» и белый круг со стрелкой через 4, одна кнопка */
+.dd-car-form__go {
+  display: flex;
+  gap: .4rem;
+  align-self: flex-start;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--dd-radius-pill);
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+.dd-car-form__go:focus-visible {
+  outline: .2rem solid var(--dd-color-focus);
+  outline-offset: .3rem;
+}
+.dd-car-form__go:hover .dd-btn { --_ring: 0 0 0 var(--_w-halo) var(--_halo); }
+.dd-car-form__go:active .dd-btn--yellow { --_bg: var(--dd-yellow-100); }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .dd-car-form__go > .dd-btn:last-child .dd-btn__icon { transition: transform .36s cubic-bezier(.34, 1.56, .64, 1); }
+  .dd-car-form__go:is(:hover, :focus-visible) > .dd-btn:last-child .dd-btn__icon { transform: rotate(45deg); }
+}
+.dd-car-form__status {
+  margin: -1.4rem 0 0;
   font: 500 1.6rem/2.4rem var(--dd-font-basic);
-  color: var(--dd-neutral-1300);
-  text-align: center;
 }
 .dd-car-form__status:empty { display: none; }
 
 @media (min-width: 834px) {
-  .dd-car-sec { padding-block: 5rem; }
-  .dd-car-head {
-    gap: 2rem;
-    margin-bottom: 6rem;
-  }
+  .dd-car-hero {
+    --_header: 8.1rem;
 
-  .dd-car-hero { padding-inline: 3rem; }
-  .dd-car-hero__lead { max-width: 64rem; }
-  .dd-car-hero__tag {
-    width: 9.9rem;
-    margin-left: 1.2rem;
+    gap: 4rem;
+    padding: calc(var(--_header) + 6rem) var(--dd-gutter) 7rem;
   }
-  .dd-car-hero .dd-btn { align-self: center; }
+  .dd-car-hero__ducks { font-size: 1rem; }
+  .dd-car-hero__lead { margin-top: -2.8rem; }
 
-  .dd-car-filter {
-    margin: 0 -3rem 4rem;
-    padding-inline: 3rem;
+  .dd-car-jobs { padding-bottom: 10rem; }
+  .dd-car-jobs__list {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
   }
-  .dd-car-list { gap: 1.2rem; }
-  .dd-car-job { border-radius: var(--dd-radius-lg); }
-  .dd-car-job .dd-faq__toggle { padding: 2.4rem 3rem; }
-  .dd-car-job .dd-faq__a-inner { padding-inline: 3rem; }
-  .dd-car-job .dd-faq__a-inner > :last-child { margin-bottom: 3rem; }
+  .dd-car-job {
+    gap: 2.2rem;
+    padding: 2.2rem;
+    border-radius: 2rem;
+  }
+  .dd-car-job__text { padding-top: 2.2rem; }
 
-  .dd-car-form__card {
+  .dd-car-dlg {
     padding: 4rem;
-    border-radius: var(--dd-radius-2xl);
+    border-radius: 2rem;
   }
-  .dd-car-form__grid { gap: 1.6rem 2rem; }
-  .dd-car-form__choice { margin-top: 3rem; }
-  .dd-car-form__send { margin-top: 3rem; }
-  .dd-car-form__send .dd-btn { align-self: center; }
+  .dd-car-dlg[open] { gap: 2.4rem; }
+
+  .dd-car-form { padding-inline: 1rem; }
+  .dd-car-form__panel { padding: 6rem; }
+  .dd-car-form__head { padding-bottom: 2rem; }
+  .dd-car-form__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+  .dd-car-form__field--wide { grid-column: 1 / -1; }
+  .dd-car-form__q { flex-basis: auto; }
+  .dd-car-form__choice { padding-top: 1rem; padding-bottom: 2rem; }
+  .dd-car-form__choice .dd-check { margin-block: -.8rem; } /* строка 28, как в макете; зона нажатия остаётся 44 */
 }
 
 @media (min-width: 1320px) {
-  .dd-car-sec { padding-block: 6rem; }
-  .dd-car-hero { padding-inline: 6rem; }
-  .dd-car-filter {
-    margin-inline: 0;
-    padding-inline: 0;
-  }
-  .dd-car-form__card { padding: 6rem 8rem; }
-  .dd-car-form__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dd-car-hero { --_header: 7.3rem; }
+  .dd-car-form { padding-inline: 1.2rem; }
+  .dd-car-form__panel { padding: 6rem 12rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dd-car-form__radio input { transition: none; }
-}
-
-/* ---------- Движение (в Figma его нет): фильтр вакансий ---------- */
-.dd-car-filter__tab { transition: --_line var(--dd-dur-base), color var(--dd-dur-fast); }
-.dd-car-job { animation: dd-reveal var(--dd-dur-slow) var(--dd-ease-out); }
-/* подсказка ошибки и итог формы проявляются — видно, что ответ пришёл на нажатие */
-.dd-car-form__tip,
-.dd-car-form__status { animation: dd-reveal var(--dd-dur-base) var(--dd-ease-out); }
-@media (prefers-reduced-motion: reduce) {
-  .dd-car-filter__tab { transition: none; }
-  .dd-car-job,
-  .dd-car-form__tip,
-  .dd-car-form__status { animation: none; }
+  .dd-car-job__go { transition: none; }
 }

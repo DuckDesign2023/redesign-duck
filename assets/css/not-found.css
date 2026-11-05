@@ -1,8 +1,9 @@
 /* ==========================================================================
    duck.design — страница 404 (site/404.html)
-   В Figma страница 404 пустая (896:41546): собрана по разделу 9 DESIGN.md — плашка, заголовок, строка,
-   кнопки на главную и на кейсы. Тексты «Sorry», «Page not found!», «Back to home» и картинка «404» —
-   с живой страницы 404. Подключается только на ней. Свой блок: .dd-nf. Эталон — design-system/blocks/not-found.html.
+   Figma v3: «1440 404error» 6405:14623 (только 1440; мобильный вид — по разделу 4 DESIGN.md).
+   Блок 567 под шапкой, содержимое по центру: метка Orange-0, через 50 заголовок H3 с курсивом,
+   через 12 строка txt 4 Beige-400, через 60 чёрная кнопка S со значком «back» (символ в блоке).
+   Подключается только на этой странице. Свой блок: .dd-nf. Эталон — design-system/blocks/not-found.html.
    ========================================================================== */
 
 .dd-nf {
@@ -10,49 +11,34 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: var(--dd-frame);
   margin-inline: auto;
-  padding: 4rem 1.6rem 6rem;
+  padding: 8rem var(--dd-gutter);
   text-align: center;
 }
-.dd-nf__img {
-  display: block;
-  width: 28rem;
-  height: auto;
-  margin-bottom: 3rem;
+.dd-nf__label {
+  margin: 0;
+  color: var(--dd-orange-0);
 }
 .dd-nf__title {
-  margin: 2rem 0 0;
+  margin: 3rem 0 0;
   color: var(--dd-neutral-1300);
+  text-wrap: balance;
 }
 .dd-nf__lead {
-  max-width: 32.9rem;
-  margin: 2rem 0 0;
-  color: var(--dd-neutral-1300);
+  margin: 1.2rem 0 0;
+  color: var(--dd-beige-400);
   text-wrap: pretty;
 }
-.dd-nf__actions {
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  gap: .8rem;
-  margin-top: 4rem;
-}
+.dd-nf__back { margin-top: 4rem; }
 
 @media (min-width: 834px) {
-  .dd-nf { padding: 6rem 3rem 10rem; }
-  .dd-nf__img {
-    width: 43.8rem;
-    margin-bottom: 4rem;
+  .dd-nf {
+    min-height: 56.7rem;
+    padding-block: 10rem;
   }
-  .dd-nf__lead { max-width: 64rem; }
-  .dd-nf__actions {
-    align-self: center;
-    flex-direction: row;
-  }
-}
-
-@media (min-width: 1320px) {
-  .dd-nf { padding-inline: 6rem; }
+  .dd-nf__title { margin-top: 5rem; }
+  .dd-nf__back { margin-top: 6rem; }
 }

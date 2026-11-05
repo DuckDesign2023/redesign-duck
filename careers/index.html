@@ -39,8 +39,7 @@
     <link rel="stylesheet" href="../assets/css/base.css?v=18">
     <link rel="stylesheet" href="../assets/css/components.css?v=27">
     <link rel="stylesheet" href="../assets/css/shell.css?v=29">
-    <link rel="stylesheet" href="../assets/css/blocks.css?v=39">
-    <link rel="stylesheet" href="../assets/css/careers.css?v=3">
+    <link rel="stylesheet" href="../assets/css/careers.css?v=4">
 </head>
 <body>
 <a class="dd-skip-link dd-btn dd-btn--s dd-btn--yellow" href="#main"><span class="dd-btn__label">Skip to content</span></a>
@@ -286,7 +285,7 @@
     </nav>
     <div class="dd-header__actions">
       <button class="dd-btn dd-btn--s dd-btn--ghost dd-header__lang" type="button" aria-expanded="false" aria-label="Language: English"><span class="dd-btn__label">EN</span><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-chevron-down-17"/></svg></button>
-      <a class="dd-btn dd-btn--s dd-btn--yellow dd-header__cta" href="https://duck.design/book-a-call/"><span class="dd-btn__label">Book a Call</span></a>
+      <a class="dd-btn dd-btn--s dd-btn--white dd-header__cta" href="https://duck.design/book-a-call/"><span class="dd-btn__label">Book a Call</span></a>
       <button class="dd-btn dd-btn--s dd-btn--icon dd-btn--black dd-header__burger" type="button" aria-expanded="false" aria-label="Menu"><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-burger"/></svg><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-cross"/></svg></button>
     </div>
   </div>
@@ -295,190 +294,254 @@
 
 <main id="main" tabindex="-1">
 <!--
-  CAREERS — живая страница https://duck.design/careers/. Макет Figma «v1» 1079:3194 нарисован в старом стиле,
-  поэтому страница пересобрана на дизайн-системе, как Partner и блог: тексты, вакансии и поля формы — с живой
-  страницы, из макета — состав секций (заголовок с наклейкой, вакансии с фильтром и аккордеоном, форма заявки);
-  типографика, кнопки, радиусы и отступы — из системы (DESIGN.md, раздел 9).
-  Свои блоки (car-hero, car-jobs, car-form) — стили assets/css/careers.css, форма — assets/js/careers.js.
-  Вакансия — вид пункта общего FAQ (.dd-faq__item, раскрывает blocks.js); поля — .dd-input системы.
-  Фильтр — радиокнопки, без скрипта. Форма никуда не отправляет: проверка и тексты — как у Contact Form 7
-  живой страницы (имена полей те же), отправку в теме сделает CF7.
+  CAREERS — Figma v3: «1440 careers» 6405:17609, карточка — компонент job 6464:20523 (05.11.2026; мобильного
+  макета нет — раздел 4 DESIGN.md). Строго по макету (решение пользователя 04.11.2026): сборка 15.10 —
+  вкладки-фильтр, вакансии аккордеоном FAQ, белая панель формы — заменена. Тексты вакансий, ярлыки, почта
+  careers@ и поля формы (имена CF7 и подписи) — с живой страницы без изменений: в макете заглушки.
+  Карточка открывает окно с полным текстом вакансии (решение пользователя 05.11.2026), Apply — к форме
+  с этой вакансией. Стили — assets/css/careers.css, окно и проверка формы — assets/js/careers.js.
 -->
-
 <!-- block:car-hero -->
 <section class="dd-car-hero">
-  <div class="dd-car-hero__text">
-    <h1 class="dd-h2 dd-h2--light dd-car-hero__title">We&rsquo;re in search of <span class="dd-fancy">extraordinary talent</span><img class="dd-car-hero__tag" src="../assets/img/careers/hiring.svg" width="99" height="68" alt=""></h1>
-    <p class="dd-txt-3 dd-car-hero__lead">If you&rsquo;re motivated, intelligent, passionate and looking for a meaningful work environment, Duck.Design may just be the last place you send your resume to.</p>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><!-- крыло утки в тёмной плитке — 6405:19943; в display:none градиент не рисуется --><linearGradient id="dd-car-wing" x1="54" y1="24.4" x2="19.2" y2="52" gradientUnits="userSpaceOnUse"><stop stop-color="#ff8b20"/><stop offset="1" stop-color="#c86406"/></linearGradient></svg>
+  <div class="dd-car-hero__ducks" aria-hidden="true">
+    <span class="dd-car-hero__tile dd-car-hero__tile--r"><span><svg aria-hidden="true"><use href="#dd-duck"/></svg></span></span>
+    <span class="dd-car-hero__tile dd-car-hero__tile--l"><span><svg aria-hidden="true"><use href="#dd-duck"/></svg></span></span>
+    <span class="dd-car-hero__tile dd-car-hero__tile--c"><span><svg aria-hidden="true"><use href="#dd-duck"/></svg></span></span>
   </div>
-  <a class="dd-btn dd-btn--yellow" href="#formcareer"><span class="dd-btn__label">Join the team</span><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-chevron-down-20"/></svg></a>
+  <h1 class="dd-h2 dd-car-hero__title">We&rsquo;re in search of <span class="dd-fancy dd-car-hero__accent">extraordinary</span> talent</h1>
+  <div class="dd-txt-3 dd-car-hero__lead">
+    <p>If you&rsquo;re motivated, intelligent, passionate and looking for a meaningful work environment, Duck.Design may just be the last place you send your resume to.</p>
+    <p>Apply to one of our open positions below, or send your resume and cover letter to <a href="mailto:careers@duck.design">careers@duck.design</a></p>
+  </div>
 </section>
 <!-- /block:car-hero -->
-
 <!-- block:car-jobs -->
-<section class="dd-car-jobs dd-car-sec" aria-labelledby="car-jobs-title">
-  <div class="dd-container dd-container--narrow">
-    <div class="dd-car-head">
-      <h2 class="dd-h2 dd-h2--light" id="car-jobs-title">Open <span class="dd-fancy">Positions</span></h2>
-      <p class="dd-txt-2">Apply to one of our open positions below, or send your resume and cover letter to <a href="mailto:careers@duck.design">careers@duck.design</a></p>
+<section class="dd-car-jobs" aria-labelledby="car-jobs-title">
+    <svg style="display:none" aria-hidden="true">
+    <!-- значки ярлыков вакансии — экспорт из компонента job 6464:20523, 21 × 21, линия 1,5 -->
+    <symbol id="dd-car-office" viewBox="0 0 21 21" fill="none"><path d="M9.13406 17.3307V12.8429M10.5002 9.81693H10.507M10.5002 7.08466H10.507M11.8663 12.8429V17.3307M12.5494 13.2323C11.9582 12.7889 11.2392 12.5492 10.5002 12.5492C9.76122 12.5492 9.04217 12.7889 8.45099 13.2323M13.2325 9.81693H13.2393M13.2325 7.08466H13.2393M7.76792 9.81693H7.77475M7.76792 7.08466H7.77475M6.40178 3.66931H14.5986C15.3531 3.66931 15.9647 4.28095 15.9647 5.03545V15.9646C15.9647 16.719 15.3531 17.3307 14.5986 17.3307H6.40178C5.64729 17.3307 5.03564 16.719 5.03564 15.9646V5.03545C5.03564 4.28095 5.64729 3.66931 6.40178 3.66931Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="dd-car-remote" viewBox="0 0 21 21" fill="none"><path d="M15.3267 8.88013V6.81144C15.3267 6.44567 15.1814 6.09489 14.9228 5.83625C14.6642 5.57761 14.3134 5.43231 13.9476 5.43231H7.05198C6.68621 5.43231 6.33543 5.57761 6.07679 5.83625C5.81815 6.09489 5.67285 6.44567 5.67285 6.81144V8.88013M15.3267 8.88013C15.6925 8.88013 16.0435 9.02543 16.3022 9.28406C16.5608 9.5427 16.7061 9.89349 16.7061 10.2593V13.7071C16.7061 14.0728 16.5608 14.4236 16.3022 14.6823C16.0435 14.9409 15.6927 15.0862 15.327 15.0862M15.3267 8.88013C14.961 8.88013 14.6104 9.02543 14.3518 9.28406C14.0931 9.5427 13.9478 9.89349 13.9478 10.2593V11.2936C13.9478 11.385 13.9115 11.4727 13.8469 11.5374C13.7822 11.6021 13.6945 11.6384 13.6031 11.6384H7.39698C7.30554 11.6384 7.21784 11.6021 7.15318 11.5374C7.08853 11.4727 7.0522 11.385 7.0522 11.2936V10.2593C7.0522 9.89349 6.9069 9.5427 6.64826 9.28406C6.38963 9.02543 6.03862 8.88013 5.67285 8.88013M5.67285 8.88013C5.30708 8.88013 4.95652 9.02543 4.69788 9.28406C4.43925 9.5427 4.29395 9.89349 4.29395 10.2593V13.7071C4.29395 14.0728 4.43925 14.4236 4.69788 14.6823C4.95652 14.9409 5.30731 15.0862 5.67307 15.0862M5.67307 15.0862H15.327M5.67307 15.0862L5.67285 16.4653M15.327 15.0862L15.3271 16.4653" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="dd-car-clock" viewBox="0 0 21 21" fill="none"><path d="M10.4998 6.44039V10.5L13.2062 11.8532M17.2658 10.5C17.2658 14.2367 14.2366 17.2659 10.4998 17.2659C6.76311 17.2659 3.73389 14.2367 3.73389 10.5C3.73389 6.76323 6.76311 3.73401 10.4998 3.73401C14.2366 3.73401 17.2658 6.76323 17.2658 10.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+  <h2 class="dd-visually-hidden" id="car-jobs-title">Open Positions</h2>
+  <ul class="dd-car-jobs__list" role="list">
+  <li class="dd-car-job">
+    <div class="dd-car-job__head">
+      <h3 class="dd-h5 dd-car-job__name"><button class="dd-car-job__open" type="button" aria-haspopup="dialog" aria-controls="job-1">UX/UI Designer</button></h3>
+      <span class="dd-car-job__go" aria-hidden="true"><svg><use href="#dd-arrow-out-15"/></svg></span>
     </div>
-    <div class="dd-car-filter">
-      <div class="dd-car-filter__row" data-flow role="radiogroup" aria-label="Category">
-      <label class="dd-car-filter__tab"><input class="dd-visually-hidden" type="radio" name="car-cat" value="all" checked>All</label>
-      <label class="dd-car-filter__tab"><input class="dd-visually-hidden" type="radio" name="car-cat" value="design">Design</label>
-      <label class="dd-car-filter__tab"><input class="dd-visually-hidden" type="radio" name="car-cat" value="marketing">Marketing</label>
-      <label class="dd-car-filter__tab"><input class="dd-visually-hidden" type="radio" name="car-cat" value="development">Development</label>
+    <p class="dd-txt-4 dd-car-job__text">We seek a skilled UX/UI Designer to create engaging and intuitive designs for web and mobile apps. You&rsquo;ll collaborate with cross-functional teams to improve user experience.</p>
+    <ul class="dd-car-tags" aria-label="Format"><li class="dd-car-tag"><svg aria-hidden="true"><use href="#dd-car-office"/></svg><span>Office</span></li><li class="dd-car-tag"><span>Full-time</span></li></ul>
+    <dialog class="dd-car-dlg" id="job-1" aria-labelledby="job-1-title">
+      <div class="dd-car-dlg__head">
+        <h2 class="dd-h4 dd-car-dlg__title" id="job-1-title">UX/UI Designer</h2>
+        <button class="dd-btn dd-btn--s dd-btn--icon dd-btn--beige dd-car-dlg__close" type="button" aria-label="Close"><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-cross"/></svg></button>
       </div>
+      <ul class="dd-car-tags" aria-label="Format"><li class="dd-car-tag"><svg aria-hidden="true"><use href="#dd-car-office"/></svg><span>Office</span></li><li class="dd-car-tag"><span>Full-time</span></li></ul>
+      <div class="dd-txt-3 dd-car-dlg__text">
+      <p><strong>Job Description</strong></p>
+      <p>We seek a skilled UX/UI Designer to create engaging and intuitive designs for web and mobile apps. You&rsquo;ll collaborate with cross-functional teams to improve user experience.</p>
+      <p><strong>Responsibilities:</strong></p>
+      <ul>
+      <li>Conduct user research.</li>
+      <li>Create wireframes, prototypes, and mockups.</li>
+      <li>Ensure design consistency across platforms.</li>
+      </ul>
+      <p><strong>Requirements:</strong></p>
+      <ul>
+      <li>Experience in UX/UI design.</li>
+      <li>Strong portfolio.</li>
+      <li>Proficiency in design tools (Sketch, Figma, Adobe XD).</li>
+      </ul>
+      </div>
+      <button class="dd-btn dd-btn--yellow dd-car-dlg__apply" type="button" data-apply="UX/UI Designer"><span class="dd-btn__label">Apply</span><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-arrow-right"/></svg></button>
+    </dialog>
+  </li>
+  <li class="dd-car-job">
+    <div class="dd-car-job__head">
+      <h3 class="dd-h5 dd-car-job__name"><button class="dd-car-job__open" type="button" aria-haspopup="dialog" aria-controls="job-2">Web Designer</button></h3>
+      <span class="dd-car-job__go" aria-hidden="true"><svg><use href="#dd-arrow-out-15"/></svg></span>
     </div>
-    <ul class="dd-car-list" role="list">
-      <li class="dd-faq__item dd-car-job" data-cat="design">
-        <div class="dd-faq__q"><button class="dd-faq__toggle" type="button" id="job-q-1" aria-expanded="false" aria-controls="job-a-1"><span class="dd-car-job__name"><span>UX/UI Designer</span><span class="dd-car-job__tags"><span>Office</span><span>Full-time</span></span></span><span class="dd-faq__icon" aria-hidden="true"><svg><use href="#dd-plus-17"/></svg></span></button></div>
-        <div class="dd-faq__a" id="job-a-1" role="region" aria-labelledby="job-q-1">
-          <div class="dd-faq__a-inner dd-car-job__text dd-txt-3">
-            <p><strong>Job Description</strong></p>
-            <p>We seek a skilled UX/UI Designer to create engaging and intuitive designs for web and mobile apps. You&rsquo;ll collaborate with cross-functional teams to improve user experience.</p>
-            <p><strong>Responsibilities:</strong></p>
-            <ul>
-            <li>Conduct user research.</li>
-            <li>Create wireframes, prototypes, and mockups.</li>
-            <li>Ensure design consistency across platforms.</li>
-            </ul>
-            <p><strong>Requirements:</strong></p>
-            <ul>
-            <li>Experience in UX/UI design.</li>
-            <li>Strong portfolio.</li>
-            <li>Proficiency in design tools (Sketch, Figma, Adobe XD).</li>
-            </ul>
-          </div>
-        </div>
-      </li>
-      <li class="dd-faq__item dd-car-job" data-cat="design">
-        <div class="dd-faq__q"><button class="dd-faq__toggle" type="button" id="job-q-2" aria-expanded="false" aria-controls="job-a-2"><span class="dd-car-job__name"><span>Web Designer</span><span class="dd-car-job__tags"><span>Remote</span><span>Part-time</span></span></span><span class="dd-faq__icon" aria-hidden="true"><svg><use href="#dd-plus-17"/></svg></span></button></div>
-        <div class="dd-faq__a" id="job-a-2" role="region" aria-labelledby="job-q-2">
-          <div class="dd-faq__a-inner dd-car-job__text dd-txt-3">
-            <p><strong>Job Title:</strong> Web Designer</p>
-            <p><strong>Job Description:</strong></p>
-            <p>We need a creative Web Designer to develop visually appealing and user-friendly websites. You&rsquo;ll work with developers and marketing teams to enhance web experiences.</p>
-            <p><strong>Responsibilities:</strong></p>
-            <ul>
-            <li>Design website layouts and interfaces.</li>
-            <li>Create responsive designs.</li>
-            <li>Maintain and update websites.</li>
-            </ul>
-            <p><strong>Requirements:</strong></p>
-            <ul>
-            <li>Experience in web design.</li>
-            <li>Strong portfolio.</li>
-            <li>Knowledge of HTML, CSS, JavaScript.</li>
-            </ul>
-          </div>
-        </div>
-      </li>
-      <li class="dd-faq__item dd-car-job" data-cat="marketing">
-        <div class="dd-faq__q"><button class="dd-faq__toggle" type="button" id="job-q-3" aria-expanded="false" aria-controls="job-a-3"><span class="dd-car-job__name"><span>Account Manager</span><span class="dd-car-job__tags"><span>Remote</span><span>Part-time</span></span></span><span class="dd-faq__icon" aria-hidden="true"><svg><use href="#dd-plus-17"/></svg></span></button></div>
-        <div class="dd-faq__a" id="job-a-3" role="region" aria-labelledby="job-q-3">
-          <div class="dd-faq__a-inner dd-car-job__text dd-txt-3">
-            <p><strong>Job Title:</strong> Account Manager</p>
-            <p><strong>Job Description:</strong></p>
-            <p>We are looking for an Account Manager to maintain and grow client relationships. You&rsquo;ll ensure client satisfaction and identify new business opportunities.</p>
-            <p><strong>Responsibilities:</strong></p>
-            <ul>
-            <li>Manage client relationships.</li>
-            <li>Ensure timely delivery of solutions.</li>
-            <li>Identify business opportunities.</li>
-            </ul>
-            <p><strong>Requirements:</strong></p>
-            <ul>
-            <li>Experience in account management.</li>
-            <li>Strong communication and negotiation skills.</li>
-            <li>Ability to manage multiple accounts.</li>
-            </ul>
-          </div>
-        </div>
-      </li>
-      <li class="dd-faq__item dd-car-job" data-cat="development">
-        <div class="dd-faq__q"><button class="dd-faq__toggle" type="button" id="job-q-4" aria-expanded="false" aria-controls="job-a-4"><span class="dd-car-job__name"><span>Project Manager</span><span class="dd-car-job__tags"><span>Remote</span><span>Part-time</span></span></span><span class="dd-faq__icon" aria-hidden="true"><svg><use href="#dd-plus-17"/></svg></span></button></div>
-        <div class="dd-faq__a" id="job-a-4" role="region" aria-labelledby="job-q-4">
-          <div class="dd-faq__a-inner dd-car-job__text dd-txt-3">
-            <p><strong>Job Title:</strong> Project Manager</p>
-            <p><strong>Job Description:</strong></p>
-            <p>We seek a Project Manager to oversee project planning and execution, ensuring projects are completed on time and within budget.</p>
-            <p><strong>Responsibilities:</strong></p>
-            <ul>
-            <li>Define project scope and goals.</li>
-            <li>Develop project plans.</li>
-            <li>Monitor project progress.</li>
-            </ul>
-            <p><strong>Requirements:</strong></p>
-            <ul>
-            <li>Experience in project management.</li>
-            <li>Strong organizational skills.</li>
-            <li>Proficiency in project management software.</li>
-            </ul>
-          </div>
-        </div>
-      </li>
-      <li class="dd-faq__item dd-car-job" data-cat="design">
-        <div class="dd-faq__q"><button class="dd-faq__toggle" type="button" id="job-q-5" aria-expanded="false" aria-controls="job-a-5"><span class="dd-car-job__name"><span>Senior Graphic Designer</span><span class="dd-car-job__tags"><span>Remote</span><span>Part-time</span></span></span><span class="dd-faq__icon" aria-hidden="true"><svg><use href="#dd-plus-17"/></svg></span></button></div>
-        <div class="dd-faq__a" id="job-a-5" role="region" aria-labelledby="job-q-5">
-          <div class="dd-faq__a-inner dd-car-job__text dd-txt-3">
-            <p><strong>Job Title:</strong> Senior Graphic Designer</p>
-            <p><strong>Job Description:</strong></p>
-            <p>We need a Senior Graphic Designer to lead design projects and mentor junior designers. You&rsquo;ll create innovative designs and ensure brand consistency.</p>
-            <p><strong>Responsibilities:</strong></p>
-            <ul>
-            <li>Lead design projects.</li>
-            <li>Collaborate with teams.</li>
-            <li>Mentor junior designers.</li>
-            </ul>
-            <p><strong>Requirements:</strong></p>
-            <ul>
-            <li>Experience as a Senior Graphic Designer.</li>
-            <li>Strong portfolio.</li>
-            <li>Proficiency in Adobe Creative Suite.</li>
-            </ul>
-          </div>
-        </div>
-      </li>
-      <li class="dd-faq__item dd-car-job" data-cat="design">
-        <div class="dd-faq__q"><button class="dd-faq__toggle" type="button" id="job-q-6" aria-expanded="false" aria-controls="job-a-6"><span class="dd-car-job__name"><span>Motion Designer</span><span class="dd-car-job__tags"><span>Remote</span><span>Part-time</span></span></span><span class="dd-faq__icon" aria-hidden="true"><svg><use href="#dd-plus-17"/></svg></span></button></div>
-        <div class="dd-faq__a" id="job-a-6" role="region" aria-labelledby="job-q-6">
-          <div class="dd-faq__a-inner dd-car-job__text dd-txt-3">
-            <p><strong>Job Title:</strong> Motion Designer</p>
-            <p><strong>Job Description:</strong></p>
-            <p>We seek a Motion Designer to create engaging animations and motion graphics for digital platforms.</p>
-            <p><strong>Responsibilities:</strong></p>
-            <ul>
-            <li>Design motion graphics.</li>
-            <li>Develop concepts and storyboards.</li>
-            <li>Edit and animate videos.</li>
-            </ul>
-            <p><strong>Requirements:</strong></p>
-            <ul>
-            <li>Experience in motion design.</li>
-            <li>Strong portfolio.</li>
-            <li>Proficiency in After Effects, Premiere Pro.</li>
-            </ul>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
+    <p class="dd-txt-4 dd-car-job__text">We need a creative Web Designer to develop visually appealing and user-friendly websites. You&rsquo;ll work with developers and marketing teams to enhance web experiences.</p>
+    <ul class="dd-car-tags" aria-label="Format"><li class="dd-car-tag"><svg aria-hidden="true"><use href="#dd-car-remote"/></svg><span>Remote</span></li><li class="dd-car-tag dd-car-tag--muted"><svg aria-hidden="true"><use href="#dd-car-clock"/></svg><span>Part-time</span></li></ul>
+    <dialog class="dd-car-dlg" id="job-2" aria-labelledby="job-2-title">
+      <div class="dd-car-dlg__head">
+        <h2 class="dd-h4 dd-car-dlg__title" id="job-2-title">Web Designer</h2>
+        <button class="dd-btn dd-btn--s dd-btn--icon dd-btn--beige dd-car-dlg__close" type="button" aria-label="Close"><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-cross"/></svg></button>
+      </div>
+      <ul class="dd-car-tags" aria-label="Format"><li class="dd-car-tag"><svg aria-hidden="true"><use href="#dd-car-remote"/></svg><span>Remote</span></li><li class="dd-car-tag dd-car-tag--muted"><svg aria-hidden="true"><use href="#dd-car-clock"/></svg><span>Part-time</span></li></ul>
+      <div class="dd-txt-3 dd-car-dlg__text">
+      <p><strong>Job Title:</strong> Web Designer</p>
+      <p><strong>Job Description:</strong></p>
+      <p>We need a creative Web Designer to develop visually appealing and user-friendly websites. You&rsquo;ll work with developers and marketing teams to enhance web experiences.</p>
+      <p><strong>Responsibilities:</strong></p>
+      <ul>
+      <li>Design website layouts and interfaces.</li>
+      <li>Create responsive designs.</li>
+      <li>Maintain and update websites.</li>
+      </ul>
+      <p><strong>Requirements:</strong></p>
+      <ul>
+      <li>Experience in web design.</li>
+      <li>Strong portfolio.</li>
+      <li>Knowledge of HTML, CSS, JavaScript.</li>
+      </ul>
+      </div>
+      <button class="dd-btn dd-btn--yellow dd-car-dlg__apply" type="button" data-apply="Web Designer"><span class="dd-btn__label">Apply</span><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-arrow-right"/></svg></button>
+    </dialog>
+  </li>
+  <li class="dd-car-job">
+    <div class="dd-car-job__head">
+      <h3 class="dd-h5 dd-car-job__name"><button class="dd-car-job__open" type="button" aria-haspopup="dialog" aria-controls="job-3">Account Manager</button></h3>
+      <span class="dd-car-job__go" aria-hidden="true"><svg><use href="#dd-arrow-out-15"/></svg></span>
+    </div>
+    <p class="dd-txt-4 dd-car-job__text">We are looking for an Account Manager to maintain and grow client relationships. You&rsquo;ll ensure client satisfaction and identify new business opportunities.</p>
+    <ul class="dd-car-tags" aria-label="Format"><li class="dd-car-tag"><svg aria-hidden="true"><use href="#dd-car-remote"/></svg><span>Remote</span></li><li class="dd-car-tag dd-car-tag--muted"><svg aria-hidden="true"><use href="#dd-car-clock"/></svg><span>Part-time</span></li></ul>
+    <dialog class="dd-car-dlg" id="job-3" aria-labelledby="job-3-title">
+      <div class="dd-car-dlg__head">
+        <h2 class="dd-h4 dd-car-dlg__title" id="job-3-title">Account Manager</h2>
+        <button class="dd-btn dd-btn--s dd-btn--icon dd-btn--beige dd-car-dlg__close" type="button" aria-label="Close"><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-cross"/></svg></button>
+      </div>
+      <ul class="dd-car-tags" aria-label="Format"><li class="dd-car-tag"><svg aria-hidden="true"><use href="#dd-car-remote"/></svg><span>Remote</span></li><li class="dd-car-tag dd-car-tag--muted"><svg aria-hidden="true"><use href="#dd-car-clock"/></svg><span>Part-time</span></li></ul>
+      <div class="dd-txt-3 dd-car-dlg__text">
+      <p><strong>Job Title:</strong> Account Manager</p>
+      <p><strong>Job Description:</strong></p>
+      <p>We are looking for an Account Manager to maintain and grow client relationships. You&rsquo;ll ensure client satisfaction and identify new business opportunities.</p>
+      <p><strong>Responsibilities:</strong></p>
+      <ul>
+      <li>Manage client relationships.</li>
+      <li>Ensure timely delivery of solutions.</li>
+      <li>Identify business opportunities.</li>
+      </ul>
+      <p><strong>Requirements:</strong></p>
+      <ul>
+      <li>Experience in account management.</li>
+      <li>Strong communication and negotiation skills.</li>
+      <li>Ability to manage multiple accounts.</li>
+      </ul>
+      </div>
+      <button class="dd-btn dd-btn--yellow dd-car-dlg__apply" type="button" data-apply="Account Manager"><span class="dd-btn__label">Apply</span><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-arrow-right"/></svg></button>
+    </dialog>
+  </li>
+  <li class="dd-car-job">
+    <div class="dd-car-job__head">
+      <h3 class="dd-h5 dd-car-job__name"><button class="dd-car-job__open" type="button" aria-haspopup="dialog" aria-controls="job-4">Project Manager</button></h3>
+      <span class="dd-car-job__go" aria-hidden="true"><svg><use href="#dd-arrow-out-15"/></svg></span>
+    </div>
+    <p class="dd-txt-4 dd-car-job__text">We seek a Project Manager to oversee project planning and execution, ensuring projects are completed on time and within budget.</p>
+    <ul class="dd-car-tags" aria-label="Format"><li class="dd-car-tag"><svg aria-hidden="true"><use href="#dd-car-remote"/></svg><span>Remote</span></li><li class="dd-car-tag dd-car-tag--muted"><svg aria-hidden="true"><use href="#dd-car-clock"/></svg><span>Part-time</span></li></ul>
+    <dialog class="dd-car-dlg" id="job-4" aria-labelledby="job-4-title">
+      <div class="dd-car-dlg__head">
+        <h2 class="dd-h4 dd-car-dlg__title" id="job-4-title">Project Manager</h2>
+        <button class="dd-btn dd-btn--s dd-btn--icon dd-btn--beige dd-car-dlg__close" type="button" aria-label="Close"><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-cross"/></svg></button>
+      </div>
+      <ul class="dd-car-tags" aria-label="Format"><li class="dd-car-tag"><svg aria-hidden="true"><use href="#dd-car-remote"/></svg><span>Remote</span></li><li class="dd-car-tag dd-car-tag--muted"><svg aria-hidden="true"><use href="#dd-car-clock"/></svg><span>Part-time</span></li></ul>
+      <div class="dd-txt-3 dd-car-dlg__text">
+      <p><strong>Job Title:</strong> Project Manager</p>
+      <p><strong>Job Description:</strong></p>
+      <p>We seek a Project Manager to oversee project planning and execution, ensuring projects are completed on time and within budget.</p>
+      <p><strong>Responsibilities:</strong></p>
+      <ul>
+      <li>Define project scope and goals.</li>
+      <li>Develop project plans.</li>
+      <li>Monitor project progress.</li>
+      </ul>
+      <p><strong>Requirements:</strong></p>
+      <ul>
+      <li>Experience in project management.</li>
+      <li>Strong organizational skills.</li>
+      <li>Proficiency in project management software.</li>
+      </ul>
+      </div>
+      <button class="dd-btn dd-btn--yellow dd-car-dlg__apply" type="button" data-apply="Project Manager"><span class="dd-btn__label">Apply</span><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-arrow-right"/></svg></button>
+    </dialog>
+  </li>
+  <li class="dd-car-job">
+    <div class="dd-car-job__head">
+      <h3 class="dd-h5 dd-car-job__name"><button class="dd-car-job__open" type="button" aria-haspopup="dialog" aria-controls="job-5">Senior Graphic Designer</button></h3>
+      <span class="dd-car-job__go" aria-hidden="true"><svg><use href="#dd-arrow-out-15"/></svg></span>
+    </div>
+    <p class="dd-txt-4 dd-car-job__text">We need a Senior Graphic Designer to lead design projects and mentor junior designers. You&rsquo;ll create innovative designs and ensure brand consistency.</p>
+    <ul class="dd-car-tags" aria-label="Format"><li class="dd-car-tag"><svg aria-hidden="true"><use href="#dd-car-remote"/></svg><span>Remote</span></li><li class="dd-car-tag dd-car-tag--muted"><svg aria-hidden="true"><use href="#dd-car-clock"/></svg><span>Part-time</span></li></ul>
+    <dialog class="dd-car-dlg" id="job-5" aria-labelledby="job-5-title">
+      <div class="dd-car-dlg__head">
+        <h2 class="dd-h4 dd-car-dlg__title" id="job-5-title">Senior Graphic Designer</h2>
+        <button class="dd-btn dd-btn--s dd-btn--icon dd-btn--beige dd-car-dlg__close" type="button" aria-label="Close"><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-cross"/></svg></button>
+      </div>
+      <ul class="dd-car-tags" aria-label="Format"><li class="dd-car-tag"><svg aria-hidden="true"><use href="#dd-car-remote"/></svg><span>Remote</span></li><li class="dd-car-tag dd-car-tag--muted"><svg aria-hidden="true"><use href="#dd-car-clock"/></svg><span>Part-time</span></li></ul>
+      <div class="dd-txt-3 dd-car-dlg__text">
+      <p><strong>Job Title:</strong> Senior Graphic Designer</p>
+      <p><strong>Job Description:</strong></p>
+      <p>We need a Senior Graphic Designer to lead design projects and mentor junior designers. You&rsquo;ll create innovative designs and ensure brand consistency.</p>
+      <p><strong>Responsibilities:</strong></p>
+      <ul>
+      <li>Lead design projects.</li>
+      <li>Collaborate with teams.</li>
+      <li>Mentor junior designers.</li>
+      </ul>
+      <p><strong>Requirements:</strong></p>
+      <ul>
+      <li>Experience as a Senior Graphic Designer.</li>
+      <li>Strong portfolio.</li>
+      <li>Proficiency in Adobe Creative Suite.</li>
+      </ul>
+      </div>
+      <button class="dd-btn dd-btn--yellow dd-car-dlg__apply" type="button" data-apply="Senior Grafic Designer"><span class="dd-btn__label">Apply</span><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-arrow-right"/></svg></button>
+    </dialog>
+  </li>
+  <li class="dd-car-job">
+    <div class="dd-car-job__head">
+      <h3 class="dd-h5 dd-car-job__name"><button class="dd-car-job__open" type="button" aria-haspopup="dialog" aria-controls="job-6">Motion Designer</button></h3>
+      <span class="dd-car-job__go" aria-hidden="true"><svg><use href="#dd-arrow-out-15"/></svg></span>
+    </div>
+    <p class="dd-txt-4 dd-car-job__text">We seek a Motion Designer to create engaging animations and motion graphics for digital platforms.</p>
+    <ul class="dd-car-tags" aria-label="Format"><li class="dd-car-tag"><svg aria-hidden="true"><use href="#dd-car-remote"/></svg><span>Remote</span></li><li class="dd-car-tag dd-car-tag--muted"><svg aria-hidden="true"><use href="#dd-car-clock"/></svg><span>Part-time</span></li></ul>
+    <dialog class="dd-car-dlg" id="job-6" aria-labelledby="job-6-title">
+      <div class="dd-car-dlg__head">
+        <h2 class="dd-h4 dd-car-dlg__title" id="job-6-title">Motion Designer</h2>
+        <button class="dd-btn dd-btn--s dd-btn--icon dd-btn--beige dd-car-dlg__close" type="button" aria-label="Close"><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-cross"/></svg></button>
+      </div>
+      <ul class="dd-car-tags" aria-label="Format"><li class="dd-car-tag"><svg aria-hidden="true"><use href="#dd-car-remote"/></svg><span>Remote</span></li><li class="dd-car-tag dd-car-tag--muted"><svg aria-hidden="true"><use href="#dd-car-clock"/></svg><span>Part-time</span></li></ul>
+      <div class="dd-txt-3 dd-car-dlg__text">
+      <p><strong>Job Title:</strong> Motion Designer</p>
+      <p><strong>Job Description:</strong></p>
+      <p>We seek a Motion Designer to create engaging animations and motion graphics for digital platforms.</p>
+      <p><strong>Responsibilities:</strong></p>
+      <ul>
+      <li>Design motion graphics.</li>
+      <li>Develop concepts and storyboards.</li>
+      <li>Edit and animate videos.</li>
+      </ul>
+      <p><strong>Requirements:</strong></p>
+      <ul>
+      <li>Experience in motion design.</li>
+      <li>Strong portfolio.</li>
+      <li>Proficiency in After Effects, Premiere Pro.</li>
+      </ul>
+      </div>
+      <button class="dd-btn dd-btn--yellow dd-car-dlg__apply" type="button" data-apply="Motion Designer"><span class="dd-btn__label">Apply</span><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-arrow-right"/></svg></button>
+    </dialog>
+  </li>
+  </ul>
 </section>
 <!-- /block:car-jobs -->
-
 <!-- block:car-form -->
-<section class="dd-car-form dd-car-sec" id="formcareer" aria-labelledby="car-form-title">
-  <div class="dd-container dd-container--narrow">
-    <div class="dd-car-head">
-      <h2 class="dd-h2 dd-h2--light" id="car-form-title">Have ambitious idea and are aspiring for a <span class="dd-fancy">creative approach?</span></h2>
-      <p class="dd-txt-2">We would happily discuss the details on a video call. Apply for a position below to get started.</p>
+<section class="dd-car-form" id="formcareer" aria-labelledby="car-form-title">
+  <div class="dd-car-form__panel dd-on-dark">
+    <div class="dd-car-form__inner">
+    <div class="dd-car-form__head">
+      <h2 class="dd-h3" id="car-form-title">Have ambitious idea and are aspiring for a creative approach?</h2>
+      <p class="dd-txt-2 dd-car-form__lead">We would happily discuss the details on a video call. Apply for a position below to get started.</p>
     </div>
-    <div class="dd-car-form__card">
-      <form class="dd-car-form__form" action="#formcareer" method="post" novalidate aria-label="Job application">
-        <div class="dd-car-form__grid">
+    <form class="dd-car-form__form" action="#formcareer" method="post" novalidate aria-label="Job application">
+      <div class="dd-car-form__grid">
+        <div class="dd-car-form__field dd-car-form__field--wide">
+          <label class="dd-field"><input class="dd-field__control" type="text" required aria-required="true" autocomplete="name" name="text-630" placeholder=" " maxlength="400" aria-describedby="tip-text-630"><span class="dd-field__label">Name*</span></label>
+          <p class="dd-car-form__tip" id="tip-text-630" hidden></p>
+        </div>
         <div class="dd-car-form__field">
-          <label class="dd-input"><select class="dd-input__control" name="menu-698" aria-label="Desired position">
+          <label class="dd-field dd-car-form__select"><select class="dd-field__control" name="menu-698" aria-label="Desired position">
             <option value="Choose your desired position">Choose your desired position</option>
             <option value="UX/UI Designer">UX/UI Designer</option>
             <option value="Web Designer">Web Designer</option>
@@ -486,47 +549,43 @@
             <option value="Project Manager">Project Manager</option>
             <option value="Senior Grafic Designer">Senior Grafic Designer</option>
             <option value="Motion Designer">Motion Designer</option>
-          </select><svg class="dd-input__icon" aria-hidden="true"><use href="#dd-chevron-down-20"/></svg></label>
+          </select><svg class="dd-field__icon" aria-hidden="true"><use href="#dd-chevron-down-20"/></svg></label>
         </div>
         <div class="dd-car-form__field">
-          <label class="dd-input"><input class="dd-input__control" type="text" name="text-630" placeholder="Name*" aria-label="Name" maxlength="400" required aria-required="true" aria-describedby="tip-text-630" autocomplete="name"></label>
-          <p class="dd-car-form__tip" id="tip-text-630" hidden></p>
+          <label class="dd-field"><input class="dd-field__control" type="text" name="text-95" placeholder=" " maxlength="400"><span class="dd-field__label">Preferred language</span></label>
         </div>
         <div class="dd-car-form__field">
-          <label class="dd-input"><input class="dd-input__control" type="email" name="email-634" placeholder="Your email*" aria-label="Your email" maxlength="400" required aria-required="true" aria-describedby="tip-email-634" autocomplete="email"></label>
+          <label class="dd-field"><input class="dd-field__control" type="tel" autocomplete="tel" name="tel-630" placeholder=" " maxlength="400"><span class="dd-field__label">Phone number</span></label>
+        </div>
+        <div class="dd-car-form__field">
+          <label class="dd-field"><input class="dd-field__control" type="email" required aria-required="true" autocomplete="email" name="email-634" placeholder=" " maxlength="400" aria-describedby="tip-email-634"><span class="dd-field__label">Your email*</span></label>
           <p class="dd-car-form__tip" id="tip-email-634" hidden></p>
         </div>
         <div class="dd-car-form__field">
-          <label class="dd-input"><input class="dd-input__control" type="text" name="text-95" placeholder="Preferred language" aria-label="Preferred language" maxlength="400"></label>
-        </div>
-        <div class="dd-car-form__field">
-          <label class="dd-input"><input class="dd-input__control" type="text" name="text-604" placeholder="Link your CV here*" aria-label="Link your CV here" maxlength="400" required aria-required="true" aria-describedby="tip-text-604" autocomplete="url"></label>
+          <label class="dd-field"><input class="dd-field__control" type="text" required aria-required="true" autocomplete="url" name="text-604" placeholder=" " maxlength="400" aria-describedby="tip-text-604"><span class="dd-field__label">Link your CV here*</span></label>
           <p class="dd-car-form__tip" id="tip-text-604" hidden></p>
         </div>
-        <div class="dd-car-form__field">
-          <label class="dd-input"><input class="dd-input__control" type="text" name="text-605" placeholder="Link your portfolio here (If applies)" aria-label="Link your portfolio here (If applies)" maxlength="400" autocomplete="url"></label>
+        <div class="dd-car-form__field dd-car-form__field--long">
+          <label class="dd-field"><input class="dd-field__control" type="text" autocomplete="url" name="text-605" placeholder=" " maxlength="400"><span class="dd-field__label">Link your portfolio here (If applies)</span></label>
         </div>
-        <div class="dd-car-form__field">
-          <label class="dd-car-form__label" for="car-text-606">What are your salary expectations?</label>
-          <label class="dd-input"><input class="dd-input__control" id="car-text-606" type="text" name="text-606" placeholder=" " maxlength="400"></label>
+        <div class="dd-car-form__field dd-car-form__field--long">
+          <label class="dd-field"><input class="dd-field__control" type="text" name="text-606" placeholder=" " maxlength="400"><span class="dd-field__label">What are your salary expectations?</span></label>
         </div>
-        <div class="dd-car-form__field">
-          <label class="dd-car-form__label" for="car-text-607">How soon can you start working in Duck.Design?</label>
-          <label class="dd-input"><input class="dd-input__control" id="car-text-607" type="text" name="text-607" placeholder=" " maxlength="400"></label>
+        <div class="dd-car-form__field dd-car-form__field--long">
+          <label class="dd-field"><input class="dd-field__control" type="text" name="text-607" placeholder=" " maxlength="400"><span class="dd-field__label">How soon can you start working in Duck.Design?</span></label>
         </div>
-        </div>
-        <fieldset class="dd-car-form__choice">
-          <legend>Are you willing to undertake a skills proficiency test?</legend>
-          <div class="dd-car-form__options">
-            <label class="dd-car-form__radio"><input type="radio" name="radio-609" value="Yes" checked>Yes</label>
-            <label class="dd-car-form__radio"><input type="radio" name="radio-609" value="No">No</label>
-          </div>
-        </fieldset>
-        <div class="dd-car-form__send">
-          <button class="dd-btn dd-btn--yellow" type="submit"><span class="dd-btn__label">Send</span><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-arrow-right"/></svg></button>
-          <p class="dd-car-form__status" role="status" aria-live="polite"></p>
-        </div>
-      </form>
+      </div>
+      <div class="dd-car-form__choice" role="radiogroup" aria-labelledby="car-test-q">
+        <p class="dd-txt-2 dd-car-form__q" id="car-test-q">Are you willing to undertake a skills proficiency test?</p>
+        <label class="dd-check"><input class="dd-check__box" type="radio" name="radio-609" value="Yes" checked> Yes</label>
+        <label class="dd-check"><input class="dd-check__box" type="radio" name="radio-609" value="No"> No</label>
+      </div>
+      <button class="dd-car-form__go" type="submit">
+        <span class="dd-btn dd-btn--yellow"><span class="dd-btn__label">Send</span></span>
+        <span class="dd-btn dd-btn--white dd-btn--icon" aria-hidden="true"><svg class="dd-btn__icon"><use href="#dd-arrow-out"/></svg></span>
+      </button>
+      <p class="dd-car-form__status" role="status" aria-live="polite"></p>
+    </form>
     </div>
   </div>
 </section>
@@ -665,7 +724,6 @@
 <!-- /part:footer -->
 
 <script src="../assets/js/shell.js?v=7" defer></script>
-<script src="../assets/js/blocks.js?v=17" defer></script>
-<script src="../assets/js/careers.js?v=1" defer></script>
+<script src="../assets/js/careers.js?v=2" defer></script>
 </body>
 </html>

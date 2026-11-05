@@ -113,9 +113,11 @@
   background: linear-gradient(160deg, #7b7e93 0%, #37333c 44%, #100f10 100%);
   transform: rotate(-1deg);
 }
-.dd-nc-cut__tile span {
-  font-size: .83em;
-  line-height: 1;
+/* ножницы кодом вместо эмодзи ✂️ (решение пользователя 05.11.2026: эмодзи на Windows и Android рисуется иначе);
+   рисунок — по эмодзи Apple в макете: 38 × 41 при кегле 48 */
+.dd-nc-cut__scissors {
+  width: .8em;
+  height: .84em;
   transform: rotate(1deg);
 }
 .dd-nc-cut__cards {

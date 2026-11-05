@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="/redesign-duck/assets/css/base.css?v=18">
     <link rel="stylesheet" href="/redesign-duck/assets/css/components.css?v=27">
     <link rel="stylesheet" href="/redesign-duck/assets/css/shell.css?v=29">
-    <link rel="stylesheet" href="/redesign-duck/assets/css/not-found.css?v=1">
+    <link rel="stylesheet" href="/redesign-duck/assets/css/not-found.css?v=2">
 </head>
 <body>
 <a class="dd-skip-link dd-btn dd-btn--s dd-btn--yellow" href="#main"><span class="dd-btn__label">Skip to content</span></a>
@@ -285,23 +285,21 @@
 
 <main id="main" tabindex="-1">
 <!--
-  404 — страница «не найдено». В Figma страница 404 пустая (896:41546): собрана по разделу 9 DESIGN.md —
-  плашка, заголовок, строка, кнопки на главную и на кейсы. Тексты «Sorry», «Page not found!», «Back to home»
-  и картинка «404» — с живой страницы 404 (любой несуществующий адрес duck.design); строка под заголовком
-  и вторая кнопка — додуманы. Лежит в корне сайта (site/404.html): так её отдают GitHub Pages и статические
+  404 — страница «не найдено». Figma v3: «1440 404error» 6405:14623 (05.11.2026; мобильного макета нет —
+  раздел 4 DESIGN.md). Тексты — из макета; H1 живой 404 — «Page not found!» (расхождение в ROADMAP.md).
+  Прежняя сборка 15.10 (картинка «404», плашка «Sorry», две кнопки) заменена. Лежит в корне сайта (site/404.html): так её отдают GitHub Pages и статические
   хостинги на любой несуществующий адрес. В теме это шаблон 404.php. Стили — assets/css/not-found.css.
 -->
 
 <!-- block:not-found -->
 <section class="dd-nf">
-  <img class="dd-nf__img" src="/redesign-duck/assets/img/404/not-found.svg" width="438" height="270" alt="">
-  <p class="dd-eyebrow"><svg class="dd-eyebrow__icon" aria-hidden="true"><use href="#dd-flash"/></svg>Sorry</p>
-  <h1 class="dd-h2 dd-h2--light dd-nf__title">Page <span class="dd-fancy">not&nbsp;found!</span></h1>
-  <p class="dd-txt-3 dd-nf__lead">The page you&rsquo;re looking for doesn&rsquo;t exist or has been moved.</p>
-  <div class="dd-nf__actions">
-    <a class="dd-btn dd-btn--yellow" href="/redesign-duck/"><span class="dd-btn__label">Back to home</span><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-chevron-right"/></svg></a>
-    <a class="dd-btn dd-btn--stroke-light" href="/redesign-duck/case-studies/"><span class="dd-btn__label">Case Studies</span></a>
-  </div>
+  <svg style="display:none" aria-hidden="true">
+    <symbol id="dd-nf-back" viewBox="0 0 17 17" fill="none"><path d="M4.604 13.458h5.667a3.542 3.542 0 0 0 0-7.083H3.188M5.454 3.542l-1 .99c-.76.75-1.14 1.13-1.25 1.6v.48c.11.47.49.85 1.25 1.6l1 .99" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+  <p class="dd-txt-4 dd-txt--semi dd-nf__label">404 PAGE NOT FOUND</p>
+  <h1 class="dd-h3 dd-nf__title">Not all who wander <span class="dd-fancy">are lost.</span></h1>
+  <p class="dd-txt-4 dd-nf__lead">Could not find the page at this link. Please check the spelling.</p>
+  <a class="dd-btn dd-btn--s dd-btn--black dd-nf__back" href="/redesign-duck/"><svg class="dd-btn__icon" aria-hidden="true"><use href="#dd-nf-back"/></svg><span class="dd-btn__label">Back to homepage</span></a>
 </section>
 <!-- /block:not-found -->
 </main>
