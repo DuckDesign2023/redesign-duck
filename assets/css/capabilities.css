@@ -764,10 +764,11 @@
   color: var(--dd-orange-50);
 }
 .dd-cap-formats__intro .dd-h3 { margin: 0; }
+/* на 320 шесть значков по 43 с зазором 10 не встают в ряд: зазор сжимается, чтобы последний не уходил один на вторую строку */
 .dd-cap-formats__tools {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1rem min(1rem, calc((100% - 6 * var(--_tool)) / 5));
   margin: 0;
   padding: 0;
   list-style: none;
